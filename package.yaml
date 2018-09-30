@@ -1,0 +1,43 @@
+name: hfrog
+version: 0.1.0.0
+synopsis: A game where you guide a frog across a road.
+description: See README
+author: Jake Woods
+maintainer: jake@jakewoods.net
+category: Game
+
+ghc-options:
+  -Wall
+  -Wcompat
+  -Wincomplete-record-updates
+  -Wincomplete-uni-patterns
+  -Wredundant-constraints
+  -O2
+
+dependencies:
+  - base >=4.9 && <4.11
+
+library:
+  source-dirs: src
+  exposed-modules:
+    - Hfrog
+
+executable:
+  main: Main.hs
+  source-dirs: executable
+  dependencies:
+    - hfrog
+
+tests:
+  spec:
+    main: Driver.hs
+    source-dirs:
+      - test
+      - src
+    dependencies:
+      - tasty
+      - tasty-discover
+      - tasty-hspec
+      - hspec
+      - tasty-hedgehog
+      - hedgehog
