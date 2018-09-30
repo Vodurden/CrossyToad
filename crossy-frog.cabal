@@ -2,7 +2,7 @@
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: 76b3ae926f9bf2f77825493ef95a58deab2cb932aa2f7f465ee2789fbbe4c362
+-- hash: 650b54a6e6c8ad1854990916c4377da7208b2ba8014aa91c09d73576675c9a8e
 
 name:           crossy-frog
 version:        0.1.0.0
@@ -19,14 +19,23 @@ library
   exposed-modules:
       CrossyFrog
   other-modules:
+      CrossyFrog.Config
+      CrossyFrog.Effect.Input
+      CrossyFrog.Effect.Renderer
+      CrossyFrog.Engine.InputState
+      CrossyFrog.Runner
+      CrossyFrog.State
       Paths_crossy_frog
   hs-source-dirs:
       src
+  default-extensions: FlexibleContexts GeneralizedNewtypeDeriving OverloadedStrings NamedFieldPuns
   ghc-options: -Wall -Wcompat -Wincomplete-record-updates -Wincomplete-uni-patterns -Wredundant-constraints -O2
   build-depends:
       base >=4.9 && <4.11
     , linear
+    , mtl
     , sdl2
+    , transformers
   default-language: Haskell2010
 
 executable crossy-frog
@@ -35,12 +44,15 @@ executable crossy-frog
       Paths_crossy_frog
   hs-source-dirs:
       executable
+  default-extensions: FlexibleContexts GeneralizedNewtypeDeriving OverloadedStrings NamedFieldPuns
   ghc-options: -Wall -Wcompat -Wincomplete-record-updates -Wincomplete-uni-patterns -Wredundant-constraints -O2
   build-depends:
       base >=4.9 && <4.11
     , crossy-frog
     , linear
+    , mtl
     , sdl2
+    , transformers
   default-language: Haskell2010
 
 test-suite spec
@@ -49,19 +61,28 @@ test-suite spec
   other-modules:
       CrossyFrogSpec
       CrossyFrog
+      CrossyFrog.Config
+      CrossyFrog.Effect.Input
+      CrossyFrog.Effect.Renderer
+      CrossyFrog.Engine.InputState
+      CrossyFrog.Runner
+      CrossyFrog.State
       Paths_crossy_frog
   hs-source-dirs:
       test
       src
+  default-extensions: FlexibleContexts GeneralizedNewtypeDeriving OverloadedStrings NamedFieldPuns
   ghc-options: -Wall -Wcompat -Wincomplete-record-updates -Wincomplete-uni-patterns -Wredundant-constraints -O2
   build-depends:
       base >=4.9 && <4.11
     , hedgehog
     , hspec
     , linear
+    , mtl
     , sdl2
     , tasty
     , tasty-discover
     , tasty-hedgehog
     , tasty-hspec
+    , transformers
   default-language: Haskell2010

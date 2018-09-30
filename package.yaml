@@ -14,10 +14,18 @@ ghc-options:
   -Wredundant-constraints
   -O2
 
+default-extensions:
+  - FlexibleContexts
+  - GeneralizedNewtypeDeriving
+  - OverloadedStrings
+  - NamedFieldPuns
+
 dependencies:
   - base >=4.9 && <4.11
   - sdl2
   - linear
+  - mtl
+  - transformers
 
 library:
   source-dirs: src
