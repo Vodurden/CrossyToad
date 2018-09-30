@@ -1,3 +1,5 @@
+# Crossy Frog
+
 A game where you guide a frog across a road. Written in Haskell!
 
 ## Basics

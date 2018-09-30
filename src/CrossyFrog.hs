@@ -1,5 +1,5 @@
 {-# LANGUAGE OverloadedStrings #-}
-module Hfrog where
+module CrossyFrog where
 
 import Control.Monad (unless)
 
@@ -9,7 +9,7 @@ import qualified SDL as SDL
 main :: IO ()
 main = do
   SDL.initializeAll
-  window <- SDL.createWindow "Hfrog" SDL.defaultWindow
+  window <- SDL.createWindow "Crossy Frog" SDL.defaultWindow
   renderer <- SDL.createRenderer window (-1) SDL.defaultRenderer
   mainLoop renderer
 
@@ -29,4 +29,4 @@ mainLoop renderer = do
   unless qPressed (mainLoop renderer)
 
 message :: String
-message = "Hello, Hfrog!"
+message = "Hello, Crossy Frog!"

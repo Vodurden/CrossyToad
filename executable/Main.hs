@@ -1,6 +1,6 @@
 module Main where
 
-import qualified Hfrog as Hfrog
+import qualified CrossyFrog as CrossyFrog
 
 main :: IO ()
-main = Hfrog.main
+main = CrossyFrog.main

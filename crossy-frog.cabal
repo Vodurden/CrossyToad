@@ -2,9 +2,9 @@
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: 7ffffd037e86ca08a62d50e3ff33c396489440a81ed9eca2216ddfa210d497c7
+-- hash: 76b3ae926f9bf2f77825493ef95a58deab2cb932aa2f7f465ee2789fbbe4c362
 
-name:           hfrog
+name:           crossy-frog
 version:        0.1.0.0
 synopsis:       A game where you guide a frog across a road.
 description:    See README
@@ -17,9 +17,9 @@ cabal-version:  >= 1.10
 
 library
   exposed-modules:
-      Hfrog
+      CrossyFrog
   other-modules:
-      Paths_hfrog
+      Paths_crossy_frog
   hs-source-dirs:
       src
   ghc-options: -Wall -Wcompat -Wincomplete-record-updates -Wincomplete-uni-patterns -Wredundant-constraints -O2
@@ -29,16 +29,16 @@ library
     , sdl2
   default-language: Haskell2010
 
-executable hfrog
+executable crossy-frog
   main-is: Main.hs
   other-modules:
-      Paths_hfrog
+      Paths_crossy_frog
   hs-source-dirs:
       executable
   ghc-options: -Wall -Wcompat -Wincomplete-record-updates -Wincomplete-uni-patterns -Wredundant-constraints -O2
   build-depends:
       base >=4.9 && <4.11
-    , hfrog
+    , crossy-frog
     , linear
     , sdl2
   default-language: Haskell2010
@@ -47,9 +47,9 @@ test-suite spec
   type: exitcode-stdio-1.0
   main-is: Driver.hs
   other-modules:
-      HfrogSpec
-      Hfrog
-      Paths_hfrog
+      CrossyFrogSpec
+      CrossyFrog
+      Paths_crossy_frog
   hs-source-dirs:
       test
       src

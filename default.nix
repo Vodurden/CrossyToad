@@ -11,7 +11,7 @@
   , flamegraph, ghc-prof-flamegraph
 }:
 mkDerivation {
-  pname = "hfrog";
+  pname = "crossy-frog";
   version = "0.1.0.0";
   src = ./.;
   isLibrary = false;
