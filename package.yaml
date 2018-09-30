@@ -16,6 +16,8 @@ ghc-options:
 
 dependencies:
   - base >=4.9 && <4.11
+  - sdl2
+  - linear
 
 library:
   source-dirs: src

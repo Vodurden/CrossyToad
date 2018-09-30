@@ -45,15 +45,16 @@ let
       OpenGL = pkgs.haskell.lib.dontHaddock haskellPackagesStable.OpenGL;
       OpenGLRaw = pkgs.haskell.lib.dontHaddock haskellPackagesStable.OpenGLRaw;
 
+      # Since we're using some stable stuff, sometimes we need to force other libraries
+      # to fall back to their stable version to prevent cabal from complaining.
+      kan-extensions = haskellPackagesStable.kan-extensions;
+      lens = haskellPackagesStable.lens;
+      sdl2 = haskellPackagesStable.sdl2;
       hpack = haskellPackagesStable.hpack;
 
       # these tests take _forever_
-      # kan-extensions = haskellPackagesStable.kan-extensions;
-      # lens = haskellPackagesStable.lens;
-      # MonadRandom = haskellPackagesStable.MonadRandom;
-      # linear = pkgsUnstable.haskell.lib.dontCheck haskellPackagesStable.linear;
-      # gloss = pkgsUnstable.haskell.lib.dontCheck haskellPackagesStable.gloss;
-      # happy = pkgsUnstable.haskell.lib.dontCheck haskellOld.happy;
+      linear = pkgsUnstable.haskell.lib.dontCheck haskellPackagesStable.linear;
+      happy = pkgsUnstable.haskell.lib.dontCheck haskellOld.happy;
     };
   };
 

@@ -2,7 +2,7 @@
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: efbd46d81252df481c95a325ca2e09e0a7ce2a21966f6ad251227062f3ed4b4c
+-- hash: 7ffffd037e86ca08a62d50e3ff33c396489440a81ed9eca2216ddfa210d497c7
 
 name:           hfrog
 version:        0.1.0.0
@@ -25,6 +25,8 @@ library
   ghc-options: -Wall -Wcompat -Wincomplete-record-updates -Wincomplete-uni-patterns -Wredundant-constraints -O2
   build-depends:
       base >=4.9 && <4.11
+    , linear
+    , sdl2
   default-language: Haskell2010
 
 executable hfrog
@@ -37,6 +39,8 @@ executable hfrog
   build-depends:
       base >=4.9 && <4.11
     , hfrog
+    , linear
+    , sdl2
   default-language: Haskell2010
 
 test-suite spec
@@ -54,6 +58,8 @@ test-suite spec
       base >=4.9 && <4.11
     , hedgehog
     , hspec
+    , linear
+    , sdl2
     , tasty
     , tasty-discover
     , tasty-hedgehog
