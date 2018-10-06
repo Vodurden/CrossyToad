@@ -1,41 +1,41 @@
-module CrossyFrog where
+module CrossyToad where
 
 import           Control.Monad.Reader (MonadReader, ReaderT, runReaderT)
 import           Control.Monad.State (MonadState, StateT, evalStateT)
 import           Control.Monad.IO.Class (MonadIO)
 import qualified SDL as SDL
 
-import CrossyFrog.Config
-import CrossyFrog.State
-import CrossyFrog.Runner (mainLoop)
-import CrossyFrog.Effect.Input
-import CrossyFrog.Effect.Renderer
+import CrossyToad.Config
+import CrossyToad.State
+import CrossyToad.Runner (mainLoop)
+import CrossyToad.Effect.Input
+import CrossyToad.Effect.Renderer
 
 main :: IO ()
 main = do
   SDL.initializeAll
-  window <- SDL.createWindow "Crossy Frog" SDL.defaultWindow
+  window <- SDL.createWindow "Crossy Toad" SDL.defaultWindow
   renderer <- SDL.createRenderer window (-1) SDL.defaultRenderer
   let cfg = Config
             { cWindow = window
             , cRenderer = renderer
             }
-  runCrossyFrog cfg initialVars mainLoop
+  runCrossyToad cfg initialVars mainLoop
 
-newtype CrossyFrog a = CrossyFrog (ReaderT Config (StateT Vars IO) a)
+newtype CrossyToad a = CrossyToad (ReaderT Config (StateT Vars IO) a)
   deriving (Functor, Applicative, Monad, MonadReader Config, MonadState Vars, MonadIO)
 
-runCrossyFrog :: Config -> Vars -> CrossyFrog a -> IO a
-runCrossyFrog config vars (CrossyFrog m) = evalStateT (runReaderT m config) vars
+runCrossyToad :: Config -> Vars -> CrossyToad a -> IO a
+runCrossyToad config vars (CrossyToad m) = evalStateT (runReaderT m config) vars
 
-instance Input CrossyFrog where
+instance Input CrossyToad where
   updateInput = updateInput'
   setInput = setInput'
   getInput = getInput'
 
-instance Renderer CrossyFrog where
+instance Renderer CrossyToad where
   clearScreen = clearScreen'
   drawScreen = drawScreen'
 
 message :: String
-message = "Hello, Crossy Frog!"
+message = "Hello, Crossy Toad!"

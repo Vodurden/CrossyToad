@@ -1,11 +1,11 @@
-module CrossyFrog.Effect.Input where
+module CrossyToad.Effect.Input where
 
 import Control.Monad.IO.Class (MonadIO)
 import Control.Monad.State
 import qualified SDL
 
-import CrossyFrog.State
-import CrossyFrog.Engine.InputState
+import CrossyToad.State
+import CrossyToad.Engine.InputState
 
 class Monad m => Input m where
   updateInput :: m ()

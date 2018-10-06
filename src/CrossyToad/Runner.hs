@@ -1,14 +1,14 @@
-module CrossyFrog.Runner (mainLoop) where
+module CrossyToad.Runner (mainLoop) where
 
 import Control.Monad (unless)
 import Control.Monad.Reader (MonadReader)
 import Control.Monad.State (MonadState)
 
-import           CrossyFrog.Config
-import           CrossyFrog.State
-import           CrossyFrog.Effect.Renderer
-import           CrossyFrog.Effect.Input
-import qualified CrossyFrog.Engine.InputState as InputState
+import           CrossyToad.Config
+import           CrossyToad.State
+import           CrossyToad.Effect.Renderer
+import           CrossyToad.Effect.Input
+import qualified CrossyToad.Engine.InputState as InputState
 
 mainLoop ::
   ( MonadReader Config m

@@ -1,9 +1,9 @@
-module CrossyFrog.Effect.Renderer where
+module CrossyToad.Effect.Renderer where
 
 import Control.Monad.Reader
 import qualified SDL
 
-import CrossyFrog.Config
+import CrossyToad.Config
 
 class Monad m => Renderer m where
   clearScreen :: m ()

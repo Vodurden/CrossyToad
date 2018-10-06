@@ -2,9 +2,9 @@
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: 650b54a6e6c8ad1854990916c4377da7208b2ba8014aa91c09d73576675c9a8e
+-- hash: 6e869ee08ae68069bd7fea42556eebffb1582d9d2e2fe88b9ec5664bf28e34bf
 
-name:           crossy-frog
+name:           crossy-toad
 version:        0.1.0.0
 synopsis:       A game where you guide a frog across a road.
 description:    See README
@@ -17,15 +17,15 @@ cabal-version:  >= 1.10
 
 library
   exposed-modules:
-      CrossyFrog
+      CrossyToad
   other-modules:
-      CrossyFrog.Config
-      CrossyFrog.Effect.Input
-      CrossyFrog.Effect.Renderer
-      CrossyFrog.Engine.InputState
-      CrossyFrog.Runner
-      CrossyFrog.State
-      Paths_crossy_frog
+      CrossyToad.Config
+      CrossyToad.Effect.Input
+      CrossyToad.Effect.Renderer
+      CrossyToad.Engine.InputState
+      CrossyToad.Runner
+      CrossyToad.State
+      Paths_crossy_toad
   hs-source-dirs:
       src
   default-extensions: FlexibleContexts GeneralizedNewtypeDeriving OverloadedStrings NamedFieldPuns
@@ -38,17 +38,17 @@ library
     , transformers
   default-language: Haskell2010
 
-executable crossy-frog
+executable crossy-toad
   main-is: Main.hs
   other-modules:
-      Paths_crossy_frog
+      Paths_crossy_toad
   hs-source-dirs:
       executable
   default-extensions: FlexibleContexts GeneralizedNewtypeDeriving OverloadedStrings NamedFieldPuns
   ghc-options: -Wall -Wcompat -Wincomplete-record-updates -Wincomplete-uni-patterns -Wredundant-constraints -O2
   build-depends:
       base >=4.9 && <4.11
-    , crossy-frog
+    , crossy-toad
     , linear
     , mtl
     , sdl2
@@ -59,15 +59,15 @@ test-suite spec
   type: exitcode-stdio-1.0
   main-is: Driver.hs
   other-modules:
-      CrossyFrogSpec
-      CrossyFrog
-      CrossyFrog.Config
-      CrossyFrog.Effect.Input
-      CrossyFrog.Effect.Renderer
-      CrossyFrog.Engine.InputState
-      CrossyFrog.Runner
-      CrossyFrog.State
-      Paths_crossy_frog
+      CrossyToadSpec
+      CrossyToad
+      CrossyToad.Config
+      CrossyToad.Effect.Input
+      CrossyToad.Effect.Renderer
+      CrossyToad.Engine.InputState
+      CrossyToad.Runner
+      CrossyToad.State
+      Paths_crossy_toad
   hs-source-dirs:
       test
       src

@@ -1,4 +1,4 @@
-module CrossyFrog.Config
+module CrossyToad.Config
   ( Config(..)
   ) where
 
@@ -8,4 +8,3 @@ data Config = Config
   { cWindow :: SDL.Window
   , cRenderer :: SDL.Renderer
   }
-

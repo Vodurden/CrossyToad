@@ -1,4 +1,4 @@
-module CrossyFrog.Engine.InputState where
+module CrossyToad.Engine.InputState where
 
 data InputState = InputState
   { quit :: Bool

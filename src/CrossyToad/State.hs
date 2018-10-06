@@ -1,6 +1,6 @@
-module CrossyFrog.State where
+module CrossyToad.State where
 
-import CrossyFrog.Engine.InputState
+import CrossyToad.Engine.InputState
 
 data Vars = Vars
   { vInput :: InputState
