@@ -23,6 +23,7 @@ default-extensions:
 dependencies:
   - base >=4.9 && <4.11
   - sdl2
+  - sdl2-ttf
   - linear
   - mtl
   - transformers

@@ -8,3 +8,7 @@ A game where you guide a frog across a road. Written in Haskell!
 - On the road, cars and trucks are driving back and forth. If they hit you, you die.
 - On the river, logs and turtles go back and forth. You can stand on their back but if you fall
   in the water, you die.
+
+## Resources
+
+- Title font: http://www.fontspace.com/esteban4058/princess-and-the-frog

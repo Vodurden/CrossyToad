@@ -4,7 +4,10 @@ module CrossyToad.Config
 
 import qualified SDL
 
+import CrossyToad.Assets
+
 data Config = Config
   { cWindow :: SDL.Window
   , cRenderer :: SDL.Renderer
+  , cAssets :: Assets
   }

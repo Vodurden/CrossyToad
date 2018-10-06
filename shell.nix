@@ -50,6 +50,7 @@ let
       kan-extensions = haskellPackagesStable.kan-extensions;
       lens = haskellPackagesStable.lens;
       sdl2 = haskellPackagesStable.sdl2;
+      sdl2-ttf = haskellPackagesStable.sdl2-ttf;
       hpack = haskellPackagesStable.hpack;
 
       # these tests take _forever_
