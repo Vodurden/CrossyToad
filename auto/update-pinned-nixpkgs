@@ -1,0 +1,6 @@
+#!/usr/bin/env bash
+SOURCE_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null && pwd )"
+
+nix-prefetch-git --no-deepClone --quiet \
+  https://github.com/NixOS/nixpkgs-channels.git \
+  refs/heads/nixos-18.09 > ${SOURCE_DIR}/../nix/nixpkgs-version.json
