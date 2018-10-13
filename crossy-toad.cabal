@@ -2,7 +2,7 @@
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: d7889643726f8f97bded89d53fa3f15c512cce615d9fa6d2d39d26d3f5671413
+-- hash: e0ae063243bab2cab20458772e6ec14efbb9ae2074343e88da404503b23a821a
 
 name:           crossy-toad
 version:        0.1.0.0
@@ -35,7 +35,7 @@ library
   default-extensions: FlexibleContexts GeneralizedNewtypeDeriving OverloadedStrings NamedFieldPuns
   ghc-options: -Wall -Wcompat -Wincomplete-record-updates -Wincomplete-uni-patterns -Wredundant-constraints -O2 -fprof-auto-exported
   build-depends:
-      base >=4.9 && <4.11
+      base >=4.9 && <4.12
     , linear
     , mtl
     , sdl2
@@ -52,7 +52,7 @@ executable crossy-toad
   default-extensions: FlexibleContexts GeneralizedNewtypeDeriving OverloadedStrings NamedFieldPuns
   ghc-options: -Wall -Wcompat -Wincomplete-record-updates -Wincomplete-uni-patterns -Wredundant-constraints -O2
   build-depends:
-      base >=4.9 && <4.11
+      base >=4.9 && <4.12
     , crossy-toad
     , linear
     , mtl
@@ -61,7 +61,7 @@ executable crossy-toad
     , transformers
   default-language: Haskell2010
 
-executable crossy-toad-profiling
+executable crossy-toad-prof
   main-is: Main.hs
   other-modules:
       Paths_crossy_toad
@@ -70,7 +70,7 @@ executable crossy-toad-profiling
   default-extensions: FlexibleContexts GeneralizedNewtypeDeriving OverloadedStrings NamedFieldPuns
   ghc-options: -Wall -Wcompat -Wincomplete-record-updates -Wincomplete-uni-patterns -Wredundant-constraints -O2 -rtsopts -threaded -fprof-auto-top "-with-rtsopts=-N -p -s -h -i0.1"
   build-depends:
-      base >=4.9 && <4.11
+      base >=4.9 && <4.12
     , crossy-toad
     , linear
     , mtl
@@ -102,7 +102,7 @@ test-suite spec
   default-extensions: FlexibleContexts GeneralizedNewtypeDeriving OverloadedStrings NamedFieldPuns
   ghc-options: -Wall -Wcompat -Wincomplete-record-updates -Wincomplete-uni-patterns -Wredundant-constraints -O2
   build-depends:
-      base >=4.9 && <4.11
+      base >=4.9 && <4.12
     , hedgehog
     , hspec
     , linear
