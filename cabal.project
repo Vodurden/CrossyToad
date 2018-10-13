@@ -1,0 +1,5 @@
+packages: crossy-toad.cabal
+
+library-profiling: True
+profiling: True
+tests: True

@@ -1,8 +1,8 @@
--- This file has been generated from package.yaml by hpack version 0.21.2.
+-- This file has been generated from package.yaml by hpack version 0.28.2.
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: a801565041f9c1b4a569529bd970e3abc18332da82a5781a855ac5eaea7d7ae4
+-- hash: d7889643726f8f97bded89d53fa3f15c512cce615d9fa6d2d39d26d3f5671413
 
 name:           crossy-toad
 version:        0.1.0.0
@@ -33,7 +33,7 @@ library
   hs-source-dirs:
       src
   default-extensions: FlexibleContexts GeneralizedNewtypeDeriving OverloadedStrings NamedFieldPuns
-  ghc-options: -Wall -Wcompat -Wincomplete-record-updates -Wincomplete-uni-patterns -Wredundant-constraints -O2
+  ghc-options: -Wall -Wcompat -Wincomplete-record-updates -Wincomplete-uni-patterns -Wredundant-constraints -O2 -fprof-auto-exported
   build-depends:
       base >=4.9 && <4.11
     , linear
@@ -51,6 +51,24 @@ executable crossy-toad
       executable
   default-extensions: FlexibleContexts GeneralizedNewtypeDeriving OverloadedStrings NamedFieldPuns
   ghc-options: -Wall -Wcompat -Wincomplete-record-updates -Wincomplete-uni-patterns -Wredundant-constraints -O2
+  build-depends:
+      base >=4.9 && <4.11
+    , crossy-toad
+    , linear
+    , mtl
+    , sdl2
+    , sdl2-ttf
+    , transformers
+  default-language: Haskell2010
+
+executable crossy-toad-profiling
+  main-is: Main.hs
+  other-modules:
+      Paths_crossy_toad
+  hs-source-dirs:
+      executable
+  default-extensions: FlexibleContexts GeneralizedNewtypeDeriving OverloadedStrings NamedFieldPuns
+  ghc-options: -Wall -Wcompat -Wincomplete-record-updates -Wincomplete-uni-patterns -Wredundant-constraints -O2 -rtsopts -threaded -fprof-auto-top "-with-rtsopts=-N -p -s -h -i0.1"
   build-depends:
       base >=4.9 && <4.11
     , crossy-toad

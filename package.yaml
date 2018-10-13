@@ -32,12 +32,26 @@ library:
   source-dirs: src
   exposed-modules:
     - CrossyToad
+  ghc-options:
+    -fprof-auto-exported
 
-executable:
-  main: Main.hs
-  source-dirs: executable
-  dependencies:
-    - crossy-toad
+executables:
+  crossy-toad:
+    main: Main.hs
+    source-dirs: executable
+    dependencies:
+      - crossy-toad
+
+  crossy-toad-prof:
+    main: Main.hs
+    source-dirs: executable
+    dependencies:
+      - crossy-toad
+    ghc-options:
+      -rtsopts
+      -threaded
+      -fprof-auto-top
+      "-with-rtsopts=-N -p -s -h -i0.1"
 
 tests:
   spec:
