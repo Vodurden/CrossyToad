@@ -6,8 +6,8 @@ import Control.Monad.Reader (MonadReader)
 import Control.Monad.State (MonadState)
 
 import           CrossyToad.Config
-import           CrossyToad.State (Vars)
-import qualified CrossyToad.State as Vars
+import           CrossyToad.Vars (Vars)
+import qualified CrossyToad.Vars as Vars
 import           CrossyToad.Effect.Renderer
 import           CrossyToad.Effect.Input
 import qualified CrossyToad.Engine.InputState as InputState

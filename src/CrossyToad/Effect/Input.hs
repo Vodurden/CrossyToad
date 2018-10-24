@@ -5,8 +5,8 @@ import Control.Monad.IO.Class (MonadIO)
 import Control.Monad.State
 import qualified SDL.Extended as SDL
 
-import           CrossyToad.State (Vars)
-import qualified CrossyToad.State as Vars
+import           CrossyToad.Vars (Vars)
+import qualified CrossyToad.Vars as Vars
 import           CrossyToad.Engine.KeyState
 import           CrossyToad.Engine.InputState (InputState)
 import qualified CrossyToad.Engine.InputState as InputState

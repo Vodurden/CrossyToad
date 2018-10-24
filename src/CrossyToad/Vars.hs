@@ -1,6 +1,6 @@
 {-# LANGUAGE TemplateHaskell #-}
 
-module CrossyToad.State where
+module CrossyToad.Vars where
 
 import Control.Lens
 

@@ -13,7 +13,7 @@ import           CrossyToad.Effect.Input
 import           CrossyToad.Effect.Renderer
 import           CrossyToad.Effect.SDLRenderer
 import           CrossyToad.Runner (mainLoop)
-import           CrossyToad.State (Vars, initialVars)
+import           CrossyToad.Vars (Vars, initialVars)
 
 main :: IO ()
 main = do

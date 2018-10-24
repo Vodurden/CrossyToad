@@ -2,7 +2,7 @@
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: 16da35cd9f7f8b264c64cbf9359653f9382ac938a2e1228239b234b6fb651d5c
+-- hash: 3b96b5c9f9dcf6d82a4435cff044a7f3563ddfc49d90b391df3e9905a03ade22
 
 name:           crossy-toad
 version:        0.1.0.0
@@ -30,7 +30,7 @@ library
       CrossyToad.Runner
       CrossyToad.Scene.Scene
       CrossyToad.Scene.Title
-      CrossyToad.State
+      CrossyToad.Vars
       SDL.Extended
       Paths_crossy_toad
   hs-source-dirs:
@@ -102,7 +102,7 @@ test-suite spec
       CrossyToad.Runner
       CrossyToad.Scene.Scene
       CrossyToad.Scene.Title
-      CrossyToad.State
+      CrossyToad.Vars
       SDL.Extended
       Paths_crossy_toad
   hs-source-dirs:
