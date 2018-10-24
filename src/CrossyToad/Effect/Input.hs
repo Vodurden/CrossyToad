@@ -1,11 +1,15 @@
 module CrossyToad.Effect.Input where
 
+import Control.Lens (Lens', use, assign, set, (^.))
 import Control.Monad.IO.Class (MonadIO)
 import Control.Monad.State
-import qualified SDL
+import qualified SDL.Extended as SDL
 
-import CrossyToad.State
-import CrossyToad.Engine.InputState
+import           CrossyToad.State (Vars)
+import qualified CrossyToad.State as Vars
+import           CrossyToad.Engine.KeyState
+import           CrossyToad.Engine.InputState (InputState)
+import qualified CrossyToad.Engine.InputState as InputState
 
 class Monad m => Input m where
   updateInput :: m ()
@@ -19,17 +23,33 @@ updateInput' = do
   setInput (stepInput events input)
 
 getInput' :: MonadState Vars m => m InputState
-getInput' = gets vInput
+getInput' = use Vars.input
 
 setInput' :: MonadState Vars m => InputState -> m ()
-setInput' input = modify (\v -> v { vInput = input })
+setInput' input = assign Vars.input input
 
 stepInput :: [SDL.Event] -> InputState -> InputState
-stepInput events originalInput = foldr stepByEvent originalInput (SDL.eventPayload <$> events)
-  where stepByEvent :: SDL.EventPayload -> InputState -> InputState
-        stepByEvent (SDL.KeyboardEvent event) input =
-          if SDL.keyboardEventKeyMotion event == SDL.Pressed &&
-             SDL.keysymKeycode (SDL.keyboardEventKeysym event) == SDL.KeycodeQ
-          then input { quit = True }
-          else input
-        stepByEvent _ input = input
+stepInput events input = foldr stepInputByEvent input events
+
+stepInputByEvent :: SDL.Event -> InputState -> InputState
+stepInputByEvent event =
+    stepKey SDL.KeycodeReturn InputState.enter
+    . stepQuit InputState.quit
+  where
+    stepKey :: SDL.Keycode -> Lens' InputState KeyState -> InputState -> InputState
+    stepKey keycode keyStateL inputState =
+        set keyStateL nextKeystate inputState
+      where
+        currentKeystate = inputState ^. keyStateL
+        nextKeystate = case currentKeystate of
+          Pressed | pressed keycode -> Held
+          Held | pressed keycode -> Held
+          _ | pressed keycode -> Pressed
+          _ | released keycode -> Released
+          _ -> Released
+
+    pressed keycode = SDL.keyPressed keycode event
+    released keycode = SDL.keyReleased keycode event
+
+    stepQuit :: Lens' InputState Bool -> InputState -> InputState
+    stepQuit quitL = set quitL (SDL.quitEvent event)

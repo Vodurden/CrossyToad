@@ -1,11 +1,13 @@
 module CrossyToad.Runner (mainLoop) where
 
+import Control.Lens ((^.), use)
 import Control.Monad (unless)
 import Control.Monad.Reader (MonadReader)
-import Control.Monad.State (MonadState, gets)
+import Control.Monad.State (MonadState)
 
 import           CrossyToad.Config
-import           CrossyToad.State
+import           CrossyToad.State (Vars)
+import qualified CrossyToad.State as Vars
 import           CrossyToad.Effect.Renderer
 import           CrossyToad.Effect.Input
 import qualified CrossyToad.Engine.InputState as InputState
@@ -23,9 +25,9 @@ mainLoop = do
 
   clearScreen
 
-  scene <- gets vScene
+  scene <- use Vars.scene
   Scene.step scene
 
   drawScreen
 
-  unless (InputState.quit input) mainLoop
+  unless (input ^. InputState.quit) mainLoop

@@ -2,7 +2,7 @@
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: e0ae063243bab2cab20458772e6ec14efbb9ae2074343e88da404503b23a821a
+-- hash: 16da35cd9f7f8b264c64cbf9359653f9382ac938a2e1228239b234b6fb651d5c
 
 name:           crossy-toad
 version:        0.1.0.0
@@ -25,17 +25,21 @@ library
       CrossyToad.Effect.Renderer
       CrossyToad.Effect.SDLRenderer
       CrossyToad.Engine.InputState
+      CrossyToad.Engine.Intent
+      CrossyToad.Engine.KeyState
       CrossyToad.Runner
       CrossyToad.Scene.Scene
       CrossyToad.Scene.Title
       CrossyToad.State
+      SDL.Extended
       Paths_crossy_toad
   hs-source-dirs:
       src
-  default-extensions: FlexibleContexts GeneralizedNewtypeDeriving OverloadedStrings NamedFieldPuns
+  default-extensions: FlexibleContexts GeneralizedNewtypeDeriving OverloadedStrings NamedFieldPuns MultiParamTypeClasses FunctionalDependencies RankNTypes DuplicateRecordFields
   ghc-options: -Wall -Wcompat -Wincomplete-record-updates -Wincomplete-uni-patterns -Wredundant-constraints -O2 -fprof-auto-exported
   build-depends:
       base >=4.9 && <4.12
+    , lens
     , linear
     , mtl
     , sdl2
@@ -49,11 +53,12 @@ executable crossy-toad
       Paths_crossy_toad
   hs-source-dirs:
       executable
-  default-extensions: FlexibleContexts GeneralizedNewtypeDeriving OverloadedStrings NamedFieldPuns
+  default-extensions: FlexibleContexts GeneralizedNewtypeDeriving OverloadedStrings NamedFieldPuns MultiParamTypeClasses FunctionalDependencies RankNTypes DuplicateRecordFields
   ghc-options: -Wall -Wcompat -Wincomplete-record-updates -Wincomplete-uni-patterns -Wredundant-constraints -O2
   build-depends:
       base >=4.9 && <4.12
     , crossy-toad
+    , lens
     , linear
     , mtl
     , sdl2
@@ -67,11 +72,12 @@ executable crossy-toad-prof
       Paths_crossy_toad
   hs-source-dirs:
       executable
-  default-extensions: FlexibleContexts GeneralizedNewtypeDeriving OverloadedStrings NamedFieldPuns
+  default-extensions: FlexibleContexts GeneralizedNewtypeDeriving OverloadedStrings NamedFieldPuns MultiParamTypeClasses FunctionalDependencies RankNTypes DuplicateRecordFields
   ghc-options: -Wall -Wcompat -Wincomplete-record-updates -Wincomplete-uni-patterns -Wredundant-constraints -O2 -rtsopts -threaded -fprof-auto-top "-with-rtsopts=-N -p -s -h -i0.1"
   build-depends:
       base >=4.9 && <4.12
     , crossy-toad
+    , lens
     , linear
     , mtl
     , sdl2
@@ -91,20 +97,24 @@ test-suite spec
       CrossyToad.Effect.Renderer
       CrossyToad.Effect.SDLRenderer
       CrossyToad.Engine.InputState
+      CrossyToad.Engine.Intent
+      CrossyToad.Engine.KeyState
       CrossyToad.Runner
       CrossyToad.Scene.Scene
       CrossyToad.Scene.Title
       CrossyToad.State
+      SDL.Extended
       Paths_crossy_toad
   hs-source-dirs:
       test
       src
-  default-extensions: FlexibleContexts GeneralizedNewtypeDeriving OverloadedStrings NamedFieldPuns
+  default-extensions: FlexibleContexts GeneralizedNewtypeDeriving OverloadedStrings NamedFieldPuns MultiParamTypeClasses FunctionalDependencies RankNTypes DuplicateRecordFields
   ghc-options: -Wall -Wcompat -Wincomplete-record-updates -Wincomplete-uni-patterns -Wredundant-constraints -O2
   build-depends:
       base >=4.9 && <4.12
     , hedgehog
     , hspec
+    , lens
     , linear
     , mtl
     , sdl2

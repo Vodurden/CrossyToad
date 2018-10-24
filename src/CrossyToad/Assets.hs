@@ -1,12 +1,17 @@
+{-# LANGUAGE TemplateHaskell #-}
+
 module CrossyToad.Assets where
 
+import           Control.Lens
 import           Linear.V4
 import qualified SDL
 import qualified SDL.Font as Font
 
 data Assets = Assets
-  { titleSprite :: SDL.Texture
+  { _titleSprite :: SDL.Texture
   }
+
+makeClassy ''Assets
 
 loadAssets :: SDL.Renderer -> IO Assets
 loadAssets renderer = do
@@ -15,7 +20,7 @@ loadAssets renderer = do
       Font.blended titleFont (V4 0xff 0xff 0xff 0xff) " CROSSY TOAD "
 
     pure $ Assets
-      { titleSprite = titleSpriteTexture
+      { _titleSprite = titleSpriteTexture
       }
   where
     toTexture surface = SDL.createTextureFromSurface renderer surface

@@ -7,13 +7,13 @@ import           Linear.V2
 import qualified SDL as SDL
 import qualified SDL.Font as Font
 
-import CrossyToad.Assets
-import CrossyToad.Config
-import CrossyToad.Runner (mainLoop)
-import CrossyToad.State
-import CrossyToad.Effect.Input
-import CrossyToad.Effect.Renderer
-import CrossyToad.Effect.SDLRenderer
+import qualified CrossyToad.Assets as Assets
+import           CrossyToad.Config (Config(..))
+import           CrossyToad.Effect.Input
+import           CrossyToad.Effect.Renderer
+import           CrossyToad.Effect.SDLRenderer
+import           CrossyToad.Runner (mainLoop)
+import           CrossyToad.State (Vars, initialVars)
 
 main :: IO ()
 main = do
@@ -23,11 +23,11 @@ main = do
      { SDL.windowInitialSize = V2 800 600
      }
   renderer <- SDL.createRenderer window (-1) SDL.defaultRenderer
-  assets <- loadAssets renderer
+  assets <- Assets.loadAssets renderer
   let cfg = Config
-            { cWindow = window
-            , cRenderer = renderer
-            , cAssets = assets
+            { _window = window
+            , _renderer = renderer
+            , __assets = assets
             }
   runCrossyToad cfg initialVars mainLoop
 

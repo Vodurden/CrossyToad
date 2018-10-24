@@ -19,6 +19,10 @@ default-extensions:
   - GeneralizedNewtypeDeriving
   - OverloadedStrings
   - NamedFieldPuns
+  - MultiParamTypeClasses
+  - FunctionalDependencies
+  - RankNTypes
+  - DuplicateRecordFields
 
 dependencies:
   - base >=4.9 && <4.12
@@ -27,6 +31,7 @@ dependencies:
   - linear
   - mtl
   - transformers
+  - lens
 
 library:
   source-dirs: src
