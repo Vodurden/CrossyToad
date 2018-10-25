@@ -5,10 +5,8 @@ import Control.Monad.IO.Class (MonadIO)
 import Control.Monad.State
 import qualified SDL.Extended as SDL
 
-import           CrossyToad.Vars (Vars)
-import qualified CrossyToad.Vars as Vars
 import           CrossyToad.Engine.KeyState
-import           CrossyToad.Engine.InputState (InputState)
+import           CrossyToad.Engine.InputState (InputState, HasInputState)
 import qualified CrossyToad.Engine.InputState as InputState
 
 class Monad m => Input m where
@@ -22,11 +20,11 @@ updateInput' = do
   events <- SDL.pollEvents
   setInput (stepInput events input)
 
-getInput' :: MonadState Vars m => m InputState
-getInput' = use Vars.input
+getInput' :: (MonadState s m, HasInputState s) => m InputState
+getInput' = use InputState.inputState
 
-setInput' :: MonadState Vars m => InputState -> m ()
-setInput' input = assign Vars.input input
+setInput' :: (MonadState s m, HasInputState s) => InputState -> m ()
+setInput' = assign InputState.inputState
 
 stepInput :: [SDL.Event] -> InputState -> InputState
 stepInput events input = foldr stepInputByEvent input events
@@ -34,6 +32,7 @@ stepInput events input = foldr stepInputByEvent input events
 stepInputByEvent :: SDL.Event -> InputState -> InputState
 stepInputByEvent event =
     stepKey SDL.KeycodeReturn InputState.enter
+    . stepKey SDL.KeycodeEscape InputState.esc
     . stepQuit InputState.quit
   where
     stepKey :: SDL.Keycode -> Lens' InputState KeyState -> InputState -> InputState

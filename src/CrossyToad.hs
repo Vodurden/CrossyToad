@@ -53,6 +53,3 @@ instance SDLRenderer CrossyToad where
   clearRenderer = clearRenderer'
   queryTexture = queryTexture'
   drawTexture = drawTexture'
-
-message :: String
-message = "Hello, Crossy Toad!"

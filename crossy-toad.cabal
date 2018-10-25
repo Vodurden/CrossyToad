@@ -2,7 +2,7 @@
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: 3b96b5c9f9dcf6d82a4435cff044a7f3563ddfc49d90b391df3e9905a03ade22
+-- hash: 54e5790dcfb3c75c79249caf5f86667912cbf4b283c5e371a0d2526cfa18a930
 
 name:           crossy-toad
 version:        0.1.0.0
@@ -25,11 +25,12 @@ library
       CrossyToad.Effect.Renderer
       CrossyToad.Effect.SDLRenderer
       CrossyToad.Engine.InputState
-      CrossyToad.Engine.Intent
       CrossyToad.Engine.KeyState
       CrossyToad.Runner
+      CrossyToad.Scene.Internal
       CrossyToad.Scene.Scene
-      CrossyToad.Scene.Title
+      CrossyToad.Scene.Title.Intent
+      CrossyToad.Scene.Title.Title
       CrossyToad.Vars
       SDL.Extended
       Paths_crossy_toad
@@ -89,7 +90,8 @@ test-suite spec
   type: exitcode-stdio-1.0
   main-is: Driver.hs
   other-modules:
-      CrossyToadSpec
+      CrossyToad.Scene.Title.IntentSpec
+      CrossyToad.Scene.Title.TitleSpec
       CrossyToad
       CrossyToad.Assets
       CrossyToad.Config
@@ -97,11 +99,12 @@ test-suite spec
       CrossyToad.Effect.Renderer
       CrossyToad.Effect.SDLRenderer
       CrossyToad.Engine.InputState
-      CrossyToad.Engine.Intent
       CrossyToad.Engine.KeyState
       CrossyToad.Runner
+      CrossyToad.Scene.Internal
       CrossyToad.Scene.Scene
-      CrossyToad.Scene.Title
+      CrossyToad.Scene.Title.Intent
+      CrossyToad.Scene.Title.Title
       CrossyToad.Vars
       SDL.Extended
       Paths_crossy_toad
