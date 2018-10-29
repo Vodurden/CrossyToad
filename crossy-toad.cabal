@@ -28,6 +28,7 @@ library
       CrossyToad.Renderer.SDLRenderer
       CrossyToad.Runner
       CrossyToad.Scene.Game.Game
+      CrossyToad.Scene.Game.Intent
       CrossyToad.Scene.Internal
       CrossyToad.Scene.Scene
       CrossyToad.Scene.Title.Intent
@@ -94,6 +95,8 @@ test-suite spec
   type: exitcode-stdio-1.0
   main-is: Driver.hs
   other-modules:
+      CrossyToad.Scene.Game.GameSpec
+      CrossyToad.Scene.Game.IntentSpec
       CrossyToad.Scene.Title.IntentSpec
       CrossyToad.Scene.Title.TitleSpec
       CrossyToad
