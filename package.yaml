@@ -28,6 +28,7 @@ dependencies:
   - base >=4.9 && <4.12
   - sdl2
   - sdl2-ttf
+  - sdl2-image
   - linear
   - mtl
   - transformers

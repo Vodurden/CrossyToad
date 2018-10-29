@@ -47,6 +47,7 @@ instance Renderer CrossyToad where
   drawScreen = drawScreen'
 
   drawTitleText = drawTitleText'
+  drawToad = drawToad'
 
 instance SDLRenderer CrossyToad where
   presentRenderer = presentRenderer'

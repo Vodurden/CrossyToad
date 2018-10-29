@@ -19,5 +19,5 @@ stepTitle = do
   drawTitleText (50, 140)
 
 stepIntent :: (MonadState s m, HasScene s) => Intent -> m ()
-stepIntent StartGame = assign scene Scene.Play
+stepIntent StartGame = assign scene Scene.Game
 stepIntent Quit = assign scene Scene.Quit

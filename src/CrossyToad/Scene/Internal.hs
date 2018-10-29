@@ -6,7 +6,7 @@ import Control.Lens
 
 data Scene
   = Title
-  | Play
+  | Game
   | Quit
   deriving (Show, Eq)
 

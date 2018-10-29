@@ -9,10 +9,10 @@ import qualified CrossyToad.Scene.Title.Intent as Intent
 import           CrossyToad.Scene.Title.Title
 
 spec_Scene_Title :: Spec
-spec_Scene_Title = 
+spec_Scene_Title =
   describe "stepIntent" $ do
     it "should start the game when the intent is StartGame" $
-      runIdentity (execStateT (stepIntent Intent.StartGame) Scene.Title) `shouldBe` Scene.Play
+      runIdentity (execStateT (stepIntent Intent.StartGame) Scene.Title) `shouldBe` Scene.Game
 
     it "should quit the game when the intent is Quit" $
       runIdentity (execStateT (stepIntent Intent.Quit) Scene.Title) `shouldBe` Scene.Quit

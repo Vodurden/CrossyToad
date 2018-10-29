@@ -14,6 +14,7 @@ import CrossyToad.Renderer.Renderer
 import CrossyToad.Input.Input
 import CrossyToad.Scene.Internal
 import CrossyToad.Scene.Title.Title (stepTitle)
+import CrossyToad.Scene.Game.Game (stepGame)
 
 step :: (MonadState s m, HasScene s, Input m, Renderer m) => m ()
 step = do
@@ -21,5 +22,5 @@ step = do
     step' s
   where
     step' Title = stepTitle
-    step' Play = pure ()
+    step' Game = stepGame
     step' Quit = pure ()

@@ -20,6 +20,7 @@ class Monad m => Renderer m where
   drawScreen :: m ()
 
   drawTitleText :: (Int, Int) -> m ()
+  drawToad :: (Int, Int) -> m ()
 
 clearScreen' :: (MonadReader Config m, SDLRenderer m) => m ()
 clearScreen' = do
@@ -33,6 +34,9 @@ drawScreen' = do
 
 drawTitleText' :: (MonadReader Config m, SDLRenderer m) => (Int, Int) -> m ()
 drawTitleText' pos = drawTextureSprite (view Assets.titleSprite) pos
+
+drawToad' :: (MonadReader Config m, SDLRenderer m) => (Int, Int) -> m ()
+drawToad' pos = drawTextureSprite (view Assets.toad) pos
 
 drawTextureSprite :: (MonadReader Config m, SDLRenderer m)
                   => (Config -> SDL.Texture)
