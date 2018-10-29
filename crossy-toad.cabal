@@ -2,7 +2,7 @@
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: 33635e6eb3310ba37b0264f34991c9358c1966a6c9e4ba57bba710743b150900
+-- hash: 5c6780b320da1eddd9bff723555e2e980a380f5867497bf5db8f0fdea1289b3d
 
 name:           crossy-toad
 version:        0.1.0.0
@@ -27,8 +27,14 @@ library
       CrossyToad.Renderer.Renderer
       CrossyToad.Renderer.SDLRenderer
       CrossyToad.Runner
+      CrossyToad.Scene.Game.Direction
+      CrossyToad.Scene.Game.Distance
       CrossyToad.Scene.Game.Game
+      CrossyToad.Scene.Game.GameState
       CrossyToad.Scene.Game.Intent
+      CrossyToad.Scene.Game.Position
+      CrossyToad.Scene.Game.Speed
+      CrossyToad.Scene.Game.Toad
       CrossyToad.Scene.Internal
       CrossyToad.Scene.Scene
       CrossyToad.Scene.Title.Intent
@@ -38,7 +44,7 @@ library
       Paths_crossy_toad
   hs-source-dirs:
       src
-  default-extensions: FlexibleContexts GeneralizedNewtypeDeriving OverloadedStrings NamedFieldPuns MultiParamTypeClasses FunctionalDependencies RankNTypes DuplicateRecordFields
+  default-extensions: FlexibleContexts GeneralizedNewtypeDeriving OverloadedStrings NamedFieldPuns MultiParamTypeClasses FunctionalDependencies RankNTypes DuplicateRecordFields TypeSynonymInstances FlexibleInstances
   ghc-options: -Wall -Wcompat -Wincomplete-record-updates -Wincomplete-uni-patterns -Wredundant-constraints -O2 -fprof-auto-exported
   build-depends:
       base >=4.9 && <4.12
@@ -57,7 +63,7 @@ executable crossy-toad
       Paths_crossy_toad
   hs-source-dirs:
       executable
-  default-extensions: FlexibleContexts GeneralizedNewtypeDeriving OverloadedStrings NamedFieldPuns MultiParamTypeClasses FunctionalDependencies RankNTypes DuplicateRecordFields
+  default-extensions: FlexibleContexts GeneralizedNewtypeDeriving OverloadedStrings NamedFieldPuns MultiParamTypeClasses FunctionalDependencies RankNTypes DuplicateRecordFields TypeSynonymInstances FlexibleInstances
   ghc-options: -Wall -Wcompat -Wincomplete-record-updates -Wincomplete-uni-patterns -Wredundant-constraints -O2
   build-depends:
       base >=4.9 && <4.12
@@ -77,7 +83,7 @@ executable crossy-toad-prof
       Paths_crossy_toad
   hs-source-dirs:
       executable
-  default-extensions: FlexibleContexts GeneralizedNewtypeDeriving OverloadedStrings NamedFieldPuns MultiParamTypeClasses FunctionalDependencies RankNTypes DuplicateRecordFields
+  default-extensions: FlexibleContexts GeneralizedNewtypeDeriving OverloadedStrings NamedFieldPuns MultiParamTypeClasses FunctionalDependencies RankNTypes DuplicateRecordFields TypeSynonymInstances FlexibleInstances
   ghc-options: -Wall -Wcompat -Wincomplete-record-updates -Wincomplete-uni-patterns -Wredundant-constraints -O2 -rtsopts -threaded -fprof-auto-top "-with-rtsopts=-N -p -s -h -i0.1"
   build-depends:
       base >=4.9 && <4.12
@@ -108,6 +114,14 @@ test-suite spec
       CrossyToad.Renderer.Renderer
       CrossyToad.Renderer.SDLRenderer
       CrossyToad.Runner
+      CrossyToad.Scene.Game.Direction
+      CrossyToad.Scene.Game.Distance
+      CrossyToad.Scene.Game.Game
+      CrossyToad.Scene.Game.GameState
+      CrossyToad.Scene.Game.Intent
+      CrossyToad.Scene.Game.Position
+      CrossyToad.Scene.Game.Speed
+      CrossyToad.Scene.Game.Toad
       CrossyToad.Scene.Internal
       CrossyToad.Scene.Scene
       CrossyToad.Scene.Title.Intent
@@ -118,7 +132,7 @@ test-suite spec
   hs-source-dirs:
       test
       src
-  default-extensions: FlexibleContexts GeneralizedNewtypeDeriving OverloadedStrings NamedFieldPuns MultiParamTypeClasses FunctionalDependencies RankNTypes DuplicateRecordFields
+  default-extensions: FlexibleContexts GeneralizedNewtypeDeriving OverloadedStrings NamedFieldPuns MultiParamTypeClasses FunctionalDependencies RankNTypes DuplicateRecordFields TypeSynonymInstances FlexibleInstances
   ghc-options: -Wall -Wcompat -Wincomplete-record-updates -Wincomplete-uni-patterns -Wredundant-constraints -O2
   build-depends:
       base >=4.9 && <4.12

@@ -3,6 +3,7 @@ module CrossyToad.Scene.Title.Title where
 import           Control.Lens
 import           Control.Monad.State (MonadState)
 import           Data.Foldable (traverse_)
+import           Linear.V2
 
 import           CrossyToad.Input.Input
 import           CrossyToad.Renderer.Renderer
@@ -16,7 +17,7 @@ stepTitle = do
   input <- getInput
   traverse_ stepIntent (Intent.fromInput input)
 
-  drawTitleText (50, 140)
+  drawTitleText $ V2 50 140
 
 stepIntent :: (MonadState s m, HasScene s) => Intent -> m ()
 stepIntent StartGame = assign scene Scene.Game

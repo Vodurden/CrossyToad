@@ -23,6 +23,8 @@ default-extensions:
   - FunctionalDependencies
   - RankNTypes
   - DuplicateRecordFields
+  - TypeSynonymInstances
+  - FlexibleInstances
 
 dependencies:
   - base >=4.9 && <4.12

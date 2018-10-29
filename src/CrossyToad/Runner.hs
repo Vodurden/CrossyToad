@@ -11,11 +11,13 @@ import           CrossyToad.Renderer.Renderer
 import           CrossyToad.Input.Input
 import           CrossyToad.Scene.Scene (HasScene)
 import qualified CrossyToad.Scene.Scene as Scene
+import           CrossyToad.Scene.Game.GameState (HasGameState)
 
 mainLoop ::
   ( MonadReader Config m, MonadState s m
   , HasVars s
   , HasScene s
+  , HasGameState s
   , Input m
   , Renderer m
   ) => m ()

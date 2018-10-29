@@ -19,8 +19,8 @@ class Monad m => Renderer m where
   clearScreen :: m ()
   drawScreen :: m ()
 
-  drawTitleText :: (Int, Int) -> m ()
-  drawToad :: (Int, Int) -> m ()
+  drawTitleText :: V2 Float -> m ()
+  drawToad :: V2 Float -> m ()
 
 clearScreen' :: (MonadReader Config m, SDLRenderer m) => m ()
 clearScreen' = do
@@ -32,17 +32,17 @@ drawScreen' = do
   renderer <- view Config.renderer
   presentRenderer renderer
 
-drawTitleText' :: (MonadReader Config m, SDLRenderer m) => (Int, Int) -> m ()
+drawTitleText' :: (MonadReader Config m, SDLRenderer m) => V2 Float -> m ()
 drawTitleText' pos = drawTextureSprite (view Assets.titleSprite) pos
 
-drawToad' :: (MonadReader Config m, SDLRenderer m) => (Int, Int) -> m ()
+drawToad' :: (MonadReader Config m, SDLRenderer m) => V2 Float -> m ()
 drawToad' pos = drawTextureSprite (view Assets.toad) pos
 
 drawTextureSprite :: (MonadReader Config m, SDLRenderer m)
                   => (Config -> SDL.Texture)
-                  -> (Int, Int)
+                  -> V2 Float
                   -> m ()
-drawTextureSprite getTexture (x,y) = do
+drawTextureSprite getTexture (V2 x y) = do
   renderer <- view Config.renderer
   texture <- asks getTexture
   SDL.TextureInfo{textureWidth, textureHeight} <- queryTexture texture
@@ -51,4 +51,4 @@ drawTextureSprite getTexture (x,y) = do
     renderer
     texture
     Nothing
-    (Just $ SDL.Rectangle (SDL.P $ SDL.V2 (fromIntegral x) (fromIntegral y)) dimensions)
+    (Just $ SDL.Rectangle (SDL.P $ SDL.V2 (truncate x) (truncate y)) dimensions)
