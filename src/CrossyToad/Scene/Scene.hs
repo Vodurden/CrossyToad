@@ -11,7 +11,7 @@ import Control.Lens
 import Control.Monad.State (MonadState)
 
 import CrossyToad.Effect.Renderer
-import CrossyToad.Effect.Input
+import CrossyToad.Input.Input
 import CrossyToad.Scene.Internal
 import CrossyToad.Scene.Title.Title (stepTitle)
 

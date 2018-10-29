@@ -4,7 +4,7 @@ import           Control.Lens
 import           Control.Monad.State (MonadState)
 import           Data.Foldable (traverse_)
 
-import           CrossyToad.Effect.Input
+import           CrossyToad.Input.Input
 import           CrossyToad.Effect.Renderer
 import           CrossyToad.Scene.Internal (HasScene, scene)
 import qualified CrossyToad.Scene.Internal as Scene

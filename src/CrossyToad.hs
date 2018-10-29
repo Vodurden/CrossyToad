@@ -9,7 +9,7 @@ import qualified SDL.Font as Font
 
 import qualified CrossyToad.Assets as Assets
 import           CrossyToad.Config (Config(..))
-import           CrossyToad.Effect.Input
+import           CrossyToad.Input.Input
 import           CrossyToad.Effect.Renderer
 import           CrossyToad.Effect.SDLRenderer
 import           CrossyToad.Runner (mainLoop)

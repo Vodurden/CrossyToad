@@ -1,6 +1,6 @@
 {-# LANGUAGE TemplateHaskell #-}
 
-module CrossyToad.Engine.KeyState where
+module CrossyToad.Input.KeyState where
 
 import Control.Lens
 

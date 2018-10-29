@@ -3,8 +3,7 @@ module CrossyToad.Scene.Title.IntentSpec where
 import Control.Lens
 import Test.Tasty.Hspec
 
-import CrossyToad.Engine.InputState
-import CrossyToad.Engine.KeyState
+import CrossyToad.Input.Input
 import CrossyToad.Scene.Title.Intent
 
 spec_Scene_Title_Intent :: Spec

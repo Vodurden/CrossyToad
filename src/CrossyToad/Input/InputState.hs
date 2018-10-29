@@ -1,10 +1,10 @@
 {-# LANGUAGE TemplateHaskell #-}
 
-module CrossyToad.Engine.InputState where
+module CrossyToad.Input.InputState where
 
 import Control.Lens
 
-import CrossyToad.Engine.KeyState
+import CrossyToad.Input.KeyState
 
 data InputState = InputState
   { _enter :: KeyState

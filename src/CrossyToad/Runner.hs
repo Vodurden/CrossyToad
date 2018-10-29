@@ -8,7 +8,7 @@ import Control.Monad.State (MonadState)
 import           CrossyToad.Config
 import           CrossyToad.Vars (HasVars)
 import           CrossyToad.Effect.Renderer
-import           CrossyToad.Effect.Input
+import           CrossyToad.Input.Input
 import           CrossyToad.Scene.Scene (HasScene)
 import qualified CrossyToad.Scene.Scene as Scene
 

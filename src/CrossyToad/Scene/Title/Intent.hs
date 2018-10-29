@@ -5,8 +5,7 @@ module CrossyToad.Scene.Title.Intent where
 import Control.Lens
 import Data.Maybe (catMaybes)
 
-import CrossyToad.Engine.InputState
-import CrossyToad.Engine.KeyState
+import CrossyToad.Input.Input
 
 data Intent = StartGame
             | Quit

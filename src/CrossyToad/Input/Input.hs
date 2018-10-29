@@ -1,13 +1,26 @@
-module CrossyToad.Effect.Input where
+-- | The @Input@ feature is responsible for gathering input from a human
+-- | and making it available to the rest of the application.
+-- |
+-- | Crucially the @Input@ feature is not responsible for understanding the
+-- | intent of the user, it only gathers input such that other features can
+-- | interpret it.
+module CrossyToad.Input.Input
+  ( Input(..)
+  , updateInput'
+  , getInput'
+  , setInput'
+  , module CrossyToad.Input.KeyState
+  , module CrossyToad.Input.InputState
+  ) where
 
 import Control.Lens (Lens', use, assign, set, (^.))
 import Control.Monad.IO.Class (MonadIO)
 import Control.Monad.State
 import qualified SDL.Extended as SDL
 
-import           CrossyToad.Engine.KeyState
-import           CrossyToad.Engine.InputState (InputState, HasInputState)
-import qualified CrossyToad.Engine.InputState as InputState
+import           CrossyToad.Input.KeyState
+import           CrossyToad.Input.InputState
+import qualified CrossyToad.Input.InputState as InputState
 
 class Monad m => Input m where
   updateInput :: m ()
@@ -36,10 +49,10 @@ stepInputByEvent event =
     . stepQuit InputState.quit
   where
     stepKey :: SDL.Keycode -> Lens' InputState KeyState -> InputState -> InputState
-    stepKey keycode keyStateL inputState =
-        set keyStateL nextKeystate inputState
+    stepKey keycode keyStateL inState =
+        set keyStateL nextKeystate inState
       where
-        currentKeystate = inputState ^. keyStateL
+        currentKeystate = inState ^. keyStateL
         nextKeystate = case currentKeystate of
           Pressed | pressed keycode -> Held
           Held | pressed keycode -> Held
