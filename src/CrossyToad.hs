@@ -20,7 +20,7 @@ main = do
   SDL.initializeAll
   Font.initialize
   window <- SDL.createWindow "Crossy Toad" SDL.defaultWindow
-     { SDL.windowInitialSize = V2 800 600
+     { SDL.windowInitialSize = V2 800 640
      }
   renderer <- SDL.createRenderer window (-1) SDL.defaultRenderer
   assets <- Assets.loadAssets renderer
