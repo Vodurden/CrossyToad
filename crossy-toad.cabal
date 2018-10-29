@@ -2,7 +2,7 @@
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: a6803341310df05e6f3b8e277e482f00ddc58654074262349c1e201704749d75
+-- hash: f2895e472fb42fb07c0aee7e4536fba12c9427289e85ce3dec270216ef619247
 
 name:           crossy-toad
 version:        0.1.0.0
@@ -21,11 +21,11 @@ library
   other-modules:
       CrossyToad.Assets
       CrossyToad.Config
-      CrossyToad.Effect.Renderer
-      CrossyToad.Effect.SDLRenderer
       CrossyToad.Input.Input
       CrossyToad.Input.InputState
       CrossyToad.Input.KeyState
+      CrossyToad.Renderer.Renderer
+      CrossyToad.Renderer.SDLRenderer
       CrossyToad.Runner
       CrossyToad.Scene.Internal
       CrossyToad.Scene.Scene
@@ -95,11 +95,11 @@ test-suite spec
       CrossyToad
       CrossyToad.Assets
       CrossyToad.Config
-      CrossyToad.Effect.Renderer
-      CrossyToad.Effect.SDLRenderer
       CrossyToad.Input.Input
       CrossyToad.Input.InputState
       CrossyToad.Input.KeyState
+      CrossyToad.Renderer.Renderer
+      CrossyToad.Renderer.SDLRenderer
       CrossyToad.Runner
       CrossyToad.Scene.Internal
       CrossyToad.Scene.Scene

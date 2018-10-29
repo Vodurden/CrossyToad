@@ -1,4 +1,8 @@
-module CrossyToad.Effect.Renderer where
+-- | The @Renderer@ feature is responsible for drawing the screen.
+-- |
+-- | In particular a renderer knows how to "draw" every visual artifact in
+-- | the game such that a human will see it.
+module CrossyToad.Renderer.Renderer where
 
 import           Control.Lens
 import           Control.Monad.Reader
@@ -9,7 +13,7 @@ import qualified SDL as SDL
 import qualified CrossyToad.Assets as Assets
 import           CrossyToad.Config (Config)
 import qualified CrossyToad.Config as Config
-import           CrossyToad.Effect.SDLRenderer
+import           CrossyToad.Renderer.SDLRenderer
 
 class Monad m => Renderer m where
   clearScreen :: m ()

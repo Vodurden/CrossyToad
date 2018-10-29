@@ -1,4 +1,4 @@
-module CrossyToad.Effect.SDLRenderer where
+module CrossyToad.Renderer.SDLRenderer where
 
 import           Control.Monad.IO.Class (MonadIO)
 import           Foreign.C.Types (CInt)

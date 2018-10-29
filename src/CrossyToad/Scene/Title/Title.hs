@@ -5,7 +5,7 @@ import           Control.Monad.State (MonadState)
 import           Data.Foldable (traverse_)
 
 import           CrossyToad.Input.Input
-import           CrossyToad.Effect.Renderer
+import           CrossyToad.Renderer.Renderer
 import           CrossyToad.Scene.Internal (HasScene, scene)
 import qualified CrossyToad.Scene.Internal as Scene
 import           CrossyToad.Scene.Title.Intent (Intent(..))

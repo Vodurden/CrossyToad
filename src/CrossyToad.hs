@@ -10,8 +10,8 @@ import qualified SDL.Font as Font
 import qualified CrossyToad.Assets as Assets
 import           CrossyToad.Config (Config(..))
 import           CrossyToad.Input.Input
-import           CrossyToad.Effect.Renderer
-import           CrossyToad.Effect.SDLRenderer
+import           CrossyToad.Renderer.Renderer
+import           CrossyToad.Renderer.SDLRenderer
 import           CrossyToad.Runner (mainLoop)
 import           CrossyToad.Vars (Vars, initialVars)
 
