@@ -46,6 +46,10 @@ stepInputByEvent :: SDL.Event -> InputState -> InputState
 stepInputByEvent event =
     stepKey SDL.KeycodeReturn InputState.enter
     . stepKey SDL.KeycodeEscape InputState.esc
+    . stepKey SDL.KeycodeW InputState.w
+    . stepKey SDL.KeycodeA InputState.a
+    . stepKey SDL.KeycodeS InputState.s
+    . stepKey SDL.KeycodeD InputState.d
     . stepQuit InputState.quit
   where
     stepKey :: SDL.Keycode -> Lens' InputState KeyState -> InputState -> InputState

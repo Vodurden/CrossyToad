@@ -2,11 +2,12 @@
 
 module CrossyToad.Scene.Game.Toad where
 
-import Control.Category ((>>>))
 import Control.Lens
+import Linear.Epsilon (nearZero)
 import Linear.V2
 
 import CrossyToad.Scene.Game.Direction (Direction(..), HasDirection(..))
+import qualified CrossyToad.Scene.Game.Direction as Direction
 import CrossyToad.Scene.Game.Distance
 import CrossyToad.Scene.Game.Position (Position, HasPosition(..))
 import CrossyToad.Scene.Game.Speed
@@ -14,7 +15,6 @@ import CrossyToad.Scene.Game.Speed
 data Toad = Toad
   { __position :: Position
   , __direction :: Direction
-  , _velocity :: Speed -- ^ How fast the frog is currently moving in pixels-per-second
   , _targetDistance :: Distance -- ^ How far the frog has left to go in this jump
   } deriving (Eq, Show)
 
@@ -30,14 +30,21 @@ initialToad :: Toad
 initialToad = Toad
   { __position = (V2 0 0)
   , __direction = North
-  , _velocity = 0
   , _targetDistance = 0
   }
 
 step :: Toad -> Toad
 step = stepMovement
-  where
-    stepMovement = toad.position %~ (\pos -> pos + 1)
+
+stepMovement :: Toad -> Toad
+stepMovement t | not $ nearZero $ t^.targetDistance =
+  let directionVector = Direction.unitVector $ t^.direction
+      distanceThisFrame = min speed (t^.targetDistance)
+      jumpVector = (* distanceThisFrame) <$> directionVector
+      remainingDistance = t^.targetDistance - distanceThisFrame
+  in t & (position +~ jumpVector)
+       . (targetDistance .~ remainingDistance)
+stepMovement t = t
 
 -- | How many seconds it takes for the toad to jump once
 speed :: Speed
@@ -49,10 +56,11 @@ distance = 32
 
 -- | Jump in a given direction.
 -- |
--- | This will move the toad and change it's direction
+-- | This will move the toad and change it's direction.
 jump :: Direction -> Toad -> Toad
-jump dir = (toad . direction .~ dir) >>> move
+jump dir =
+  (direction .~ dir)
+  . (targetDistance .~ distance)
 
--- | Jump in the current direction
-move :: Toad -> Toad
-move = id
+isJumping :: Toad -> Bool
+isJumping t = nearZero $ t^.targetDistance

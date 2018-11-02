@@ -4,7 +4,6 @@ module CrossyToad.Scene.Game.Game
   , module CrossyToad.Scene.Game.GameState
   ) where
 
-import Linear.V2
 import           Control.Lens
 import           Control.Monad.State (MonadState)
 import           Data.Foldable (traverse_)
@@ -29,12 +28,11 @@ stepGame = do
 
   renderGame
 
-stepIntent :: (MonadState s m, HasScene s) => Intent -> m ()
-stepIntent move@Move{} = undefined
-stepIntent Exit = assign scene Scene.Title
+stepIntent :: (MonadState s m, HasScene s, HasGameState s) => Intent -> m ()
+stepIntent (Move direction) = gameState.toad %= Toad.jump direction
+stepIntent Exit = scene .= Scene.Title
 
 renderGame :: (MonadState s m, HasGameState s, Renderer m) => m ()
 renderGame = do
-  gs <- use gameState
-  let p = gs^.toad.position
-  drawToad p
+  pos <- use $ gameState.toad.position
+  drawToad pos
