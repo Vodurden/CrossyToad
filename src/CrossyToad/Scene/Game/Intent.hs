@@ -14,11 +14,13 @@ data Intent = Move Direction
 
 makeClassyPrisms ''Intent
 
-fromInput :: InputState -> [Intent]
-fromInput input = catMaybes $
-  [ const Exit <$> (input ^? esc . _Pressed)
-  , const (Move North) <$> (input ^? w . _Pressed)
-  , const (Move East) <$> (input ^? a . _Pressed)
-  , const (Move South) <$> (input ^? s . _Pressed)
-  , const (Move West) <$> (input ^? d . _Pressed)
-  ]
+fromInput :: [InputEvent] -> [Intent]
+fromInput events = catMaybes $ fmap fromInput' events
+  where
+    fromInput' :: InputEvent -> Maybe Intent
+    fromInput' (KeyPressed Escape) = Just Exit
+    fromInput' (KeyPressed W) = Just $ Move North
+    fromInput' (KeyPressed A) = Just $ Move West
+    fromInput' (KeyPressed S) = Just $ Move South
+    fromInput' (KeyPressed D) = Just $ Move East
+    fromInput' _ = Nothing

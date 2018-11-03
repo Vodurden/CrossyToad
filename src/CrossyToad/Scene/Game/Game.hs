@@ -21,8 +21,8 @@ import           CrossyToad.Scene.Game.Position
 
 stepGame :: (MonadState s m, HasGameState s, HasScene s, Input m, Renderer m) => m ()
 stepGame = do
-  input <- getInput
-  traverse_ stepIntent (Intent.fromInput input)
+  events <- pollInput
+  traverse_ stepIntent (Intent.fromInput events)
 
   gameState.toad %= Toad.step
 

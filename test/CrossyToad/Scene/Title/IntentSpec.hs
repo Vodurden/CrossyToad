@@ -10,9 +10,7 @@ spec_Scene_Title_Intent :: Spec
 spec_Scene_Title_Intent =
   describe "fromInput" $ do
     it "should be StartGame when enter is pressed" $ do
-      let input = (set enter Pressed) initialInputState
-      fromInput input `shouldBe` [StartGame]
+      fromInput [KeyPressed Return] `shouldBe` [StartGame]
 
     it "should be Quit when escape is pressed" $ do
-      let input = (set esc Pressed) initialInputState
-      fromInput input `shouldBe` [Quit]
+      fromInput [KeyPressed Escape] `shouldBe` [Quit]

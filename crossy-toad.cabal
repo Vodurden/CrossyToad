@@ -2,7 +2,7 @@
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: 5c6780b320da1eddd9bff723555e2e980a380f5867497bf5db8f0fdea1289b3d
+-- hash: 44bc7f92e4ef8f4b19f6815d000acb8a246ae9b67a87c0b30146a526b26ef7bb
 
 name:           crossy-toad
 version:        0.1.0.0
@@ -22,8 +22,8 @@ library
       CrossyToad.Assets
       CrossyToad.Config
       CrossyToad.Input.Input
-      CrossyToad.Input.InputState
-      CrossyToad.Input.KeyState
+      CrossyToad.Input.InputEvent
+      CrossyToad.Input.SDLInput
       CrossyToad.Renderer.Renderer
       CrossyToad.Renderer.SDLRenderer
       CrossyToad.Runner
@@ -101,6 +101,7 @@ test-suite spec
   type: exitcode-stdio-1.0
   main-is: Driver.hs
   other-modules:
+      CrossyToad.Input.SDLInputSpec
       CrossyToad.Scene.Game.GameSpec
       CrossyToad.Scene.Game.IntentSpec
       CrossyToad.Scene.Title.IntentSpec
@@ -109,8 +110,8 @@ test-suite spec
       CrossyToad.Assets
       CrossyToad.Config
       CrossyToad.Input.Input
-      CrossyToad.Input.InputState
-      CrossyToad.Input.KeyState
+      CrossyToad.Input.InputEvent
+      CrossyToad.Input.SDLInput
       CrossyToad.Renderer.Renderer
       CrossyToad.Renderer.SDLRenderer
       CrossyToad.Runner

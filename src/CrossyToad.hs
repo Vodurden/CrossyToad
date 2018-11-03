@@ -10,6 +10,7 @@ import qualified SDL.Font as Font
 import qualified CrossyToad.Assets as Assets
 import           CrossyToad.Config (Config(..))
 import           CrossyToad.Input.Input
+import qualified CrossyToad.Input.SDLInput as SDLInput
 import           CrossyToad.Renderer.Renderer
 import           CrossyToad.Renderer.SDLRenderer
 import           CrossyToad.Runner (mainLoop)
@@ -38,9 +39,7 @@ runCrossyToad :: Config -> Vars -> CrossyToad a -> IO a
 runCrossyToad config vars (CrossyToad m) = evalStateT (runReaderT m config) vars
 
 instance Input CrossyToad where
-  updateInput = updateInput'
-  setInput = setInput'
-  getInput = getInput'
+  pollInput = SDLInput.pollInput
 
 instance Renderer CrossyToad where
   clearScreen = clearScreen'

@@ -22,8 +22,6 @@ mainLoop ::
   , Renderer m
   ) => m ()
 mainLoop = do
-  updateInput
-
   clearScreen
   Scene.step
   drawScreen

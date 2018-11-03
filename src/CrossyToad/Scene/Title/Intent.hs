@@ -13,8 +13,10 @@ data Intent = StartGame
 
 makeClassyPrisms ''Intent
 
-fromInput :: InputState -> [Intent]
-fromInput input = catMaybes $
-  [ const StartGame <$> (input ^? enter . _Pressed)
-  , const Quit <$> (input ^? esc . _Pressed)
-  ]
+fromInput :: [InputEvent] -> [Intent]
+fromInput events = catMaybes $ fmap fromInput' events
+  where
+    fromInput' :: InputEvent -> Maybe Intent
+    fromInput' (KeyPressed Return) = Just StartGame
+    fromInput' (KeyPressed Escape) = Just Quit
+    fromInput' _ = Nothing
