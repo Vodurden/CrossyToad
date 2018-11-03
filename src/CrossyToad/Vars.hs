@@ -4,7 +4,6 @@ module CrossyToad.Vars where
 
 import Control.Lens
 
-import           CrossyToad.Input.Input
 import           CrossyToad.Scene.Scene (Scene, HasScene)
 import qualified CrossyToad.Scene.Scene as Scene
 import           CrossyToad.Scene.Game.Game (GameState, HasGameState(..), initialGameState)

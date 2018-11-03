@@ -2,8 +2,6 @@ module CrossyToad.Input.SDLInputSpec where
 
 import           Test.Tasty.Hspec
 
-import           Control.Arrow ((>>>))
-import           Control.Lens
 import qualified SDL.Extended as SDL
 
 import CrossyToad.Input.Input

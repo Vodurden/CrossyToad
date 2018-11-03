@@ -3,33 +3,22 @@ module CrossyToad where
 import           Control.Monad.Reader (MonadReader, ReaderT, runReaderT)
 import           Control.Monad.State (MonadState, StateT, evalStateT)
 import           Control.Monad.IO.Class (MonadIO)
-import           Linear.V2
-import qualified SDL as SDL
-import qualified SDL.Font as Font
 
-import qualified CrossyToad.Assets as Assets
 import           CrossyToad.Config (Config(..))
 import           CrossyToad.Input.Input
 import qualified CrossyToad.Input.SDLInput as SDLInput
 import           CrossyToad.Renderer.Renderer
-import           CrossyToad.Renderer.SDLRenderer
+import qualified CrossyToad.Renderer.SDL.SDL as SDLRenderer
 import           CrossyToad.Runner (mainLoop)
 import           CrossyToad.Vars (Vars, initialVars)
 
 main :: IO ()
 main = do
-  SDL.initializeAll
-  Font.initialize
-  window <- SDL.createWindow "Crossy Toad" SDL.defaultWindow
-     { SDL.windowInitialSize = V2 800 640
-     }
-  renderer <- SDL.createRenderer window (-1) SDL.defaultRenderer
-  assets <- Assets.loadAssets renderer
+  sdlRendererConfig <- SDLRenderer.initialize
   let cfg = Config
-            { _window = window
-            , _renderer = renderer
-            , __assets = assets
+            { _sdlRendererConfig = sdlRendererConfig
             }
+
   runCrossyToad cfg initialVars mainLoop
 
 newtype CrossyToad a = CrossyToad (ReaderT Config (StateT Vars IO) a)
@@ -42,14 +31,8 @@ instance Input CrossyToad where
   pollInput = SDLInput.pollInput
 
 instance Renderer CrossyToad where
-  clearScreen = clearScreen'
-  drawScreen = drawScreen'
+  clearScreen = SDLRenderer.clearScreen
+  drawScreen = SDLRenderer.drawScreen
 
-  drawTitleText = drawTitleText'
-  drawToad = drawToad'
-
-instance SDLRenderer CrossyToad where
-  presentRenderer = presentRenderer'
-  clearRenderer = clearRenderer'
-  queryTexture = queryTexture'
-  drawTexture = drawTexture'
+  drawTitleText = SDLRenderer.drawTitleText
+  drawToad = SDLRenderer.drawToad

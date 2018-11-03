@@ -3,17 +3,14 @@
 module CrossyToad.Config where
 
 import           Control.Lens
-import qualified SDL
 
-import CrossyToad.Assets
+import qualified CrossyToad.Renderer.SDL.SDL as SDLRenderer
 
 data Config = Config
-  { _window :: SDL.Window
-  , _renderer :: SDL.Renderer
-  , __assets :: Assets
+  { _sdlRendererConfig :: SDLRenderer.Config
   }
 
 makeClassy ''Config
 
-instance HasAssets Config where
-  assets = _assets
+instance SDLRenderer.HasConfig Config where
+  config = sdlRendererConfig

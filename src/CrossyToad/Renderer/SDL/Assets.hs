@@ -1,6 +1,6 @@
 {-# LANGUAGE TemplateHaskell #-}
 
-module CrossyToad.Assets where
+module CrossyToad.Renderer.SDL.Assets where
 
 import           Control.Lens
 import           Linear.V4

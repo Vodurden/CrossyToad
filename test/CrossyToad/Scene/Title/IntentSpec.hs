@@ -1,6 +1,5 @@
 module CrossyToad.Scene.Title.IntentSpec where
 
-import Control.Lens
 import Test.Tasty.Hspec
 
 import CrossyToad.Input.Input

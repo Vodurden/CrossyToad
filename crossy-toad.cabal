@@ -2,7 +2,7 @@
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: 44bc7f92e4ef8f4b19f6815d000acb8a246ae9b67a87c0b30146a526b26ef7bb
+-- hash: 6561284eb077e84169b28540ef728e337d162ceb4ed8ac1bb9022b56653e033c
 
 name:           crossy-toad
 version:        0.1.0.0
@@ -19,13 +19,15 @@ library
   exposed-modules:
       CrossyToad
   other-modules:
-      CrossyToad.Assets
       CrossyToad.Config
       CrossyToad.Input.Input
       CrossyToad.Input.InputEvent
       CrossyToad.Input.SDLInput
       CrossyToad.Renderer.Renderer
-      CrossyToad.Renderer.SDLRenderer
+      CrossyToad.Renderer.SDL.Assets
+      CrossyToad.Renderer.SDL.Config
+      CrossyToad.Renderer.SDL.Renderer
+      CrossyToad.Renderer.SDL.SDL
       CrossyToad.Runner
       CrossyToad.Scene.Game.Direction
       CrossyToad.Scene.Game.Distance
@@ -107,13 +109,15 @@ test-suite spec
       CrossyToad.Scene.Title.IntentSpec
       CrossyToad.Scene.Title.TitleSpec
       CrossyToad
-      CrossyToad.Assets
       CrossyToad.Config
       CrossyToad.Input.Input
       CrossyToad.Input.InputEvent
       CrossyToad.Input.SDLInput
       CrossyToad.Renderer.Renderer
-      CrossyToad.Renderer.SDLRenderer
+      CrossyToad.Renderer.SDL.Assets
+      CrossyToad.Renderer.SDL.Config
+      CrossyToad.Renderer.SDL.Renderer
+      CrossyToad.Renderer.SDL.SDL
       CrossyToad.Runner
       CrossyToad.Scene.Game.Direction
       CrossyToad.Scene.Game.Distance
