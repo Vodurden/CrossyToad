@@ -1,4 +1,4 @@
-module CrossyToad.Scene.Game.Distance where
+module CrossyToad.Physics.Distance where
 
 -- | How far something is in pixels
 type Distance = Float

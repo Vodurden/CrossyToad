@@ -6,7 +6,7 @@ import Control.Lens
 import Data.Maybe (catMaybes)
 
 import CrossyToad.Input.Input
-import CrossyToad.Scene.Game.Direction
+import CrossyToad.Physics.Physics
 
 data Intent = Move Direction
             | Exit

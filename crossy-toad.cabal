@@ -2,7 +2,7 @@
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: 6561284eb077e84169b28540ef728e337d162ceb4ed8ac1bb9022b56653e033c
+-- hash: e03d8b040091bab9d01e5e76835ea8ab120d21632d4537ca172776cba2560a78
 
 name:           crossy-toad
 version:        0.1.0.0
@@ -23,19 +23,22 @@ library
       CrossyToad.Input.Input
       CrossyToad.Input.InputEvent
       CrossyToad.Input.SDLInput
+      CrossyToad.Physics.Body
+      CrossyToad.Physics.Direction
+      CrossyToad.Physics.Distance
+      CrossyToad.Physics.JumpMotion
+      CrossyToad.Physics.Physics
+      CrossyToad.Physics.Position
+      CrossyToad.Physics.Speed
       CrossyToad.Renderer.Renderer
       CrossyToad.Renderer.SDL.Assets
       CrossyToad.Renderer.SDL.Config
       CrossyToad.Renderer.SDL.Renderer
       CrossyToad.Renderer.SDL.SDL
       CrossyToad.Runner
-      CrossyToad.Scene.Game.Direction
-      CrossyToad.Scene.Game.Distance
       CrossyToad.Scene.Game.Game
       CrossyToad.Scene.Game.GameState
       CrossyToad.Scene.Game.Intent
-      CrossyToad.Scene.Game.Position
-      CrossyToad.Scene.Game.Speed
       CrossyToad.Scene.Game.Toad
       CrossyToad.Scene.Internal
       CrossyToad.Scene.Scene
@@ -104,6 +107,7 @@ test-suite spec
   main-is: Driver.hs
   other-modules:
       CrossyToad.Input.SDLInputSpec
+      CrossyToad.Physics.JumpMotionSpec
       CrossyToad.Scene.Game.GameSpec
       CrossyToad.Scene.Game.IntentSpec
       CrossyToad.Scene.Title.IntentSpec
@@ -113,19 +117,22 @@ test-suite spec
       CrossyToad.Input.Input
       CrossyToad.Input.InputEvent
       CrossyToad.Input.SDLInput
+      CrossyToad.Physics.Body
+      CrossyToad.Physics.Direction
+      CrossyToad.Physics.Distance
+      CrossyToad.Physics.JumpMotion
+      CrossyToad.Physics.Physics
+      CrossyToad.Physics.Position
+      CrossyToad.Physics.Speed
       CrossyToad.Renderer.Renderer
       CrossyToad.Renderer.SDL.Assets
       CrossyToad.Renderer.SDL.Config
       CrossyToad.Renderer.SDL.Renderer
       CrossyToad.Renderer.SDL.SDL
       CrossyToad.Runner
-      CrossyToad.Scene.Game.Direction
-      CrossyToad.Scene.Game.Distance
       CrossyToad.Scene.Game.Game
       CrossyToad.Scene.Game.GameState
       CrossyToad.Scene.Game.Intent
-      CrossyToad.Scene.Game.Position
-      CrossyToad.Scene.Game.Speed
       CrossyToad.Scene.Game.Toad
       CrossyToad.Scene.Internal
       CrossyToad.Scene.Scene

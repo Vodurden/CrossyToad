@@ -10,6 +10,7 @@ import           Data.Foldable (traverse_)
 
 import           CrossyToad.Input.Input
 import           CrossyToad.Renderer.Renderer
+import           CrossyToad.Physics.Physics
 import           CrossyToad.Scene.Internal (HasScene, scene)
 import qualified CrossyToad.Scene.Internal as Scene
 import           CrossyToad.Scene.Game.Intent (Intent(..))
@@ -17,7 +18,6 @@ import qualified CrossyToad.Scene.Game.Intent as Intent
 import           CrossyToad.Scene.Game.GameState
 import           CrossyToad.Scene.Game.Toad
 import qualified CrossyToad.Scene.Game.Toad as Toad
-import           CrossyToad.Scene.Game.Position
 
 stepGame :: (MonadState s m, HasGameState s, HasScene s, Input m, Renderer m) => m ()
 stepGame = do
@@ -29,10 +29,10 @@ stepGame = do
   renderGame
 
 stepIntent :: (MonadState s m, HasScene s, HasGameState s) => Intent -> m ()
-stepIntent (Move direction) = gameState.toad %= Toad.jump direction
+stepIntent (Move dir) = gameState.toad %= Toad.jump dir
 stepIntent Exit = scene .= Scene.Title
 
 renderGame :: (MonadState s m, HasGameState s, Renderer m) => m ()
 renderGame = do
-  pos <- use $ gameState.toad.position
+  pos <- use $ gameState.toad.body.position
   drawToad pos

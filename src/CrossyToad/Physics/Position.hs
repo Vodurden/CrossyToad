@@ -1,6 +1,6 @@
 {-# LANGUAGE TemplateHaskell #-}
 
-module CrossyToad.Scene.Game.Position where
+module CrossyToad.Physics.Position where
 
 import Control.Lens
 import Linear.V2
