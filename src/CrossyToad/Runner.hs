@@ -9,6 +9,7 @@ import           CrossyToad.Config
 import           CrossyToad.Vars (HasVars)
 import           CrossyToad.Renderer.Renderer
 import           CrossyToad.Input.Input
+import           CrossyToad.Time.Time
 import           CrossyToad.Scene.Scene (HasScene)
 import qualified CrossyToad.Scene.Scene as Scene
 import           CrossyToad.Scene.Game.GameState (HasGameState)
@@ -20,8 +21,11 @@ mainLoop ::
   , HasGameState s
   , Input m
   , Renderer m
+  , Time m
   ) => m ()
 mainLoop = do
+  stepTime
+
   clearScreen
   Scene.step
   drawScreen

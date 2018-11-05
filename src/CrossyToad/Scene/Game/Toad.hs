@@ -5,6 +5,7 @@ module CrossyToad.Scene.Game.Toad where
 import Control.Lens
 import Linear.V2
 
+import CrossyToad.Time.Time
 import CrossyToad.Physics.Physics
 
 data Toad = Toad
@@ -28,16 +29,21 @@ initialToad = Toad
     }
   }
 
--- | How many seconds it takes for the toad to jump once
+-- | How many pixels the toad moves in a second.
+-- speed :: Speed
+-- speed = distance * (1 / secondsToJump)
+--   where secondsToJump = 0.1
 speed :: Speed
-speed = 0.8
+speed = 32 * 10
 
 -- ^ How far the toad moves in one jump
 distance :: Distance
 distance = 32
 
-step :: Toad -> Toad
-step = toad.body %~ stepBody
+step :: (Time m) => Toad -> m Toad
+step toad' = do
+  nextBody <- stepBody (toad'^.body)
+  pure $ (toad.body .~ nextBody) toad'
 
 -- | Jump in a given direction.
 -- |

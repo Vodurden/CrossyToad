@@ -11,6 +11,7 @@ import           Data.Foldable (traverse_)
 import           CrossyToad.Input.Input
 import           CrossyToad.Renderer.Renderer
 import           CrossyToad.Physics.Physics
+import           CrossyToad.Time.Time
 import           CrossyToad.Scene.Internal (HasScene, scene)
 import qualified CrossyToad.Scene.Internal as Scene
 import           CrossyToad.Scene.Game.Intent (Intent(..))
@@ -19,12 +20,16 @@ import           CrossyToad.Scene.Game.GameState
 import           CrossyToad.Scene.Game.Toad
 import qualified CrossyToad.Scene.Game.Toad as Toad
 
-stepGame :: (MonadState s m, HasGameState s, HasScene s, Input m, Renderer m) => m ()
+stepGame :: (MonadState s m, HasGameState s, HasScene s, Input m, Renderer m, Time m) => m ()
 stepGame = do
   events <- pollInput
   traverse_ stepIntent (Intent.fromInput events)
 
-  gameState.toad %= Toad.step
+  -- TODO: Figure out a better way of doing this
+  gameState' <- use gameState
+  nextToad <- Toad.step (gameState' ^. toad)
+  gameState.toad .= nextToad
+  -- gameState.toad %= Toad.step
 
   renderGame
 

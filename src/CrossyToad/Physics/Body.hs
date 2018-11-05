@@ -5,6 +5,7 @@ module CrossyToad.Physics.Body where
 import Control.Lens
 import Control.Monad.State (runState)
 
+import CrossyToad.Time.Time
 import CrossyToad.Physics.Position
 import CrossyToad.Physics.JumpMotion
 
@@ -22,8 +23,9 @@ instance HasPosition Body where
 instance HasJumpMotion Body where
   jumpMotion = _jumpMotion
 
-stepBody :: Body -> Body
-stepBody body' =
-  let (motionVector, nextMotion) = runState stepJumpMotion (body' ^. jumpMotion)
-  in body' & (position %~ (+ motionVector))
-          . (jumpMotion .~ nextMotion)
+stepBody :: (Time m) => Body -> m Body
+stepBody body' = do
+  delta <- deltaTime
+  let (motionVector', nextMotion') = runState (stepJumpMotion delta) (body' ^. jumpMotion)
+  pure $ body' & (position %~ (+ motionVector'))
+               . (jumpMotion .~ nextMotion')

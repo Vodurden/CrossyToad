@@ -9,6 +9,8 @@ import           CrossyToad.Input.Input
 import qualified CrossyToad.Input.SDLInput as SDLInput
 import           CrossyToad.Renderer.Renderer
 import qualified CrossyToad.Renderer.SDL.SDL as SDLRenderer
+import           CrossyToad.Time.Time
+import qualified CrossyToad.Time.SDL.Time as SDLTime
 import           CrossyToad.Runner (mainLoop)
 import           CrossyToad.Vars (Vars, initialVars)
 
@@ -36,3 +38,7 @@ instance Renderer CrossyToad where
 
   drawTitleText = SDLRenderer.drawTitleText
   drawToad = SDLRenderer.drawToad
+
+instance Time CrossyToad where
+  stepTime = SDLTime.stepTime
+  deltaTime = SDLTime.deltaTime
