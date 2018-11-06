@@ -2,11 +2,11 @@
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: b2147b8e31ad7d5d72cb7fe597b8c777975d6f39f934ad21bb53b7f9e936bd69
+-- hash: f429f774a6a4800ef21ffc69f2c1646a2979a205a27601945cbe64b7c5c9daec
 
 name:           crossy-toad
 version:        0.1.0.0
-synopsis:       A game where you guide a frog across a road.
+synopsis:       A game where you guide a toad across a road.
 description:    See README
 category:       Game
 author:         Jake Woods
