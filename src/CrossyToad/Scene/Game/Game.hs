@@ -22,8 +22,8 @@ import qualified CrossyToad.Scene.Game.Toad as Toad
 
 stepGame :: (MonadState s m, HasGameState s, HasScene s, Input m, Renderer m, Time m) => m ()
 stepGame = do
-  events <- getInputEvents
-  traverse_ stepIntent (Intent.fromInput events)
+  inputState' <- getInputState
+  traverse_ stepIntent (Intent.fromInputState inputState')
 
   -- TODO: Figure out a better way of doing this
   gameState' <- use gameState

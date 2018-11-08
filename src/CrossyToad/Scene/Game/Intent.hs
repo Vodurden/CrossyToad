@@ -1,8 +1,13 @@
 {-# LANGUAGE TemplateHaskell #-}
 
-module CrossyToad.Scene.Game.Intent where
+module CrossyToad.Scene.Game.Intent
+  ( Intent(..)
+  , AsIntent(..)
+  , fromInputState
+  ) where
 
 import Control.Lens
+import Control.Monad (mfilter)
 import Data.Maybe (catMaybes)
 
 import CrossyToad.Input.Input
@@ -14,13 +19,25 @@ data Intent = Move Direction
 
 makeClassyPrisms ''Intent
 
-fromInput :: [InputEvent] -> [Intent]
-fromInput events = catMaybes $ fmap fromInput' events
+fromInputState :: InputState -> [Intent]
+fromInputState inputState' =
+  (fromEvents $ inputState' ^. inputEvents)
+  ++ (fromKeyboardState $ inputState' ^. keyboardState)
+
+fromKeyboardState :: KeyboardState -> [Intent]
+fromKeyboardState ks = catMaybes $
+    [ ifDown W (Move North)
+    , ifDown A (Move West)
+    , ifDown S (Move South)
+    , ifDown D (Move East)
+    ]
+  where
+    ifDown :: Key -> Intent -> Maybe Intent
+    ifDown key intent = mfilter (const $ keyDown ks key) (Just $ intent)
+
+fromEvents :: [InputEvent] -> [Intent]
+fromEvents events = catMaybes $ fmap fromInput' events
   where
     fromInput' :: InputEvent -> Maybe Intent
     fromInput' (KeyPressed Escape) = Just Exit
-    fromInput' (KeyPressed W) = Just $ Move North
-    fromInput' (KeyPressed A) = Just $ Move West
-    fromInput' (KeyPressed S) = Just $ Move South
-    fromInput' (KeyPressed D) = Just $ Move East
     fromInput' _ = Nothing

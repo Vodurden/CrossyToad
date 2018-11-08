@@ -25,5 +25,5 @@ pressKey key = pressed %~ (Set.insert key)
 releaseKey :: Key -> KeyboardState -> KeyboardState
 releaseKey key = pressed %~ (Set.delete key)
 
-keyPressed :: KeyboardState -> Key -> Bool
-keyPressed ks key = key `elem` (ks^.pressed)
+keyDown :: KeyboardState -> Key -> Bool
+keyDown ks key = key `elem` (ks^.pressed)
