@@ -14,7 +14,7 @@ import qualified CrossyToad.Scene.Title.Intent as Intent
 
 stepTitle :: (MonadState s m, HasScene s, Input m, Renderer m) => m ()
 stepTitle = do
-  events <- pollInput
+  events <- getInputEvents
   traverse_ stepIntent (Intent.fromInput events)
 
   drawTitleText $ V2 50 140

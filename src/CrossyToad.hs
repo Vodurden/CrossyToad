@@ -30,7 +30,8 @@ runCrossyToad :: Config -> Vars -> CrossyToad a -> IO a
 runCrossyToad config vars (CrossyToad m) = evalStateT (runReaderT m config) vars
 
 instance Input CrossyToad where
-  pollInput = SDLInput.pollInput
+  stepInput = SDLInput.stepInputIO
+  getInputState = SDLInput.getInputState
 
 instance Renderer CrossyToad where
   clearScreen = SDLRenderer.clearScreen

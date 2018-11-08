@@ -6,11 +6,27 @@
 -- | interpret it.
 module CrossyToad.Input.Input
   ( Input(..)
-  , InputEvent(..)
-  , Key(..)
+  , getKeyboardState
+  , getInputEvents
+  , module CrossyToad.Input.InputState
+  , module CrossyToad.Input.InputEvent
+  , module CrossyToad.Input.Key
+  , module CrossyToad.Input.KeyboardState
   ) where
 
+import Control.Lens
+
 import CrossyToad.Input.InputEvent
+import CrossyToad.Input.InputState
+import CrossyToad.Input.KeyboardState
+import CrossyToad.Input.Key
 
 class Monad m => Input m where
-  pollInput :: m [InputEvent]
+  stepInput :: m ()
+  getInputState :: m InputState
+
+getKeyboardState :: (Input m) => m KeyboardState
+getKeyboardState = (view keyboardState) <$> getInputState
+
+getInputEvents :: (Input m) => m [InputEvent]
+getInputEvents = (view inputEvents) <$> getInputState

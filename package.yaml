@@ -35,6 +35,7 @@ dependencies:
   - mtl
   - transformers
   - lens
+  - containers
 
 library:
   source-dirs: src

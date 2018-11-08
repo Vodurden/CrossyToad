@@ -25,6 +25,7 @@ mainLoop ::
   ) => m ()
 mainLoop = do
   stepTime
+  stepInput
 
   clearScreen
   Scene.step

@@ -2,10 +2,13 @@ module CrossyToad.Input.SDLInputSpec where
 
 import           Test.Tasty.Hspec
 
+import           Control.Arrow ((>>>))
+import           Control.Lens
+import qualified Data.Set as Set
 import qualified SDL.Extended as SDL
 
-import CrossyToad.Input.Input
-import CrossyToad.Input.SDLInput
+import           CrossyToad.Input.Input hiding (stepInput)
+import           CrossyToad.Input.SDLInput
 
 mkEvent :: SDL.EventPayload -> SDL.Event
 mkEvent payload = SDL.Event { eventTimestamp = undefined , eventPayload = payload }
@@ -25,26 +28,51 @@ mkKeysym code = SDL.Keysym
   , keysymModifier = undefined
   }
 
+-- | TODO: Consider using a property based test generator here
 describeKey :: SDL.Keycode -> Key -> SpecWith ()
 describeKey keycode expectedKey = do
-  describeKeyPressed keycode expectedKey
-  describeKeyReleased keycode expectedKey
+  let sdlPressEvent = (mkKeyboardEvent SDL.Pressed keycode)
+  let sdlReleaseEvent = (mkKeyboardEvent SDL.Released keycode)
 
-describeKeyPressed :: SDL.Keycode -> Key -> SpecWith ()
-describeKeyPressed keycode expectedKey =
-  it ("should be '" ++ (show expectedKey) ++ "' when pressed") $ do
-    let pressKey = mkInputEvent (mkKeyboardEvent SDL.Pressed keycode)
-    pressKey `shouldBe` (Just $ KeyPressed expectedKey)
+  context ("when " ++ (show expectedKey) ++ " pressed") $ do
+    let inputState' = stepInput [sdlPressEvent] initialInputState
 
-describeKeyReleased :: SDL.Keycode -> Key -> SpecWith ()
-describeKeyReleased keycode expectedKey =
-  it ("should be '" ++ (show expectedKey) ++ "' when released") $ do
-    let pressKey = mkInputEvent (mkKeyboardEvent SDL.Released keycode)
-    pressKey `shouldBe` (Just $ KeyReleased expectedKey)
+    it ("should have a 'KeyPressed' input event") $ do
+      (inputState' ^. inputEvents) `shouldBe` [KeyPressed expectedKey]
+
+    it ("should be in the pressed keyboard state") $ do
+      (inputState' ^. keyboardState.pressed) `shouldBe` (Set.singleton expectedKey)
+
+  context ("when " ++ (show expectedKey) ++ " released") $ do
+    let inputState' = stepInput [sdlReleaseEvent] initialInputState
+
+    it ("should have a 'Released' input event") $ do
+      (inputState' ^. inputEvents) `shouldBe` [KeyReleased expectedKey]
+
+    it ("should not be in the pressed keyboard state") $ do
+      (inputState' ^. keyboardState.pressed) `shouldBe` (Set.empty)
+
+  context ("when " ++ (show expectedKey) ++ " pressed and released in the same frame") $ do
+    let inputState' = stepInput [sdlPressEvent, sdlReleaseEvent] initialInputState
+
+    it ("should have a 'KeyPressed' and 'KeyReleased' input event") $ do
+      (inputState' ^. inputEvents) `shouldBe` [KeyPressed expectedKey, KeyReleased expectedKey]
+
+    it ("should not be pressed in the keyboard state") $ do
+      (inputState' ^. keyboardState.pressed) `shouldBe` (Set.empty)
+
+  context ("when " ++ (show expectedKey) ++ " pressed and released across frames") $ do
+    let inputState' = (stepInput [sdlPressEvent] >>> stepInput [sdlReleaseEvent]) initialInputState
+
+    it ("should have a 'KeyReleased' input event") $ do
+      (inputState' ^. inputEvents) `shouldBe` [KeyReleased expectedKey]
+
+    it ("should not be pressed in the keyboard state") $ do
+      (inputState' ^. keyboardState.pressed) `shouldBe` (Set.empty)
 
 spec_Input_SDLInput :: Spec
 spec_Input_SDLInput =
-  describe "mkInputEvent" $ do
+  describe "stepInput" $ do
     describeKey SDL.KeycodeReturn Return
     describeKey SDL.KeycodeEscape Escape
     describeKey SDL.KeycodeW W

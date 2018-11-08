@@ -2,7 +2,7 @@
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: f429f774a6a4800ef21ffc69f2c1646a2979a205a27601945cbe64b7c5c9daec
+-- hash: af2f4a0afed980341dae59ee77689ebef1e4ad5fd5fc202b349486be6a64a1f9
 
 name:           crossy-toad
 version:        0.1.0.0
@@ -22,6 +22,9 @@ library
       CrossyToad.Config
       CrossyToad.Input.Input
       CrossyToad.Input.InputEvent
+      CrossyToad.Input.InputState
+      CrossyToad.Input.Key
+      CrossyToad.Input.KeyboardState
       CrossyToad.Input.SDLInput
       CrossyToad.Physics.Body
       CrossyToad.Physics.Direction
@@ -58,6 +61,7 @@ library
   ghc-options: -Wall -Wcompat -Wincomplete-record-updates -Wincomplete-uni-patterns -Wredundant-constraints -O2 -fprof-auto-exported
   build-depends:
       base >=4.9 && <4.12
+    , containers
     , lens
     , linear
     , mtl
@@ -77,6 +81,7 @@ executable crossy-toad
   ghc-options: -Wall -Wcompat -Wincomplete-record-updates -Wincomplete-uni-patterns -Wredundant-constraints -O2
   build-depends:
       base >=4.9 && <4.12
+    , containers
     , crossy-toad
     , lens
     , linear
@@ -97,6 +102,7 @@ executable crossy-toad-prof
   ghc-options: -Wall -Wcompat -Wincomplete-record-updates -Wincomplete-uni-patterns -Wredundant-constraints -O2 -rtsopts -threaded -fprof-auto-top "-with-rtsopts=-N -p -s -h -i0.1"
   build-depends:
       base >=4.9 && <4.12
+    , containers
     , crossy-toad
     , lens
     , linear
@@ -111,6 +117,7 @@ test-suite spec
   type: exitcode-stdio-1.0
   main-is: Driver.hs
   other-modules:
+      CrossyToad.Input.KeyboardStateSpec
       CrossyToad.Input.SDLInputSpec
       CrossyToad.Physics.JumpMotionSpec
       CrossyToad.Scene.Game.GameSpec
@@ -121,6 +128,9 @@ test-suite spec
       CrossyToad.Config
       CrossyToad.Input.Input
       CrossyToad.Input.InputEvent
+      CrossyToad.Input.InputState
+      CrossyToad.Input.Key
+      CrossyToad.Input.KeyboardState
       CrossyToad.Input.SDLInput
       CrossyToad.Physics.Body
       CrossyToad.Physics.Direction
@@ -158,6 +168,7 @@ test-suite spec
   ghc-options: -Wall -Wcompat -Wincomplete-record-updates -Wincomplete-uni-patterns -Wredundant-constraints -O2
   build-depends:
       base >=4.9 && <4.12
+    , containers
     , hedgehog
     , hspec
     , lens

@@ -4,16 +4,7 @@ module CrossyToad.Input.InputEvent where
 
 import Control.Lens
 
-data Key
-  = Return
-  | Escape
-  | W
-  | A
-  | S
-  | D
-  deriving (Show, Eq)
-
-makeClassyPrisms ''Key
+import CrossyToad.Input.Key
 
 data InputEvent
   = KeyPressed Key
