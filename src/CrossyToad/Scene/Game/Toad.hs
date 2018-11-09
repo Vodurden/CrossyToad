@@ -23,11 +23,11 @@ initialToad :: Toad
 initialToad = Toad
     { __body = Body
       { __position = (V2 0 0)
-      , __jumpMotion = JumpMotion
+      , __jumpMotion = initialJumpMotion
         { __direction = North
         , _speed = toadSpeed
         , _distance = toadDistance
-        , _targetDistance = 0
+        , _cooldown = toadCooldown
         }
       }
     }
@@ -39,7 +39,11 @@ initialToad = Toad
     -- | How many pixels the toad moves per-second
     toadSpeed :: Speed
     toadSpeed = toadDistance * (1 / secondsToJump)
-      where secondsToJump = 0.1
+      where secondsToJump = 0.15
+
+    -- | How long the toad must rest between jumps
+    toadCooldown :: Seconds
+    toadCooldown = 0.15
 
 step :: (Time m) => Toad -> m Toad
 step toad' = do
