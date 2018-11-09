@@ -6,6 +6,7 @@ module CrossyToad.Renderer.SDL.SDL
   ) where
 
 import           Linear.V2
+import           SDL (($=))
 import qualified SDL as SDL
 import qualified SDL.Font as Font
 
@@ -19,9 +20,11 @@ initialize = do
   Font.initialize
 
   window' <- SDL.createWindow "Crossy Toad" SDL.defaultWindow
-     { SDL.windowInitialSize = V2 800 640
+     { SDL.windowInitialSize = V2 1280 960
+     , SDL.windowResizable = True
      }
   renderer' <- SDL.createRenderer window' (-1) SDL.defaultRenderer
+  SDL.rendererLogicalSize renderer' $= (Just $ V2 1280 960)
   assets' <- loadAssets renderer'
   pure $ Config
     { _window = window'

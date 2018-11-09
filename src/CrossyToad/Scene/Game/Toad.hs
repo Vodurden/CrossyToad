@@ -34,7 +34,7 @@ initialToad = Toad
   where
     -- | How far the toad moves in one jump
     toadDistance :: Distance
-    toadDistance = 32
+    toadDistance = 64
 
     -- | How many pixels the toad moves per-second
     toadSpeed :: Speed
