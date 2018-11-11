@@ -8,6 +8,7 @@ import           Linear.V2
 import           CrossyToad.Physics.JumpMotion (JumpMotion(..), HasJumpMotion(..))
 import qualified CrossyToad.Physics.JumpMotion as JumpMotion
 import           CrossyToad.Physics.Physics
+import           CrossyToad.Renderer.Renderer
 import           CrossyToad.Time.Time
 
 data Toad = Toad
@@ -49,6 +50,9 @@ initialToad = Toad
 
 step :: (Time m) => Toad -> m Toad
 step = JumpMotion.stepEff
+
+render :: (Renderer m) => Toad -> m ()
+render toad' = drawToad (toad' ^. position)
 
 -- | Jump in a given direction.
 -- |

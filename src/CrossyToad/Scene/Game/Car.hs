@@ -1,6 +1,12 @@
 {-# LANGUAGE TemplateHaskell #-}
 
-module CrossyToad.Scene.Game.Car where
+module CrossyToad.Scene.Game.Car
+  ( Car(..)
+  , HasCar(..)
+  , initialCar
+  , step
+  , render
+  ) where
 
 import           Control.Lens
 import           Linear.V2
@@ -9,6 +15,7 @@ import           CrossyToad.Physics.LinearMotion (LinearMotion(..), HasLinearMot
 import qualified CrossyToad.Physics.LinearMotion as LinearMotion
 import           CrossyToad.Physics.Physics
 import           CrossyToad.Time.Time
+import           CrossyToad.Renderer.Renderer
 
 data Car = Car
   { __position :: Position
@@ -39,3 +46,6 @@ initialCar = Car
 
 step :: (Time m) => Car -> m Car
 step = LinearMotion.stepEff
+
+render :: (Renderer m) => Car -> m ()
+render car' = drawCar (car' ^. position)

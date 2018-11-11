@@ -8,10 +8,9 @@ import           Control.Lens
 import           Control.Monad.State (MonadState)
 import           Data.Foldable (traverse_)
 
-import           CrossyToad.Input.Input
-import           CrossyToad.Renderer.Renderer
-import           CrossyToad.Physics.Physics
-import           CrossyToad.Time.Time
+import           CrossyToad.Input.Input (Input(..))
+import           CrossyToad.Renderer.Renderer (Renderer(..))
+import           CrossyToad.Time.Time (Time(..))
 import           CrossyToad.Scene.Internal (HasScene, scene)
 import qualified CrossyToad.Scene.Internal as Scene
 import           CrossyToad.Scene.Game.Intent (Intent(..))
@@ -26,7 +25,6 @@ stepGame = do
   inputState' <- getInputState
   traverse_ stepIntent (Intent.fromInputState inputState')
 
-  -- TODO: Figure out a better way of doing this
   gameState' <- use gameState
 
   nextToad <- Toad.step (gameState' ^. toad)
@@ -45,6 +43,6 @@ renderGame :: (MonadState s m, HasGameState s, Renderer m) => m ()
 renderGame = do
   gameState' <- use gameState
 
-  drawToad (gameState' ^. toad.position)
+  Toad.render (gameState' ^. toad)
 
-  traverse_ drawCar (gameState' ^.. cars . each . position)
+  traverse_ Car.render (gameState' ^. cars)
