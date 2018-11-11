@@ -38,6 +38,7 @@ instance Renderer CrossyToad where
   drawScreen = SDLRenderer.drawScreen
 
   drawTitleText = SDLRenderer.drawTitleText
+  drawCar = SDLRenderer.drawCar
   drawToad = SDLRenderer.drawToad
 
 instance Time CrossyToad where

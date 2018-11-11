@@ -20,6 +20,9 @@ drawTitleText pos = view (config.titleSprite) >>= flip drawTextureSprite pos
 drawToad :: (MonadReader r m, MonadIO m, HasConfig r) => V2 Float -> m ()
 drawToad pos = view (config.toad) >>= flip drawTextureSprite pos
 
+drawCar :: (MonadReader r m, MonadIO m, HasConfig r) => V2 Float -> m ()
+drawCar pos = view (config.car) >>= flip drawTextureSprite pos
+
 drawTextureSprite :: (MonadReader r m, MonadIO m, HasConfig r)
                   => SDL.Texture
                   -> V2 Float

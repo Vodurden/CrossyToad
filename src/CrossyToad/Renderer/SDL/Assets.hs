@@ -11,6 +11,7 @@ import qualified SDL.Image as Image
 data Assets = Assets
   { _titleSprite :: SDL.Texture
   , _toad :: SDL.Texture
+  , _car :: SDL.Texture
   }
 
 makeClassy ''Assets
@@ -22,10 +23,12 @@ loadAssets renderer = do
       Font.blended titleFont (V4 0xff 0xff 0xff 0xff) " CROSSY TOAD "
 
     toadSprite <- Image.loadTexture renderer "assets/sprite/toad.png"
+    carSprite <- Image.loadTexture renderer "assets/sprite/car.png"
 
     pure $ Assets
       { _titleSprite = titleSpriteTexture
       , _toad = toadSprite
+      , _car = carSprite
       }
   where
     toTexture surface = SDL.createTextureFromSurface renderer surface

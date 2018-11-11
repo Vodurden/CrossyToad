@@ -4,12 +4,18 @@
 -- |
 -- | Jumps are not instant and can vary in speed and distance. Also: If the entity is already
 -- | jumping it will not be able to jump again until it completes the original jump.
+-- |
+-- | This module is designed to be imported qualified:
+-- |
+-- |    import           CrossyToad.Physics.JumpMotion (JumpMotion(..), HasJumpMotion(..))
+-- |    import qualified CrossyToad.Physics.JumpMotion as JumpMotion
+-- |
 module CrossyToad.Physics.JumpMotion
   ( JumpMotion(..)
   , HasJumpMotion(..)
   , initialJumpMotion
-  , stepJumpMotionEff
-  , stepJumpMotion
+  , stepEff
+  , step
   , jump
   , isMoving
   ) where
@@ -52,13 +58,13 @@ initialJumpMotion = JumpMotion
   }
 
 -- | Updates the jump motion for this frame and updates the position of the entity.
-stepJumpMotionEff :: (Time m, HasPosition ent, HasJumpMotion ent) => ent -> m ent
-stepJumpMotionEff ent' = do
+stepEff :: (Time m, HasPosition ent, HasJumpMotion ent) => ent -> m ent
+stepEff ent' = do
   delta <- deltaTime
-  pure $ stepJumpMotion delta ent'
+  pure $ step delta ent'
 
-stepJumpMotion :: (HasPosition ent, HasJumpMotion ent)  => Seconds -> ent -> ent
-stepJumpMotion delta ent' = do
+step :: (HasPosition ent, HasJumpMotion ent)  => Seconds -> ent -> ent
+step delta ent' = do
   execState (stepJumpMotionState delta) ent'
 
 stepJumpMotionState :: (MonadState s m, HasPosition s, HasJumpMotion s) => Seconds -> m ()

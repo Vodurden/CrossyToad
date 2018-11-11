@@ -2,7 +2,7 @@
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: 52bffe472c6be674da30518bdd89c2322e3fc56e6103d542362da2378dd76e51
+-- hash: 4184b650810ad2a0bcfa31470f9f53ebcec6c78c457285b48f148d3512ad47a4
 
 name:           crossy-toad
 version:        0.1.0.0
@@ -29,6 +29,7 @@ library
       CrossyToad.Physics.Direction
       CrossyToad.Physics.Distance
       CrossyToad.Physics.JumpMotion
+      CrossyToad.Physics.LinearMotion
       CrossyToad.Physics.Physics
       CrossyToad.Physics.Position
       CrossyToad.Physics.Speed
@@ -38,6 +39,7 @@ library
       CrossyToad.Renderer.SDL.Renderer
       CrossyToad.Renderer.SDL.SDL
       CrossyToad.Runner
+      CrossyToad.Scene.Game.Car
       CrossyToad.Scene.Game.Game
       CrossyToad.Scene.Game.GameState
       CrossyToad.Scene.Game.Intent
@@ -119,6 +121,7 @@ test-suite spec
       CrossyToad.Input.KeyboardStateSpec
       CrossyToad.Input.SDLInputSpec
       CrossyToad.Physics.JumpMotionSpec
+      CrossyToad.Physics.LinearMotionSpec
       CrossyToad.Scene.Game.GameSpec
       CrossyToad.Scene.Game.IntentSpec
       CrossyToad.Scene.Title.IntentSpec
@@ -134,6 +137,7 @@ test-suite spec
       CrossyToad.Physics.Direction
       CrossyToad.Physics.Distance
       CrossyToad.Physics.JumpMotion
+      CrossyToad.Physics.LinearMotion
       CrossyToad.Physics.Physics
       CrossyToad.Physics.Position
       CrossyToad.Physics.Speed
@@ -143,6 +147,7 @@ test-suite spec
       CrossyToad.Renderer.SDL.Renderer
       CrossyToad.Renderer.SDL.SDL
       CrossyToad.Runner
+      CrossyToad.Scene.Game.Car
       CrossyToad.Scene.Game.Game
       CrossyToad.Scene.Game.GameState
       CrossyToad.Scene.Game.Intent

@@ -2,12 +2,13 @@
 
 module CrossyToad.Scene.Game.Toad where
 
-import Control.Lens
-import Linear.V2
+import           Control.Lens
+import           Linear.V2
 
-import CrossyToad.Time.Time
-import CrossyToad.Physics.Physics
+import           CrossyToad.Physics.JumpMotion (JumpMotion(..), HasJumpMotion(..))
 import qualified CrossyToad.Physics.JumpMotion as JumpMotion
+import           CrossyToad.Physics.Physics
+import           CrossyToad.Time.Time
 
 data Toad = Toad
   { __position :: Position
@@ -25,7 +26,7 @@ instance HasJumpMotion Toad where
 initialToad :: Toad
 initialToad = Toad
     { __position = (V2 0 0)
-    , __jumpMotion = initialJumpMotion
+    , __jumpMotion = JumpMotion.initialJumpMotion
       { __direction = North
       , _speed = toadSpeed
       , _distance = toadDistance
@@ -47,7 +48,7 @@ initialToad = Toad
     toadCooldown = 0.15
 
 step :: (Time m) => Toad -> m Toad
-step = stepJumpMotionEff
+step = JumpMotion.stepEff
 
 -- | Jump in a given direction.
 -- |

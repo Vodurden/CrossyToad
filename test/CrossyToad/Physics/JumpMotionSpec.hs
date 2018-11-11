@@ -63,69 +63,69 @@ spec_Physics_JumpMotion = do
     it "should be true when we are moving" $ isMoving movingMotion `shouldBe` True
     it "should be false when we are stationary" $ isMoving initialJumpMotion `shouldBe` False
 
-  describe "stepJumpMotion" $ do
-    let stepJumpMotion' = stepJumpMotion 1
+  describe "step" $ do
+    let step' = step 1
     context "should move the entity such that it" $ do
       it "changes position based on speed" $ do
         let ent' = movingEnt & jumpMotion %~ (speed .~ 2)
                                            . (targetDistance .~ 3)
                                            . (direction .~ East)
-        (stepJumpMotion' ent') ^. position `shouldBe` (V2 2 0)
+        (step' ent') ^. position `shouldBe` (V2 2 0)
 
       it "stops at the target distance when the speed exceeds the distance" $ do
         let ent' = movingEnt & jumpMotion %~ (speed .~ 2)
                                            . (targetDistance .~ 1)
                                            . (direction .~ East)
-        (stepJumpMotion' ent') ^. position `shouldBe` (V2 1 0)
+        (step' ent') ^. position `shouldBe` (V2 1 0)
 
       it "moves by the speed of the motion" $ do
         let ent' = movingEnt & jumpMotion %~ (speed .~ 2)
                                            . (targetDistance .~ 5)
                                            . (direction .~ East)
-        (stepJumpMotion' ent') ^. position `shouldBe` (V2 2 0)
+        (step' ent') ^. position `shouldBe` (V2 2 0)
 
       it "does nothing when the speed is 0" $ do
         let ent' = movingEnt & (jumpMotion.speed .~ 0)
-        stepJumpMotion' ent' `shouldBe` ent'
+        step' ent' `shouldBe` ent'
 
       it "does nothing when the target distance is 0" $ do
         let ent' = movingEnt & (jumpMotion.targetDistance .~ 0)
-        stepJumpMotion' ent' `shouldBe` ent'
+        step' ent' `shouldBe` ent'
 
     it "should reduce the target distance by the travelled distance" $ do
       let ent' = movingEnt & jumpMotion %~ (speed .~ 5)
                                          . (targetDistance .~ 11)
-      (stepJumpMotion' ent') ^. targetDistance `shouldBe` 6
+      (step' ent') ^. targetDistance `shouldBe` 6
 
     it "should not reduce the target distance below 0" $ do
       let ent' = movingEnt & jumpMotion %~ (speed .~ 5)
                                          . (targetDistance .~ 4.9)
-      (stepJumpMotion' ent') ^. targetDistance `shouldBe` 0
+      (step' ent') ^. targetDistance `shouldBe` 0
 
     it "should linearize the result against the delta time" $ do
       let ent' = movingEnt & jumpMotion %~ (speed .~ 10)
                                          . (targetDistance .~ 10)
                                          . (direction .~ East)
       let delta = 0.1
-      (stepJumpMotion delta ent') ^. position `shouldBe` (V2 1 0)
+      (step delta ent') ^. position `shouldBe` (V2 1 0)
 
     it "should not linearize target distance" $ do
       let ent' = movingEnt & jumpMotion %~ (speed .~ 320)
                                          . (targetDistance .~ 32)
                                          . (direction .~ East)
       let delta = 0.05
-      (stepJumpMotion delta ent') ^. position `shouldBe` (V2 16 0)
+      (step delta ent') ^. position `shouldBe` (V2 16 0)
 
     it "should update the target distance by the linearized amount" $ do
       let ent' = movingEnt & jumpMotion %~ (speed .~ 20)
                                          . (targetDistance .~ 10)
                                          . (direction .~ East)
       let delta = 0.05
-      (stepJumpMotion delta ent') ^. targetDistance `shouldBe` 9
+      (step delta ent') ^. targetDistance `shouldBe` 9
 
     it "should reduce the current cooldown by the delta" $ do
       let ent' = movingEnt & jumpMotion %~ (currentCooldown .~ 2)
-      (stepJumpMotion' ent') ^. currentCooldown `shouldBe` 1
+      (step' ent') ^. currentCooldown `shouldBe` 1
 
     it "should linearize the result against the remaining delta time after cooldown" $ do
       let ent' = movingEnt & jumpMotion %~ (speed .~ 10)
@@ -133,16 +133,16 @@ spec_Physics_JumpMotion = do
                                          . (direction .~ East)
                                          . (currentCooldown .~ 0.1)
       let delta = 0.2
-      (stepJumpMotion delta ent') ^. position `shouldBe` (V2 1 0)
+      (step delta ent') ^. position `shouldBe` (V2 1 0)
 
     it "should begin cooling down when finishing a jump" $ do
       let ent' = movingEnt & jumpMotion %~ (speed .~ 10)
                                          . (targetDistance .~ 5)
                                          . (cooldown .~ 0.2)
-      (stepJumpMotion 1 ent') ^. currentCooldown `shouldBe` 0.2
+      (step 1 ent') ^. currentCooldown `shouldBe` 0.2
 
     it "should not cooldown if a jump has not finished yet" $ do
       let ent' = movingEnt & jumpMotion %~ (speed .~ 10)
                                          . (targetDistance .~ 11)
                                          . (cooldown .~ 0.2)
-      (stepJumpMotion 1 ent') ^. currentCooldown `shouldBe` 0
+      (step 1 ent') ^. currentCooldown `shouldBe` 0

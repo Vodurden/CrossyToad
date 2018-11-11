@@ -19,6 +19,7 @@ import qualified CrossyToad.Scene.Game.Intent as Intent
 import           CrossyToad.Scene.Game.GameState
 import           CrossyToad.Scene.Game.Toad
 import qualified CrossyToad.Scene.Game.Toad as Toad
+import qualified CrossyToad.Scene.Game.Car as Car
 
 stepGame :: (MonadState s m, HasGameState s, HasScene s, Input m, Renderer m, Time m) => m ()
 stepGame = do
@@ -27,8 +28,12 @@ stepGame = do
 
   -- TODO: Figure out a better way of doing this
   gameState' <- use gameState
+
   nextToad <- Toad.step (gameState' ^. toad)
   gameState.toad .= nextToad
+
+  nextCars <- traverse Car.step (gameState' ^. cars)
+  gameState.cars .= nextCars
 
   renderGame
 
@@ -38,5 +43,8 @@ stepIntent Exit = scene .= Scene.Title
 
 renderGame :: (MonadState s m, HasGameState s, Renderer m) => m ()
 renderGame = do
-  pos <- use $ gameState.toad.position
-  drawToad pos
+  gameState' <- use gameState
+
+  drawToad (gameState' ^. toad.position)
+
+  traverse_ drawCar (gameState' ^.. cars . each . position)

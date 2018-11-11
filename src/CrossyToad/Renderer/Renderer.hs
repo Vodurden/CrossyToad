@@ -12,3 +12,4 @@ class Monad m => Renderer m where
 
   drawTitleText :: V2 Float -> m ()
   drawToad :: V2 Float -> m ()
+  drawCar :: V2 Float -> m ()
