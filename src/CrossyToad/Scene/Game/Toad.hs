@@ -3,8 +3,11 @@
 module CrossyToad.Scene.Game.Toad where
 
 import           Control.Lens
+import           Debug.Trace (trace)
 import           Linear.V2
 
+import           CrossyToad.Physics.CollisionBox (CollisionBox(..), HasCollisionBox(..))
+import qualified CrossyToad.Physics.CollisionBox as CollisionBox
 import           CrossyToad.Physics.JumpMotion (JumpMotion(..), HasJumpMotion(..))
 import qualified CrossyToad.Physics.JumpMotion as JumpMotion
 import           CrossyToad.Physics.Physics
@@ -14,6 +17,7 @@ import           CrossyToad.Time.Time
 data Toad = Toad
   { __position :: Position
   , __jumpMotion :: JumpMotion
+  , __collisionBox :: CollisionBox
   } deriving (Eq, Show)
 
 makeClassy ''Toad
@@ -24,6 +28,9 @@ instance HasPosition Toad where
 instance HasJumpMotion Toad where
   jumpMotion = _jumpMotion
 
+instance HasCollisionBox Toad where
+  collisionBox = _collisionBox
+
 initialToad :: Toad
 initialToad = Toad
     { __position = (V2 0 0)
@@ -33,6 +40,7 @@ initialToad = Toad
       , _distance = toadDistance
       , _cooldown = toadCooldown
       }
+    , __collisionBox = CollisionBox.mk (V2 64 64)
     }
   where
     -- | How far the toad moves in one jump
@@ -59,3 +67,7 @@ render toad' = drawToad (toad' ^. position)
 -- | This will cause the toad to change direction and begin moving.
 jump :: Direction -> Toad -> Toad
 jump dir = over (toad.jumpMotion) $ (JumpMotion.jump dir)
+
+collision :: (HasPosition ent, HasCollisionBox ent) => Toad -> ent -> Toad
+collision toad' ent' | CollisionBox.entCollision toad' ent' = trace "COLLISION" toad'
+                     | otherwise = toad'

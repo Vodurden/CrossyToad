@@ -2,7 +2,7 @@
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: 4184b650810ad2a0bcfa31470f9f53ebcec6c78c457285b48f148d3512ad47a4
+-- hash: 594baef2f04f5c9fbb24e8a11f6b17e8f11012090e35d98b4f8a3baeab895511
 
 name:           crossy-toad
 version:        0.1.0.0
@@ -26,6 +26,7 @@ library
       CrossyToad.Input.Key
       CrossyToad.Input.KeyboardState
       CrossyToad.Input.SDLInput
+      CrossyToad.Physics.CollisionBox
       CrossyToad.Physics.Direction
       CrossyToad.Physics.Distance
       CrossyToad.Physics.JumpMotion
@@ -120,6 +121,7 @@ test-suite spec
   other-modules:
       CrossyToad.Input.KeyboardStateSpec
       CrossyToad.Input.SDLInputSpec
+      CrossyToad.Physics.CollisionBoxSpec
       CrossyToad.Physics.JumpMotionSpec
       CrossyToad.Physics.LinearMotionSpec
       CrossyToad.Scene.Game.GameSpec
@@ -134,6 +136,7 @@ test-suite spec
       CrossyToad.Input.Key
       CrossyToad.Input.KeyboardState
       CrossyToad.Input.SDLInput
+      CrossyToad.Physics.CollisionBox
       CrossyToad.Physics.Direction
       CrossyToad.Physics.Distance
       CrossyToad.Physics.JumpMotion

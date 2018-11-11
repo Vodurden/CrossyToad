@@ -33,11 +33,20 @@ stepGame = do
   nextCars <- traverse Car.step (gameState' ^. cars)
   gameState.cars .= nextCars
 
+  stepCollisions
+
   renderGame
 
 stepIntent :: (MonadState s m, HasScene s, HasGameState s) => Intent -> m ()
 stepIntent (Move dir) = gameState.toad %= Toad.jump dir
 stepIntent Exit = scene .= Scene.Title
+
+stepCollisions :: (MonadState s m, HasGameState s) => m ()
+stepCollisions = do
+  gameState' <- use gameState
+
+  let nextToad = foldl Toad.collision (gameState' ^. toad) (gameState' ^. cars)
+  gameState.toad .= nextToad
 
 renderGame :: (MonadState s m, HasGameState s, Renderer m) => m ()
 renderGame = do
