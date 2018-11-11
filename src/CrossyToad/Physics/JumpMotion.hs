@@ -8,6 +8,7 @@ module CrossyToad.Physics.JumpMotion
   ( JumpMotion(..)
   , HasJumpMotion(..)
   , initialJumpMotion
+  , stepJumpMotionEff
   , stepJumpMotion
   , jump
   , isMoving
@@ -15,13 +16,14 @@ module CrossyToad.Physics.JumpMotion
 
 import Control.Lens
 import Control.Monad (when)
-import Control.Monad.State (MonadState)
+import Control.Monad.State (MonadState, runState, execState)
 import Linear.V2
 
 import CrossyToad.Time.Time
 import CrossyToad.Physics.Direction
 import CrossyToad.Physics.Distance
 import CrossyToad.Physics.Speed
+import CrossyToad.Physics.Position
 
 data JumpMotion = JumpMotion
   { __direction :: Direction     -- ^ What direction we are facing
@@ -49,31 +51,35 @@ initialJumpMotion = JumpMotion
   , _targetDistance = 0
   }
 
+-- | Updates the jump motion for this frame and updates the position of the entity.
+stepJumpMotionEff :: (Time m, HasPosition ent, HasJumpMotion ent) => ent -> m ent
+stepJumpMotionEff ent' = do
+  delta <- deltaTime
+  pure $ stepJumpMotion delta ent'
 
--- | Jump towards the direction we are facing. This affects the motion vector
--- | returned by @stepJumpMotion@
--- |
--- | If we are already moving this function will change nothing.
--- | If we are currently cooling down this function will change nothing.
-jump :: Direction -> JumpMotion -> JumpMotion
-jump dir motion | canJump motion = motion & (direction .~ dir)
-                                          . (targetDistance .~ motion^.distance)
-                | otherwise = motion
+stepJumpMotion :: (HasPosition ent, HasJumpMotion ent)  => Seconds -> ent -> ent
+stepJumpMotion delta ent' = do
+  execState (stepJumpMotionState delta) ent'
 
-canJump :: JumpMotion -> Bool
-canJump motion = (not $ isCoolingDown motion) && (not $ isMoving motion)
-
-isCoolingDown :: JumpMotion -> Bool
-isCoolingDown motion = (motion^.currentCooldown > 0)
-
-isMoving :: JumpMotion -> Bool
-isMoving motion = (motion^.targetDistance > 0)
-
--- | Returns the motion vector for this frame and updates the motion.
-stepJumpMotion :: (MonadState s m, HasJumpMotion s) => Seconds -> m (V2 Float)
-stepJumpMotion delta = do
+stepJumpMotionState :: (MonadState s m, HasPosition s, HasJumpMotion s) => Seconds -> m ()
+stepJumpMotionState delta = do
   jumpDelta <- stepCooldown delta
-  stepJump jumpDelta
+  jumpMotion' <- use jumpMotion
+  let (motionVector', nextMotion') = runState (stepJump jumpDelta) jumpMotion'
+  position %= (+motionVector')
+  jumpMotion .= nextMotion'
+
+-- | Steps the cooldown for this frame and returns any remaining delta time.
+-- |
+-- | The idea is that if the cooldown consumes some of the delta time, the remaining
+-- | delta time is still available to the entity to make a short jump.
+stepCooldown :: (MonadState s m, HasJumpMotion s) => Seconds -> m Seconds
+stepCooldown delta = do
+  currentCooldown' <- use (jumpMotion.currentCooldown)
+  let nextCooldown = currentCooldown' - delta
+  let remainingDelta = abs nextCooldown
+  jumpMotion.currentCooldown .= max 0 nextCooldown
+  pure remainingDelta
 
 stepJump :: (MonadState s m, HasJumpMotion s) => Seconds -> m (V2 Float)
 stepJump delta = do
@@ -99,18 +105,6 @@ stepMovementFinished = do
   motion' <- use jumpMotion
   jumpMotion.currentCooldown .= (motion' ^. cooldown)
 
--- | Steps the cooldown for this frame and returns any remaining delta time.
--- |
--- | The idea is that if the cooldown consumes some of the delta time, the remaining
--- | delta time is still available to the entity to make a short jump.
-stepCooldown :: (MonadState s m, HasJumpMotion s) => Seconds -> m Seconds
-stepCooldown delta = do
-  currentCooldown' <- use (jumpMotion.currentCooldown)
-  let nextCooldown = currentCooldown' - delta
-  let remainingDelta = abs nextCooldown
-  jumpMotion.currentCooldown .= max 0 nextCooldown
-  pure remainingDelta
-
 -- | Calculate the motion vector and distance to travel from the current
 -- | motion.
 motionVectorOverTime :: Seconds -> JumpMotion -> (V2 Float, Distance)
@@ -120,3 +114,23 @@ motionVectorOverTime delta motion' =
       directionVector = unitVector $ motion' ^. direction
       motionVector' = (* distanceThisFrame) <$> directionVector
   in (motionVector', distanceThisFrame)
+
+-- |
+-- | Jump towards the direction we are facing. This affects the motion vector
+-- | returned by @stepJumpMotion@
+-- |
+-- | If we are already moving this function will change nothing.
+-- | If we are currently cooling down this function will change nothing.
+jump :: Direction -> JumpMotion -> JumpMotion
+jump dir motion | canJump motion = motion & (direction .~ dir)
+                                          . (targetDistance .~ motion^.distance)
+                | otherwise = motion
+
+canJump :: JumpMotion -> Bool
+canJump motion = (not $ isCoolingDown motion) && (not $ isMoving motion)
+
+isCoolingDown :: JumpMotion -> Bool
+isCoolingDown motion = (motion^.currentCooldown > 0)
+
+isMoving :: JumpMotion -> Bool
+isMoving motion = (motion^.targetDistance > 0)

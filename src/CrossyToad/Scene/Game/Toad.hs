@@ -9,26 +9,27 @@ import CrossyToad.Time.Time
 import CrossyToad.Physics.Physics
 import qualified CrossyToad.Physics.JumpMotion as JumpMotion
 
-
 data Toad = Toad
-  { __body :: Body
+  { __position :: Position
+  , __jumpMotion :: JumpMotion
   } deriving (Eq, Show)
 
 makeClassy ''Toad
 
-instance HasBody Toad where
-  body = _body
+instance HasPosition Toad where
+  position = _position
+
+instance HasJumpMotion Toad where
+  jumpMotion = _jumpMotion
 
 initialToad :: Toad
 initialToad = Toad
-    { __body = Body
-      { __position = (V2 0 0)
-      , __jumpMotion = initialJumpMotion
-        { __direction = North
-        , _speed = toadSpeed
-        , _distance = toadDistance
-        , _cooldown = toadCooldown
-        }
+    { __position = (V2 0 0)
+    , __jumpMotion = initialJumpMotion
+      { __direction = North
+      , _speed = toadSpeed
+      , _distance = toadDistance
+      , _cooldown = toadCooldown
       }
     }
   where
@@ -46,13 +47,10 @@ initialToad = Toad
     toadCooldown = 0.15
 
 step :: (Time m) => Toad -> m Toad
-step toad' = do
-  nextBody <- stepBody (toad'^.body)
-  pure $ (toad.body .~ nextBody) toad'
+step = stepJumpMotionEff
 
 -- | Jump in a given direction.
 -- |
 -- | This will cause the toad to change direction and begin moving.
 jump :: Direction -> Toad -> Toad
-jump dir =
-  over (toad.body.jumpMotion) $ (JumpMotion.jump dir)
+jump dir = over (toad.jumpMotion) $ (JumpMotion.jump dir)

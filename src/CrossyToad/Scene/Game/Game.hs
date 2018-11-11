@@ -29,7 +29,6 @@ stepGame = do
   gameState' <- use gameState
   nextToad <- Toad.step (gameState' ^. toad)
   gameState.toad .= nextToad
-  -- gameState.toad %= Toad.step
 
   renderGame
 
@@ -39,5 +38,5 @@ stepIntent Exit = scene .= Scene.Title
 
 renderGame :: (MonadState s m, HasGameState s, Renderer m) => m ()
 renderGame = do
-  pos <- use $ gameState.toad.body.position
+  pos <- use $ gameState.toad.position
   drawToad pos
