@@ -3,7 +3,6 @@
 module CrossyToad.Scene.Game.Toad where
 
 import           Control.Lens
-import           Debug.Trace (trace)
 import           Linear.V2
 
 import           CrossyToad.Physics.CollisionBox (CollisionBox(..), HasCollisionBox(..))
@@ -73,6 +72,10 @@ die :: Toad -> Toad
 die toad' = toad' & (lives .~ max 0 (toad' ^. lives - 1))
                   . (position .~ toad' ^. initialPosition)
 
-collision :: (HasPosition ent, HasCollisionBox ent) => Toad -> ent -> Toad
-collision toad' ent' | CollisionBox.entCollision toad' ent' = trace "COLLISION" toad'
-                     | otherwise = toad'
+-- | Returns true if the toad is colliding with the entity
+-- |
+-- | A toad cannot collide with an entity if it is jumping.
+collision :: (HasPosition ent, HasCollisionBox ent) => Toad -> ent -> Bool
+collision toad' ent' =
+  (CollisionBox.entCollision toad' ent')
+  && (not $ JumpMotion.isMoving toad')

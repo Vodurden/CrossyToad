@@ -22,6 +22,7 @@ import           CrossyToad.Scene.Game.GameState
 import           CrossyToad.Scene.Game.Toad
 import qualified CrossyToad.Scene.Game.Toad as Toad
 import qualified CrossyToad.Scene.Game.Car as Car
+import qualified CrossyToad.Scene.Game.Collision as Collision
 
 initialize :: (MonadState s m, HasGameState s) => m ()
 initialize = do
@@ -48,7 +49,7 @@ stepGame = do
   nextCars <- traverse Car.step (gameState' ^. cars)
   gameState.cars .= nextCars
 
-  stepCollisions
+  Collision.step
 
   renderGame
 
@@ -56,12 +57,6 @@ stepGame = do
 stepIntent :: (MonadState s m, HasScene s, HasGameState s) => Intent -> m ()
 stepIntent (Move dir) = gameState.toad %= Toad.jump dir
 stepIntent Exit = scene .= Scene.Title
-
-stepCollisions :: (MonadState s m, HasGameState s) => m ()
-stepCollisions = do
-  gameState' <- use gameState
-
-  gameState.toad .= foldl Toad.collision (gameState' ^. toad) (gameState' ^. cars)
 
 -- | Draws the Scene on the screen
 renderGame :: (MonadState s m, HasGameState s, Renderer m) => m ()

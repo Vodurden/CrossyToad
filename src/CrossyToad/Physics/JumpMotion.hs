@@ -149,5 +149,5 @@ canJump motion = (not $ isCoolingDown motion) && (not $ isMoving motion)
 isCoolingDown :: JumpMotion -> Bool
 isCoolingDown motion = (motion^.currentCooldown > 0)
 
-isMoving :: JumpMotion -> Bool
+isMoving :: (HasJumpMotion ent) => ent -> Bool
 isMoving motion = (motion^.targetDistance > 0)
