@@ -14,6 +14,7 @@ module CrossyToad.Physics.JumpMotion
   ( JumpMotion(..)
   , HasJumpMotion(..)
   , initialJumpMotion
+  , mk
   , stepEff
   , step
   , jump
@@ -46,6 +47,16 @@ makeClassy ''JumpMotion
 
 instance HasDirection JumpMotion where
   direction = _direction
+
+mk :: Direction -> Speed -> Distance -> Seconds -> JumpMotion
+mk dir speed' distance' cooldown' = JumpMotion
+  { __direction = dir
+  , _speed = speed'
+  , _distance = distance'
+  , _cooldown = cooldown'
+  , _currentCooldown = 0
+  , _targetDistance = 0
+  }
 
 initialJumpMotion :: JumpMotion
 initialJumpMotion = JumpMotion

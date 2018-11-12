@@ -11,7 +11,7 @@
 module CrossyToad.Physics.LinearMotion
   ( LinearMotion(..)
   , HasLinearMotion(..)
-  , initialLinearMotion
+  , mk
   , stepEff
   , step
   ) where
@@ -33,11 +33,8 @@ makeClassy ''LinearMotion
 instance HasDirection LinearMotion where
   direction = _direction
 
-initialLinearMotion :: LinearMotion
-initialLinearMotion = LinearMotion
-  { __direction = East
-  , _speed = 0
-  }
+mk :: Direction -> Speed -> LinearMotion
+mk = LinearMotion
 
 stepEff :: (Time m, HasPosition ent, HasLinearMotion ent) => ent -> m ent
 stepEff ent' = do

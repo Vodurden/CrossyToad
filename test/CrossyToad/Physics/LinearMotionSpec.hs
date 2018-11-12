@@ -9,7 +9,7 @@ import Test.Tasty.Hspec
 
 import CrossyToad.Physics.Position
 import CrossyToad.Physics.Direction
-import CrossyToad.Physics.LinearMotion
+import CrossyToad.Physics.LinearMotion as LinearMotion
 
 data Ent = Ent
   { __position :: Position
@@ -21,7 +21,7 @@ makeClassy ''Ent
 stationaryEnt :: Ent
 stationaryEnt = Ent
   { __position = V2 0 0
-  , __linearMotion = initialLinearMotion
+  , __linearMotion = LinearMotion.mk East 0
   }
 
 instance HasPosition Ent where

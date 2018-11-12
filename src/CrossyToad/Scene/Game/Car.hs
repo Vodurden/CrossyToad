@@ -3,7 +3,7 @@
 module CrossyToad.Scene.Game.Car
   ( Car(..)
   , HasCar(..)
-  , initialCar
+  , mk
   , step
   , render
   ) where
@@ -36,13 +36,10 @@ instance HasLinearMotion Car where
 instance HasCollisionBox Car where
   collisionBox = _collisionBox
 
-initialCar :: Car
-initialCar = Car
-    { __position = (V2 64 64)
-    , __linearMotion = LinearMotion.initialLinearMotion
-      { __direction = East
-      , _speed = carSpeed
-      }
+mk :: Position -> Direction -> Car
+mk pos dir = Car
+    { __position = pos
+    , __linearMotion = LinearMotion.mk dir carSpeed
     , __collisionBox = CollisionBox.mk (V2 64 64)
     }
   where

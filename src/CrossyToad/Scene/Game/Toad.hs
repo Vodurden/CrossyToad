@@ -31,15 +31,10 @@ instance HasJumpMotion Toad where
 instance HasCollisionBox Toad where
   collisionBox = _collisionBox
 
-initialToad :: Toad
-initialToad = Toad
-    { __position = (V2 0 0)
-    , __jumpMotion = JumpMotion.initialJumpMotion
-      { __direction = North
-      , _speed = toadSpeed
-      , _distance = toadDistance
-      , _cooldown = toadCooldown
-      }
+mk :: Position -> Toad
+mk pos = Toad
+    { __position = pos
+    , __jumpMotion = JumpMotion.mk North toadSpeed toadDistance toadCooldown
     , __collisionBox = CollisionBox.mk (V2 64 64)
     }
   where

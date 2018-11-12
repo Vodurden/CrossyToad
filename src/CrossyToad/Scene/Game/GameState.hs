@@ -3,8 +3,9 @@
 module CrossyToad.Scene.Game.GameState where
 
 import Control.Lens
+import Linear.V2
 
-import CrossyToad.Scene.Game.Toad
+import CrossyToad.Scene.Game.Toad as Toad
 import CrossyToad.Scene.Game.Car
 
 data GameState = GameState
@@ -19,6 +20,6 @@ instance HasToad GameState where
 
 initialGameState :: GameState
 initialGameState = GameState
-  { __toad = initialToad
-  , _cars = [initialCar]
+  { __toad = Toad.mk (V2 0 0)
+  , _cars = []
   }
