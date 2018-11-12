@@ -68,6 +68,6 @@ renderGame :: (MonadState s m, HasGameState s, Renderer m) => m ()
 renderGame = do
   gameState' <- use gameState
 
-  Toad.render (gameState' ^. toad)
-
   traverse_ Car.render (gameState' ^. cars)
+
+  Toad.render (gameState' ^. toad)
