@@ -4,6 +4,7 @@ module CrossyToad.Scene.Game.GameSpec where
 
 import           Control.Monad.State (State, execState)
 import           Control.Lens
+
 import           Test.Tasty.Hspec
 
 import           CrossyToad.Scene.Scene (Scene, HasScene(..))

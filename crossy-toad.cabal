@@ -2,7 +2,7 @@
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: 594baef2f04f5c9fbb24e8a11f6b17e8f11012090e35d98b4f8a3baeab895511
+-- hash: 1f2f04633978780226ba173f6bc66862fa8c4b7abca13b7511bacb7be77f3cc6
 
 name:           crossy-toad
 version:        0.1.0.0
@@ -126,6 +126,7 @@ test-suite spec
       CrossyToad.Physics.LinearMotionSpec
       CrossyToad.Scene.Game.GameSpec
       CrossyToad.Scene.Game.IntentSpec
+      CrossyToad.Scene.Game.ToadSpec
       CrossyToad.Scene.Title.IntentSpec
       CrossyToad.Scene.Title.TitleSpec
       CrossyToad

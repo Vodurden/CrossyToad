@@ -18,6 +18,9 @@ data Toad = Toad
   { __position :: Position
   , __jumpMotion :: JumpMotion
   , __collisionBox :: CollisionBox
+
+  , _initialPosition :: Position        -- ^ The position the toad was originally created in
+  , _lives :: Int                       -- ^ How many lives the toad has left
   } deriving (Eq, Show)
 
 makeClassy ''Toad
@@ -36,6 +39,8 @@ mk pos = Toad
     { __position = pos
     , __jumpMotion = JumpMotion.mk North toadSpeed toadDistance toadCooldown
     , __collisionBox = CollisionBox.mk (V2 64 64)
+    , _initialPosition = pos
+    , _lives = 5
     }
   where
     -- | How far the toad moves in one jump
@@ -62,6 +67,11 @@ render toad' = drawToad (toad' ^. position)
 -- | This will cause the toad to change direction and begin moving.
 jump :: Direction -> Toad -> Toad
 jump dir = over (toad.jumpMotion) $ (JumpMotion.jump dir)
+
+-- | Kills the toad
+die :: Toad -> Toad
+die toad' = toad' & (lives .~ max 0 (toad' ^. lives - 1))
+                  . (position .~ toad' ^. initialPosition)
 
 collision :: (HasPosition ent, HasCollisionBox ent) => Toad -> ent -> Toad
 collision toad' ent' | CollisionBox.entCollision toad' ent' = trace "COLLISION" toad'
