@@ -50,4 +50,5 @@ entCollision e1 e2 =
 -- | Returns true if there is a collision between the collision boxes
 collision :: CollisionBox -> CollisionBox -> Bool
 collision box1 box2 =
-  (box1^.maxPoint > box2^.minPoint) && (box1^.minPoint < box2^.maxPoint)
+  (box1^.maxPoint._x > box2^.minPoint._x) && (box1^.minPoint._x < box2^.maxPoint._x)
+  && (box1^.maxPoint._y > box2^.minPoint._y) && (box1^.minPoint._y < box2^.maxPoint._y)
