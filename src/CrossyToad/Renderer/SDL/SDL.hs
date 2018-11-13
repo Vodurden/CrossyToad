@@ -1,7 +1,7 @@
 module CrossyToad.Renderer.SDL.SDL
   ( module CrossyToad.Renderer.SDL.Renderer
   , module CrossyToad.Renderer.SDL.Config
-  , module CrossyToad.Renderer.SDL.Assets
+  , module CrossyToad.Renderer.SDL.Textures
   , initialize
   ) where
 
@@ -12,7 +12,7 @@ import qualified SDL.Font as Font
 
 import CrossyToad.Renderer.SDL.Renderer
 import CrossyToad.Renderer.SDL.Config
-import CrossyToad.Renderer.SDL.Assets
+import CrossyToad.Renderer.SDL.Textures
 
 initialize :: IO Config
 initialize = do
@@ -25,9 +25,9 @@ initialize = do
      }
   renderer' <- SDL.createRenderer window' (-1) SDL.defaultRenderer
   SDL.rendererLogicalSize renderer' $= (Just $ V2 1280 960)
-  assets' <- loadAssets renderer'
+  textures' <- loadTextures renderer'
   pure $ Config
     { _window = window'
     , _renderer = renderer'
-    , __assets = assets'
+    , __textures = textures'
     }

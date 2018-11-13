@@ -37,9 +37,7 @@ instance Renderer CrossyToad where
   clearScreen = SDLRenderer.clearScreen
   drawScreen = SDLRenderer.drawScreen
 
-  drawTitleText = SDLRenderer.drawTitleText
-  drawCar = SDLRenderer.drawCar
-  drawToad = SDLRenderer.drawToad
+  draw = SDLRenderer.draw
 
 instance Time CrossyToad where
   stepTime = SDLTime.stepTime

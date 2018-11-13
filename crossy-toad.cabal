@@ -2,7 +2,7 @@
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: f8fce219df6d063741ba04578b0a33a493968a5c5573b1556fc7e902613f0f22
+-- hash: 5b1997e72f6b2bf54b0261c1769a66cd606906d798c173e45ee9e1afefd6b60a
 
 name:           crossy-toad
 version:        0.1.0.0
@@ -34,11 +34,12 @@ library
       CrossyToad.Physics.Physics
       CrossyToad.Physics.Position
       CrossyToad.Physics.Speed
+      CrossyToad.Renderer.Asset
       CrossyToad.Renderer.Renderer
-      CrossyToad.Renderer.SDL.Assets
       CrossyToad.Renderer.SDL.Config
       CrossyToad.Renderer.SDL.Renderer
       CrossyToad.Renderer.SDL.SDL
+      CrossyToad.Renderer.SDL.Textures
       CrossyToad.Runner
       CrossyToad.Scene.Game.Car
       CrossyToad.Scene.Game.Collision
@@ -146,11 +147,12 @@ test-suite spec
       CrossyToad.Physics.Physics
       CrossyToad.Physics.Position
       CrossyToad.Physics.Speed
+      CrossyToad.Renderer.Asset
       CrossyToad.Renderer.Renderer
-      CrossyToad.Renderer.SDL.Assets
       CrossyToad.Renderer.SDL.Config
       CrossyToad.Renderer.SDL.Renderer
       CrossyToad.Renderer.SDL.SDL
+      CrossyToad.Renderer.SDL.Textures
       CrossyToad.Runner
       CrossyToad.Scene.Game.Car
       CrossyToad.Scene.Game.Collision

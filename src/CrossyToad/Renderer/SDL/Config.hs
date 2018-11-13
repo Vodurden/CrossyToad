@@ -5,15 +5,15 @@ module CrossyToad.Renderer.SDL.Config where
 import           Control.Lens
 import qualified SDL as SDL
 
-import CrossyToad.Renderer.SDL.Assets
+import CrossyToad.Renderer.SDL.Textures
 
 data Config = Config
   { _window :: SDL.Window
   , _renderer :: SDL.Renderer
-  , __assets :: Assets
+  , __textures :: Textures
   }
 
 makeClassy ''Config
 
-instance HasAssets Config where
-  assets = _assets
+instance HasTextures Config where
+  textures = _textures
