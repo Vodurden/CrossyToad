@@ -7,9 +7,11 @@ import Linear.V2
 
 import Test.Tasty.Hspec
 
-import CrossyToad.Physics.Position
 import CrossyToad.Physics.Direction
 import CrossyToad.Physics.JumpMotion
+import CrossyToad.Physics.Position
+import CrossyToad.Time.Timer (HasTimer(..))
+import qualified CrossyToad.Time.Timer as Timer
 
 data Ent = Ent
   { __position :: Position
@@ -23,6 +25,9 @@ instance HasPosition Ent where
 
 instance HasJumpMotion Ent where
   jumpMotion = _jumpMotion
+
+initialJumpMotion :: JumpMotion
+initialJumpMotion = mk East 0 0 0.15
 
 stationaryEnt :: Ent
 stationaryEnt = Ent
@@ -47,7 +52,7 @@ spec_Physics_JumpMotion = do
       (jump West motion') `shouldBe` motion'
 
     it "should not jump if we are cooling down" $ do
-      let motion' = initialJumpMotion & (currentCooldown .~ 0.5)
+      let motion' = initialJumpMotion & (cooldown %~ Timer.start)
       (jump East motion') `shouldBe` motion'
 
     it "should update the target distance if we are not moving" $ do
@@ -124,25 +129,25 @@ spec_Physics_JumpMotion = do
       (step delta ent') ^. targetDistance `shouldBe` 9
 
     it "should reduce the current cooldown by the delta" $ do
-      let ent' = movingEnt & jumpMotion %~ (currentCooldown .~ 2)
-      (step' ent') ^. currentCooldown `shouldBe` 1
+      let ent' = movingEnt & jumpMotion %~ (cooldown.currentTime .~ 2)
+      (step' ent') ^. cooldown.currentTime `shouldBe` 1
 
     it "should linearize the result against the remaining delta time after cooldown" $ do
       let ent' = movingEnt & jumpMotion %~ (speed .~ 10)
                                          . (targetDistance .~ 10)
                                          . (direction .~ East)
-                                         . (currentCooldown .~ 0.1)
+                                         . (cooldown.currentTime .~ 0.1)
       let delta = 0.2
       (step delta ent') ^. position `shouldBe` (V2 1 0)
 
     it "should begin cooling down when finishing a jump" $ do
       let ent' = movingEnt & jumpMotion %~ (speed .~ 10)
                                          . (targetDistance .~ 5)
-                                         . (cooldown .~ 0.2)
-      (step 1 ent') ^. currentCooldown `shouldBe` 0.2
+                                         . (cooldown.startTime .~ 0.2)
+      (step 1 ent') ^. cooldown.currentTime `shouldBe` 0.2
 
     it "should not cooldown if a jump has not finished yet" $ do
       let ent' = movingEnt & jumpMotion %~ (speed .~ 10)
                                          . (targetDistance .~ 11)
-                                         . (cooldown .~ 0.2)
-      (step 1 ent') ^. currentCooldown `shouldBe` 0
+                                         . (cooldown.currentTime .~ 0.2)
+      (step 1 ent') ^. cooldown.currentTime `shouldBe` 0

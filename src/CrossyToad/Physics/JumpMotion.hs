@@ -13,7 +13,6 @@
 module CrossyToad.Physics.JumpMotion
   ( JumpMotion(..)
   , HasJumpMotion(..)
-  , initialJumpMotion
   , mk
   , stepEff
   , step
@@ -21,25 +20,26 @@ module CrossyToad.Physics.JumpMotion
   , isMoving
   ) where
 
-import Control.Lens
-import Control.Monad (when)
-import Control.Monad.State (MonadState, runState, execState)
-import Linear.V2
+import           Control.Lens
+import           Control.Monad (when)
+import           Control.Monad.State (MonadState, runState, execState)
+import           Linear.V2
 
-import CrossyToad.Time.Time
-import CrossyToad.Physics.Direction
-import CrossyToad.Physics.Distance
-import CrossyToad.Physics.Speed
-import CrossyToad.Physics.Position
+import           CrossyToad.Physics.Direction
+import           CrossyToad.Physics.Distance
+import           CrossyToad.Physics.Position
+import           CrossyToad.Physics.Speed
+import           CrossyToad.Time.Time
+import           CrossyToad.Time.Timer (Timer)
+import qualified CrossyToad.Time.Timer as Timer
 
 data JumpMotion = JumpMotion
   { __direction :: Direction     -- ^ What direction we are facing
 
   , _speed :: Speed              -- ^ How fast we can move
   , _distance :: Distance        -- ^ How far we move in a single jump
-  , _cooldown :: Seconds         -- ^ How much time must elapse between jumps
+  , _cooldown :: Timer           -- ^ Timer to wait between jumps
 
-  , _currentCooldown :: Seconds  -- ^ How much time until we can perform our next jump
   , _targetDistance :: Distance  -- ^ How far we _are_ moving
   } deriving (Eq, Show)
 
@@ -53,18 +53,7 @@ mk dir speed' distance' cooldown' = JumpMotion
   { __direction = dir
   , _speed = speed'
   , _distance = distance'
-  , _cooldown = cooldown'
-  , _currentCooldown = 0
-  , _targetDistance = 0
-  }
-
-initialJumpMotion :: JumpMotion
-initialJumpMotion = JumpMotion
-  { __direction = East
-  , _speed = 0
-  , _distance = 32
-  , _cooldown = 0
-  , _currentCooldown = 0
+  , _cooldown = Timer.mk cooldown'
   , _targetDistance = 0
   }
 
@@ -92,10 +81,9 @@ stepJumpMotionState delta = do
 -- | delta time is still available to the entity to make a short jump.
 stepCooldown :: (MonadState s m, HasJumpMotion s) => Seconds -> m Seconds
 stepCooldown delta = do
-  currentCooldown' <- use (jumpMotion.currentCooldown)
-  let nextCooldown = currentCooldown' - delta
-  let remainingDelta = abs nextCooldown
-  jumpMotion.currentCooldown .= max 0 nextCooldown
+  cooldown' <- use (jumpMotion.cooldown)
+  let (remainingDelta, nextCooldown) = runState (Timer.step delta) cooldown'
+  jumpMotion.cooldown .= nextCooldown
   pure remainingDelta
 
 stepJump :: (MonadState s m, HasJumpMotion s) => Seconds -> m (V2 Float)
@@ -118,9 +106,8 @@ stepJump delta = do
 
 -- | Steps to run when a jump finishes
 stepMovementFinished :: (MonadState s m, HasJumpMotion s) => m ()
-stepMovementFinished = do
-  motion' <- use jumpMotion
-  jumpMotion.currentCooldown .= (motion' ^. cooldown)
+stepMovementFinished =
+  jumpMotion.cooldown %= Timer.start
 
 -- | Calculate the motion vector and distance to travel from the current
 -- | motion.
@@ -147,7 +134,7 @@ canJump :: JumpMotion -> Bool
 canJump motion = (not $ isCoolingDown motion) && (not $ isMoving motion)
 
 isCoolingDown :: JumpMotion -> Bool
-isCoolingDown motion = (motion^.currentCooldown > 0)
+isCoolingDown motion = Timer.running (motion ^. cooldown)
 
 isMoving :: (HasJumpMotion ent) => ent -> Bool
 isMoving motion = (motion^.targetDistance > 0)
