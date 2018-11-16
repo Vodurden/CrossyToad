@@ -132,6 +132,7 @@ test-suite spec
       CrossyToad.Scene.Game.ToadSpec
       CrossyToad.Scene.Title.IntentSpec
       CrossyToad.Scene.Title.TitleSpec
+      CrossyToad.Time.TimerSpec
       CrossyToad
       CrossyToad.Config
       CrossyToad.Input.Input
