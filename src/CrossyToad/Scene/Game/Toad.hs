@@ -3,6 +3,7 @@
 module CrossyToad.Scene.Game.Toad where
 
 import           Control.Lens
+import Control.Monad.State
 import           Linear.V2
 
 import           CrossyToad.Physics.CollisionBox (CollisionBox(..), HasCollisionBox(..))
@@ -54,6 +55,14 @@ mk pos = Toad
     -- | How long the toad must rest between jumps
     toadCooldown :: Seconds
     toadCooldown = 0.15
+
+stepEff :: (MonadState s m, HasToad s, Time m) => m ()
+stepEff = do
+  delta <- deltaTime
+  toad %= step' delta
+
+step' :: Seconds -> Toad -> Toad
+step' delta = JumpMotion.step delta
 
 step :: (Time m) => Toad -> m Toad
 step = JumpMotion.stepEff

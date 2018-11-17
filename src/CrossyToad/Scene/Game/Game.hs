@@ -27,11 +27,15 @@ import qualified CrossyToad.Scene.Game.Collision as Collision
 initialize :: (MonadState s m, HasGameState s) => m ()
 initialize = do
   gameState.toad .= Toad.mk (V2 (7*64) (13*64))
-  gameState.cars.=
-    [ Car.mk (V2 0 1*64) East
-    , Car.mk (V2 0 2*64) East
-    , Car.mk (V2 (14*64) (3*64)) West
+  gameState.lanes .=
+    [ Lane.mk (V2 0 0) 64 East
+      [ Spawn
+      , Wait 1
+      , Spawn
+      , Wait 5
+      ]
     ]
+
 
 -- | Steps the state of the game.
 -- |
