@@ -8,18 +8,18 @@ module CrossyToad.Scene.Scene
   , step
   ) where
 
-import Control.Lens
-import Control.Monad.State (MonadState)
+import           Control.Lens.Extended
+import           Control.Monad.State (StateT, State)
 
-import CrossyToad.Time.Time
-import CrossyToad.Renderer.Renderer
-import CrossyToad.Input.Input
-import CrossyToad.Scene.Internal
-import CrossyToad.Scene.Title.Title (stepTitle)
-import CrossyToad.Scene.Game.Game (stepGame, HasGameState)
+import           CrossyToad.Input.Input
+import           CrossyToad.Renderer.Renderer
+import           CrossyToad.Scene.Game.Game (stepGame, HasGameState(..))
 import qualified CrossyToad.Scene.Game.Game as Game
+import           CrossyToad.Scene.Internal
+import           CrossyToad.Scene.Title.Title (stepTitle)
+import           CrossyToad.Time.Time
 
-initialize :: (MonadState s m, HasScene s, HasGameState s) => m ()
+initialize :: (HasScene s, HasGameState s) => State s ()
 initialize = do
     s <- use scene
     initialize' s
@@ -28,10 +28,10 @@ initialize = do
     initialize' Game = Game.initialize
     initialize' Quit = pure ()
 
-step :: (MonadState s m, HasScene s, HasGameState s, Input m, Renderer m, Time m) => m ()
+step :: (HasScene s, HasGameState s, Input m, Renderer m, Time m) => StateT s m ()
 step = do
-    s <- use scene
-    step' s
+    scene' <- use scene
+    step' scene'
   where
     step' Title = stepTitle
     step' Game = stepGame

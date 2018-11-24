@@ -33,7 +33,7 @@ instance HasLinearMotion Ent where
 spec_Physics_LinearMotion :: Spec
 spec_Physics_LinearMotion = do
   describe "step" $ do
-    let step' = step 1
+    let step' = stepBy 1
 
     it "should update the position by our speed" $ do
       let ent' = stationaryEnt & linearMotion %~ (speed .~ 2)
@@ -43,4 +43,4 @@ spec_Physics_LinearMotion = do
     it "should linearize speed" $ do
       let ent' = stationaryEnt & linearMotion %~ (speed .~ 20)
                                                . (direction .~ East)
-      (step 0.1 ent') ^. position `shouldBe` (V2 2 0)
+      (stepBy 0.1 ent') ^. position `shouldBe` (V2 2 0)

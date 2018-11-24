@@ -1,3 +1,6 @@
+{-# LANGUAGE DefaultSignatures #-}
+{-# LANGUAGE TypeFamilies #-}
+
 -- | The @Input@ feature is responsible for gathering input from a human
 -- | and making it available to the rest of the application.
 -- |
@@ -15,6 +18,9 @@ module CrossyToad.Input.Input
   ) where
 
 import Control.Lens
+import Control.Monad.State (StateT)
+import Control.Monad.Reader (ReaderT)
+import Control.Monad.Trans (MonadTrans, lift)
 
 import CrossyToad.Input.InputEvent
 import CrossyToad.Input.InputState
@@ -24,6 +30,15 @@ import CrossyToad.Input.Key
 class Monad m => Input m where
   stepInput :: m ()
   getInputState :: m InputState
+
+  default stepInput :: (MonadTrans t, Input m1, m ~ t m1) => m ()
+  stepInput = lift stepInput
+
+  default getInputState :: (MonadTrans t, Input m1, m ~ t m1) => m InputState
+  getInputState = lift getInputState
+
+instance Input m => Input (StateT s m)
+instance Input m => Input (ReaderT s m)
 
 getKeyboardState :: (Input m) => m KeyboardState
 getKeyboardState = (view keyboardState) <$> getInputState

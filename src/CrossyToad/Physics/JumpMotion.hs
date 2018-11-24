@@ -14,15 +14,15 @@ module CrossyToad.Physics.JumpMotion
   ( JumpMotion(..)
   , HasJumpMotion(..)
   , mk
-  , stepEff
   , step
+  , stepBy
   , jump
   , isMoving
   ) where
 
 import           Control.Lens
 import           Control.Monad (when)
-import           Control.Monad.State (MonadState, runState, execState)
+import           Control.Monad.State.Extended (StateT, State, execState)
 import           Linear.V2
 
 import           CrossyToad.Physics.Direction
@@ -58,35 +58,28 @@ mk dir speed' distance' cooldown' = JumpMotion
   }
 
 -- | Updates the jump motion for this frame and updates the position of the entity.
-stepEff :: (Time m, HasPosition ent, HasJumpMotion ent) => ent -> m ent
-stepEff ent' = do
+step :: (Time m, HasPosition s, HasJumpMotion s) => StateT s m ()
+step = do
   delta <- deltaTime
-  pure $ step delta ent'
+  id %= stepBy delta
 
-step :: (HasPosition ent, HasJumpMotion ent)  => Seconds -> ent -> ent
-step delta ent' = do
-  execState (stepJumpMotionState delta) ent'
-
-stepJumpMotionState :: (MonadState s m, HasPosition s, HasJumpMotion s) => Seconds -> m ()
-stepJumpMotionState delta = do
+-- | Step this motion by a given amount of seconds
+stepBy :: (HasPosition ent, HasJumpMotion ent) => Seconds -> ent -> ent
+stepBy delta = execState $ do
   jumpDelta <- stepCooldown delta
-  jumpMotion' <- use jumpMotion
-  let (motionVector', nextMotion') = runState (stepJump jumpDelta) jumpMotion'
+  motionVector' <- stepJump jumpDelta
   position %= (+motionVector')
-  jumpMotion .= nextMotion'
 
 -- | Steps the cooldown for this frame and returns any remaining delta time.
 -- |
 -- | The idea is that if the cooldown consumes some of the delta time, the remaining
 -- | delta time is still available to the entity to make a short jump.
-stepCooldown :: (MonadState s m, HasJumpMotion s) => Seconds -> m Seconds
+stepCooldown :: (HasJumpMotion s) => Seconds -> State s Seconds
 stepCooldown delta = do
-  cooldown' <- use (jumpMotion.cooldown)
-  let (remainingDelta, nextCooldown) = runState (Timer.step delta) cooldown'
-  jumpMotion.cooldown .= nextCooldown
+  remainingDelta <- zoom cooldown $ Timer.stepBy delta
   pure remainingDelta
 
-stepJump :: (MonadState s m, HasJumpMotion s) => Seconds -> m (V2 Float)
+stepJump :: (HasJumpMotion s) => Seconds -> State s (V2 Float)
 stepJump delta = do
   motion' <- use jumpMotion
 
@@ -105,7 +98,7 @@ stepJump delta = do
       pure (V2 0 0)
 
 -- | Steps to run when a jump finishes
-stepMovementFinished :: (MonadState s m, HasJumpMotion s) => m ()
+stepMovementFinished :: (HasJumpMotion s) => State s ()
 stepMovementFinished =
   jumpMotion.cooldown %= Timer.start
 

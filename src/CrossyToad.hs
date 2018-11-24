@@ -11,17 +11,7 @@ import           CrossyToad.Renderer.Renderer
 import qualified CrossyToad.Renderer.SDL.SDL as SDLRenderer
 import           CrossyToad.Time.Time
 import qualified CrossyToad.Time.SDL.Time as SDLTime
-import           CrossyToad.Runner (mainLoop)
-import           CrossyToad.Vars (Vars, initialVars)
-
-main :: IO ()
-main = do
-  sdlRendererConfig <- SDLRenderer.initialize
-  let cfg = Config
-            { _sdlRendererConfig = sdlRendererConfig
-            }
-
-  runCrossyToad cfg initialVars mainLoop
+import           CrossyToad.Vars (Vars)
 
 newtype CrossyToad a = CrossyToad (ReaderT Config (StateT Vars IO) a)
   deriving (Functor, Applicative, Monad, MonadReader Config, MonadState Vars, MonadIO)

@@ -25,21 +25,21 @@ spec_Time_Timer = do
     it "should return false if the timer has run out of time" $ do
       Timer.running (Timer.mk 1 & currentTime .~ 0) `shouldBe` False
 
-  describe "step" $ do
-    it "should reduce the current time by the delta time" $ do
+  describe "stepBy" $ do
+    it "should reduce the current time by the given delta time" $ do
       let timer' = Timer.start $ Timer.mk 10
-      (execState (Timer.step 2) timer') ^. currentTime `shouldBe` 8
+      (execState (Timer.stepBy 2) timer') ^. currentTime `shouldBe` 8
 
     it "should not reduce the current time below 0" $ do
       let timer' = Timer.start $ Timer.mk 1
-      (execState (Timer.step 2) timer') ^. currentTime `shouldBe` 0
+      (execState (Timer.stepBy 2) timer') ^. currentTime `shouldBe` 0
 
     it "should return any delta time not used by the cooldown" $ do
       let timer' = Timer.start $ Timer.mk 3
-      let remainingDelta = evalState (Timer.step 5) timer'
+      let remainingDelta = evalState (Timer.stepBy 5) timer'
       remainingDelta `shouldBe` 2
 
     it "should not return any extra delta time if the timer has not finished" $ do
       let timer' = Timer.start $ Timer.mk 3
-      let remainingDelta = evalState (Timer.step 1) timer'
+      let remainingDelta = evalState (Timer.stepBy 1) timer'
       remainingDelta `shouldBe` 0

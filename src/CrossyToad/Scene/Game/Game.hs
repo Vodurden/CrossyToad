@@ -5,8 +5,8 @@ module CrossyToad.Scene.Game.Game
   , module CrossyToad.Scene.Game.GameState
   ) where
 
-import           Control.Lens
-import           Control.Monad.State (MonadState)
+import           Control.Lens.Extended
+import           Control.Monad.State.Extended (StateT, State, hoistState)
 import           Data.Foldable (traverse_)
 import           Linear.V2
 
@@ -21,48 +21,53 @@ import qualified CrossyToad.Scene.Game.Intent as Intent
 import           CrossyToad.Scene.Game.GameState
 import           CrossyToad.Scene.Game.Toad
 import qualified CrossyToad.Scene.Game.Toad as Toad
+import           CrossyToad.Scene.Game.Car (HasCars(..))
 import qualified CrossyToad.Scene.Game.Car as Car
 import qualified CrossyToad.Scene.Game.Collision as Collision
+import qualified CrossyToad.Scene.Game.SpawnPoint as SpawnPoint
+import           CrossyToad.Scene.Game.SpawnPoint (HasSpawnPoints(..))
 
-initialize :: (MonadState s m, HasGameState s) => m ()
+initialize :: (HasGameState s) => State s ()
 initialize = do
   gameState.toad .= Toad.mk (V2 (7*64) (13*64))
-  gameState.cars.=
-    [ Car.mk (V2 0 1*64) East
-    , Car.mk (V2 0 2*64) East
-    , Car.mk (V2 (14*64) (3*64)) West
+  gameState.cars .= []
+  gameState.spawnPoints .=
+    [ SpawnPoint.mk (V2 0 1*64) East 1 1
+    , SpawnPoint.mk (V2 (14*64) (3*64)) West 1 1
     ]
+
 
 -- | Steps the state of the game.
 -- |
 -- | Should be executed once per frame when this scene is active.
-stepGame :: (MonadState s m, HasGameState s, HasScene s, Input m, Renderer m, Time m) => m ()
+stepGame ::
+  ( HasGameState s
+  , HasScene s
+  , Input m
+  , Renderer m
+  , Time m
+  ) => StateT s m ()
 stepGame = do
   inputState' <- getInputState
-  traverse_ stepIntent (Intent.fromInputState inputState')
+  hoistState $ traverse_ stepIntent (Intent.fromInputState inputState')
 
-  gameState' <- use gameState
-
-  nextToad <- Toad.step (gameState' ^. toad)
-  gameState.toad .= nextToad
-
-  nextCars <- traverse Car.step (gameState' ^. cars)
-  gameState.cars .= nextCars
-
-  Collision.step
-
-  renderGame
+  zoom gameState $ do
+    Toad.step
+    SpawnPoint.stepAll
+    Car.stepAll
+    Collision.step
+    renderGame
 
 -- | Applies the intent of the user to the scene
-stepIntent :: (MonadState s m, HasScene s, HasGameState s) => Intent -> m ()
+stepIntent :: (HasGameState s , HasScene s) => Intent -> State s ()
 stepIntent (Move dir) = gameState.toad %= Toad.jump dir
 stepIntent Exit = scene .= Scene.Title
 
 -- | Draws the Scene on the screen
-renderGame :: (MonadState s m, HasGameState s, Renderer m) => m ()
+renderGame :: (HasToad s, HasCars s, Renderer m) => StateT s m ()
 renderGame = do
-  gameState' <- use gameState
+  cars' <- use cars
+  traverse_ Car.render cars'
 
-  traverse_ Car.render (gameState' ^. cars)
-
-  Toad.render (gameState' ^. toad)
+  toad' <- use toad
+  Toad.render toad'

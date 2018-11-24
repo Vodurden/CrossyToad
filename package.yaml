@@ -40,7 +40,7 @@ dependencies:
 library:
   source-dirs: src
   exposed-modules:
-    - CrossyToad
+    - Game
   ghc-options:
     -fprof-auto-exported
 

@@ -3,6 +3,7 @@
 module CrossyToad.Scene.Game.Toad where
 
 import           Control.Lens
+import           Control.Monad.State(StateT)
 import           Linear.V2
 
 import           CrossyToad.Physics.CollisionBox (CollisionBox(..), HasCollisionBox(..))
@@ -55,8 +56,8 @@ mk pos = Toad
     toadCooldown :: Seconds
     toadCooldown = 0.15
 
-step :: (Time m) => Toad -> m Toad
-step = JumpMotion.stepEff
+step :: (Time m, HasToad s) => StateT s m ()
+step = zoom toad JumpMotion.step
 
 render :: (Renderer m) => Toad -> m ()
 render toad' = drawToad (toad' ^. position)

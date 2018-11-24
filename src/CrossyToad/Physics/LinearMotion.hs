@@ -12,11 +12,12 @@ module CrossyToad.Physics.LinearMotion
   ( LinearMotion(..)
   , HasLinearMotion(..)
   , mk
-  , stepEff
   , step
+  , stepBy
   ) where
 
 import Control.Lens
+import Control.Monad.State.Extended (StateT)
 
 import CrossyToad.Time.Time
 import CrossyToad.Physics.Direction
@@ -36,13 +37,14 @@ instance HasDirection LinearMotion where
 mk :: Direction -> Speed -> LinearMotion
 mk = LinearMotion
 
-stepEff :: (Time m, HasPosition ent, HasLinearMotion ent) => ent -> m ent
-stepEff ent' = do
+step :: (Time m, HasPosition s, HasLinearMotion s) => StateT s m ()
+step = do
   delta <- deltaTime
-  pure $ step delta ent'
+  id %= stepBy delta
 
-step :: (HasPosition ent, HasLinearMotion ent) => Seconds -> ent -> ent
-step delta ent' =
+-- | Step this motion by a given amount of seconds
+stepBy :: (HasPosition ent, HasLinearMotion ent) => Seconds -> ent -> ent
+stepBy delta ent' =
   let distanceThisFrame = (ent' ^. speed) * delta
       directionVector = unitVector $ ent'^.linearMotion.direction
       motionVector' = (* distanceThisFrame) <$> directionVector

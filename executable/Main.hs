@@ -1,6 +1,6 @@
 module Main where
 
-import qualified CrossyToad as CrossyToad
+import qualified Game as CrossyToad
 
 main :: IO ()
 main = CrossyToad.main

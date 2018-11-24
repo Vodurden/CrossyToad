@@ -4,7 +4,7 @@ Date: 2018-09-30
 
 ## Status
 
-Accepted
+Superseded by [adr-0012](/docs/architecture/adr-0012-use-concrete-state-monad.md)
 
 ## Context
 
