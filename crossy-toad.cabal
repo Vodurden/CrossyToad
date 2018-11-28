@@ -2,7 +2,7 @@
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: fad3a292255b6ea158b50ccb82b1c65701d7b104a56daf55c4e3dc9df05880e4
+-- hash: ba4cfaa5c03919a2523f1bcbe97ba3a63eea8907fbeb9f326857dc1a9faf212a
 
 name:           crossy-toad
 version:        0.1.0.0
@@ -42,6 +42,7 @@ library
       CrossyToad.Renderer.SDL.Config
       CrossyToad.Renderer.SDL.Renderer
       CrossyToad.Renderer.SDL.SDL
+      CrossyToad.Renderer.SDL.Texture
       CrossyToad.Renderer.SDL.Textures
       CrossyToad.Runner
       CrossyToad.Scene.Game.Car
@@ -82,6 +83,27 @@ library
   default-language: Haskell2010
 
 executable crossy-toad
+  main-is: Main.hs
+  other-modules:
+      Paths_crossy_toad
+  hs-source-dirs:
+      executable
+  default-extensions: FlexibleContexts GeneralizedNewtypeDeriving OverloadedStrings NamedFieldPuns MultiParamTypeClasses FunctionalDependencies RankNTypes DuplicateRecordFields TypeSynonymInstances FlexibleInstances
+  ghc-options: -Wall -Wcompat -Wincomplete-record-updates -Wincomplete-uni-patterns -Wredundant-constraints -O2
+  build-depends:
+      base >=4.9 && <4.12
+    , containers
+    , crossy-toad
+    , lens
+    , linear
+    , mtl
+    , sdl2
+    , sdl2-image
+    , sdl2-ttf
+    , transformers
+  default-language: Haskell2010
+
+executable crossy-toad-prof
   main-is: Main.hs
   other-modules:
       Paths_crossy_toad
@@ -140,6 +162,7 @@ test-suite spec
       CrossyToad.Renderer.SDL.Config
       CrossyToad.Renderer.SDL.Renderer
       CrossyToad.Renderer.SDL.SDL
+      CrossyToad.Renderer.SDL.Texture
       CrossyToad.Renderer.SDL.Textures
       CrossyToad.Runner
       CrossyToad.Scene.Game.Car

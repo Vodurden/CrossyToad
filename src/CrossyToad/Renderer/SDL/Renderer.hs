@@ -9,6 +9,7 @@ import           CrossyToad.Renderer.Asset (Asset)
 import           CrossyToad.Renderer.SDL.Config
 import           CrossyToad.Renderer.SDL.Textures (HasTextures(..))
 import qualified CrossyToad.Renderer.SDL.Textures as Textures
+import           CrossyToad.Renderer.SDL.Texture (Texture, HasTexture(..))
 
 clearScreen :: (MonadReader r m, HasConfig r, MonadIO m) => m ()
 clearScreen = view renderer >>= SDL.clear
@@ -23,15 +24,14 @@ draw asset' pos = do
   drawTextureSprite texture' pos
 
 drawTextureSprite :: (MonadReader r m, MonadIO m, HasConfig r)
-                  => SDL.Texture
+                  => Texture
                   -> V2 Float
                   -> m ()
-drawTextureSprite texture (V2 x y) = do
+drawTextureSprite texture' (V2 x y) = do
   renderer' <- view renderer
-  SDL.TextureInfo { textureWidth, textureHeight } <- SDL.queryTexture texture
-  let dimensions = V2 textureWidth textureHeight
+  let dimensions = V2 (texture' ^. width) (texture' ^. height)
   SDL.copy
     renderer'
-    texture
+    (texture' ^. sdlTexture)
     Nothing
     (Just $ SDL.Rectangle (SDL.P $ SDL.V2 (truncate x) (truncate y)) dimensions)
