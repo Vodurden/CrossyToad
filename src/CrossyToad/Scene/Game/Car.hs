@@ -48,7 +48,7 @@ mk :: Position -> Direction -> Car
 mk pos dir = Car
     { __position = pos
     , __linearMotion = LinearMotion.mk dir carSpeed
-    , __collisionBox = CollisionBox.mk (V2 64 64)
+    , __collisionBox = CollisionBox.mkOffset (V2 1 1) (V2 62 62)
     }
   where
     -- | How far the car moves in one second

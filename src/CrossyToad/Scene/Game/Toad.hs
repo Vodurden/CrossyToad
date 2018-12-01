@@ -37,7 +37,7 @@ mk :: Position -> Toad
 mk pos = Toad
     { __position = pos
     , __jumpMotion = JumpMotion.mk North toadSpeed toadDistance toadCooldown
-    , __collisionBox = CollisionBox.mk (V2 64 64)
+    , __collisionBox = CollisionBox.mkOffset (V2 1 1) (V2 62 62)
     , _initialPosition = pos
     , _lives = 5
     }
@@ -49,7 +49,7 @@ mk pos = Toad
     -- | How many pixels the toad moves per-second
     toadSpeed :: Speed
     toadSpeed = toadDistance * (1 / secondsToJump)
-      where secondsToJump = 0.15
+      where secondsToJump = 0.10
 
     -- | How long the toad must rest between jumps
     toadCooldown :: Seconds
@@ -59,7 +59,8 @@ step :: (Time m, HasToad ent) => ent -> m ent
 step = mapMOf toad JumpMotion.step
 
 render :: (Renderer m) => Toad -> m ()
-render toad' = drawToad (toad' ^. position)
+render toad' | JumpMotion.isMoving toad'  = drawToad2 (toad' ^. position)
+             | otherwise = drawToad (toad' ^. position)
 
 -- | Jump in a given direction.
 -- |

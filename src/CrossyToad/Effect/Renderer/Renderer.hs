@@ -37,5 +37,8 @@ drawTitleText = draw Asset.TitleSprite
 drawToad :: (Renderer m) => V2 Float -> m ()
 drawToad = draw Asset.Toad
 
+drawToad2 :: (Renderer m) => V2 Float -> m ()
+drawToad2 = draw Asset.Toad2
+
 drawCar :: (Renderer m) => V2 Float -> m ()
 drawCar = draw Asset.Car

@@ -16,6 +16,7 @@ import qualified CrossyToad.Effect.Renderer.SDL.Texture as Texture
 data Textures = Textures
   { _titleSprite :: Texture
   , _toad :: Texture
+  , _toad2 :: Texture
   , _car :: Texture
   }
 
@@ -24,6 +25,7 @@ makeClassy ''Textures
 fromAsset :: Asset -> Textures -> Texture
 fromAsset Asset.TitleSprite = view titleSprite
 fromAsset Asset.Toad = view toad
+fromAsset Asset.Toad2 = view toad2
 fromAsset Asset.Car = view car
 
 loadTextures :: SDL.Renderer -> IO Textures
@@ -36,12 +38,15 @@ loadTextures renderer = do
 
     toadSprite <- Image.loadTexture renderer "assets/sprite/toad.png"
       >>= Texture.fromSDL
+    toad2Sprite <- Image.loadTexture renderer "assets/sprite/toad2.png"
+      >>= Texture.fromSDL
     carSprite <- Image.loadTexture renderer "assets/sprite/car.png"
       >>= Texture.fromSDL
 
     pure $ Textures
       { _titleSprite = titleSpriteTexture
       , _toad = toadSprite
+      , _toad2 = toad2Sprite
       , _car = carSprite
       }
   where
