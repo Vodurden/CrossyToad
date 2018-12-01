@@ -17,6 +17,7 @@ import           Control.Monad.IO.Class (MonadIO, liftIO)
 import           Data.IORef
 
 import           CrossyToad.Effect.Input.Input
+import           CrossyToad.Effect.Logger.Logger
 import           CrossyToad.Effect.Renderer.Renderer
 import           CrossyToad.Scene.Env
 import           CrossyToad.Scene.Game.Game (stepGame, HasGameState(..))
@@ -37,6 +38,7 @@ stepIO ::
   ( MonadReader r m
   , HasEnv r
   , Input m
+  , Logger m
   , Renderer m
   , Time m
   , MonadIO m
@@ -62,6 +64,7 @@ step ::
   ( HasScene ent
   , HasGameState ent
   , Input m
+  , Logger m
   , Renderer m
   , Time m
   ) => ent -> m ent

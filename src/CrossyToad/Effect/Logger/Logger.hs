@@ -1,11 +1,14 @@
-module CrossyToad.Effect.Logger.Logger where
+module CrossyToad.Effect.Logger.Logger
+  ( Logger(..)
+  , logText
+  , module CrossyToad.Effect.Logger.LogLevel
+  ) where
 
 import Control.Monad (when)
 import Data.Set (Set)
 import Data.Text (Text)
 
-import           CrossyToad.Effect.Logger.LogLevel (LogLevel)
-import qualified CrossyToad.Effect.Logger.LogLevel as LogLevel
+import CrossyToad.Effect.Logger.LogLevel
 
 class Monad m => Logger m where
   -- | Get the enabled log levels.
@@ -23,5 +26,5 @@ logText :: (Logger m) => LogLevel -> Text -> m ()
 logText level text = do
   enabledLogLevels <- getEnabledLogLevels
   when (level `elem` enabledLogLevels) $ do
-    let message = LogLevel.toPretty level <> " " <> text
+    let message = toPretty level <> " " <> text
     logRaw message

@@ -5,15 +5,21 @@ module CrossyToad.Scene.Game.Collision
   ) where
 
 import           Control.Lens
+import           Data.Foldable (foldlM)
+import qualified Data.Text as Text
 
+import           CrossyToad.Effect.Logger.Logger
 import           CrossyToad.Scene.Game.Car (Car, HasCars(..))
 import           CrossyToad.Scene.Game.Toad (Toad, HasToad(..))
 import qualified CrossyToad.Scene.Game.Toad as Toad
 
-step :: (HasToad ent, HasCars ent) => ent -> ent
-step ent =
-  ent & toad .~ foldl carCollision (ent ^. toad) (ent ^. cars)
+step :: (Logger m, HasToad ent, HasCars ent) => ent -> m ent
+step ent = do
+  nextToad <- foldlM carCollision (ent ^. toad) (ent ^. cars)
+  pure $ ent & toad .~ nextToad
 
-carCollision :: Toad -> Car -> Toad
-carCollision toad' car' | Toad.collision toad' car' = Toad.die toad'
-                        | otherwise = toad'
+carCollision :: (Logger m) => Toad -> Car -> m Toad
+carCollision toad' car' | Toad.collision toad' car' = do
+                            logText Debug $ (Text.pack "Toad Collision! ") <> (Text.pack $ show toad') <> " " <> (Text.pack $ show car')
+                            pure $ Toad.die toad'
+                        | otherwise = pure toad'

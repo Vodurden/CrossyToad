@@ -12,6 +12,7 @@ import           Linear.V2
 
 import           CrossyToad.Physics.Physics (Direction(..))
 import           CrossyToad.Effect.Input.Input (Input(..))
+import           CrossyToad.Effect.Logger.Logger (Logger(..))
 import           CrossyToad.Effect.Renderer.Renderer (Renderer(..))
 import           CrossyToad.Effect.Time.Time (Time(..))
 import           CrossyToad.Scene.Internal (HasScene, scene)
@@ -36,7 +37,7 @@ initialize =
       , SpawnPoint.mk (V2 (14*64) (3*64)) West 1 1
       ])
 
-stepGame :: (Input m, Renderer m, Time m, HasGameState ent, HasScene ent) => ent -> m ent
+stepGame :: (Input m, Logger m, Renderer m, Time m, HasGameState ent, HasScene ent) => ent -> m ent
 stepGame ent = do
   ent' <- stepIntents ent
   ent'' <- stepGameState ent'
@@ -54,13 +55,13 @@ stepIntent (Move dir) = gameState.toad %~ (Toad.jump dir)
 stepIntent Exit = scene .~ Scene.Title
 
 -- | Step all the GameState specific logic
-stepGameState :: (Input m, Time m, HasGameState ent) => ent -> m ent
+stepGameState :: (Input m, Logger m, Time m, HasGameState ent) => ent -> m ent
 stepGameState =
   mapMOf gameState $
     Toad.step
     >=> SpawnPoint.stepAll
     >=> Car.stepAll
-    >=> (pure . Collision.step)
+    >=> Collision.step
 
 -- | Draws the Scene on the screen
 renderGame :: (HasGameState ent, Renderer m) => ent -> m ()
