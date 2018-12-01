@@ -14,12 +14,12 @@ import           CrossyToad.Renderer.Renderer
 import           CrossyToad.Time.Time
 
 data Toad = Toad
-  { __position :: Position
-  , __jumpMotion :: JumpMotion
-  , __collisionBox :: CollisionBox
+  { __position :: !Position
+  , __jumpMotion :: !JumpMotion
+  , __collisionBox :: !CollisionBox
 
-  , _initialPosition :: Position        -- ^ The position the toad was originally created in
-  , _lives :: Int                       -- ^ How many lives the toad has left
+  , _initialPosition :: !Position        -- ^ The position the toad was originally created in
+  , _lives :: !Int                       -- ^ How many lives the toad has left
   } deriving (Eq, Show)
 
 makeClassy ''Toad

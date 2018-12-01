@@ -22,9 +22,9 @@ import           CrossyToad.Renderer.Renderer
 import           CrossyToad.Time.Time
 
 data Car = Car
-  { __position :: Position
-  , __linearMotion :: LinearMotion
-  , __collisionBox :: CollisionBox
+  { __position :: !Position
+  , __linearMotion :: !LinearMotion
+  , __collisionBox :: !CollisionBox
   } deriving (Eq, Show)
 
 makeClassy ''Car

@@ -9,8 +9,8 @@ import CrossyToad.Time.Seconds
 import CrossyToad.Time.Time
 
 data Timer = Timer
-  { _startTime :: Seconds      -- ^ The time to start at when reset
-  , _currentTime :: Seconds    -- ^ The current time. Counts down to 0
+  { _startTime :: !Seconds      -- ^ The time to start at when reset
+  , _currentTime :: !Seconds    -- ^ The current time. Counts down to 0
   } deriving (Eq, Show)
 
 makeClassy ''Timer

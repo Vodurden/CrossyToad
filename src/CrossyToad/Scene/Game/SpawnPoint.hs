@@ -21,10 +21,10 @@ import           CrossyToad.Time.Timer (Timer)
 import qualified CrossyToad.Time.Timer as Timer
 
 data SpawnPoint = SpawnPoint
-  { __position :: Position   -- ^ Position to spawn at
-  , __direction :: Direction -- ^ Direction the spawned entity should face
-  , _spawnTimer :: Timer     -- ^ Interval between spawns
-  , _loopTimer :: Timer      -- ^ Interval between loops
+  { __position :: !Position   -- ^ Position to spawn at
+  , __direction :: !Direction -- ^ Direction the spawned entity should face
+  , _spawnTimer :: !Timer     -- ^ Interval between spawns
+  , _loopTimer :: !Timer      -- ^ Interval between loops
   } deriving (Eq, Show)
 
 makeClassy ''SpawnPoint

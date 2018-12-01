@@ -10,9 +10,9 @@ import CrossyToad.Scene.Game.Car
 import CrossyToad.Scene.Game.SpawnPoint
 
 data GameState = GameState
-  { __toad :: Toad
-  , __cars :: [Car]
-  , __spawnPoints :: [SpawnPoint]
+  { __toad :: !Toad
+  , __cars :: ![Car]
+  , __spawnPoints :: ![SpawnPoint]
   } deriving (Eq, Show)
 
 makeClassy ''GameState

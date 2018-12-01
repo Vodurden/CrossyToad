@@ -24,8 +24,8 @@ import CrossyToad.Physics.Speed
 import CrossyToad.Physics.Position
 
 data LinearMotion = LinearMotion
-  { __direction :: Direction -- ^ The direction we are moving
-  , _speed     :: Speed     -- ^ How fast we are moving
+  { __direction :: !Direction -- ^ The direction we are moving
+  , _speed     :: !Speed     -- ^ How fast we are moving
   } deriving (Eq, Show)
 
 makeClassy ''LinearMotion
