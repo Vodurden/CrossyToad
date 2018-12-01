@@ -2,7 +2,7 @@
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: fd413f64a381e742a2292128ef595b0abc1f1c0d1ca53e5743134c053c38b0ed
+-- hash: e9f4f79bd158353a5c96671a752ed9f2791fadf95323f896252f19d57774bd1e
 
 name:           crossy-toad
 version:        0.1.0.0
@@ -30,6 +30,11 @@ library
       CrossyToad.Effect.Input.SDL.Env
       CrossyToad.Effect.Input.SDL.Input
       CrossyToad.Effect.Input.SDL.SDL
+      CrossyToad.Effect.Logger.IO.Env
+      CrossyToad.Effect.Logger.IO.IO
+      CrossyToad.Effect.Logger.IO.Logger
+      CrossyToad.Effect.Logger.Logger
+      CrossyToad.Effect.Logger.LogLevel
       CrossyToad.Effect.Renderer.Asset
       CrossyToad.Effect.Renderer.Renderer
       CrossyToad.Effect.Renderer.SDL.Env
@@ -83,6 +88,7 @@ library
     , sdl2
     , sdl2-image
     , sdl2-ttf
+    , text
     , transformers
   default-language: Haskell2010
 
@@ -104,6 +110,7 @@ executable crossy-toad
     , sdl2
     , sdl2-image
     , sdl2-ttf
+    , text
     , transformers
   default-language: Haskell2010
 
@@ -125,6 +132,7 @@ executable crossy-toad-prof
     , sdl2
     , sdl2-image
     , sdl2-ttf
+    , text
     , transformers
   default-language: Haskell2010
 
@@ -154,6 +162,11 @@ test-suite spec
       CrossyToad.Effect.Input.SDL.Env
       CrossyToad.Effect.Input.SDL.Input
       CrossyToad.Effect.Input.SDL.SDL
+      CrossyToad.Effect.Logger.IO.Env
+      CrossyToad.Effect.Logger.IO.IO
+      CrossyToad.Effect.Logger.IO.Logger
+      CrossyToad.Effect.Logger.Logger
+      CrossyToad.Effect.Logger.LogLevel
       CrossyToad.Effect.Renderer.Asset
       CrossyToad.Effect.Renderer.Renderer
       CrossyToad.Effect.Renderer.SDL.Env
@@ -215,5 +228,6 @@ test-suite spec
     , tasty-discover
     , tasty-hedgehog
     , tasty-hspec
+    , text
     , transformers
   default-language: Haskell2010

@@ -2,7 +2,7 @@
   mkDerivation, stdenv, darwin, hpack, cabal-install
 
   # Haskell lib dependencies
-  , base, sdl2, sdl2-ttf, sdl2-image, linear, mtl, transformers, containers, lens
+  , base, sdl2, sdl2-ttf, sdl2-image, linear, mtl, transformers, containers, lens, text
 
   # Haskell test dependencies
   , tasty, tasty-discover, tasty-hspec, hspec, tasty-hedgehog, hedgehog
@@ -20,7 +20,7 @@ mkDerivation {
     flamegraph ghc-prof-flamegraph cabal-install hpack
   ] ++ (if stdenv.isDarwin then [darwin.apple_sdk.frameworks.OpenGL] else []);
   executableHaskellDepends = [
-    base sdl2 sdl2-ttf sdl2-image linear mtl transformers containers lens
+    base sdl2 sdl2-ttf sdl2-image linear mtl transformers containers lens text
     tasty tasty-discover tasty-hspec hspec tasty-hedgehog hedgehog
   ];
   license = stdenv.lib.licenses.bsd3;

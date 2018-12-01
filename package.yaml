@@ -35,6 +35,7 @@ dependencies:
   - transformers
   - lens
   - containers
+  - text
 
 library:
   source-dirs: src
