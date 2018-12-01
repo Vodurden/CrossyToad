@@ -20,8 +20,3 @@ mainLoop = do
   drawScreen
 
   unless (scene == Scene.Quit) mainLoop
-
--- -- | Extra effects to run when transitioning from one scene to another
--- transition :: (HasScene ent, HasGameState ent) => Scene -> Scene -> ent -> ent
--- transition oldScene newScene | oldScene /= newScene = Scene.initialize
---                              | otherwise = id
