@@ -11,9 +11,9 @@ import           Data.Foldable (foldl')
 import           Linear.V2
 
 import           CrossyToad.Physics.Physics (Direction(..))
-import           CrossyToad.Input.Input (Input(..))
-import           CrossyToad.Renderer.Renderer (Renderer(..))
-import           CrossyToad.Time.Time (Time(..))
+import           CrossyToad.Effect.Input.Input (Input(..))
+import           CrossyToad.Effect.Renderer.Renderer (Renderer(..))
+import           CrossyToad.Effect.Time.Time (Time(..))
 import           CrossyToad.Scene.Internal (HasScene, scene)
 import qualified CrossyToad.Scene.Internal as Scene
 import           CrossyToad.Scene.Game.Intent (Intent(..))

@@ -4,12 +4,12 @@ import           Control.Monad.Reader (MonadReader, ReaderT, runReaderT)
 import           Control.Monad.IO.Class (MonadIO)
 
 import           CrossyToad.Env (Env(..))
-import           CrossyToad.Input.Input
-import qualified CrossyToad.Input.SDL.SDL as SDLInput
-import           CrossyToad.Renderer.Renderer
-import qualified CrossyToad.Renderer.SDL.SDL as SDLRenderer
-import           CrossyToad.Time.Time
-import qualified CrossyToad.Time.SDL.Time as SDLTime
+import           CrossyToad.Effect.Input.Input
+import qualified CrossyToad.Effect.Input.SDL.SDL as SDLInput
+import           CrossyToad.Effect.Renderer.Renderer
+import qualified CrossyToad.Effect.Renderer.SDL.SDL as SDLRenderer
+import           CrossyToad.Effect.Time.Time
+import qualified CrossyToad.Effect.Time.SDL.Time as SDLTime
 
 newtype CrossyToad a = CrossyToad (ReaderT Env IO a)
   deriving (Functor, Applicative, Monad, MonadReader Env, MonadIO)

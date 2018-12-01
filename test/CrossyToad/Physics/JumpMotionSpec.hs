@@ -10,8 +10,8 @@ import Test.Tasty.Hspec
 import CrossyToad.Physics.Direction
 import CrossyToad.Physics.JumpMotion
 import CrossyToad.Physics.Position
-import CrossyToad.Time.Timer (HasTimer(..))
-import qualified CrossyToad.Time.Timer as Timer
+import CrossyToad.Effect.Time.Timer (HasTimer(..))
+import qualified CrossyToad.Effect.Time.Timer as Timer
 
 data Ent = Ent
   { __position :: Position

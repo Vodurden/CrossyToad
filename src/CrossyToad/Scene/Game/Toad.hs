@@ -10,8 +10,8 @@ import qualified CrossyToad.Physics.CollisionBox as CollisionBox
 import           CrossyToad.Physics.JumpMotion (JumpMotion(..), HasJumpMotion(..))
 import qualified CrossyToad.Physics.JumpMotion as JumpMotion
 import           CrossyToad.Physics.Physics
-import           CrossyToad.Renderer.Renderer
-import           CrossyToad.Time.Time
+import           CrossyToad.Effect.Renderer.Renderer
+import           CrossyToad.Effect.Time.Time
 
 data Toad = Toad
   { __position :: !Position

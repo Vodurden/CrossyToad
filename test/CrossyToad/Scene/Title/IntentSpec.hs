@@ -2,7 +2,7 @@ module CrossyToad.Scene.Title.IntentSpec where
 
 import Test.Tasty.Hspec
 
-import CrossyToad.Input.Input
+import CrossyToad.Effect.Input.Input
 import CrossyToad.Scene.Title.Intent
 
 spec_Scene_Title_Intent :: Spec

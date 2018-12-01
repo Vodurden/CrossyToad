@@ -10,7 +10,7 @@ import Control.Lens
 import Control.Monad (mfilter)
 import Data.Maybe (catMaybes)
 
-import CrossyToad.Input.Input
+import CrossyToad.Effect.Input.Input
 import CrossyToad.Physics.Physics
 
 data Intent = Move Direction

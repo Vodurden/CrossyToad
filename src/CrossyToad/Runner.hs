@@ -3,9 +3,9 @@ module CrossyToad.Runner (mainLoop) where
 import Control.Monad (unless)
 
 import           CrossyToad
-import           CrossyToad.Renderer.Renderer
-import           CrossyToad.Input.Input
-import           CrossyToad.Time.Time
+import           CrossyToad.Effect.Renderer.Renderer
+import           CrossyToad.Effect.Input.Input
+import           CrossyToad.Effect.Time.Time
 import qualified CrossyToad.Scene.Scene as Scene
 
 mainLoop :: CrossyToad ()

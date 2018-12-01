@@ -2,7 +2,7 @@
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: a949de7fc3df62b3e9968b08fdb1ba1997235ae9cf38a62982162001a15caab3
+-- hash: fd413f64a381e742a2292128ef595b0abc1f1c0d1ca53e5743134c053c38b0ed
 
 name:           crossy-toad
 version:        0.1.0.0
@@ -22,15 +22,29 @@ library
       Control.Lens.Extended
       Control.Monad.State.Extended
       CrossyToad
+      CrossyToad.Effect.Input.Input
+      CrossyToad.Effect.Input.InputEvent
+      CrossyToad.Effect.Input.InputState
+      CrossyToad.Effect.Input.Key
+      CrossyToad.Effect.Input.KeyboardState
+      CrossyToad.Effect.Input.SDL.Env
+      CrossyToad.Effect.Input.SDL.Input
+      CrossyToad.Effect.Input.SDL.SDL
+      CrossyToad.Effect.Renderer.Asset
+      CrossyToad.Effect.Renderer.Renderer
+      CrossyToad.Effect.Renderer.SDL.Env
+      CrossyToad.Effect.Renderer.SDL.Renderer
+      CrossyToad.Effect.Renderer.SDL.SDL
+      CrossyToad.Effect.Renderer.SDL.Texture
+      CrossyToad.Effect.Renderer.SDL.Textures
+      CrossyToad.Effect.Time.SDL.Env
+      CrossyToad.Effect.Time.SDL.SDL
+      CrossyToad.Effect.Time.SDL.Time
+      CrossyToad.Effect.Time.SDL.TimeState
+      CrossyToad.Effect.Time.Seconds
+      CrossyToad.Effect.Time.Time
+      CrossyToad.Effect.Time.Timer
       CrossyToad.Env
-      CrossyToad.Input.Input
-      CrossyToad.Input.InputEvent
-      CrossyToad.Input.InputState
-      CrossyToad.Input.Key
-      CrossyToad.Input.KeyboardState
-      CrossyToad.Input.SDL.Env
-      CrossyToad.Input.SDL.Input
-      CrossyToad.Input.SDL.SDL
       CrossyToad.Physics.CollisionBox
       CrossyToad.Physics.Direction
       CrossyToad.Physics.Distance
@@ -39,13 +53,6 @@ library
       CrossyToad.Physics.Physics
       CrossyToad.Physics.Position
       CrossyToad.Physics.Speed
-      CrossyToad.Renderer.Asset
-      CrossyToad.Renderer.Renderer
-      CrossyToad.Renderer.SDL.Env
-      CrossyToad.Renderer.SDL.Renderer
-      CrossyToad.Renderer.SDL.SDL
-      CrossyToad.Renderer.SDL.Texture
-      CrossyToad.Renderer.SDL.Textures
       CrossyToad.Runner
       CrossyToad.Scene.Env
       CrossyToad.Scene.Game.Car
@@ -60,13 +67,6 @@ library
       CrossyToad.Scene.SceneState
       CrossyToad.Scene.Title.Intent
       CrossyToad.Scene.Title.Title
-      CrossyToad.Time.SDL.Env
-      CrossyToad.Time.SDL.SDL
-      CrossyToad.Time.SDL.Time
-      CrossyToad.Time.SDL.TimeState
-      CrossyToad.Time.Seconds
-      CrossyToad.Time.Time
-      CrossyToad.Time.Timer
       Data.List.Extended
       SDL.Extended
       Paths_crossy_toad
@@ -132,8 +132,9 @@ test-suite spec
   type: exitcode-stdio-1.0
   main-is: Driver.hs
   other-modules:
-      CrossyToad.Input.KeyboardStateSpec
-      CrossyToad.Input.SDL.InputSpec
+      CrossyToad.Effect.Input.KeyboardStateSpec
+      CrossyToad.Effect.Input.SDL.InputSpec
+      CrossyToad.Effect.Time.TimerSpec
       CrossyToad.Physics.CollisionBoxSpec
       CrossyToad.Physics.JumpMotionSpec
       CrossyToad.Physics.LinearMotionSpec
@@ -142,19 +143,32 @@ test-suite spec
       CrossyToad.Scene.Game.ToadSpec
       CrossyToad.Scene.Title.IntentSpec
       CrossyToad.Scene.Title.TitleSpec
-      CrossyToad.Time.TimerSpec
       Control.Lens.Extended
       Control.Monad.State.Extended
       CrossyToad
+      CrossyToad.Effect.Input.Input
+      CrossyToad.Effect.Input.InputEvent
+      CrossyToad.Effect.Input.InputState
+      CrossyToad.Effect.Input.Key
+      CrossyToad.Effect.Input.KeyboardState
+      CrossyToad.Effect.Input.SDL.Env
+      CrossyToad.Effect.Input.SDL.Input
+      CrossyToad.Effect.Input.SDL.SDL
+      CrossyToad.Effect.Renderer.Asset
+      CrossyToad.Effect.Renderer.Renderer
+      CrossyToad.Effect.Renderer.SDL.Env
+      CrossyToad.Effect.Renderer.SDL.Renderer
+      CrossyToad.Effect.Renderer.SDL.SDL
+      CrossyToad.Effect.Renderer.SDL.Texture
+      CrossyToad.Effect.Renderer.SDL.Textures
+      CrossyToad.Effect.Time.SDL.Env
+      CrossyToad.Effect.Time.SDL.SDL
+      CrossyToad.Effect.Time.SDL.Time
+      CrossyToad.Effect.Time.SDL.TimeState
+      CrossyToad.Effect.Time.Seconds
+      CrossyToad.Effect.Time.Time
+      CrossyToad.Effect.Time.Timer
       CrossyToad.Env
-      CrossyToad.Input.Input
-      CrossyToad.Input.InputEvent
-      CrossyToad.Input.InputState
-      CrossyToad.Input.Key
-      CrossyToad.Input.KeyboardState
-      CrossyToad.Input.SDL.Env
-      CrossyToad.Input.SDL.Input
-      CrossyToad.Input.SDL.SDL
       CrossyToad.Physics.CollisionBox
       CrossyToad.Physics.Direction
       CrossyToad.Physics.Distance
@@ -163,13 +177,6 @@ test-suite spec
       CrossyToad.Physics.Physics
       CrossyToad.Physics.Position
       CrossyToad.Physics.Speed
-      CrossyToad.Renderer.Asset
-      CrossyToad.Renderer.Renderer
-      CrossyToad.Renderer.SDL.Env
-      CrossyToad.Renderer.SDL.Renderer
-      CrossyToad.Renderer.SDL.SDL
-      CrossyToad.Renderer.SDL.Texture
-      CrossyToad.Renderer.SDL.Textures
       CrossyToad.Runner
       CrossyToad.Scene.Env
       CrossyToad.Scene.Game.Car
@@ -184,13 +191,6 @@ test-suite spec
       CrossyToad.Scene.SceneState
       CrossyToad.Scene.Title.Intent
       CrossyToad.Scene.Title.Title
-      CrossyToad.Time.SDL.Env
-      CrossyToad.Time.SDL.SDL
-      CrossyToad.Time.SDL.Time
-      CrossyToad.Time.SDL.TimeState
-      CrossyToad.Time.Seconds
-      CrossyToad.Time.Time
-      CrossyToad.Time.Timer
       Data.List.Extended
       Game
       SDL.Extended

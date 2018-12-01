@@ -18,7 +18,7 @@ module CrossyToad.Physics.LinearMotion
 
 import Control.Lens
 
-import CrossyToad.Time.Time
+import CrossyToad.Effect.Time.Time
 import CrossyToad.Physics.Direction
 import CrossyToad.Physics.Speed
 import CrossyToad.Physics.Position

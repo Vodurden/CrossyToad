@@ -18,8 +18,8 @@ import qualified CrossyToad.Physics.CollisionBox as CollisionBox
 import           CrossyToad.Physics.LinearMotion (LinearMotion(..), HasLinearMotion(..))
 import qualified CrossyToad.Physics.LinearMotion as LinearMotion
 import           CrossyToad.Physics.Physics
-import           CrossyToad.Renderer.Renderer
-import           CrossyToad.Time.Time
+import           CrossyToad.Effect.Renderer.Renderer
+import           CrossyToad.Effect.Time.Time
 
 data Car = Car
   { __position :: !Position

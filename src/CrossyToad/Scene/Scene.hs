@@ -16,15 +16,15 @@ import           Control.Monad.Reader (MonadReader)
 import           Control.Monad.IO.Class (MonadIO, liftIO)
 import           Data.IORef
 
-import           CrossyToad.Input.Input
-import           CrossyToad.Renderer.Renderer
+import           CrossyToad.Effect.Input.Input
+import           CrossyToad.Effect.Renderer.Renderer
 import           CrossyToad.Scene.Env
 import           CrossyToad.Scene.Game.Game (stepGame, HasGameState(..))
 import qualified CrossyToad.Scene.Game.Game as Game
 import           CrossyToad.Scene.Internal
 import           CrossyToad.Scene.SceneState
 import           CrossyToad.Scene.Title.Title (stepTitle)
-import           CrossyToad.Time.Time
+import           CrossyToad.Effect.Time.Time
 
 -- | Steps the Scene
 -- |

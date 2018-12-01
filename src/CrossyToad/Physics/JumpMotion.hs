@@ -29,9 +29,9 @@ import           CrossyToad.Physics.Direction
 import           CrossyToad.Physics.Distance
 import           CrossyToad.Physics.Position
 import           CrossyToad.Physics.Speed
-import           CrossyToad.Time.Time
-import           CrossyToad.Time.Timer (Timer)
-import qualified CrossyToad.Time.Timer as Timer
+import           CrossyToad.Effect.Time.Time
+import           CrossyToad.Effect.Time.Timer (Timer)
+import qualified CrossyToad.Effect.Time.Timer as Timer
 
 data JumpMotion = JumpMotion
   { __direction :: Direction     -- ^ What direction we are facing

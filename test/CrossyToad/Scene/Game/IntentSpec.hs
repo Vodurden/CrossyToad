@@ -4,7 +4,7 @@ import Test.Tasty.Hspec
 
 import Control.Lens
 
-import CrossyToad.Input.Input
+import CrossyToad.Effect.Input.Input
 import CrossyToad.Physics.Physics
 import CrossyToad.Scene.Game.Intent
 

@@ -5,9 +5,9 @@ import           CrossyToad.Runner
 
 import           CrossyToad.Env (Env(..))
 import qualified CrossyToad.Scene.Scene as Scene
-import qualified CrossyToad.Input.SDL.SDL as SDLInput
-import qualified CrossyToad.Renderer.SDL.SDL as SDLRenderer
-import qualified CrossyToad.Time.SDL.SDL as SDLTime
+import qualified CrossyToad.Effect.Input.SDL.SDL as SDLInput
+import qualified CrossyToad.Effect.Renderer.SDL.SDL as SDLRenderer
+import qualified CrossyToad.Effect.Time.SDL.SDL as SDLTime
 
 main :: IO ()
 main = do

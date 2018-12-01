@@ -4,8 +4,8 @@ import           Control.Lens
 import           Data.Foldable (foldl')
 import           Linear.V2
 
-import           CrossyToad.Input.Input
-import           CrossyToad.Renderer.Renderer
+import           CrossyToad.Effect.Input.Input
+import           CrossyToad.Effect.Renderer.Renderer
 import           CrossyToad.Scene.Internal (HasScene, scene)
 import qualified CrossyToad.Scene.Internal as Scene
 import           CrossyToad.Scene.Title.Intent (Intent(..))

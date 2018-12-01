@@ -16,9 +16,9 @@ import qualified Data.List.Extended as List
 import           CrossyToad.Physics.Physics (Position, HasPosition(..), Direction, HasDirection(..))
 import           CrossyToad.Scene.Game.Car (Car(..), HasCars(..))
 import qualified CrossyToad.Scene.Game.Car as Car
-import           CrossyToad.Time.Time (Time, Seconds)
-import           CrossyToad.Time.Timer (Timer)
-import qualified CrossyToad.Time.Timer as Timer
+import           CrossyToad.Effect.Time.Time (Time, Seconds)
+import           CrossyToad.Effect.Time.Timer (Timer)
+import qualified CrossyToad.Effect.Time.Timer as Timer
 
 data SpawnPoint = SpawnPoint
   { __position :: !Position   -- ^ Position to spawn at
