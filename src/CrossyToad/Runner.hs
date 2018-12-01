@@ -14,9 +14,8 @@ mainLoop = do
   stepInput
 
   clearScreen
-
   scene <- Scene.stepIO
-
   drawScreen
 
-  unless (scene == Scene.Quit) mainLoop
+  inputEvents' <- getInputEvents
+  unless (scene == Scene.Quit || QuitEvent `elem` inputEvents') mainLoop

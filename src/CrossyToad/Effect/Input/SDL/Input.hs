@@ -49,10 +49,12 @@ updateInputState events inputState' = foldl' (flip updateInputState') inputState
   where updateInputState' :: InputEvent -> InputState -> InputState
         updateInputState' (KeyPressed key) = inputState.keyboardState %~ (pressKey key)
         updateInputState' (KeyReleased key) = inputState.keyboardState %~ (releaseKey key)
+        updateInputState' QuitEvent = id
 
 mkInputEvent :: SDL.Event -> Maybe InputEvent
 mkInputEvent event = case SDL.eventPayload event of
   (SDL.KeyboardEvent (SDL.KeyboardEventData _ motion _ keysym)) -> mkFromKeyboardEvent motion keysym
+  (SDL.QuitEvent) -> Just QuitEvent
   _ -> Nothing
 
 mkFromKeyboardEvent :: SDL.InputMotion -> SDL.Keysym -> Maybe InputEvent

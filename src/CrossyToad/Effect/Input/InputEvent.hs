@@ -9,6 +9,7 @@ import CrossyToad.Effect.Input.Key
 data InputEvent
   = KeyPressed Key
   | KeyReleased Key
+  | QuitEvent
   deriving (Show, Eq)
 
 makeClassy ''InputEvent
