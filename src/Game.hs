@@ -8,7 +8,6 @@ import qualified CrossyToad.Scene.Scene as Scene
 import qualified CrossyToad.Input.SDL.SDL as SDLInput
 import qualified CrossyToad.Renderer.SDL.SDL as SDLRenderer
 import qualified CrossyToad.Time.SDL.SDL as SDLTime
-import           CrossyToad.Vars (initialVars)
 
 main :: IO ()
 main = do
@@ -23,4 +22,4 @@ main = do
             , _sdlTimeEnv = sdlTimeEnv
             }
 
-  runCrossyToad cfg initialVars mainLoop
+  runCrossyToad cfg mainLoop
