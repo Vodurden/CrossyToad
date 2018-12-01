@@ -6,7 +6,7 @@ import           Control.Monad.IO.Class (MonadIO)
 
 import           CrossyToad.Env (Env(..))
 import           CrossyToad.Input.Input
-import qualified CrossyToad.Input.SDLInput as SDLInput
+import qualified CrossyToad.Input.SDL.SDL as SDLInput
 import           CrossyToad.Renderer.Renderer
 import qualified CrossyToad.Renderer.SDL.SDL as SDLRenderer
 import           CrossyToad.Time.Time
@@ -20,7 +20,7 @@ runCrossyToad :: Env -> Vars -> CrossyToad a -> IO a
 runCrossyToad config vars (CrossyToad m) = evalStateT (runReaderT m config) vars
 
 instance Input CrossyToad where
-  stepInput = SDLInput.stepInputIO
+  stepInput = SDLInput.stepInput
   getInputState = SDLInput.getInputState
 
 instance Renderer CrossyToad where

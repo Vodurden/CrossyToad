@@ -2,7 +2,7 @@
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: 916d166e2474674199815c1a00324cb968ffae8c8dd05b669f4610ed8c30e3ef
+-- hash: 85cdc934bddb9d22dce127c1ded552da52e72ca31dc81ba0dc712bad42f7e971
 
 name:           crossy-toad
 version:        0.1.0.0
@@ -28,7 +28,9 @@ library
       CrossyToad.Input.InputState
       CrossyToad.Input.Key
       CrossyToad.Input.KeyboardState
-      CrossyToad.Input.SDLInput
+      CrossyToad.Input.SDL.Env
+      CrossyToad.Input.SDL.Input
+      CrossyToad.Input.SDL.SDL
       CrossyToad.Physics.CollisionBox
       CrossyToad.Physics.Direction
       CrossyToad.Physics.Distance
@@ -132,7 +134,7 @@ test-suite spec
   main-is: Driver.hs
   other-modules:
       CrossyToad.Input.KeyboardStateSpec
-      CrossyToad.Input.SDLInputSpec
+      CrossyToad.Input.SDL.InputSpec
       CrossyToad.Physics.CollisionBoxSpec
       CrossyToad.Physics.JumpMotionSpec
       CrossyToad.Physics.LinearMotionSpec
@@ -151,7 +153,9 @@ test-suite spec
       CrossyToad.Input.InputState
       CrossyToad.Input.Key
       CrossyToad.Input.KeyboardState
-      CrossyToad.Input.SDLInput
+      CrossyToad.Input.SDL.Env
+      CrossyToad.Input.SDL.Input
+      CrossyToad.Input.SDL.SDL
       CrossyToad.Physics.CollisionBox
       CrossyToad.Physics.Direction
       CrossyToad.Physics.Distance

@@ -1,32 +1,45 @@
-module CrossyToad.Input.SDLInput
-  ( stepInputIO
-  , stepInput
+module CrossyToad.Input.SDL.Input
+  ( stepInput
+  , stepInputState
   , getInputState
   , mkInputEvent
   ) where
 
 import           Control.Lens
-import           Control.Monad.State (MonadState)
-import           Control.Monad.IO.Class (MonadIO)
+import           Control.Monad.Reader (MonadReader)
+import           Control.Monad.IO.Class (MonadIO, liftIO)
 import           Data.Maybe (catMaybes)
 import           Data.Foldable (foldl')
+import           Data.IORef (readIORef, modifyIORef')
 import qualified SDL.Extended as SDL
 
 import           CrossyToad.Input.InputEvent
 import           CrossyToad.Input.InputState
 import           CrossyToad.Input.KeyboardState
 import           CrossyToad.Input.Key
+import           CrossyToad.Input.SDL.Env
 
-stepInputIO :: (MonadState s m, MonadIO m, HasInputState s) => m ()
-stepInputIO = do
-    events <- SDL.pollEvents
-    inputState %= stepInput (events)
+stepInput ::
+  ( MonadReader r m
+  , HasEnv r
+  , MonadIO m
+  ) => m ()
+stepInput = do
+  inputStateRef' <- view (env.inputStateRef)
+  events <- SDL.pollEvents
+  liftIO $ modifyIORef' inputStateRef' (stepInputState events)
 
-getInputState :: (MonadState s m, HasInputState s) => m InputState
-getInputState = use inputState
+getInputState ::
+  ( MonadReader r m
+  , HasEnv r
+  , MonadIO m
+  ) => m InputState
+getInputState = do
+  inputStateRef' <- view (env.inputStateRef)
+  liftIO $ readIORef inputStateRef'
 
-stepInput :: [SDL.Event] -> InputState -> InputState
-stepInput events =
+stepInputState :: [SDL.Event] -> InputState -> InputState
+stepInputState events =
   let inputEvents' = catMaybes $ fmap mkInputEvent events
   in (inputEvents .~ inputEvents')
      . (inputState %~ updateInputState inputEvents')
