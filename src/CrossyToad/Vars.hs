@@ -4,31 +4,18 @@ module CrossyToad.Vars where
 
 import Control.Lens
 
-import           CrossyToad.Scene.Scene (Scene, HasScene)
-import qualified CrossyToad.Scene.Scene as Scene
-import           CrossyToad.Scene.Game.Game (GameState, HasGameState(..), initialGameState)
-import           CrossyToad.Input.Input
+import CrossyToad.Input.Input
 
 data Vars = Vars
-  { __scene :: Scene
-  , __gameState :: GameState
-  , __inputState :: InputState
+  { __inputState :: InputState
   }
 
 makeClassy ''Vars
-
-instance HasScene Vars where
-  scene = _scene
-
-instance HasGameState Vars where
-  gameState = _gameState
 
 instance HasInputState Vars where
   inputState = _inputState
 
 initialVars :: Vars
 initialVars = Vars
-  { __scene = Scene.Title
-  , __gameState = initialGameState
-  , __inputState = initialInputState
+  { __inputState = initialInputState
   }

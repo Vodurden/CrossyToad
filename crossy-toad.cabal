@@ -2,7 +2,7 @@
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: 3e5669812abaf2c23119c10e19dec73009cc0df8d90fb3bb41e9cc913199930d
+-- hash: 916d166e2474674199815c1a00324cb968ffae8c8dd05b669f4610ed8c30e3ef
 
 name:           crossy-toad
 version:        0.1.0.0
@@ -45,6 +45,7 @@ library
       CrossyToad.Renderer.SDL.Texture
       CrossyToad.Renderer.SDL.Textures
       CrossyToad.Runner
+      CrossyToad.Scene.Env
       CrossyToad.Scene.Game.Car
       CrossyToad.Scene.Game.Collision
       CrossyToad.Scene.Game.Game
@@ -54,6 +55,7 @@ library
       CrossyToad.Scene.Game.Toad
       CrossyToad.Scene.Internal
       CrossyToad.Scene.Scene
+      CrossyToad.Scene.SceneState
       CrossyToad.Scene.Title.Intent
       CrossyToad.Scene.Title.Title
       CrossyToad.Time.SDL.Env
@@ -166,6 +168,7 @@ test-suite spec
       CrossyToad.Renderer.SDL.Texture
       CrossyToad.Renderer.SDL.Textures
       CrossyToad.Runner
+      CrossyToad.Scene.Env
       CrossyToad.Scene.Game.Car
       CrossyToad.Scene.Game.Collision
       CrossyToad.Scene.Game.Game
@@ -175,6 +178,7 @@ test-suite spec
       CrossyToad.Scene.Game.Toad
       CrossyToad.Scene.Internal
       CrossyToad.Scene.Scene
+      CrossyToad.Scene.SceneState
       CrossyToad.Scene.Title.Intent
       CrossyToad.Scene.Title.Title
       CrossyToad.Time.SDL.Env
