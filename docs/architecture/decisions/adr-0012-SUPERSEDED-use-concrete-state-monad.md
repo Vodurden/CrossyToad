@@ -4,7 +4,7 @@ Date: 2018-11-25
 
 ## Status
 
-Accepted
+Superseded by [adr-0013](/docs/architecture/decisions/adr-0013-use-ioref-for-state.md)
 
 ## Context
 
