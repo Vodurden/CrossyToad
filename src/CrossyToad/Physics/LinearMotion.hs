@@ -17,7 +17,6 @@ module CrossyToad.Physics.LinearMotion
   ) where
 
 import Control.Lens
-import Control.Monad.State.Extended (StateT)
 
 import CrossyToad.Time.Time
 import CrossyToad.Physics.Direction
@@ -37,10 +36,10 @@ instance HasDirection LinearMotion where
 mk :: Direction -> Speed -> LinearMotion
 mk = LinearMotion
 
-step :: (Time m, HasPosition s, HasLinearMotion s) => StateT s m ()
-step = do
+step :: (Time m, HasPosition ent, HasLinearMotion ent) => ent -> m ent
+step ent = do
   delta <- deltaTime
-  id %= stepBy delta
+  pure $ stepBy delta ent
 
 -- | Step this motion by a given amount of seconds
 stepBy :: (HasPosition ent, HasLinearMotion ent) => Seconds -> ent -> ent

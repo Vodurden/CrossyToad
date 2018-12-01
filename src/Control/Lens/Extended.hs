@@ -1,3 +1,5 @@
+{-# LANGUAGE RankNTypes #-}
+
 module Control.Lens.Extended
   ( module Control.Lens
   , modifyingM

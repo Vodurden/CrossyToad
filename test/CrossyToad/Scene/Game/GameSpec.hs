@@ -34,5 +34,6 @@ runMock f = execState f initialMockState
 spec_Scene_Game :: Spec
 spec_Scene_Game =
   describe "stepIntent" $ do
-    it "should return to the title when the intent is Exit" $
-      runMock (stepIntent Intent.Exit) ^. scene `shouldBe` Scene.Title
+    it "should return to the title when the intent is Exit" $ do
+      let result = (stepIntent Intent.Exit initialMockState)
+      result ^. scene `shouldBe` Scene.Title

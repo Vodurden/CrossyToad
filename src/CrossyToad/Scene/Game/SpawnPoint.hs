@@ -10,7 +10,7 @@ module CrossyToad.Scene.Game.SpawnPoint
   ) where
 
 import           Control.Lens.Extended
-import           Control.Monad.State.Extended (StateT)
+import           Control.Monad.State.Extended (StateT, runStateT)
 import qualified Data.List.Extended as List
 
 import           CrossyToad.Physics.Physics (Position, HasPosition(..), Direction, HasDirection(..))
@@ -50,17 +50,23 @@ mk position' direction' spawnTime loopTime = SpawnPoint
   }
 
 -- | Step all spawn points
-stepAll :: (Time m, HasSpawnPoints s, HasCars s) => StateT s m ()
-stepAll = do
-  newCars <- zoom (spawnPoints.traverse) step
-  cars %= (++ newCars)
+-- |
+-- | We have [StateT ent m [Car]]
+stepAll :: forall ent m. (Time m, HasSpawnPoints ent, HasCars ent) => ent -> m ent
+stepAll ent = do
+    let sps = ent ^. spawnPoints
+    states <- traverse (runStateT step) sps
+    let newCars = concatMap fst states
+    let newSpawnPoints = fmap snd states
+    pure $ ent & cars %~ (++ newCars)
+               & spawnPoints .~ newSpawnPoints
 
 -- | Steps a spawn point and return the cars that should
 -- | be spawned (if any)
-step :: (Time m, HasSpawnPoint s) => StateT s m [Car]
+step :: (Time m, HasSpawnPoint ent) => StateT ent m [Car]
 step = do
-  _ <- zoom spawnTimer Timer.step
-  _ <- zoom loopTimer Timer.step
+  spawnTimer `modifyingM` Timer.step
+  loopTimer `modifyingM` Timer.step
 
   -- If the spawn timer has finished, spawn a car
   spawnTimerFinished <- uses spawnTimer Timer.finished

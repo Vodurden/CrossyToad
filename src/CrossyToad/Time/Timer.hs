@@ -3,8 +3,7 @@
 module CrossyToad.Time.Timer where
 
 import Control.Lens
-import Control.Monad (void)
-import Control.Monad.State.Extended (StateT, State, hoistState)
+import Control.Monad.State.Extended (State, execState)
 
 import CrossyToad.Time.Seconds
 import CrossyToad.Time.Time
@@ -37,15 +36,15 @@ finished :: Timer -> Bool
 finished = not . running
 
 -- | Steps a Timer
-step :: (Time m, HasTimer s) => StateT s m ()
-step = do
+step :: (Time m, HasTimer ent) => ent -> m ent
+step ent = do
   delta <- deltaTime
-  void $ hoistState $ stepBy delta
+  pure $ execState (stepBy delta) ent
 
 -- | Steps the timer by the given delta
 -- |
 -- | Returns any unused delta time
-stepBy :: (HasTimer s) => Seconds -> State s Seconds
+stepBy :: (HasTimer ent) => Seconds -> State ent Seconds
 stepBy delta = do
   timer' <- use timer
   let nextSeconds = (timer' ^. currentTime) - delta

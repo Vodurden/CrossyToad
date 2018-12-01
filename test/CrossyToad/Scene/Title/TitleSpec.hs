@@ -1,7 +1,5 @@
 module CrossyToad.Scene.Title.TitleSpec where
 
-import           Control.Monad.State (execStateT)
-import           Data.Functor.Identity (runIdentity)
 import           Test.Tasty.Hspec
 
 import qualified CrossyToad.Scene.Scene as Scene
@@ -12,7 +10,7 @@ spec_Scene_Title :: Spec
 spec_Scene_Title =
   describe "stepIntent" $ do
     it "should start the game when the intent is StartGame" $
-      runIdentity (execStateT (stepIntent Intent.StartGame) Scene.Title) `shouldBe` Scene.Game
+      stepIntent Intent.StartGame Scene.Title `shouldBe` Scene.Game
 
     it "should quit the game when the intent is Quit" $
-      runIdentity (execStateT (stepIntent Intent.Quit) Scene.Title) `shouldBe` Scene.Quit
+      stepIntent Intent.Quit Scene.Title `shouldBe` Scene.Quit

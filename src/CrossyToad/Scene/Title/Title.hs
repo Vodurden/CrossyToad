@@ -1,8 +1,7 @@
 module CrossyToad.Scene.Title.Title where
 
 import           Control.Lens
-import           Control.Monad.State (MonadState)
-import           Data.Foldable (traverse_)
+import           Data.Foldable (foldl')
 import           Linear.V2
 
 import           CrossyToad.Input.Input
@@ -12,13 +11,16 @@ import qualified CrossyToad.Scene.Internal as Scene
 import           CrossyToad.Scene.Title.Intent (Intent(..))
 import qualified CrossyToad.Scene.Title.Intent as Intent
 
-stepTitle :: (MonadState s m, HasScene s, Input m, Renderer m) => m ()
-stepTitle = do
+stepTitle :: (HasScene ent, Input m, Renderer m) => ent -> m ent
+stepTitle ent = do
   events <- getInputEvents
-  traverse_ stepIntent (Intent.fromInput events)
+  let intents = Intent.fromInput events
+  let nextEnt = foldl' (flip stepIntent) ent intents
 
   drawTitleText $ V2 50 140
 
-stepIntent :: (MonadState s m, HasScene s) => Intent -> m ()
-stepIntent StartGame = assign scene Scene.Game
-stepIntent Quit = assign scene Scene.Quit
+  pure nextEnt
+
+stepIntent :: (HasScene ent) => Intent -> ent -> ent
+stepIntent StartGame = scene .~ Scene.Game
+stepIntent Quit = scene .~ Scene.Quit

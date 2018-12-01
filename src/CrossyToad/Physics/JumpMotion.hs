@@ -22,7 +22,7 @@ module CrossyToad.Physics.JumpMotion
 
 import           Control.Lens
 import           Control.Monad (when)
-import           Control.Monad.State.Extended (StateT, State, execState)
+import           Control.Monad.State.Extended (State, execState)
 import           Linear.V2
 
 import           CrossyToad.Physics.Direction
@@ -57,11 +57,16 @@ mk dir speed' distance' cooldown' = JumpMotion
   , _targetDistance = 0
   }
 
--- | Updates the jump motion for this frame and updates the position of the entity.
-step :: (Time m, HasPosition s, HasJumpMotion s) => StateT s m ()
-step = do
+step :: (Time m, HasPosition ent, HasJumpMotion ent) => ent -> m ent
+step ent = do
   delta <- deltaTime
-  id %= stepBy delta
+  pure $ stepBy delta ent
+
+-- | Updates the jump motion for this frame and updates the position of the entity.
+-- step :: (Time m, HasPosition s, HasJumpMotion s) => StateT s m ()
+-- step = do
+--   delta <- deltaTime
+--   id %= stepBy delta
 
 -- | Step this motion by a given amount of seconds
 stepBy :: (HasPosition ent, HasJumpMotion ent) => Seconds -> ent -> ent

@@ -20,11 +20,10 @@ default-extensions:
   - OverloadedStrings
   - NamedFieldPuns
   - MultiParamTypeClasses
-  - FunctionalDependencies
-  - RankNTypes
   - DuplicateRecordFields
   - TypeSynonymInstances
   - FlexibleInstances
+  - ScopedTypeVariables
 
 dependencies:
   - base >=4.9 && <4.12

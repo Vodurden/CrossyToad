@@ -11,7 +11,6 @@ module CrossyToad.Scene.Game.Car
   ) where
 
 import           Control.Lens
-import           Control.Monad.State (StateT)
 import           Linear.V2
 
 import           CrossyToad.Physics.CollisionBox (CollisionBox(..), HasCollisionBox(..))
@@ -57,11 +56,11 @@ mk pos dir = Car
     carSpeed = 64 * (1 / secondsPerTile)
       where secondsPerTile = 0.5
 
-stepAll :: (Time m, HasCars s) => StateT s m ()
-stepAll = zoom (cars.traverse) step
+stepAll :: (Time m, HasCars ent) => ent -> m ent
+stepAll = (cars.traverse) step
 
-step :: (Time m, HasCar s) => StateT s m ()
-step = zoom car LinearMotion.step
+step :: (Time m, HasCar ent) => ent -> m ent
+step = mapMOf car LinearMotion.step
 
 render :: (Renderer m) => Car -> m ()
 render car' = drawCar (car' ^. position)

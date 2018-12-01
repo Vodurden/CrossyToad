@@ -2,7 +2,7 @@
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: ba4cfaa5c03919a2523f1bcbe97ba3a63eea8907fbeb9f326857dc1a9faf212a
+-- hash: 0d626509b75bb03664d5b4bc48df52ce60d08225bb2b719560069efffcd6bb4a
 
 name:           crossy-toad
 version:        0.1.0.0
@@ -68,7 +68,7 @@ library
       Paths_crossy_toad
   hs-source-dirs:
       src
-  default-extensions: FlexibleContexts GeneralizedNewtypeDeriving OverloadedStrings NamedFieldPuns MultiParamTypeClasses FunctionalDependencies RankNTypes DuplicateRecordFields TypeSynonymInstances FlexibleInstances
+  default-extensions: FlexibleContexts GeneralizedNewtypeDeriving OverloadedStrings NamedFieldPuns MultiParamTypeClasses DuplicateRecordFields TypeSynonymInstances FlexibleInstances ScopedTypeVariables
   ghc-options: -Wall -Wcompat -Wincomplete-record-updates -Wincomplete-uni-patterns -Wredundant-constraints -O2 -fprof-auto-exported
   build-depends:
       base >=4.9 && <4.12
@@ -88,7 +88,7 @@ executable crossy-toad
       Paths_crossy_toad
   hs-source-dirs:
       executable
-  default-extensions: FlexibleContexts GeneralizedNewtypeDeriving OverloadedStrings NamedFieldPuns MultiParamTypeClasses FunctionalDependencies RankNTypes DuplicateRecordFields TypeSynonymInstances FlexibleInstances
+  default-extensions: FlexibleContexts GeneralizedNewtypeDeriving OverloadedStrings NamedFieldPuns MultiParamTypeClasses DuplicateRecordFields TypeSynonymInstances FlexibleInstances ScopedTypeVariables
   ghc-options: -Wall -Wcompat -Wincomplete-record-updates -Wincomplete-uni-patterns -Wredundant-constraints -O2
   build-depends:
       base >=4.9 && <4.12
@@ -109,7 +109,7 @@ executable crossy-toad-prof
       Paths_crossy_toad
   hs-source-dirs:
       executable
-  default-extensions: FlexibleContexts GeneralizedNewtypeDeriving OverloadedStrings NamedFieldPuns MultiParamTypeClasses FunctionalDependencies RankNTypes DuplicateRecordFields TypeSynonymInstances FlexibleInstances
+  default-extensions: FlexibleContexts GeneralizedNewtypeDeriving OverloadedStrings NamedFieldPuns MultiParamTypeClasses DuplicateRecordFields TypeSynonymInstances FlexibleInstances ScopedTypeVariables
   ghc-options: -Wall -Wcompat -Wincomplete-record-updates -Wincomplete-uni-patterns -Wredundant-constraints -O2 -rtsopts -threaded -fprof-auto-top "-with-rtsopts=-N -p -s -h -i0.1"
   build-depends:
       base >=4.9 && <4.12
@@ -190,7 +190,7 @@ test-suite spec
   hs-source-dirs:
       test
       src
-  default-extensions: FlexibleContexts GeneralizedNewtypeDeriving OverloadedStrings NamedFieldPuns MultiParamTypeClasses FunctionalDependencies RankNTypes DuplicateRecordFields TypeSynonymInstances FlexibleInstances
+  default-extensions: FlexibleContexts GeneralizedNewtypeDeriving OverloadedStrings NamedFieldPuns MultiParamTypeClasses DuplicateRecordFields TypeSynonymInstances FlexibleInstances ScopedTypeVariables
   ghc-options: -Wall -Wcompat -Wincomplete-record-updates -Wincomplete-uni-patterns -Wredundant-constraints -O2
   build-depends:
       base >=4.9 && <4.12
