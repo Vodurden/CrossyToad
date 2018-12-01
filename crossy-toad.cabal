@@ -2,7 +2,7 @@
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: 0d626509b75bb03664d5b4bc48df52ce60d08225bb2b719560069efffcd6bb4a
+-- hash: 582e97c890eda3dc2699b8a5c04775530f13fcc8a8956ca851dad6526cb043d5
 
 name:           crossy-toad
 version:        0.1.0.0
@@ -56,6 +56,7 @@ library
       CrossyToad.Scene.Scene
       CrossyToad.Scene.Title.Intent
       CrossyToad.Scene.Title.Title
+      CrossyToad.Time.SDL.Config
       CrossyToad.Time.SDL.SDL
       CrossyToad.Time.SDL.Time
       CrossyToad.Time.SDL.TimeState
@@ -176,6 +177,7 @@ test-suite spec
       CrossyToad.Scene.Scene
       CrossyToad.Scene.Title.Intent
       CrossyToad.Scene.Title.Title
+      CrossyToad.Time.SDL.Config
       CrossyToad.Time.SDL.SDL
       CrossyToad.Time.SDL.Time
       CrossyToad.Time.SDL.TimeState
