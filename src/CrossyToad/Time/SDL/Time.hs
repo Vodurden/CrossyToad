@@ -12,16 +12,16 @@ import qualified SDL.Time as Time
 
 import           CrossyToad.Time.SDL.TimeState (TimeState, HasTimeState(..), HasTimeStateIORef(..))
 import qualified CrossyToad.Time.SDL.TimeState as TimeState
-import           CrossyToad.Time.SDL.Config
+import           CrossyToad.Time.SDL.Env
 import           CrossyToad.Time.Seconds
 
 stepTime ::
-  ( MonadReader env m
+  ( MonadReader r m
+  , HasEnv r
   , MonadIO m
-  , HasConfig env
   ) => m ()
 stepTime = do
-  timeStateRef' <- view (config.timeStateRef)
+  timeStateRef' <- view (env.timeStateRef)
   timeNow <- Time.time
   liftIO $ modifyIORef' timeStateRef' (stepTimeState timeNow)
 
@@ -31,11 +31,11 @@ stepTimeState timeNow ts =
      & currentTime .~ timeNow
 
 deltaTime ::
-  ( MonadReader env m
+  ( MonadReader r m
+  , HasEnv r
   , MonadIO m
-  , HasConfig env
   ) => m Seconds
 deltaTime = do
-  timeStateRef' <- view (config.timeStateRef)
+  timeStateRef' <- view (env.timeStateRef)
   timeState' <- liftIO $ readIORef timeStateRef'
   pure $ TimeState.deltaTime timeState'

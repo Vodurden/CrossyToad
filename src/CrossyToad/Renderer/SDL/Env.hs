@@ -1,19 +1,19 @@
 {-# LANGUAGE TemplateHaskell #-}
 
-module CrossyToad.Renderer.SDL.Config where
+module CrossyToad.Renderer.SDL.Env where
 
 import           Control.Lens
 import qualified SDL as SDL
 
 import CrossyToad.Renderer.SDL.Textures
 
-data Config = Config
+data Env = Env
   { _window :: SDL.Window
   , _renderer :: SDL.Renderer
   , __textures :: Textures
   }
 
-makeClassy ''Config
+makeClassy ''Env
 
-instance HasTextures Config where
+instance HasTextures Env where
   textures = _textures

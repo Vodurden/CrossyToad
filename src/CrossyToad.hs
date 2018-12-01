@@ -4,7 +4,7 @@ import           Control.Monad.Reader (MonadReader, ReaderT, runReaderT)
 import           Control.Monad.State (MonadState, StateT, evalStateT)
 import           Control.Monad.IO.Class (MonadIO)
 
-import           CrossyToad.Config (Config(..))
+import           CrossyToad.Env (Env(..))
 import           CrossyToad.Input.Input
 import qualified CrossyToad.Input.SDLInput as SDLInput
 import           CrossyToad.Renderer.Renderer
@@ -13,10 +13,10 @@ import           CrossyToad.Time.Time
 import qualified CrossyToad.Time.SDL.Time as SDLTime
 import           CrossyToad.Vars (Vars)
 
-newtype CrossyToad a = CrossyToad (ReaderT Config (StateT Vars IO) a)
-  deriving (Functor, Applicative, Monad, MonadReader Config, MonadState Vars, MonadIO)
+newtype CrossyToad a = CrossyToad (ReaderT Env (StateT Vars IO) a)
+  deriving (Functor, Applicative, Monad, MonadReader Env, MonadState Vars, MonadIO)
 
-runCrossyToad :: Config -> Vars -> CrossyToad a -> IO a
+runCrossyToad :: Env -> Vars -> CrossyToad a -> IO a
 runCrossyToad config vars (CrossyToad m) = evalStateT (runReaderT m config) vars
 
 instance Input CrossyToad where

@@ -2,7 +2,7 @@
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: 582e97c890eda3dc2699b8a5c04775530f13fcc8a8956ca851dad6526cb043d5
+-- hash: 3e5669812abaf2c23119c10e19dec73009cc0df8d90fb3bb41e9cc913199930d
 
 name:           crossy-toad
 version:        0.1.0.0
@@ -22,7 +22,7 @@ library
       Control.Lens.Extended
       Control.Monad.State.Extended
       CrossyToad
-      CrossyToad.Config
+      CrossyToad.Env
       CrossyToad.Input.Input
       CrossyToad.Input.InputEvent
       CrossyToad.Input.InputState
@@ -39,7 +39,7 @@ library
       CrossyToad.Physics.Speed
       CrossyToad.Renderer.Asset
       CrossyToad.Renderer.Renderer
-      CrossyToad.Renderer.SDL.Config
+      CrossyToad.Renderer.SDL.Env
       CrossyToad.Renderer.SDL.Renderer
       CrossyToad.Renderer.SDL.SDL
       CrossyToad.Renderer.SDL.Texture
@@ -56,7 +56,7 @@ library
       CrossyToad.Scene.Scene
       CrossyToad.Scene.Title.Intent
       CrossyToad.Scene.Title.Title
-      CrossyToad.Time.SDL.Config
+      CrossyToad.Time.SDL.Env
       CrossyToad.Time.SDL.SDL
       CrossyToad.Time.SDL.Time
       CrossyToad.Time.SDL.TimeState
@@ -143,7 +143,7 @@ test-suite spec
       Control.Lens.Extended
       Control.Monad.State.Extended
       CrossyToad
-      CrossyToad.Config
+      CrossyToad.Env
       CrossyToad.Input.Input
       CrossyToad.Input.InputEvent
       CrossyToad.Input.InputState
@@ -160,7 +160,7 @@ test-suite spec
       CrossyToad.Physics.Speed
       CrossyToad.Renderer.Asset
       CrossyToad.Renderer.Renderer
-      CrossyToad.Renderer.SDL.Config
+      CrossyToad.Renderer.SDL.Env
       CrossyToad.Renderer.SDL.Renderer
       CrossyToad.Renderer.SDL.SDL
       CrossyToad.Renderer.SDL.Texture
@@ -177,7 +177,7 @@ test-suite spec
       CrossyToad.Scene.Scene
       CrossyToad.Scene.Title.Intent
       CrossyToad.Scene.Title.Title
-      CrossyToad.Time.SDL.Config
+      CrossyToad.Time.SDL.Env
       CrossyToad.Time.SDL.SDL
       CrossyToad.Time.SDL.Time
       CrossyToad.Time.SDL.TimeState
