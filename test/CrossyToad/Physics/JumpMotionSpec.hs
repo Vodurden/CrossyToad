@@ -14,8 +14,9 @@ import CrossyToad.Effect.Time.Timer (HasTimer(..))
 import qualified CrossyToad.Effect.Time.Timer as Timer
 
 data Ent = Ent
-  { __position :: Position
-  , __jumpMotion :: JumpMotion
+  { __position :: !Position
+  , __direction :: !Direction
+  , __jumpMotion :: !JumpMotion
   } deriving (Eq, Show)
 
 makeClassy ''Ent
@@ -23,15 +24,19 @@ makeClassy ''Ent
 instance HasPosition Ent where
   position = _position
 
+instance HasDirection Ent where
+  direction = _direction
+
 instance HasJumpMotion Ent where
   jumpMotion = _jumpMotion
 
 initialJumpMotion :: JumpMotion
-initialJumpMotion = mk East 0 0 0.15
+initialJumpMotion = mk 0 0 0.15
 
 stationaryEnt :: Ent
 stationaryEnt = Ent
   { __position = V2 0 0
+  , __direction = East
   , __jumpMotion = initialJumpMotion
   }
 
@@ -48,21 +53,21 @@ spec_Physics_JumpMotion :: Spec
 spec_Physics_JumpMotion = do
   describe "jump" $ do
     it "should not jump if we are already moving" $ do
-      let motion' = movingMotion & (direction .~ East)
-      (jump West motion') `shouldBe` motion'
+      let ent' = movingEnt & (direction .~ East)
+      (jump West ent') `shouldBe` ent'
 
     it "should not jump if we are cooling down" $ do
-      let motion' = initialJumpMotion & (cooldown %~ Timer.start)
-      (jump East motion') `shouldBe` motion'
+      let ent' = stationaryEnt & jumpMotion.cooldown %~ Timer.start
+      (jump East ent') `shouldBe` ent'
 
     it "should update the target distance if we are not moving" $ do
-      let distance' = (jump (movingMotion^.direction) initialJumpMotion)^.targetDistance
-      distance' `shouldBe` initialJumpMotion^.distance
+      let ent' = stationaryEnt
+      let distance' = (jump East ent')^.targetDistance
+      distance' `shouldBe` (ent'^.jumpMotion.distance)
 
     it "should update the direction if we are not moving" $ do
-      let motion' = initialJumpMotion & (direction .~ East)
-      let direction' = (jump West motion') ^. direction
-      direction' `shouldBe` West
+      let ent' = stationaryEnt & direction .~ East
+      (jump West ent') ^. direction `shouldBe` West
 
   describe "isMoving" $ do
     it "should be true when we are moving" $ isMoving movingMotion `shouldBe` True
@@ -74,19 +79,19 @@ spec_Physics_JumpMotion = do
       it "changes position based on speed" $ do
         let ent' = movingEnt & jumpMotion %~ (speed .~ 2)
                                            . (targetDistance .~ 3)
-                                           . (direction .~ East)
+                             & (direction .~ East)
         (stepBy' ent') ^. position `shouldBe` (V2 2 0)
 
       it "stops at the target distance when the speed exceeds the distance" $ do
         let ent' = movingEnt & jumpMotion %~ (speed .~ 2)
                                            . (targetDistance .~ 1)
-                                           . (direction .~ East)
+                             & (direction .~ East)
         (stepBy' ent') ^. position `shouldBe` (V2 1 0)
 
       it "moves by the speed of the motion" $ do
         let ent' = movingEnt & jumpMotion %~ (speed .~ 2)
                                            . (targetDistance .~ 5)
-                                           . (direction .~ East)
+                             & (direction .~ East)
         (stepBy' ent') ^. position `shouldBe` (V2 2 0)
 
       it "does nothing when the speed is 0" $ do
@@ -110,21 +115,21 @@ spec_Physics_JumpMotion = do
     it "should linearize the result against the delta time" $ do
       let ent' = movingEnt & jumpMotion %~ (speed .~ 10)
                                          . (targetDistance .~ 10)
-                                         . (direction .~ East)
+                           & (direction .~ East)
       let delta = 0.1
       (stepBy delta ent') ^. position `shouldBe` (V2 1 0)
 
     it "should not linearize target distance" $ do
       let ent' = movingEnt & jumpMotion %~ (speed .~ 320)
                                          . (targetDistance .~ 32)
-                                         . (direction .~ East)
+                           & (direction .~ East)
       let delta = 0.05
       (stepBy delta ent') ^. position `shouldBe` (V2 16 0)
 
     it "should update the target distance by the linearized amount" $ do
       let ent' = movingEnt & jumpMotion %~ (speed .~ 20)
                                          . (targetDistance .~ 10)
-                                         . (direction .~ East)
+                           & (direction .~ East)
       let delta = 0.05
       (stepBy delta ent') ^. targetDistance `shouldBe` 9
 
@@ -135,8 +140,8 @@ spec_Physics_JumpMotion = do
     it "should linearize the result against the remaining delta time after cooldown" $ do
       let ent' = movingEnt & jumpMotion %~ (speed .~ 10)
                                          . (targetDistance .~ 10)
-                                         . (direction .~ East)
                                          . (cooldown.currentTime .~ 0.1)
+                           & (direction .~ East)
       let delta = 0.2
       (stepBy delta ent') ^. position `shouldBe` (V2 1 0)
 

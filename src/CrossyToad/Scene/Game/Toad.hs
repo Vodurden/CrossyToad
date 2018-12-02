@@ -78,8 +78,7 @@ render toad' = Sprite.render toad'
 -- |
 -- | This will cause the toad to change direction and begin moving.
 jump :: Direction -> Toad -> Toad
-jump dir = (direction .~ dir)
-           . over (toad.jumpMotion) (JumpMotion.jump)
+jump dir = JumpMotion.jump dir
 
 -- | Kills the toad
 die :: Toad -> Toad

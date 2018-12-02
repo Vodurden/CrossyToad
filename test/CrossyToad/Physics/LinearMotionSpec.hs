@@ -13,6 +13,7 @@ import CrossyToad.Physics.LinearMotion as LinearMotion
 
 data Ent = Ent
   { __position :: Position
+  , __direction :: Direction
   , __linearMotion :: LinearMotion
   } deriving (Eq, Show)
 
@@ -21,11 +22,15 @@ makeClassy ''Ent
 stationaryEnt :: Ent
 stationaryEnt = Ent
   { __position = V2 0 0
-  , __linearMotion = LinearMotion.mk East 0
+  , __direction = East
+  , __linearMotion = LinearMotion.mk 0
   }
 
 instance HasPosition Ent where
   position = _position
+
+instance HasDirection Ent where
+  direction = _direction
 
 instance HasLinearMotion Ent where
   linearMotion = _linearMotion
@@ -36,11 +41,11 @@ spec_Physics_LinearMotion = do
     let step' = stepBy 1
 
     it "should update the position by our speed" $ do
-      let ent' = stationaryEnt & linearMotion %~ (speed .~ 2)
-                                               . (direction .~ East)
+      let ent' = stationaryEnt & linearMotion.speed .~ 2
+                               & direction .~ East
       (step' ent') ^. position `shouldBe` (V2 2 0)
 
     it "should linearize speed" $ do
-      let ent' = stationaryEnt & linearMotion %~ (speed .~ 20)
-                                               . (direction .~ East)
+      let ent' = stationaryEnt & linearMotion.speed .~ 20
+                               & direction .~ East
       (stepBy 0.1 ent') ^. position `shouldBe` (V2 2 0)

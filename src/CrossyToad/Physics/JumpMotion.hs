@@ -112,15 +112,18 @@ motionVectorOverTime delta direction' motion' =
       motionVector' = (* distanceThisFrame) <$> directionVector
   in (motionVector', distanceThisFrame)
 
--- |
--- | Jump towards the direction we are facing. This affects the motion vector
--- | returned by @stepJumpMotion@
+
+-- | Jump towards the given direction.
 -- |
 -- | If we are already moving this function will change nothing.
 -- | If we are currently cooling down this function will change nothing.
-jump :: JumpMotion -> JumpMotion
-jump motion | canJump motion = motion & (targetDistance .~ motion^.distance)
-            | otherwise = motion
+jump ::
+  ( HasDirection ent
+  , HasJumpMotion ent
+  ) => Direction -> ent -> ent
+jump dir ent | canJump (ent ^. jumpMotion) = ent & jumpMotion . targetDistance .~ ent^.jumpMotion.distance
+                                                 & direction .~ dir
+             | otherwise = ent
 
 canJump :: JumpMotion -> Bool
 canJump motion = (not $ isCoolingDown motion) && (not $ isMoving motion)
