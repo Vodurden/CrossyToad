@@ -3,15 +3,11 @@
 module CrossyToad.Effect.Renderer.SDL.Textures where
 
 import           Control.Lens
-import           Linear.V4
 import qualified SDL
-import qualified SDL.Font as Font
 import qualified SDL.Image as Image
 
 import           CrossyToad.Effect.Renderer.ImageAsset (ImageAsset)
 import qualified CrossyToad.Effect.Renderer.ImageAsset as ImageAsset
-import           CrossyToad.Effect.Renderer.FontAsset (FontAsset)
-import qualified CrossyToad.Effect.Renderer.FontAsset as FontAsset
 import           CrossyToad.Effect.Renderer.SDL.Texture (Texture)
 import qualified CrossyToad.Effect.Renderer.SDL.Texture as Texture
 
@@ -39,8 +35,6 @@ loadTextures renderer = do
       , _toad2 = toad2'
       , _car = car'
       }
-  where
-    toTexture surface = SDL.createTextureFromSurface renderer surface
 
 loadImage :: SDL.Renderer -> ImageAsset -> IO Texture
 loadImage renderer asset =

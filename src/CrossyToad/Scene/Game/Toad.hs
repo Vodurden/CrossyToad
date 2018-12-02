@@ -5,18 +5,22 @@ module CrossyToad.Scene.Game.Toad where
 import           Control.Lens
 import           Linear.V2
 
+import           CrossyToad.Effect.Renderer.Renderer
+import qualified CrossyToad.Effect.Renderer.ImageAsset as ImageAsset
+import           CrossyToad.Effect.Time.Time
 import           CrossyToad.Physics.CollisionBox (CollisionBox(..), HasCollisionBox(..))
 import qualified CrossyToad.Physics.CollisionBox as CollisionBox
 import           CrossyToad.Physics.JumpMotion (JumpMotion(..), HasJumpMotion(..))
 import qualified CrossyToad.Physics.JumpMotion as JumpMotion
 import           CrossyToad.Physics.Physics
-import           CrossyToad.Effect.Renderer.Renderer
-import           CrossyToad.Effect.Time.Time
+import           CrossyToad.Sprite.Sprite (Sprite(..), HasSprite(..))
+import qualified CrossyToad.Sprite.Sprite as Sprite
 
 data Toad = Toad
   { __position :: !Position
   , __jumpMotion :: !JumpMotion
   , __collisionBox :: !CollisionBox
+  , __sprite :: !Sprite
 
   , _initialPosition :: !Position        -- ^ The position the toad was originally created in
   , _lives :: !Int                       -- ^ How many lives the toad has left
@@ -33,11 +37,15 @@ instance HasJumpMotion Toad where
 instance HasCollisionBox Toad where
   collisionBox = _collisionBox
 
+instance HasSprite Toad where
+  sprite = _sprite
+
 mk :: Position -> Toad
 mk pos = Toad
     { __position = pos
     , __jumpMotion = JumpMotion.mk North toadSpeed toadDistance toadCooldown
     , __collisionBox = CollisionBox.mkOffset (V2 1 1) (V2 62 62)
+    , __sprite = Sprite ImageAsset.Toad (V2 64 64)
     , _initialPosition = pos
     , _lives = 5
     }
@@ -59,8 +67,7 @@ step :: (Time m, HasToad ent) => ent -> m ent
 step = mapMOf toad JumpMotion.step
 
 render :: (Renderer m) => Toad -> m ()
-render toad' | JumpMotion.isMoving toad'  = drawToad2 (truncate <$> toad' ^. position)
-             | otherwise = drawToad (truncate <$> toad' ^. position)
+render toad' = Sprite.render toad'
 
 -- | Jump in a given direction.
 -- |

@@ -3,7 +3,6 @@
 module CrossyToad.Effect.Renderer.SDL.Texture where
 
 import           Control.Lens
-import           Foreign.C.Types (CInt)
 import           Control.Monad.IO.Class (MonadIO, liftIO)
 
 import qualified SDL

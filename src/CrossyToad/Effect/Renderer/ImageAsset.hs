@@ -11,6 +11,7 @@ data ImageAsset
   | Car
   deriving (Eq, Show)
 
+makeClassy ''ImageAsset
 makeClassyPrisms ''ImageAsset
 
 filepath :: ImageAsset -> FilePath

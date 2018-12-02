@@ -8,6 +8,7 @@ category: Game
 
 ghc-options:
   -Wall
+  -Werror
   -Wcompat
   -Wincomplete-record-updates
   -Wincomplete-uni-patterns

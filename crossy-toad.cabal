@@ -2,7 +2,7 @@
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: c55f64820cf49c26d545707458ddf38d899dddec0088a97f6b3b09f4d2b2603c
+-- hash: 0e7fe05fb12c8138f58a90c49d9fbc10daf07fa37ac8d6153c2d4c8136cca9d1
 
 name:           crossy-toad
 version:        0.1.0.0
@@ -35,6 +35,7 @@ library
       CrossyToad.Effect.Logger.IO.Logger
       CrossyToad.Effect.Logger.Logger
       CrossyToad.Effect.Logger.LogLevel
+      CrossyToad.Effect.Renderer.Dimensions
       CrossyToad.Effect.Renderer.FontAsset
       CrossyToad.Effect.Renderer.ImageAsset
       CrossyToad.Effect.Renderer.PixelClip
@@ -77,6 +78,7 @@ library
       CrossyToad.Scene.SceneState
       CrossyToad.Scene.Title.Intent
       CrossyToad.Scene.Title.Title
+      CrossyToad.Sprite.Sprite
       Data.Degrees
       Data.List.Extended
       SDL.Extended
@@ -84,7 +86,7 @@ library
   hs-source-dirs:
       src
   default-extensions: FlexibleContexts GeneralizedNewtypeDeriving OverloadedStrings NamedFieldPuns MultiParamTypeClasses DuplicateRecordFields TypeSynonymInstances FlexibleInstances ScopedTypeVariables
-  ghc-options: -Wall -Wcompat -Wincomplete-record-updates -Wincomplete-uni-patterns -Wredundant-constraints -O2 -fprof-auto-exported
+  ghc-options: -Wall -Werror -Wcompat -Wincomplete-record-updates -Wincomplete-uni-patterns -Wredundant-constraints -O2 -fprof-auto-exported
   build-depends:
       base >=4.9 && <4.12
     , containers
@@ -105,7 +107,7 @@ executable crossy-toad
   hs-source-dirs:
       executable
   default-extensions: FlexibleContexts GeneralizedNewtypeDeriving OverloadedStrings NamedFieldPuns MultiParamTypeClasses DuplicateRecordFields TypeSynonymInstances FlexibleInstances ScopedTypeVariables
-  ghc-options: -Wall -Wcompat -Wincomplete-record-updates -Wincomplete-uni-patterns -Wredundant-constraints -O2
+  ghc-options: -Wall -Werror -Wcompat -Wincomplete-record-updates -Wincomplete-uni-patterns -Wredundant-constraints -O2
   build-depends:
       base >=4.9 && <4.12
     , containers
@@ -127,7 +129,7 @@ executable crossy-toad-prof
   hs-source-dirs:
       executable
   default-extensions: FlexibleContexts GeneralizedNewtypeDeriving OverloadedStrings NamedFieldPuns MultiParamTypeClasses DuplicateRecordFields TypeSynonymInstances FlexibleInstances ScopedTypeVariables
-  ghc-options: -Wall -Wcompat -Wincomplete-record-updates -Wincomplete-uni-patterns -Wredundant-constraints -O2 -rtsopts -threaded -fprof-auto-top "-with-rtsopts=-N -p -s -h -i0.1"
+  ghc-options: -Wall -Werror -Wcompat -Wincomplete-record-updates -Wincomplete-uni-patterns -Wredundant-constraints -O2 -rtsopts -threaded -fprof-auto-top "-with-rtsopts=-N -p -s -h -i0.1"
   build-depends:
       base >=4.9 && <4.12
     , containers
@@ -173,6 +175,7 @@ test-suite spec
       CrossyToad.Effect.Logger.IO.Logger
       CrossyToad.Effect.Logger.Logger
       CrossyToad.Effect.Logger.LogLevel
+      CrossyToad.Effect.Renderer.Dimensions
       CrossyToad.Effect.Renderer.FontAsset
       CrossyToad.Effect.Renderer.ImageAsset
       CrossyToad.Effect.Renderer.PixelClip
@@ -215,6 +218,7 @@ test-suite spec
       CrossyToad.Scene.SceneState
       CrossyToad.Scene.Title.Intent
       CrossyToad.Scene.Title.Title
+      CrossyToad.Sprite.Sprite
       Data.Degrees
       Data.List.Extended
       Game
@@ -224,7 +228,7 @@ test-suite spec
       test
       src
   default-extensions: FlexibleContexts GeneralizedNewtypeDeriving OverloadedStrings NamedFieldPuns MultiParamTypeClasses DuplicateRecordFields TypeSynonymInstances FlexibleInstances ScopedTypeVariables
-  ghc-options: -Wall -Wcompat -Wincomplete-record-updates -Wincomplete-uni-patterns -Wredundant-constraints -O2
+  ghc-options: -Wall -Werror -Wcompat -Wincomplete-record-updates -Wincomplete-uni-patterns -Wredundant-constraints -O2
   build-depends:
       base >=4.9 && <4.12
     , containers

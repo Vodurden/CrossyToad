@@ -9,7 +9,6 @@ module CrossyToad.Effect.Renderer.Renderer where
 
 import           Data.Text (Text)
 import           Data.Degrees (Degrees)
-import           Linear.V2
 
 import           CrossyToad.Effect.Renderer.FontAsset (FontAsset)
 import qualified CrossyToad.Effect.Renderer.FontAsset as FontAsset

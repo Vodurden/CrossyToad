@@ -17,6 +17,7 @@ import           Linear.V2
 import qualified SDL
 import qualified SDL.Font as Font
 
+import           CrossyToad.Effect.Renderer.Dimensions
 import           CrossyToad.Effect.Renderer.FontAsset
 import           CrossyToad.Effect.Renderer.ImageAsset
 import           CrossyToad.Effect.Renderer.PixelClip
@@ -61,7 +62,7 @@ drawAt asset' pos = do
   textures' <- view (env.textures)
   let texture' = Textures.fromImageAsset asset' textures'
   let wh = V2 (texture' ^. Texture.width) (texture' ^. Texture.height)
-  let screenClip = PixelClip pos (pos + wh)
+  let screenClip = PixelClip pos wh
   drawTexture texture' Nothing Nothing (Just screenClip)
 
 drawText ::
@@ -107,6 +108,6 @@ drawTexture texture' degrees textureClip targetClip = do
   where
     fromPixelClip :: PixelClip -> SDL.Rectangle CInt
     fromPixelClip clip =
-      let xy = fromIntegral <$> clip ^. topLeft
+      let xy = fromIntegral <$> clip ^. position
           wh = fromIntegral <$> clip ^. dimensions
       in SDL.Rectangle (SDL.P xy) wh
