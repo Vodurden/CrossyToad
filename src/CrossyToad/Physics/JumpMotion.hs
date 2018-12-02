@@ -34,9 +34,7 @@ import           CrossyToad.Effect.Time.Timer (Timer)
 import qualified CrossyToad.Effect.Time.Timer as Timer
 
 data JumpMotion = JumpMotion
-  { __direction :: Direction     -- ^ What direction we are facing
-
-  , _speed :: Speed              -- ^ How fast we can move
+  { _speed :: Speed              -- ^ How fast we can move
   , _distance :: Distance        -- ^ How far we move in a single jump
   , _cooldown :: Timer           -- ^ Timer to wait between jumps
 
@@ -45,19 +43,15 @@ data JumpMotion = JumpMotion
 
 makeClassy ''JumpMotion
 
-instance HasDirection JumpMotion where
-  direction = _direction
-
-mk :: Direction -> Speed -> Distance -> Seconds -> JumpMotion
-mk dir speed' distance' cooldown' = JumpMotion
-  { __direction = dir
-  , _speed = speed'
+mk :: Speed -> Distance -> Seconds -> JumpMotion
+mk speed' distance' cooldown' = JumpMotion
+  { _speed = speed'
   , _distance = distance'
   , _cooldown = Timer.mk cooldown'
   , _targetDistance = 0
   }
 
-step :: (Time m, HasPosition ent, HasJumpMotion ent) => ent -> m ent
+step :: (Time m, HasPosition ent, HasDirection ent, HasJumpMotion ent) => ent -> m ent
 step ent = do
   delta <- deltaTime
   pure $ stepBy delta ent
@@ -69,7 +63,7 @@ step ent = do
 --   id %= stepBy delta
 
 -- | Step this motion by a given amount of seconds
-stepBy :: (HasPosition ent, HasJumpMotion ent) => Seconds -> ent -> ent
+stepBy :: (HasPosition ent, HasDirection ent, HasJumpMotion ent) => Seconds -> ent -> ent
 stepBy delta = execState $ do
   jumpDelta <- stepCooldown delta
   motionVector' <- stepJump jumpDelta
@@ -84,14 +78,15 @@ stepCooldown delta = do
   remainingDelta <- zoom cooldown $ Timer.stepBy delta
   pure remainingDelta
 
-stepJump :: (HasJumpMotion s) => Seconds -> State s (V2 Float)
+stepJump :: (HasDirection s, HasJumpMotion s) => Seconds -> State s (V2 Float)
 stepJump delta = do
   motion' <- use jumpMotion
+  direction' <- use direction
 
   -- TODO: Figure out how to write this better
   if (isMoving motion')
     then do
-      let (motionVector', distanceThisFrame) = motionVectorOverTime delta motion'
+      let (motionVector', distanceThisFrame) = motionVectorOverTime delta direction' motion'
       let nextDistance = max 0 (motion' ^. targetDistance) - distanceThisFrame
 
       jumpMotion.targetDistance .= nextDistance
@@ -109,11 +104,11 @@ stepMovementFinished =
 
 -- | Calculate the motion vector and distance to travel from the current
 -- | motion.
-motionVectorOverTime :: Seconds -> JumpMotion -> (V2 Float, Distance)
-motionVectorOverTime delta motion' =
+motionVectorOverTime :: Seconds -> Direction -> JumpMotion -> (V2 Float, Distance)
+motionVectorOverTime delta direction' motion' =
   let scaledVelocity = (motion' ^. speed) * delta
       distanceThisFrame = min (scaledVelocity) (motion' ^. targetDistance)
-      directionVector = unitVector $ motion' ^. direction
+      directionVector = unitVector direction'
       motionVector' = (* distanceThisFrame) <$> directionVector
   in (motionVector', distanceThisFrame)
 
@@ -123,10 +118,9 @@ motionVectorOverTime delta motion' =
 -- |
 -- | If we are already moving this function will change nothing.
 -- | If we are currently cooling down this function will change nothing.
-jump :: Direction -> JumpMotion -> JumpMotion
-jump dir motion | canJump motion = motion & (direction .~ dir)
-                                          . (targetDistance .~ motion^.distance)
-                | otherwise = motion
+jump :: JumpMotion -> JumpMotion
+jump motion | canJump motion = motion & (targetDistance .~ motion^.distance)
+            | otherwise = motion
 
 canJump :: JumpMotion -> Bool
 canJump motion = (not $ isCoolingDown motion) && (not $ isMoving motion)

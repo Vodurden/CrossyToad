@@ -18,6 +18,7 @@ import qualified CrossyToad.Sprite.Sprite as Sprite
 
 data Toad = Toad
   { __position :: !Position
+  , __direction :: !Direction
   , __jumpMotion :: !JumpMotion
   , __collisionBox :: !CollisionBox
   , __sprite :: !Sprite
@@ -31,6 +32,9 @@ makeClassy ''Toad
 instance HasPosition Toad where
   position = _position
 
+instance HasDirection Toad where
+  direction = _direction
+
 instance HasJumpMotion Toad where
   jumpMotion = _jumpMotion
 
@@ -43,7 +47,8 @@ instance HasSprite Toad where
 mk :: Position -> Toad
 mk pos = Toad
     { __position = pos
-    , __jumpMotion = JumpMotion.mk North toadSpeed toadDistance toadCooldown
+    , __direction = North
+    , __jumpMotion = JumpMotion.mk toadSpeed toadDistance toadCooldown
     , __collisionBox = CollisionBox.mkOffset (V2 1 1) (V2 62 62)
     , __sprite = Sprite ImageAsset.Toad (V2 64 64)
     , _initialPosition = pos
@@ -73,7 +78,8 @@ render toad' = Sprite.render toad'
 -- |
 -- | This will cause the toad to change direction and begin moving.
 jump :: Direction -> Toad -> Toad
-jump dir = over (toad.jumpMotion) $ (JumpMotion.jump dir)
+jump dir = (direction .~ dir)
+           . over (toad.jumpMotion) (JumpMotion.jump)
 
 -- | Kills the toad
 die :: Toad -> Toad

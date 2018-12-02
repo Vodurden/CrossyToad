@@ -24,27 +24,32 @@ import CrossyToad.Physics.Speed
 import CrossyToad.Physics.Position
 
 data LinearMotion = LinearMotion
-  { __direction :: !Direction -- ^ The direction we are moving
-  , _speed     :: !Speed     -- ^ How fast we are moving
+  { _speed     :: !Speed     -- ^ How fast we are moving
   } deriving (Eq, Show)
 
 makeClassy ''LinearMotion
 
-instance HasDirection LinearMotion where
-  direction = _direction
-
-mk :: Direction -> Speed -> LinearMotion
+mk :: Speed -> LinearMotion
 mk = LinearMotion
 
-step :: (Time m, HasPosition ent, HasLinearMotion ent) => ent -> m ent
+step ::
+  ( Time m
+  , HasPosition ent
+  , HasDirection ent
+  , HasLinearMotion ent
+  ) => ent -> m ent
 step ent = do
   delta <- deltaTime
   pure $ stepBy delta ent
 
 -- | Step this motion by a given amount of seconds
-stepBy :: (HasPosition ent, HasLinearMotion ent) => Seconds -> ent -> ent
+stepBy ::
+  ( HasPosition ent
+  , HasDirection ent
+  , HasLinearMotion ent
+  ) => Seconds -> ent -> ent
 stepBy delta ent' =
   let distanceThisFrame = (ent' ^. speed) * delta
-      directionVector = unitVector $ ent'^.linearMotion.direction
+      directionVector = unitVector $ ent'^.direction
       motionVector' = (* distanceThisFrame) <$> directionVector
   in ent' & (position +~ motionVector')

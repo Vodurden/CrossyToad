@@ -26,6 +26,7 @@ import qualified CrossyToad.Sprite.Sprite as Sprite
 
 data Car = Car
   { __position :: !Position
+  , __direction :: !Direction
   , __linearMotion :: !LinearMotion
   , __collisionBox :: !CollisionBox
   , __sprite :: !Sprite
@@ -42,6 +43,9 @@ instance HasCars [Car] where
 instance HasPosition Car where
   position = _position
 
+instance HasDirection Car where
+  direction = _direction
+
 instance HasLinearMotion Car where
   linearMotion = _linearMotion
 
@@ -54,7 +58,8 @@ instance HasSprite Car where
 mk :: Position -> Direction -> Car
 mk pos dir = Car
     { __position = pos
-    , __linearMotion = LinearMotion.mk dir carSpeed
+    , __direction = dir
+    , __linearMotion = LinearMotion.mk carSpeed
     , __collisionBox = CollisionBox.mkOffset (V2 1 1) (V2 62 62)
     , __sprite = Sprite ImageAsset.Car (V2 64 64)
     }
