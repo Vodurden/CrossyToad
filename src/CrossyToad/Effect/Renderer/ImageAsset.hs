@@ -7,8 +7,11 @@ import System.IO (FilePath)
 
 data ImageAsset
   = Toad
-  | Toad2
   | Car
+  | Grass
+  | Water
+  | Swamp
+  | Road
   deriving (Eq, Show)
 
 makeClassy ''ImageAsset
@@ -19,5 +22,8 @@ filepath asset = "assets/sprite/" <> (filename asset)
 
 filename :: ImageAsset -> FilePath
 filename Toad = "toad.png"
-filename Toad2 = "toad2.png"
 filename Car = "car.png"
+filename Grass = "grass.png"
+filename Water = "water.png"
+filename Swamp = "swamp.png"
+filename Road = "road.png"

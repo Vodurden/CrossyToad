@@ -7,13 +7,15 @@
 -- | the game such that a human will see it.
 module CrossyToad.Effect.Renderer.Renderer where
 
+import           Control.Lens
 import           Data.Text (Text)
 import           Data.Degrees (Degrees)
+import           Data.Foldable (traverse_)
+import           Linear.V2
 
 import           CrossyToad.Effect.Renderer.FontAsset (FontAsset)
 import qualified CrossyToad.Effect.Renderer.FontAsset as FontAsset
 import           CrossyToad.Effect.Renderer.ImageAsset (ImageAsset)
-import qualified CrossyToad.Effect.Renderer.ImageAsset as ImageAsset
 import           CrossyToad.Effect.Renderer.PixelClip
 import           CrossyToad.Effect.Renderer.PixelPosition
 import           CrossyToad.Effect.Renderer.RGBAColour (RGBAColour)
@@ -50,15 +52,6 @@ class Monad m => Renderer m where
            -> Text
            -> m ()
 
-drawToad :: Renderer m => PixelPosition -> m ()
-drawToad = drawAt ImageAsset.Toad
-
-drawToad2 :: Renderer m => PixelPosition -> m ()
-drawToad2 = drawAt ImageAsset.Toad2
-
-drawCar :: Renderer m => PixelPosition -> m ()
-drawCar = drawAt ImageAsset.Car
-
 drawTitleText :: Renderer m => m ()
 drawTitleText =
   drawText FontAsset.Title
@@ -67,3 +60,19 @@ drawTitleText =
            Nothing
            RGBAColour.white
            " CROSSY TOAD "
+
+-- | Draws a row of tiles
+drawTileRow :: Renderer m
+            => ImageAsset
+            -> PixelPosition
+            -> Int
+            -> V2 Int
+            -> m ()
+drawTileRow asset pos tiles tileDimensions = do
+  let tileOffsets = (* tileDimensions^._x) <$> [0..tiles]
+  let tilePositions = (\offset -> pos & _x %~ (+offset)) <$> tileOffsets
+  (flip traverse_) tilePositions $ \tilePos ->
+    draw asset
+        Nothing
+        Nothing
+        (Just $ PixelClip tilePos tileDimensions)

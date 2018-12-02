@@ -13,27 +13,39 @@ import qualified CrossyToad.Effect.Renderer.SDL.Texture as Texture
 
 data Textures = Textures
   { _toad :: !Texture
-  , _toad2 :: !Texture
   , _car :: !Texture
+  , _grass :: !Texture
+  , _water :: !Texture
+  , _swamp :: !Texture
+  , _road :: !Texture
   }
 
 makeClassy ''Textures
 
 fromImageAsset :: ImageAsset -> Textures -> Texture
 fromImageAsset ImageAsset.Toad = view toad
-fromImageAsset ImageAsset.Toad2 = view toad2
 fromImageAsset ImageAsset.Car = view car
+fromImageAsset ImageAsset.Grass = view grass
+fromImageAsset ImageAsset.Water = view water
+fromImageAsset ImageAsset.Swamp = view swamp
+fromImageAsset ImageAsset.Road = view road
 
 loadTextures :: SDL.Renderer -> IO Textures
 loadTextures renderer = do
     toad' <- loadImage renderer ImageAsset.Toad
-    toad2' <- loadImage renderer ImageAsset.Toad2
     car' <- loadImage renderer ImageAsset.Car
+    grass' <- loadImage renderer ImageAsset.Grass
+    water' <- loadImage renderer ImageAsset.Water
+    swamp' <- loadImage renderer ImageAsset.Swamp
+    road' <- loadImage renderer ImageAsset.Road
 
     pure $ Textures
       { _toad = toad'
-      , _toad2 = toad2'
       , _car = car'
+      , _grass = grass'
+      , _water = water'
+      , _swamp = swamp'
+      , _road = road'
       }
 
 loadImage :: SDL.Renderer -> ImageAsset -> IO Texture
