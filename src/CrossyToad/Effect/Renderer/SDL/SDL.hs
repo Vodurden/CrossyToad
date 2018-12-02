@@ -10,9 +10,10 @@ import           SDL (($=))
 import qualified SDL as SDL
 import qualified SDL.Font as Font
 
-import CrossyToad.Effect.Renderer.SDL.Renderer
-import CrossyToad.Effect.Renderer.SDL.Env
-import CrossyToad.Effect.Renderer.SDL.Textures
+import           CrossyToad.Effect.Renderer.SDL.Env
+import           CrossyToad.Effect.Renderer.SDL.Fonts
+import           CrossyToad.Effect.Renderer.SDL.Renderer
+import           CrossyToad.Effect.Renderer.SDL.Textures
 
 initialize :: IO Env
 initialize = do
@@ -26,8 +27,10 @@ initialize = do
   renderer' <- SDL.createRenderer window' (-1) SDL.defaultRenderer
   SDL.rendererLogicalSize renderer' $= (Just $ V2 1280 960)
   textures' <- loadTextures renderer'
+  fonts' <- loadFonts
   pure $ Env
     { _window = window'
     , _renderer = renderer'
     , __textures = textures'
+    , __fonts = fonts'
     }

@@ -63,4 +63,4 @@ step :: (Time m, HasCar ent) => ent -> m ent
 step = mapMOf car LinearMotion.step
 
 render :: (Renderer m) => Car -> m ()
-render car' = drawCar (car' ^. position)
+render car' = drawCar (truncate <$> car' ^. position)

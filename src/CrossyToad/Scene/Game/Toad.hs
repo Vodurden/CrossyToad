@@ -59,8 +59,8 @@ step :: (Time m, HasToad ent) => ent -> m ent
 step = mapMOf toad JumpMotion.step
 
 render :: (Renderer m) => Toad -> m ()
-render toad' | JumpMotion.isMoving toad'  = drawToad2 (toad' ^. position)
-             | otherwise = drawToad (toad' ^. position)
+render toad' | JumpMotion.isMoving toad'  = drawToad2 (truncate <$> toad' ^. position)
+             | otherwise = drawToad (truncate <$> toad' ^. position)
 
 -- | Jump in a given direction.
 -- |

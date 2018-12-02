@@ -7,38 +7,64 @@
 -- | the game such that a human will see it.
 module CrossyToad.Effect.Renderer.Renderer where
 
-import           Control.Monad.State (StateT)
-import           Control.Monad.Reader (ReaderT)
-import           Control.Monad.Trans (MonadTrans, lift)
+import           Data.Text (Text)
+import           Data.Degrees (Degrees)
 import           Linear.V2
 
-import           CrossyToad.Effect.Renderer.Asset (Asset)
-import qualified CrossyToad.Effect.Renderer.Asset as Asset
+import           CrossyToad.Effect.Renderer.FontAsset (FontAsset)
+import qualified CrossyToad.Effect.Renderer.FontAsset as FontAsset
+import           CrossyToad.Effect.Renderer.ImageAsset (ImageAsset)
+import qualified CrossyToad.Effect.Renderer.ImageAsset as ImageAsset
+import           CrossyToad.Effect.Renderer.PixelClip
+import           CrossyToad.Effect.Renderer.PixelPosition
+import           CrossyToad.Effect.Renderer.RGBAColour (RGBAColour)
+import qualified CrossyToad.Effect.Renderer.RGBAColour as RGBAColour
 
 class Monad m => Renderer m where
   clearScreen :: m ()
   drawScreen :: m ()
 
-  draw :: Asset -> V2 Float -> m ()
+  -- | Draw an image
+  draw :: ImageAsset
+       -> (Maybe Degrees)
+       -> (Maybe TextureClip)
+       -> (Maybe ScreenClip)
+       -> m ()
 
-  default clearScreen :: (MonadTrans t, Renderer m1, m ~ t m1) => m ()
-  clearScreen = lift clearScreen
-  default drawScreen :: (MonadTrans t, Renderer m1, m ~ t m1) => m ()
-  drawScreen = lift drawScreen
-  default draw :: (MonadTrans t, Renderer m1, m ~ t m1) => Asset -> V2 Float -> m ()
-  draw asset pos = lift (draw asset pos)
+  -- | Draw an image at the given screen position
+  -- |
+  -- | The size of the image will match it's actual resolution
+  drawAt :: ImageAsset
+         -> PixelPosition
+         -> m ()
 
-instance Renderer m => Renderer (StateT s m)
-instance Renderer m => Renderer (ReaderT s m)
+  -- | Draw some text using the given font.
+  -- |
+  -- | The size of the font is determined when we load the font
+  -- | if we want different sizes we need to load multiple
+  -- | versions of the same font.
+  drawText :: FontAsset
+           -> (Maybe Degrees)
+           -> (Maybe TextureClip)
+           -> (Maybe ScreenClip)
+           -> RGBAColour
+           -> Text
+           -> m ()
 
-drawTitleText :: (Renderer m) => V2 Float -> m ()
-drawTitleText = draw Asset.TitleSprite
+drawToad :: Renderer m => PixelPosition -> m ()
+drawToad = drawAt ImageAsset.Toad
 
-drawToad :: (Renderer m) => V2 Float -> m ()
-drawToad = draw Asset.Toad
+drawToad2 :: Renderer m => PixelPosition -> m ()
+drawToad2 = drawAt ImageAsset.Toad2
 
-drawToad2 :: (Renderer m) => V2 Float -> m ()
-drawToad2 = draw Asset.Toad2
+drawCar :: Renderer m => PixelPosition -> m ()
+drawCar = drawAt ImageAsset.Car
 
-drawCar :: (Renderer m) => V2 Float -> m ()
-drawCar = draw Asset.Car
+drawTitleText :: Renderer m => m ()
+drawTitleText =
+  drawText FontAsset.Title
+           Nothing
+           Nothing
+           Nothing
+           RGBAColour.white
+           " CROSSY TOAD "

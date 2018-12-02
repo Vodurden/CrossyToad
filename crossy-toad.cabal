@@ -2,7 +2,7 @@
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: e9f4f79bd158353a5c96671a752ed9f2791fadf95323f896252f19d57774bd1e
+-- hash: c55f64820cf49c26d545707458ddf38d899dddec0088a97f6b3b09f4d2b2603c
 
 name:           crossy-toad
 version:        0.1.0.0
@@ -35,9 +35,14 @@ library
       CrossyToad.Effect.Logger.IO.Logger
       CrossyToad.Effect.Logger.Logger
       CrossyToad.Effect.Logger.LogLevel
-      CrossyToad.Effect.Renderer.Asset
+      CrossyToad.Effect.Renderer.FontAsset
+      CrossyToad.Effect.Renderer.ImageAsset
+      CrossyToad.Effect.Renderer.PixelClip
+      CrossyToad.Effect.Renderer.PixelPosition
       CrossyToad.Effect.Renderer.Renderer
+      CrossyToad.Effect.Renderer.RGBAColour
       CrossyToad.Effect.Renderer.SDL.Env
+      CrossyToad.Effect.Renderer.SDL.Fonts
       CrossyToad.Effect.Renderer.SDL.Renderer
       CrossyToad.Effect.Renderer.SDL.SDL
       CrossyToad.Effect.Renderer.SDL.Texture
@@ -72,6 +77,7 @@ library
       CrossyToad.Scene.SceneState
       CrossyToad.Scene.Title.Intent
       CrossyToad.Scene.Title.Title
+      Data.Degrees
       Data.List.Extended
       SDL.Extended
       Paths_crossy_toad
@@ -167,9 +173,14 @@ test-suite spec
       CrossyToad.Effect.Logger.IO.Logger
       CrossyToad.Effect.Logger.Logger
       CrossyToad.Effect.Logger.LogLevel
-      CrossyToad.Effect.Renderer.Asset
+      CrossyToad.Effect.Renderer.FontAsset
+      CrossyToad.Effect.Renderer.ImageAsset
+      CrossyToad.Effect.Renderer.PixelClip
+      CrossyToad.Effect.Renderer.PixelPosition
       CrossyToad.Effect.Renderer.Renderer
+      CrossyToad.Effect.Renderer.RGBAColour
       CrossyToad.Effect.Renderer.SDL.Env
+      CrossyToad.Effect.Renderer.SDL.Fonts
       CrossyToad.Effect.Renderer.SDL.Renderer
       CrossyToad.Effect.Renderer.SDL.SDL
       CrossyToad.Effect.Renderer.SDL.Texture
@@ -204,6 +215,7 @@ test-suite spec
       CrossyToad.Scene.SceneState
       CrossyToad.Scene.Title.Intent
       CrossyToad.Scene.Title.Title
+      Data.Degrees
       Data.List.Extended
       Game
       SDL.Extended

@@ -3,23 +3,25 @@
 module CrossyToad.Effect.Renderer.SDL.Texture where
 
 import           Control.Lens
-import Foreign.C.Types
+import           Foreign.C.Types (CInt)
+import           Control.Monad.IO.Class (MonadIO, liftIO)
 
 import qualified SDL
 
 data Texture = Texture
-  { _sdlTexture :: SDL.Texture
-  , _width :: CInt
-  , _height :: CInt
+  { _sdlTexture :: !SDL.Texture
+  , _width :: !Int
+  , _height :: !Int
   }
 
 makeClassy ''Texture
 
-fromSDL :: SDL.Texture -> IO Texture
+fromSDL :: MonadIO m => SDL.Texture -> m Texture
 fromSDL sdlTexture' = do
-  SDL.TextureInfo {textureWidth, textureHeight} <- SDL.queryTexture sdlTexture'
+  SDL.TextureInfo {textureWidth, textureHeight} <-
+    liftIO $ SDL.queryTexture sdlTexture'
   pure $ Texture
     { _sdlTexture = sdlTexture'
-    , _width = textureWidth
-    , _height = textureHeight
+    , _width = fromIntegral textureWidth
+    , _height = fromIntegral textureHeight
     }

@@ -8,46 +8,41 @@ import qualified SDL
 import qualified SDL.Font as Font
 import qualified SDL.Image as Image
 
-import           CrossyToad.Effect.Renderer.Asset (Asset)
-import qualified CrossyToad.Effect.Renderer.Asset as Asset
+import           CrossyToad.Effect.Renderer.ImageAsset (ImageAsset)
+import qualified CrossyToad.Effect.Renderer.ImageAsset as ImageAsset
+import           CrossyToad.Effect.Renderer.FontAsset (FontAsset)
+import qualified CrossyToad.Effect.Renderer.FontAsset as FontAsset
 import           CrossyToad.Effect.Renderer.SDL.Texture (Texture)
 import qualified CrossyToad.Effect.Renderer.SDL.Texture as Texture
 
 data Textures = Textures
-  { _titleSprite :: Texture
-  , _toad :: Texture
-  , _toad2 :: Texture
-  , _car :: Texture
+  { _toad :: !Texture
+  , _toad2 :: !Texture
+  , _car :: !Texture
   }
 
 makeClassy ''Textures
 
-fromAsset :: Asset -> Textures -> Texture
-fromAsset Asset.TitleSprite = view titleSprite
-fromAsset Asset.Toad = view toad
-fromAsset Asset.Toad2 = view toad2
-fromAsset Asset.Car = view car
+fromImageAsset :: ImageAsset -> Textures -> Texture
+fromImageAsset ImageAsset.Toad = view toad
+fromImageAsset ImageAsset.Toad2 = view toad2
+fromImageAsset ImageAsset.Car = view car
 
 loadTextures :: SDL.Renderer -> IO Textures
 loadTextures renderer = do
-    let white = (V4 0xff 0xff 0xff 0xff)
-    titleFont <- Font.load "assets/font/PrincesS AND THE FROG.ttf" 80
-    titleSpriteTexture <- Font.blended titleFont white " CROSSY TOAD "
-      >>= toTexture
-      >>= Texture.fromSDL
-
-    toadSprite <- Image.loadTexture renderer "assets/sprite/toad.png"
-      >>= Texture.fromSDL
-    toad2Sprite <- Image.loadTexture renderer "assets/sprite/toad2.png"
-      >>= Texture.fromSDL
-    carSprite <- Image.loadTexture renderer "assets/sprite/car.png"
-      >>= Texture.fromSDL
+    toad' <- loadImage renderer ImageAsset.Toad
+    toad2' <- loadImage renderer ImageAsset.Toad2
+    car' <- loadImage renderer ImageAsset.Car
 
     pure $ Textures
-      { _titleSprite = titleSpriteTexture
-      , _toad = toadSprite
-      , _toad2 = toad2Sprite
-      , _car = carSprite
+      { _toad = toad'
+      , _toad2 = toad2'
+      , _car = car'
       }
   where
     toTexture surface = SDL.createTextureFromSurface renderer surface
+
+loadImage :: SDL.Renderer -> ImageAsset -> IO Texture
+loadImage renderer asset =
+  Image.loadTexture renderer (ImageAsset.filepath asset)
+    >>= Texture.fromSDL

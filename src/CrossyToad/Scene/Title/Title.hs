@@ -2,7 +2,6 @@ module CrossyToad.Scene.Title.Title where
 
 import           Control.Lens
 import           Data.Foldable (foldl')
-import           Linear.V2
 
 import           CrossyToad.Effect.Input.Input
 import           CrossyToad.Effect.Renderer.Renderer
@@ -17,7 +16,7 @@ stepTitle ent = do
   let intents = Intent.fromInput events
   let nextEnt = foldl' (flip stepIntent) ent intents
 
-  drawTitleText $ V2 50 140
+  drawTitleText
 
   pure nextEnt
 
