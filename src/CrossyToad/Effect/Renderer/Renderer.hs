@@ -1,6 +1,3 @@
-{-# LANGUAGE DefaultSignatures #-}
-{-# LANGUAGE TypeFamilies #-}
-
 -- | The @Renderer@ feature is responsible for drawing the screen.
 -- |
 -- | In particular a renderer knows how to "draw" every visual artifact in
@@ -13,6 +10,7 @@ import           Data.Degrees (Degrees)
 import           Data.Foldable (traverse_)
 import           Linear.V2
 
+import           CrossyToad.Effect.Renderer.RenderCommand (RenderCommand(..))
 import           CrossyToad.Effect.Renderer.FontAsset (FontAsset)
 import qualified CrossyToad.Effect.Renderer.FontAsset as FontAsset
 import           CrossyToad.Effect.Renderer.ImageAsset (ImageAsset)
@@ -22,35 +20,47 @@ import           CrossyToad.Effect.Renderer.RGBAColour (RGBAColour)
 import qualified CrossyToad.Effect.Renderer.RGBAColour as RGBAColour
 
 class Monad m => Renderer m where
-  clearScreen :: m ()
-  drawScreen :: m ()
+  runRenderCommand :: RenderCommand -> m ()
 
-  -- | Draw an image
-  draw :: ImageAsset
-       -> (Maybe Degrees)
-       -> (Maybe TextureClip)
-       -> (Maybe ScreenClip)
+clearScreen :: (Renderer m) => m ()
+clearScreen = runRenderCommand ClearScreen
+
+drawScreen :: (Renderer m) => m ()
+drawScreen = runRenderCommand DrawScreen
+
+-- | Draw an image
+draw :: (Renderer m)
+     => ImageAsset
+     -> (Maybe Degrees)
+     -> (Maybe TextureClip)
+     -> (Maybe ScreenClip)
+     -> m ()
+draw a d t s = runRenderCommand (Draw a d t s)
+
+-- | Draw an image at the given screen position
+-- |
+-- | The size of the image will match it's actual resolution
+drawAt :: (Renderer m)
+       => ImageAsset
+       -> PixelPosition
        -> m ()
+drawAt a p = runRenderCommand (DrawAt a p)
 
-  -- | Draw an image at the given screen position
-  -- |
-  -- | The size of the image will match it's actual resolution
-  drawAt :: ImageAsset
-         -> PixelPosition
+
+-- | Draw some text using the given font.
+-- |
+-- | The size of the font is determined when we load the font
+-- | if we want different sizes we need to load multiple
+-- | versions of the same font.
+drawText :: (Renderer m)
+         => FontAsset
+         -> (Maybe Degrees)
+         -> (Maybe TextureClip)
+         -> (Maybe ScreenClip)
+         -> RGBAColour
+         -> Text
          -> m ()
-
-  -- | Draw some text using the given font.
-  -- |
-  -- | The size of the font is determined when we load the font
-  -- | if we want different sizes we need to load multiple
-  -- | versions of the same font.
-  drawText :: FontAsset
-           -> (Maybe Degrees)
-           -> (Maybe TextureClip)
-           -> (Maybe ScreenClip)
-           -> RGBAColour
-           -> Text
-           -> m ()
+drawText a d t s c text= runRenderCommand (DrawText  a d t s c text)
 
 drawTitleText :: Renderer m => m ()
 drawTitleText =

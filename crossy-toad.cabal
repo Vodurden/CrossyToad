@@ -2,7 +2,7 @@
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: 0e7fe05fb12c8138f58a90c49d9fbc10daf07fa37ac8d6153c2d4c8136cca9d1
+-- hash: ec381a4b16abd884c4d893218485f1245dfee582d26df49c8eab839e8e75452d
 
 name:           crossy-toad
 version:        0.1.0.0
@@ -40,6 +40,7 @@ library
       CrossyToad.Effect.Renderer.ImageAsset
       CrossyToad.Effect.Renderer.PixelClip
       CrossyToad.Effect.Renderer.PixelPosition
+      CrossyToad.Effect.Renderer.RenderCommand
       CrossyToad.Effect.Renderer.Renderer
       CrossyToad.Effect.Renderer.RGBAColour
       CrossyToad.Effect.Renderer.SDL.Env
@@ -180,6 +181,7 @@ test-suite spec
       CrossyToad.Effect.Renderer.ImageAsset
       CrossyToad.Effect.Renderer.PixelClip
       CrossyToad.Effect.Renderer.PixelPosition
+      CrossyToad.Effect.Renderer.RenderCommand
       CrossyToad.Effect.Renderer.Renderer
       CrossyToad.Effect.Renderer.RGBAColour
       CrossyToad.Effect.Renderer.SDL.Env

@@ -28,12 +28,7 @@ instance Logger CrossyToad where
   logRaw = IOLogger.logRawStdout
 
 instance Renderer CrossyToad where
-  clearScreen = SDLRenderer.clearScreen
-  drawScreen = SDLRenderer.drawScreen
-
-  draw = SDLRenderer.draw
-  drawAt = SDLRenderer.drawAt
-  drawText = SDLRenderer.drawText
+  runRenderCommand = SDLRenderer.runRenderCommand
 
 instance Time CrossyToad where
   stepTime = SDLTime.stepTime

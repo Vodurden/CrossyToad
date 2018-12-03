@@ -1,9 +1,5 @@
 module CrossyToad.Effect.Renderer.SDL.Renderer
-  ( clearScreen
-  , drawScreen
-  , draw
-  , drawAt
-  , drawText
+  ( runRenderCommand
   ) where
 
 import           Control.Lens
@@ -22,6 +18,7 @@ import           CrossyToad.Effect.Renderer.FontAsset
 import           CrossyToad.Effect.Renderer.ImageAsset
 import           CrossyToad.Effect.Renderer.PixelClip
 import           CrossyToad.Effect.Renderer.PixelPosition
+import           CrossyToad.Effect.Renderer.RenderCommand
 import           CrossyToad.Effect.Renderer.RGBAColour
 import           CrossyToad.Effect.Renderer.SDL.Env
 import           CrossyToad.Effect.Renderer.SDL.Fonts (HasFonts(..))
@@ -30,6 +27,17 @@ import           CrossyToad.Effect.Renderer.SDL.Texture (Texture, HasTexture(..)
 import qualified CrossyToad.Effect.Renderer.SDL.Texture as Texture
 import           CrossyToad.Effect.Renderer.SDL.Textures (HasTextures(..))
 import qualified CrossyToad.Effect.Renderer.SDL.Textures as Textures
+
+runRenderCommand :: (MonadReader r m, HasEnv r, MonadIO m)
+                 => RenderCommand
+                 -> m ()
+runRenderCommand ClearScreen = clearScreen
+runRenderCommand DrawScreen = drawScreen
+runRenderCommand (Draw asset degrees tClip sClip) =
+  draw asset degrees tClip sClip
+runRenderCommand (DrawAt asset pos) = drawAt asset pos
+runRenderCommand (DrawText asset degrees tClip sClip colour text) =
+  drawText asset degrees tClip sClip colour text
 
 clearScreen :: (MonadReader r m, HasEnv r, MonadIO m) => m ()
 clearScreen = view renderer >>= SDL.clear
