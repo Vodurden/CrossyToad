@@ -5,8 +5,8 @@ module CrossyToad.Scene.Game.Toad where
 import           Control.Lens
 import           Linear.V2
 
-import           CrossyToad.Effect.Renderer.Renderer
 import qualified CrossyToad.Effect.Renderer.ImageAsset as ImageAsset
+import           CrossyToad.Effect.Renderer.RenderCommand (RenderCommand(..))
 import           CrossyToad.Effect.Time.Time
 import           CrossyToad.Physics.CollisionBox (CollisionBox(..), HasCollisionBox(..))
 import qualified CrossyToad.Physics.CollisionBox as CollisionBox
@@ -71,8 +71,8 @@ mk pos = Toad
 step :: (Time m, HasToad ent) => ent -> m ent
 step = mapMOf toad JumpMotion.step
 
-render :: (Renderer m) => Toad -> m ()
-render toad' = Sprite.render toad'
+render :: Toad -> RenderCommand
+render = Sprite.render'
 
 -- | Jump in a given direction.
 -- |

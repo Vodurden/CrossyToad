@@ -13,8 +13,8 @@ module CrossyToad.Scene.Game.Car
 import           Control.Lens
 import           Linear.V2
 
-import           CrossyToad.Effect.Renderer.Renderer
 import qualified CrossyToad.Effect.Renderer.ImageAsset as ImageAsset
+import           CrossyToad.Effect.Renderer.RenderCommand (RenderCommand)
 import           CrossyToad.Effect.Time.Time
 import           CrossyToad.Physics.CollisionBox (CollisionBox(..), HasCollisionBox(..))
 import qualified CrossyToad.Physics.CollisionBox as CollisionBox
@@ -75,5 +75,5 @@ stepAll = (cars.traverse) step
 step :: (Time m, HasCar ent) => ent -> m ent
 step = mapMOf car LinearMotion.step
 
-render :: (Renderer m) => Car -> m ()
-render = Sprite.render
+render :: Car -> RenderCommand
+render = Sprite.render'

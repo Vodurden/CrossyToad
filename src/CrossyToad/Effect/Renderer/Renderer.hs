@@ -7,7 +7,6 @@ module CrossyToad.Effect.Renderer.Renderer where
 import           Control.Lens
 import           Data.Text (Text)
 import           Data.Degrees (Degrees)
-import           Data.Foldable (traverse_)
 import           Linear.V2
 
 import           CrossyToad.Effect.Renderer.RenderCommand (RenderCommand(..))
@@ -72,17 +71,16 @@ drawTitleText =
            " CROSSY TOAD "
 
 -- | Draws a row of tiles
-drawTileRow :: Renderer m
-            => ImageAsset
+drawTileRow :: ImageAsset
             -> PixelPosition
             -> Int
             -> V2 Int
-            -> m ()
+            -> [RenderCommand]
 drawTileRow asset pos tiles tileDimensions = do
   let tileOffsets = (* tileDimensions^._x) <$> [0..tiles]
   let tilePositions = (\offset -> pos & _x %~ (+offset)) <$> tileOffsets
-  (flip traverse_) tilePositions $ \tilePos ->
-    draw asset
+  (flip fmap) tilePositions $ \tilePos ->
+    Draw asset
         Nothing
         Nothing
         (Just $ PixelClip tilePos tileDimensions)
