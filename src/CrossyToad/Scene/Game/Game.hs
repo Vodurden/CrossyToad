@@ -91,5 +91,6 @@ renderBackground' = concat $
   , Renderer.drawTileRow ImageAsset.Road  (V2 0 8*64 ) 20 (V2 64 64)
   , Renderer.drawTileRow ImageAsset.Road  (V2 0 9*64 ) 20 (V2 64 64)
   , Renderer.drawTileRow ImageAsset.Road  (V2 0 10*64) 20 (V2 64 64)
-  , Renderer.drawTileRow ImageAsset.Grass (V2 0 11*64) 20 (V2 64 64)
+  , Renderer.drawTileRow ImageAsset.Road  (V2 0 11*64) 20 (V2 64 64)
+  , Renderer.drawTileRow ImageAsset.Grass (V2 0 12*64) 20 (V2 64 64)
   ]
