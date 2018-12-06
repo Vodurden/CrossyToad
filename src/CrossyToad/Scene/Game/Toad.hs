@@ -72,7 +72,7 @@ step :: (Time m, HasToad ent) => ent -> m ent
 step = mapMOf toad JumpMotion.step
 
 render :: Toad -> RenderCommand
-render = Sprite.render'
+render = Sprite.render
 
 -- | Jump in a given direction.
 -- |

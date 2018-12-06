@@ -1,15 +1,17 @@
 module CrossyToad.Scene.Game.ToadSpec where
 
-import Control.Lens
-import Linear.V2
+import           Control.Lens
+import           Linear.V2
 
-import Test.Tasty.Hspec
+import           Test.Tasty.Hspec
 
-import CrossyToad.Physics.Physics
-import CrossyToad.Scene.Game.Toad as Toad
+import qualified CrossyToad.Effect.Renderer.ImageAsset as ImageAsset
+import           CrossyToad.Effect.Renderer.RenderCommand
+import           CrossyToad.Physics.Physics
+import           CrossyToad.Scene.Game.Toad as Toad
 
-spec_Scene_Toad :: Spec
-spec_Scene_Toad = do
+spec_Scene_Game_Toad :: Spec
+spec_Scene_Game_Toad = do
   describe "die" $ do
     it "should reduce the toads lives by 1" $ do
       let toad' = (Toad.mk $ V2 0 0) & (lives .~ 2)
@@ -34,3 +36,8 @@ spec_Scene_Toad = do
       let jumpingToad = Toad.jump North (Toad.mk $ V2 0 0)
       let toad2 = (Toad.mk (V2 10 10))
       Toad.collision jumpingToad toad2 `shouldBe` False
+
+  describe "render" $ do
+    it "should draw the Toad asset" $ do
+      let asset = render (Toad.mk $ V2 0 0) ^? _Draw . _1
+      asset `shouldBe` (Just ImageAsset.Toad)

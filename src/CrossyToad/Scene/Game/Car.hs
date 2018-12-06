@@ -76,4 +76,4 @@ step :: (Time m, HasCar ent) => ent -> m ent
 step = mapMOf car LinearMotion.step
 
 render :: Car -> RenderCommand
-render = Sprite.render'
+render = Sprite.render
