@@ -17,9 +17,9 @@ import           CrossyToad.Physics.Position
 import           CrossyToad.Sprite.Sprite as Sprite
 
 data Ent = Ent
-  { __position :: Position
-  , __direction :: Direction
-  , __sprite :: Sprite
+  { __position :: !Position
+  , __direction :: !Direction
+  , __sprite :: !Sprite
   }
 
 makeClassy ''Ent

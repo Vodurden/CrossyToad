@@ -9,16 +9,16 @@ module CrossyToad.Sprite.Sprite
 import Control.Lens
 import Control.Monad (mfilter)
 
-import CrossyToad.Effect.Renderer.ImageAsset (ImageAsset, HasImageAsset(..))
-import           CrossyToad.Effect.Renderer.RenderCommand (RenderCommand(..))
 import CrossyToad.Effect.Renderer.Dimensions
+import CrossyToad.Effect.Renderer.ImageAsset (ImageAsset, HasImageAsset(..))
 import CrossyToad.Effect.Renderer.PixelClip (PixelClip(..))
-import CrossyToad.Physics.Position
+import CrossyToad.Effect.Renderer.RenderCommand (RenderCommand(..))
 import CrossyToad.Physics.Direction
+import CrossyToad.Physics.Position
 
 data Sprite = Sprite
-  { __imageAsset :: ImageAsset
-  , __dimensions :: Dimensions
+  { __imageAsset :: !ImageAsset
+  , __dimensions :: !Dimensions
   } deriving (Eq, Show)
 
 makeClassy ''Sprite
