@@ -19,12 +19,10 @@ module CrossyToad.Physics.LinearMotion
 import Control.Lens
 
 import CrossyToad.Effect.Time.Time
-import CrossyToad.Physics.Direction
-import CrossyToad.Physics.Speed
-import CrossyToad.Physics.Position
+import CrossyToad.Geometry.Geometry
 
 data LinearMotion = LinearMotion
-  { _speed     :: !Speed     -- ^ How fast we are moving
+  { _speed     :: !(Speed 'World)     -- ^ How fast we are moving
   } deriving (Eq, Show)
 
 makeClassy ''LinearMotion

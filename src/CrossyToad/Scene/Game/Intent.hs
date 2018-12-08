@@ -11,7 +11,7 @@ import Control.Monad (mfilter)
 import Data.Maybe (catMaybes)
 
 import CrossyToad.Effect.Input.Input
-import CrossyToad.Physics.Physics
+import CrossyToad.Geometry.Geometry
 
 data Intent = Move Direction
             | Exit

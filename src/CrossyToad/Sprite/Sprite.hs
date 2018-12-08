@@ -13,8 +13,7 @@ import CrossyToad.Effect.Renderer.Dimensions
 import CrossyToad.Effect.Renderer.ImageAsset (ImageAsset, HasImageAsset(..))
 import CrossyToad.Effect.Renderer.PixelClip (PixelClip(..))
 import CrossyToad.Effect.Renderer.RenderCommand (RenderCommand(..))
-import CrossyToad.Physics.Direction
-import CrossyToad.Physics.Position
+import CrossyToad.Geometry.Geometry
 
 data Sprite = Sprite
   { __imageAsset :: !ImageAsset

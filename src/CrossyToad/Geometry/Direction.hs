@@ -1,20 +1,18 @@
 {-# LANGUAGE TemplateHaskell #-}
 
-module CrossyToad.Physics.Direction where
+module CrossyToad.Geometry.Direction where
 
 import Control.Lens
 import Data.Degrees
 import Linear.V2
 
--- | The direction an object is facing
-data Direction = North | East | South | West
-  deriving (Eq, Show, Ord)
+import CrossyToad.Geometry.Internal
 
 makeClassy ''Direction
 makeClassyPrisms ''Direction
 
 -- | Returns a unit vector corresponding to the direction
-unitVector :: Direction -> V2 Float
+unitVector :: Direction -> V2 Int
 unitVector North = V2 0 (-1)
 unitVector East = V2 1 0
 unitVector South = V2 0 1

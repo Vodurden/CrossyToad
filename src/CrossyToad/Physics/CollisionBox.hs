@@ -1,54 +1,35 @@
 {-# LANGUAGE TemplateHaskell #-}
 
 module CrossyToad.Physics.CollisionBox
-  ( CollisionBox(..)
+  ( CollisionBox
   , HasCollisionBox(..)
-  , mk
-  , mkOffset
-  , offset
-  , collision
+  , module CrossyToad.Geometry.AABB
   , entCollision
   ) where
 
 import Control.Lens
-import Linear.V2
 
-import CrossyToad.Physics.Position
+import CrossyToad.Geometry.Geometry
+import CrossyToad.Geometry.AABB
+import CrossyToad.Geometry.Position (HasPosition(..))
 
-data CollisionBox = CollisionBox
-  { _minPoint :: Position
-  , _maxPoint :: Position
-  } deriving (Eq, Show)
+type CollisionBox = AABB 'World
 
-makeClassy ''CollisionBox
+class HasCollisionBox a where
+  collisionBox :: Lens' a CollisionBox
 
-mk :: (V2 Float) -> CollisionBox
-mk wh = mkOffset (V2 0 0) wh
-
-mkOffset :: (V2 Float) -> (V2 Float) -> CollisionBox
-mkOffset (V2 x y) (V2 width height) = CollisionBox
-  { _minPoint = V2 x y
-  , _maxPoint = V2 (x+width) (y+height)
-  }
-
--- | Shifts the collision box by a given offset
-offset :: V2 Float -> CollisionBox -> CollisionBox
-offset v = (minPoint +~ v) . (maxPoint +~ v)
+instance HasCollisionBox CollisionBox where
+  collisionBox = id
 
 -- | Returns true if there is a collision between these two entities
 entCollision ::
-  ( HasPosition e1
+  ( HasPosition e1 'World
   , HasCollisionBox e1
-  , HasPosition e2
+  , HasPosition e2 'World
   , HasCollisionBox e2
   ) => e1 -> e2 -> Bool
 entCollision e1 e2 =
-  let box1 = offset (e1 ^. position) (e1^.collisionBox)
-      box2 = offset (e2 ^. position) (e2^.collisionBox)
-  in collision box1 box2
-
--- | Returns true if there is a collision between the collision boxes
-collision :: CollisionBox -> CollisionBox -> Bool
-collision box1 box2 =
-  (box1^.maxPoint._x > box2^.minPoint._x) && (box1^.minPoint._x < box2^.maxPoint._x)
-  && (box1^.maxPoint._y > box2^.minPoint._y) && (box1^.minPoint._y < box2^.maxPoint._y)
+  let
+    box1 = offset (e1 ^. position) (e1^.collisionBox)
+    box2 = offset (e2 ^. position) (e2^.collisionBox)
+  in overlapping box1 box2

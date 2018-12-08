@@ -25,25 +25,24 @@ import           Control.Monad (when)
 import           Control.Monad.State.Extended (State, execState)
 import           Linear.V2
 
-import           CrossyToad.Physics.Direction
-import           CrossyToad.Physics.Distance
-import           CrossyToad.Physics.Position
-import           CrossyToad.Physics.Speed
+import           CrossyToad.Geometry.Geometry
+import           CrossyToad.Geometry.Position
+import           CrossyToad.Geometry.Direction
 import           CrossyToad.Effect.Time.Time
 import           CrossyToad.Effect.Time.Timer (Timer)
 import qualified CrossyToad.Effect.Time.Timer as Timer
 
 data JumpMotion = JumpMotion
-  { _speed :: Speed              -- ^ How fast we can move
-  , _distance :: Distance        -- ^ How far we move in a single jump
+  { _speed :: !(Speed World)       -- ^ How fast we can move
+  , _distance :: !(Distance World) -- ^ How far we move in a single jump
   , _cooldown :: Timer           -- ^ Timer to wait between jumps
 
-  , _targetDistance :: Distance  -- ^ How far we _are_ moving
+  , _targetDistance :: !(Distance World)  -- ^ How far we _are_ moving
   } deriving (Eq, Show)
 
 makeClassy ''JumpMotion
 
-mk :: Speed -> Distance -> Seconds -> JumpMotion
+mk :: (Speed World) -> (Distance World) -> Seconds -> JumpMotion
 mk speed' distance' cooldown' = JumpMotion
   { _speed = speed'
   , _distance = distance'
@@ -51,7 +50,12 @@ mk speed' distance' cooldown' = JumpMotion
   , _targetDistance = 0
   }
 
-step :: (Time m, HasPosition ent, HasDirection ent, HasJumpMotion ent) => ent -> m ent
+step ::
+  ( Time m
+  , HasPosition ent 'World
+  , HasDirection ent
+  , HasJumpMotion ent
+  ) => ent -> m ent
 step ent = do
   delta <- deltaTime
   pure $ stepBy delta ent
@@ -63,7 +67,11 @@ step ent = do
 --   id %= stepBy delta
 
 -- | Step this motion by a given amount of seconds
-stepBy :: (HasPosition ent, HasDirection ent, HasJumpMotion ent) => Seconds -> ent -> ent
+stepBy ::
+  ( HasPosition ent 'World
+  , HasDirection ent
+  , HasJumpMotion ent
+  ) => Seconds -> ent -> ent
 stepBy delta = execState $ do
   jumpDelta <- stepCooldown delta
   motionVector' <- stepJump jumpDelta
@@ -104,12 +112,16 @@ stepMovementFinished =
 
 -- | Calculate the motion vector and distance to travel from the current
 -- | motion.
-motionVectorOverTime :: Seconds -> Direction -> JumpMotion -> (V2 Float, Distance)
+motionVectorOverTime
+  :: Seconds
+  -> Direction
+  -> JumpMotion
+  -> (Offset World, Distance World)
 motionVectorOverTime delta direction' motion' =
-  let scaledVelocity = (motion' ^. speed) * delta
+  let scaledVelocity = (motion' ^. speed) * (UnitInt delta)
       distanceThisFrame = min (scaledVelocity) (motion' ^. targetDistance)
       directionVector = unitVector direction'
-      motionVector' = (* distanceThisFrame) <$> directionVector
+      motionVector' = (* distanceThisFrame) <$> (directionVector :: Vec2d 'World)
   in (motionVector', distanceThisFrame)
 
 

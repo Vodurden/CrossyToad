@@ -23,8 +23,11 @@ default-extensions:
   - MultiParamTypeClasses
   - DuplicateRecordFields
   - TypeSynonymInstances
+  - TypeOperators
   - FlexibleInstances
   - ScopedTypeVariables
+  - DataKinds
+  - KindSignatures
 
 dependencies:
   - base >=4.9 && <4.12
@@ -37,6 +40,7 @@ dependencies:
   - lens
   - containers
   - text
+  - zippers
 
 library:
   source-dirs: src
