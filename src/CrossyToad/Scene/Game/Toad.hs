@@ -9,7 +9,7 @@ import qualified CrossyToad.Effect.Renderer.ImageAsset as ImageAsset
 import           CrossyToad.Effect.Renderer.RenderCommand (RenderCommand(..))
 import           CrossyToad.Effect.Time.Time
 import           CrossyToad.Geometry.Position
-import           CrossyToad.Physics.CollisionBox (CollisionBox(..), HasCollisionBox(..))
+import           CrossyToad.Physics.CollisionBox (CollisionBox, HasCollisionBox(..))
 import qualified CrossyToad.Physics.CollisionBox as CollisionBox
 import           CrossyToad.Physics.JumpMotion (JumpMotion(..), HasJumpMotion(..))
 import qualified CrossyToad.Physics.JumpMotion as JumpMotion
@@ -50,7 +50,7 @@ mk pos = Toad
     { __position = pos
     , __direction = North
     , __jumpMotion = JumpMotion.mk toadSpeed toadDistance toadCooldown
-    , __collisionBox = CollisionBox.mkOffset (V2 1 1) (V2 62 62)
+    , __collisionBox = CollisionBox.mkAt (V2 1 1) (V2 62 62)
     , __sprite = Sprite ImageAsset.Toad (V2 64 64)
     , _initialPosition = pos
     , _lives = 5

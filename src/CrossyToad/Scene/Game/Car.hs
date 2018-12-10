@@ -17,7 +17,7 @@ import qualified CrossyToad.Effect.Renderer.ImageAsset as ImageAsset
 import           CrossyToad.Effect.Renderer.RenderCommand (RenderCommand)
 import           CrossyToad.Effect.Time.Time
 import           CrossyToad.Geometry.Position
-import           CrossyToad.Physics.CollisionBox (CollisionBox(..), HasCollisionBox(..))
+import           CrossyToad.Physics.CollisionBox (CollisionBox, HasCollisionBox(..))
 import qualified CrossyToad.Physics.CollisionBox as CollisionBox
 import           CrossyToad.Physics.LinearMotion (LinearMotion(..), HasLinearMotion(..))
 import qualified CrossyToad.Physics.LinearMotion as LinearMotion
@@ -61,7 +61,7 @@ mk pos dir = Car
     { __position = pos
     , __direction = dir
     , __linearMotion = LinearMotion.mk carSpeed
-    , __collisionBox = CollisionBox.mkOffset (V2 1 1) (V2 62 62)
+    , __collisionBox = CollisionBox.mkAt (V2 1 1) (V2 62 62)
     , __sprite = Sprite ImageAsset.Car (V2 64 64)
     }
   where
