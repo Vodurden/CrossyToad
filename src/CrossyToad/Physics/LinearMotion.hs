@@ -55,4 +55,4 @@ stepBy delta ent' =
   let distanceThisFrame = (ent' ^. speed) * delta
       directionVector = unitVector $ ent'^.direction
       motionVector' = (* distanceThisFrame) <$> directionVector
-  in ent' & (position +~ (truncate <$> motionVector'))
+  in ent' & (position +~ motionVector')

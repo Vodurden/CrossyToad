@@ -14,7 +14,7 @@ import Linear.V2
 -- | - The position of an entity in the game world
 -- |   (currently the game world is measured in pixels)
 -- |
-type Position = (V2 Int)
+type Position = (V2 Float)
 
 class HasPosition t where
   position :: Lens' t Position

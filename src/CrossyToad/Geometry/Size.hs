@@ -12,7 +12,7 @@ import Linear.V2
 -- | - This width & height of an object on the screen
 -- | - A region in a texture
 -- | - The collision box of an entity in the game world
-type Size = (V2 Int)
+type Size = (V2 Float)
 
 class HasSize a where
   size :: Lens' a Size

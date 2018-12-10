@@ -74,10 +74,10 @@ drawTitleText =
 drawTileRow :: ImageAsset
             -> Position
             -> Int
-            -> V2 Int
+            -> V2 Float
             -> [RenderCommand]
 drawTileRow asset pos tiles tileDimensions = do
-  let tileOffsets = (* tileDimensions^._x) <$> [0..tiles]
+  let tileOffsets = (* tileDimensions^._x) <$> [0..fromIntegral tiles]
   let tilePositions = (\offset -> pos & _x %~ (+offset)) <$> tileOffsets
   (flip fmap) tilePositions $ \tilePos ->
     Draw asset

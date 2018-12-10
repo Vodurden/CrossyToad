@@ -9,4 +9,4 @@ import Linear.V2
 -- | to have any meaningful location
 -- |
 -- | In reality it's just a handy name for one use of a vector
-type Offset = (V2 Int)
+type Offset = (V2 Float)

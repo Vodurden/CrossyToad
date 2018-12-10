@@ -70,7 +70,7 @@ drawAt asset' pos = do
   textures' <- view (env.textures)
   let texture' = Textures.fromImageAsset asset' textures'
   let wh = V2 (texture' ^. Texture.width) (texture' ^. Texture.height)
-  let screenClip = PixelClip pos wh
+  let screenClip = PixelClip pos (fromIntegral <$> wh)
   drawTexture texture' Nothing Nothing (Just screenClip)
 
 drawText ::
@@ -116,6 +116,6 @@ drawTexture texture' degrees textureClip targetClip = do
   where
     fromPixelClip :: PixelClip -> SDL.Rectangle CInt
     fromPixelClip clip =
-      let xy = fromIntegral <$> clip ^. position
-          wh = fromIntegral <$> clip ^. size
+      let xy = truncate <$> clip ^. position
+          wh = truncate <$> clip ^. size
       in SDL.Rectangle (SDL.P xy) wh
