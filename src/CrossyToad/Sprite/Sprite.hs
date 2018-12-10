@@ -6,15 +6,15 @@ module CrossyToad.Sprite.Sprite
   , render
   ) where
 
-import Control.Lens
-import Control.Monad (mfilter)
+import           Control.Lens
+import           Control.Monad (mfilter)
 
-import CrossyToad.Effect.Renderer.ImageAsset (ImageAsset, HasImageAsset(..))
-import CrossyToad.Effect.Renderer.PixelClip (PixelClip(..))
-import CrossyToad.Effect.Renderer.RenderCommand (RenderCommand(..))
-import CrossyToad.Geometry.Position
-import CrossyToad.Geometry.Size
-import CrossyToad.Physics.Direction
+import qualified CrossyToad.Effect.Renderer.Clip as Clip
+import           CrossyToad.Effect.Renderer.ImageAsset (ImageAsset, HasImageAsset(..))
+import           CrossyToad.Effect.Renderer.RenderCommand (RenderCommand(..))
+import           CrossyToad.Geometry.Position
+import           CrossyToad.Geometry.Size
+import           CrossyToad.Physics.Direction
 
 data Sprite = Sprite
   { __imageAsset :: !ImageAsset
@@ -37,7 +37,7 @@ render ::
 render ent = do
   let pos = ent ^. position
   let rotation = mfilter (/= 0) (Just $ degrees (ent^.direction))
-  let screenClip = PixelClip pos (ent ^. sprite . size)
+  let screenClip = Clip.mkAt pos (ent ^. sprite . size)
   Draw (ent^.sprite.imageAsset)
        rotation
        Nothing

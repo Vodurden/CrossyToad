@@ -14,7 +14,8 @@ import           CrossyToad.Effect.Renderer.RenderCommand (RenderCommand(..))
 import           CrossyToad.Effect.Renderer.FontAsset (FontAsset)
 import qualified CrossyToad.Effect.Renderer.FontAsset as FontAsset
 import           CrossyToad.Effect.Renderer.ImageAsset (ImageAsset)
-import           CrossyToad.Effect.Renderer.PixelClip
+import           CrossyToad.Effect.Renderer.Clip (Clip)
+import qualified CrossyToad.Effect.Renderer.Clip as Clip
 import           CrossyToad.Effect.Renderer.RGBAColour (RGBAColour)
 import qualified CrossyToad.Effect.Renderer.RGBAColour as RGBAColour
 
@@ -31,8 +32,8 @@ drawScreen = runRenderCommand DrawScreen
 draw :: (Renderer m)
      => ImageAsset
      -> (Maybe Degrees)
-     -> (Maybe TextureClip)
-     -> (Maybe ScreenClip)
+     -> (Maybe Clip)
+     -> (Maybe Clip)
      -> m ()
 draw a d t s = runRenderCommand (Draw a d t s)
 
@@ -54,8 +55,8 @@ drawAt a p = runRenderCommand (DrawAt a p)
 drawText :: (Renderer m)
          => FontAsset
          -> (Maybe Degrees)
-         -> (Maybe TextureClip)
-         -> (Maybe ScreenClip)
+         -> (Maybe Clip)
+         -> (Maybe Clip)
          -> RGBAColour
          -> Text
          -> m ()
@@ -83,4 +84,4 @@ drawTileRow asset pos tiles tileDimensions = do
     Draw asset
         Nothing
         Nothing
-        (Just $ PixelClip tilePos tileDimensions)
+        (Just $ Clip.mkAt tilePos tileDimensions)

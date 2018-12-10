@@ -8,7 +8,7 @@ import           Linear.V2
 import           Test.Tasty.Hspec
 
 import qualified CrossyToad.Effect.Renderer.ImageAsset as ImageAsset
-import           CrossyToad.Effect.Renderer.PixelClip (PixelClip(PixelClip))
+import qualified CrossyToad.Effect.Renderer.Clip as Clip
 import           CrossyToad.Effect.Renderer.RenderCommand
 import           CrossyToad.Geometry.Position
 import           CrossyToad.Physics.Direction
@@ -30,7 +30,6 @@ instance HasDirection Ent where direction = _direction
 instance HasSprite Ent where sprite = _sprite
 instance HasAnimation Ent where animation = _animation
 
-
 mkEnt :: Ent
 mkEnt = Ent
   { __position = (V2 0 0)
@@ -40,7 +39,7 @@ mkEnt = Ent
     , __size = V2 64 64
     }
   , __animation = Animation
-    { _textureClip = PixelClip (V2 0 0) (V2 64 64)
+    { _textureClip = Clip.mk (V2 64 64)
     }
   }
 
@@ -48,7 +47,7 @@ spec_Sprite_AnimationSpec :: Spec
 spec_Sprite_AnimationSpec = do
   describe "render" $ do
     it "should apply the texture clip to the sprite" $ do
-      let clip = PixelClip (V2 0 0) (V2 64 64)
+      let clip = Clip.mk (V2 64 64)
       let ent' = mkEnt & animation . textureClip .~ clip
       let resultClip = (render ent') ^? _Draw . _3 . _Just
       resultClip `shouldBe` (Just clip)

@@ -8,7 +8,7 @@ module CrossyToad.Sprite.Animation
 
 import Control.Lens
 
-import CrossyToad.Effect.Renderer.PixelClip
+import CrossyToad.Effect.Renderer.Clip (Clip)
 import CrossyToad.Effect.Renderer.RenderCommand (RenderCommand(..), AsRenderCommand(..))
 import CrossyToad.Geometry.Position
 import CrossyToad.Physics.Direction
@@ -16,7 +16,7 @@ import CrossyToad.Sprite.Sprite (HasSprite(..))
 import qualified CrossyToad.Sprite.Sprite as Sprite
 
 data Animation = Animation
-  { _textureClip :: !TextureClip
+  { _textureClip :: !Clip
   }
 
 makeClassy ''Animation

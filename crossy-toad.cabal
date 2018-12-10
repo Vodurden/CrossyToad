@@ -2,7 +2,7 @@
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: 77d38daa89f54c2aaad6c3b07aba3be9f9ce1e448e4f1e5079c758bde20ab0a7
+-- hash: 99fc6d3306deb2abd3d99ed93a5463ee5b91a109b8e166b9ca70069240784630
 
 name:           crossy-toad
 version:        0.1.0.0
@@ -35,9 +35,9 @@ library
       CrossyToad.Effect.Logger.IO.Logger
       CrossyToad.Effect.Logger.Logger
       CrossyToad.Effect.Logger.LogLevel
+      CrossyToad.Effect.Renderer.Clip
       CrossyToad.Effect.Renderer.FontAsset
       CrossyToad.Effect.Renderer.ImageAsset
-      CrossyToad.Effect.Renderer.PixelClip
       CrossyToad.Effect.Renderer.RenderCommand
       CrossyToad.Effect.Renderer.Renderer
       CrossyToad.Effect.Renderer.RGBAColour
@@ -182,9 +182,9 @@ test-suite spec
       CrossyToad.Effect.Logger.IO.Logger
       CrossyToad.Effect.Logger.Logger
       CrossyToad.Effect.Logger.LogLevel
+      CrossyToad.Effect.Renderer.Clip
       CrossyToad.Effect.Renderer.FontAsset
       CrossyToad.Effect.Renderer.ImageAsset
-      CrossyToad.Effect.Renderer.PixelClip
       CrossyToad.Effect.Renderer.RenderCommand
       CrossyToad.Effect.Renderer.Renderer
       CrossyToad.Effect.Renderer.RGBAColour

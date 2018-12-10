@@ -15,7 +15,8 @@ import qualified SDL.Font as Font
 
 import           CrossyToad.Effect.Renderer.FontAsset
 import           CrossyToad.Effect.Renderer.ImageAsset
-import           CrossyToad.Effect.Renderer.PixelClip
+import           CrossyToad.Effect.Renderer.Clip (Clip)
+import qualified CrossyToad.Effect.Renderer.Clip as Clip
 import           CrossyToad.Effect.Renderer.RGBAColour
 import           CrossyToad.Effect.Renderer.RenderCommand
 import           CrossyToad.Effect.Renderer.SDL.Env
@@ -51,8 +52,8 @@ draw ::
   , MonadIO m)
   => ImageAsset
   -> (Maybe Degrees)
-  -> (Maybe TextureClip)
-  -> (Maybe ScreenClip)
+  -> (Maybe Clip)
+  -> (Maybe Clip)
   -> m ()
 draw asset' degrees textureClip screenClip = do
     textures' <- view (env.textures)
@@ -70,7 +71,7 @@ drawAt asset' pos = do
   textures' <- view (env.textures)
   let texture' = Textures.fromImageAsset asset' textures'
   let wh = V2 (texture' ^. Texture.width) (texture' ^. Texture.height)
-  let screenClip = PixelClip pos (fromIntegral <$> wh)
+  let screenClip = Clip.mkAt pos (fromIntegral <$> wh)
   drawTexture texture' Nothing Nothing (Just screenClip)
 
 drawText ::
@@ -79,8 +80,8 @@ drawText ::
   , MonadIO m)
   => FontAsset
   -> (Maybe Degrees)
-  -> (Maybe TextureClip)
-  -> (Maybe ScreenClip)
+  -> (Maybe Clip)
+  -> (Maybe Clip)
   -> RGBAColour
   -> Text
   -> m ()
@@ -100,22 +101,22 @@ drawTexture ::
   , MonadIO m)
   => Texture
   -> (Maybe Double)
-  -> (Maybe TextureClip)
-  -> (Maybe ScreenClip)
+  -> (Maybe Clip)
+  -> (Maybe Clip)
   -> m ()
 drawTexture texture' degrees textureClip targetClip = do
     renderer' <- view (env.renderer)
     SDL.copyEx
       renderer'
       (texture' ^. sdlTexture)
-      (fromPixelClip <$> textureClip)
-      (fromPixelClip <$> targetClip)
+      (fromClip <$> textureClip)
+      (fromClip <$> targetClip)
       (realToFrac $ fromMaybe 0 degrees)
       Nothing
       (V2 False False)
   where
-    fromPixelClip :: PixelClip -> SDL.Rectangle CInt
-    fromPixelClip clip =
+    fromClip :: Clip -> SDL.Rectangle CInt
+    fromClip clip =
       let xy = truncate <$> clip ^. position
           wh = truncate <$> clip ^. size
       in SDL.Rectangle (SDL.P xy) wh
