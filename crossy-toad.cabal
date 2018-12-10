@@ -2,7 +2,7 @@
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: db6a1feceb782768ee78db92143f66d9359a304058ed196ea9ae61cac8eac59f
+-- hash: 77d38daa89f54c2aaad6c3b07aba3be9f9ce1e448e4f1e5079c758bde20ab0a7
 
 name:           crossy-toad
 version:        0.1.0.0
@@ -55,6 +55,7 @@ library
       CrossyToad.Effect.Time.Time
       CrossyToad.Effect.Time.Timer
       CrossyToad.Env
+      CrossyToad.Geometry.AABB
       CrossyToad.Geometry.Offset
       CrossyToad.Geometry.Position
       CrossyToad.Geometry.Size
@@ -153,6 +154,7 @@ test-suite spec
       CrossyToad.Effect.Input.KeyboardStateSpec
       CrossyToad.Effect.Input.SDL.InputSpec
       CrossyToad.Effect.Time.TimerSpec
+      CrossyToad.Geometry.AABBSpec
       CrossyToad.Physics.CollisionBoxSpec
       CrossyToad.Physics.JumpMotionSpec
       CrossyToad.Physics.LinearMotionSpec
@@ -200,6 +202,7 @@ test-suite spec
       CrossyToad.Effect.Time.Time
       CrossyToad.Effect.Time.Timer
       CrossyToad.Env
+      CrossyToad.Geometry.AABB
       CrossyToad.Geometry.Offset
       CrossyToad.Geometry.Position
       CrossyToad.Geometry.Size
