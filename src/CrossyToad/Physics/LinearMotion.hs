@@ -19,9 +19,9 @@ module CrossyToad.Physics.LinearMotion
 import Control.Lens
 
 import CrossyToad.Effect.Time.Time
+import CrossyToad.Geometry.Position
 import CrossyToad.Physics.Direction
 import CrossyToad.Physics.Speed
-import CrossyToad.Physics.Position
 
 data LinearMotion = LinearMotion
   { _speed     :: !Speed     -- ^ How fast we are moving
@@ -43,6 +43,9 @@ step ent = do
   pure $ stepBy delta ent
 
 -- | Step this motion by a given amount of seconds
+-- |
+-- | TODO: Replace all usages of `float` with `int` and upscale
+-- |       where appropriate
 stepBy ::
   ( HasPosition ent
   , HasDirection ent
@@ -52,4 +55,4 @@ stepBy delta ent' =
   let distanceThisFrame = (ent' ^. speed) * delta
       directionVector = unitVector $ ent'^.direction
       motionVector' = (* distanceThisFrame) <$> directionVector
-  in ent' & (position +~ motionVector')
+  in ent' & (position +~ (truncate <$> motionVector'))

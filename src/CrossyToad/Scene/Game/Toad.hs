@@ -8,6 +8,7 @@ import           Linear.V2
 import qualified CrossyToad.Effect.Renderer.ImageAsset as ImageAsset
 import           CrossyToad.Effect.Renderer.RenderCommand (RenderCommand(..))
 import           CrossyToad.Effect.Time.Time
+import           CrossyToad.Geometry.Position
 import           CrossyToad.Physics.CollisionBox (CollisionBox(..), HasCollisionBox(..))
 import qualified CrossyToad.Physics.CollisionBox as CollisionBox
 import           CrossyToad.Physics.JumpMotion (JumpMotion(..), HasJumpMotion(..))

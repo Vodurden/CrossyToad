@@ -13,7 +13,8 @@ import           Control.Lens.Extended
 import           Control.Monad.State.Extended (StateT, runStateT)
 import qualified Data.List.Extended as List
 
-import           CrossyToad.Physics.Physics (Position, HasPosition(..), Direction, HasDirection(..))
+import           CrossyToad.Geometry.Position
+import           CrossyToad.Physics.Physics (Direction, HasDirection(..))
 import           CrossyToad.Scene.Game.Car (Car(..), HasCars(..))
 import qualified CrossyToad.Scene.Game.Car as Car
 import           CrossyToad.Effect.Time.Time (Time, Seconds)

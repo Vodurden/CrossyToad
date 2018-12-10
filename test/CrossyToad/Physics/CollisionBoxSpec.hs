@@ -7,7 +7,7 @@ import Linear.V2
 
 import Test.Tasty.Hspec
 
-import CrossyToad.Physics.Position
+import CrossyToad.Geometry.Position
 import CrossyToad.Physics.CollisionBox
 
 data Ent = Ent
@@ -59,7 +59,7 @@ spec_Physics_CollisionBoxSpec = do
 
     it "should return false if the boxes are not overlapping" $ do
       let b1 = mkOffset (V2 0 0) (V2 5 5)
-      let b2 = mkOffset (V2 5.1 0) (V2 5 5)
+      let b2 = mkOffset (V2 6 0) (V2 5 5)
       collision b1 b2 `shouldBe` False
 
     it "should return false if the box is not overlapping to the south" $ do

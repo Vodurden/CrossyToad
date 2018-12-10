@@ -25,9 +25,9 @@ import           Control.Monad (when)
 import           Control.Monad.State.Extended (State, execState)
 import           Linear.V2
 
+import           CrossyToad.Geometry.Position
 import           CrossyToad.Physics.Direction
 import           CrossyToad.Physics.Distance
-import           CrossyToad.Physics.Position
 import           CrossyToad.Physics.Speed
 import           CrossyToad.Effect.Time.Time
 import           CrossyToad.Effect.Time.Timer (Timer)
@@ -78,7 +78,7 @@ stepCooldown delta = do
   remainingDelta <- zoom cooldown $ Timer.stepBy delta
   pure remainingDelta
 
-stepJump :: (HasDirection s, HasJumpMotion s) => Seconds -> State s (V2 Float)
+stepJump :: (HasDirection s, HasJumpMotion s) => Seconds -> State s (V2 Int)
 stepJump delta = do
   motion' <- use jumpMotion
   direction' <- use direction
@@ -104,13 +104,13 @@ stepMovementFinished =
 
 -- | Calculate the motion vector and distance to travel from the current
 -- | motion.
-motionVectorOverTime :: Seconds -> Direction -> JumpMotion -> (V2 Float, Distance)
+motionVectorOverTime :: Seconds -> Direction -> JumpMotion -> (V2 Int, Distance)
 motionVectorOverTime delta direction' motion' =
   let scaledVelocity = (motion' ^. speed) * delta
       distanceThisFrame = min (scaledVelocity) (motion' ^. targetDistance)
       directionVector = unitVector direction'
       motionVector' = (* distanceThisFrame) <$> directionVector
-  in (motionVector', distanceThisFrame)
+  in (truncate <$> motionVector', distanceThisFrame)
 
 
 -- | Jump towards the given direction.

@@ -2,16 +2,16 @@
 
 module CrossyToad.Physics.JumpMotionSpec where
 
-import Control.Lens
-import Linear.V2
+import           Control.Lens
+import           Linear.V2
 
-import Test.Tasty.Hspec
+import           Test.Tasty.Hspec
 
-import CrossyToad.Physics.Direction
-import CrossyToad.Physics.JumpMotion
-import CrossyToad.Physics.Position
-import CrossyToad.Effect.Time.Timer (HasTimer(..))
+import           CrossyToad.Effect.Time.Timer (HasTimer(..))
 import qualified CrossyToad.Effect.Time.Timer as Timer
+import           CrossyToad.Geometry.Position
+import           CrossyToad.Physics.Direction
+import           CrossyToad.Physics.JumpMotion
 
 data Ent = Ent
   { __position :: !Position

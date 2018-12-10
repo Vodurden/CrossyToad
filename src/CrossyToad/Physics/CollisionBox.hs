@@ -13,26 +13,28 @@ module CrossyToad.Physics.CollisionBox
 import Control.Lens
 import Linear.V2
 
-import CrossyToad.Physics.Position
+import CrossyToad.Geometry.Position
+import CrossyToad.Geometry.Size
+import CrossyToad.Geometry.Offset
 
 data CollisionBox = CollisionBox
-  { _minPoint :: Position
-  , _maxPoint :: Position
+  { _minPoint :: !Position
+  , _maxPoint :: !Position
   } deriving (Eq, Show)
 
 makeClassy ''CollisionBox
 
-mk :: (V2 Float) -> CollisionBox
+mk :: Size -> CollisionBox
 mk wh = mkOffset (V2 0 0) wh
 
-mkOffset :: (V2 Float) -> (V2 Float) -> CollisionBox
-mkOffset (V2 x y) (V2 width height) = CollisionBox
-  { _minPoint = V2 x y
-  , _maxPoint = V2 (x+width) (y+height)
+mkOffset :: Position -> Size -> CollisionBox
+mkOffset pos dimensions' = CollisionBox
+  { _minPoint = pos
+  , _maxPoint = pos + dimensions'
   }
 
 -- | Shifts the collision box by a given offset
-offset :: V2 Float -> CollisionBox -> CollisionBox
+offset :: Offset -> CollisionBox -> CollisionBox
 offset v = (minPoint +~ v) . (maxPoint +~ v)
 
 -- | Returns true if there is a collision between these two entities

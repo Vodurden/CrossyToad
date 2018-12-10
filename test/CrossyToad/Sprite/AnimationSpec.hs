@@ -10,8 +10,8 @@ import           Test.Tasty.Hspec
 import qualified CrossyToad.Effect.Renderer.ImageAsset as ImageAsset
 import           CrossyToad.Effect.Renderer.PixelClip (PixelClip(PixelClip))
 import           CrossyToad.Effect.Renderer.RenderCommand
+import           CrossyToad.Geometry.Position
 import           CrossyToad.Physics.Direction
-import           CrossyToad.Physics.Position
 import           CrossyToad.Sprite.Animation as Animation
 import           CrossyToad.Sprite.Sprite (Sprite(..), HasSprite(..))
 import qualified CrossyToad.Sprite.Sprite as Sprite
@@ -30,13 +30,14 @@ instance HasDirection Ent where direction = _direction
 instance HasSprite Ent where sprite = _sprite
 instance HasAnimation Ent where animation = _animation
 
+
 mkEnt :: Ent
 mkEnt = Ent
   { __position = (V2 0 0)
   , __direction = North
   , __sprite = Sprite
     { __imageAsset = ImageAsset.Toad
-    , __dimensions = V2 64 64
+    , __size = V2 64 64
     }
   , __animation = Animation
     { _textureClip = PixelClip (V2 0 0) (V2 64 64)

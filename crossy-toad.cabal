@@ -2,7 +2,7 @@
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: 86c0cbfe2be40e8ebbc1cf4deffe170aff8ae3041cb2a121f73f1deae8d3ccd2
+-- hash: db6a1feceb782768ee78db92143f66d9359a304058ed196ea9ae61cac8eac59f
 
 name:           crossy-toad
 version:        0.1.0.0
@@ -35,11 +35,9 @@ library
       CrossyToad.Effect.Logger.IO.Logger
       CrossyToad.Effect.Logger.Logger
       CrossyToad.Effect.Logger.LogLevel
-      CrossyToad.Effect.Renderer.Dimensions
       CrossyToad.Effect.Renderer.FontAsset
       CrossyToad.Effect.Renderer.ImageAsset
       CrossyToad.Effect.Renderer.PixelClip
-      CrossyToad.Effect.Renderer.PixelPosition
       CrossyToad.Effect.Renderer.RenderCommand
       CrossyToad.Effect.Renderer.Renderer
       CrossyToad.Effect.Renderer.RGBAColour
@@ -57,13 +55,15 @@ library
       CrossyToad.Effect.Time.Time
       CrossyToad.Effect.Time.Timer
       CrossyToad.Env
+      CrossyToad.Geometry.Offset
+      CrossyToad.Geometry.Position
+      CrossyToad.Geometry.Size
       CrossyToad.Physics.CollisionBox
       CrossyToad.Physics.Direction
       CrossyToad.Physics.Distance
       CrossyToad.Physics.JumpMotion
       CrossyToad.Physics.LinearMotion
       CrossyToad.Physics.Physics
-      CrossyToad.Physics.Position
       CrossyToad.Physics.Speed
       CrossyToad.Runner
       CrossyToad.Scene.Env
@@ -180,11 +180,9 @@ test-suite spec
       CrossyToad.Effect.Logger.IO.Logger
       CrossyToad.Effect.Logger.Logger
       CrossyToad.Effect.Logger.LogLevel
-      CrossyToad.Effect.Renderer.Dimensions
       CrossyToad.Effect.Renderer.FontAsset
       CrossyToad.Effect.Renderer.ImageAsset
       CrossyToad.Effect.Renderer.PixelClip
-      CrossyToad.Effect.Renderer.PixelPosition
       CrossyToad.Effect.Renderer.RenderCommand
       CrossyToad.Effect.Renderer.Renderer
       CrossyToad.Effect.Renderer.RGBAColour
@@ -202,13 +200,15 @@ test-suite spec
       CrossyToad.Effect.Time.Time
       CrossyToad.Effect.Time.Timer
       CrossyToad.Env
+      CrossyToad.Geometry.Offset
+      CrossyToad.Geometry.Position
+      CrossyToad.Geometry.Size
       CrossyToad.Physics.CollisionBox
       CrossyToad.Physics.Direction
       CrossyToad.Physics.Distance
       CrossyToad.Physics.JumpMotion
       CrossyToad.Physics.LinearMotion
       CrossyToad.Physics.Physics
-      CrossyToad.Physics.Position
       CrossyToad.Physics.Speed
       CrossyToad.Runner
       CrossyToad.Scene.Env

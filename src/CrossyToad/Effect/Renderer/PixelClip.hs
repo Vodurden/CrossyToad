@@ -4,8 +4,8 @@ module CrossyToad.Effect.Renderer.PixelClip where
 
 import Control.Lens
 
-import CrossyToad.Effect.Renderer.PixelPosition
-import CrossyToad.Effect.Renderer.Dimensions
+import CrossyToad.Geometry.Position
+import CrossyToad.Geometry.Size
 
 -- | Represents a rectangular "Clip" in pxiels.
 -- |
@@ -13,14 +13,17 @@ import CrossyToad.Effect.Renderer.Dimensions
 -- | or on the screen, such as the source of an image or the target
 -- | area to draw to.
 data PixelClip = PixelClip
-  { _position :: PixelPosition
-  , __dimensions :: Dimensions
+  { __position :: Position
+  , __size :: Size
   } deriving (Eq, Show)
 
 makeClassy ''PixelClip
 
-instance HasDimensions PixelClip where
-  dimensions = _dimensions
+instance HasPosition PixelClip where
+  position = _position
+
+instance HasSize PixelClip where
+  size = _size
 
 -- | Represents a PixelClip applied to a texture
 type TextureClip = PixelClip

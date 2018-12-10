@@ -7,7 +7,7 @@ import Linear.V2
 
 import Test.Tasty.Hspec
 
-import CrossyToad.Physics.Position
+import CrossyToad.Geometry.Position
 import CrossyToad.Physics.Direction
 import CrossyToad.Physics.LinearMotion as LinearMotion
 

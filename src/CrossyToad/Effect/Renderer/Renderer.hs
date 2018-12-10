@@ -9,12 +9,12 @@ import           Data.Text (Text)
 import           Data.Degrees (Degrees)
 import           Linear.V2
 
+import           CrossyToad.Geometry.Position
 import           CrossyToad.Effect.Renderer.RenderCommand (RenderCommand(..))
 import           CrossyToad.Effect.Renderer.FontAsset (FontAsset)
 import qualified CrossyToad.Effect.Renderer.FontAsset as FontAsset
 import           CrossyToad.Effect.Renderer.ImageAsset (ImageAsset)
 import           CrossyToad.Effect.Renderer.PixelClip
-import           CrossyToad.Effect.Renderer.PixelPosition
 import           CrossyToad.Effect.Renderer.RGBAColour (RGBAColour)
 import qualified CrossyToad.Effect.Renderer.RGBAColour as RGBAColour
 
@@ -41,7 +41,7 @@ draw a d t s = runRenderCommand (Draw a d t s)
 -- | The size of the image will match it's actual resolution
 drawAt :: (Renderer m)
        => ImageAsset
-       -> PixelPosition
+       -> Position
        -> m ()
 drawAt a p = runRenderCommand (DrawAt a p)
 
@@ -72,7 +72,7 @@ drawTitleText =
 
 -- | Draws a row of tiles
 drawTileRow :: ImageAsset
-            -> PixelPosition
+            -> Position
             -> Int
             -> V2 Int
             -> [RenderCommand]

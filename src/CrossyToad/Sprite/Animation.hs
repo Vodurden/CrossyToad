@@ -10,8 +10,8 @@ import Control.Lens
 
 import CrossyToad.Effect.Renderer.PixelClip
 import CrossyToad.Effect.Renderer.RenderCommand (RenderCommand(..), AsRenderCommand(..))
+import CrossyToad.Geometry.Position
 import CrossyToad.Physics.Direction
-import CrossyToad.Physics.Position
 import CrossyToad.Sprite.Sprite (HasSprite(..))
 import qualified CrossyToad.Sprite.Sprite as Sprite
 

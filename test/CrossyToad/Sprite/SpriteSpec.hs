@@ -10,10 +10,9 @@ import           Test.Tasty.Hspec
 import           CrossyToad.Effect.Renderer.ImageAsset (HasImageAsset(..))
 import qualified CrossyToad.Effect.Renderer.ImageAsset as ImageAsset
 import           CrossyToad.Effect.Renderer.RenderCommand
-import           CrossyToad.Effect.Renderer.Dimensions (HasDimensions(..))
-import qualified CrossyToad.Effect.Renderer.PixelClip as PixelClip
+import           CrossyToad.Geometry.Position
+import           CrossyToad.Geometry.Size
 import           CrossyToad.Physics.Direction
-import           CrossyToad.Physics.Position
 import           CrossyToad.Sprite.Sprite as Sprite
 
 data Ent = Ent
@@ -34,7 +33,7 @@ mkEnt = Ent
   , __direction = North
   , __sprite = Sprite
     { __imageAsset = ImageAsset.Toad
-    , __dimensions = V2 64 64
+    , __size = V2 64 64
     }
   }
 
@@ -68,7 +67,7 @@ spec_Sprite_SpriteSpec = do
 
     it "should render at the entities position" $ do
       let ent' = mkEnt & position .~ V2 25 25
-      let pos = (render ent') ^? _Draw . _4 . _Just . PixelClip.position
+      let pos = (render ent') ^? _Draw . _4 . _Just . position
       pos `shouldBe` Just (V2 25 25)
 
     it "should not specify a texture clip" $ do
@@ -77,6 +76,6 @@ spec_Sprite_SpriteSpec = do
       textureClip `shouldBe` Nothing
 
     it "should clip the image to the dimensions" $ do
-      let ent' = mkEnt & sprite . dimensions .~ V2 64 64
-      let dimensions' = (render ent') ^? _Draw . _4 . _Just . dimensions
+      let ent' = mkEnt & sprite . size .~ V2 64 64
+      let dimensions' = (render ent') ^? _Draw . _4 . _Just . size
       dimensions' `shouldBe` Just (V2 64 64)

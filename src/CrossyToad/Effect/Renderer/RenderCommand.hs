@@ -9,8 +9,8 @@ import Data.Text (Text)
 import CrossyToad.Effect.Renderer.FontAsset (FontAsset)
 import CrossyToad.Effect.Renderer.ImageAsset (ImageAsset, AsImageAsset(..))
 import CrossyToad.Effect.Renderer.PixelClip
-import CrossyToad.Effect.Renderer.PixelPosition
 import CrossyToad.Effect.Renderer.RGBAColour
+import CrossyToad.Geometry.Position
 
 data RenderCommand
   = ClearScreen
@@ -23,7 +23,7 @@ data RenderCommand
          !(Maybe ScreenClip)
 
   | DrawAt !ImageAsset
-           !PixelPosition
+           !Position
 
   | DrawText !FontAsset
              !(Maybe Degrees)

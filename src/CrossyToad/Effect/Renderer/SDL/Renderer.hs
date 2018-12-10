@@ -13,13 +13,11 @@ import           Linear.V2
 import qualified SDL
 import qualified SDL.Font as Font
 
-import           CrossyToad.Effect.Renderer.Dimensions
 import           CrossyToad.Effect.Renderer.FontAsset
 import           CrossyToad.Effect.Renderer.ImageAsset
 import           CrossyToad.Effect.Renderer.PixelClip
-import           CrossyToad.Effect.Renderer.PixelPosition
-import           CrossyToad.Effect.Renderer.RenderCommand
 import           CrossyToad.Effect.Renderer.RGBAColour
+import           CrossyToad.Effect.Renderer.RenderCommand
 import           CrossyToad.Effect.Renderer.SDL.Env
 import           CrossyToad.Effect.Renderer.SDL.Fonts (HasFonts(..))
 import qualified CrossyToad.Effect.Renderer.SDL.Fonts as Fonts
@@ -27,6 +25,8 @@ import           CrossyToad.Effect.Renderer.SDL.Texture (Texture, HasTexture(..)
 import qualified CrossyToad.Effect.Renderer.SDL.Texture as Texture
 import           CrossyToad.Effect.Renderer.SDL.Textures (HasTextures(..))
 import qualified CrossyToad.Effect.Renderer.SDL.Textures as Textures
+import           CrossyToad.Geometry.Position
+import           CrossyToad.Geometry.Size
 
 runRenderCommand :: (MonadReader r m, HasEnv r, MonadIO m)
                  => RenderCommand
@@ -64,7 +64,7 @@ drawAt ::
   , HasEnv r
   , MonadIO m)
   => ImageAsset
-  -> PixelPosition
+  -> Position
   -> m ()
 drawAt asset' pos = do
   textures' <- view (env.textures)
@@ -117,5 +117,5 @@ drawTexture texture' degrees textureClip targetClip = do
     fromPixelClip :: PixelClip -> SDL.Rectangle CInt
     fromPixelClip clip =
       let xy = fromIntegral <$> clip ^. position
-          wh = fromIntegral <$> clip ^. dimensions
+          wh = fromIntegral <$> clip ^. size
       in SDL.Rectangle (SDL.P xy) wh
