@@ -5,6 +5,7 @@ module CrossyToad.Scene.Game.Toad where
 import           Control.Lens
 import           Linear.V2
 
+import qualified CrossyToad.Asset.Sprite.Toad as ToadSprite
 import qualified CrossyToad.Effect.Renderer.ImageAsset as ImageAsset
 import           CrossyToad.Effect.Renderer.RenderCommand (RenderCommand(..))
 import           CrossyToad.Effect.Time.Time
@@ -15,7 +16,8 @@ import           CrossyToad.Physics.JumpMotion (JumpMotion(..), HasJumpMotion(..
 import qualified CrossyToad.Physics.JumpMotion as JumpMotion
 import           CrossyToad.Physics.Physics
 import           CrossyToad.Sprite.Sprite (Sprite(..), HasSprite(..))
-import qualified CrossyToad.Sprite.Sprite as Sprite
+import           CrossyToad.Sprite.Animated (Animated(..), HasAnimated(..))
+import qualified CrossyToad.Sprite.Animated as Animated
 
 data Toad = Toad
   { __position :: !Position
@@ -23,6 +25,7 @@ data Toad = Toad
   , __jumpMotion :: !JumpMotion
   , __collisionBox :: !CollisionBox
   , __sprite :: !Sprite
+  , __animated :: !(Animated ToadSprite.Animation)
 
   , _initialPosition :: !Position        -- ^ The position the toad was originally created in
   , _lives :: !Int                       -- ^ How many lives the toad has left
@@ -30,20 +33,12 @@ data Toad = Toad
 
 makeClassy ''Toad
 
-instance HasPosition Toad where
-  position = _position
-
-instance HasDirection Toad where
-  direction = _direction
-
-instance HasJumpMotion Toad where
-  jumpMotion = _jumpMotion
-
-instance HasCollisionBox Toad where
-  collisionBox = _collisionBox
-
-instance HasSprite Toad where
-  sprite = _sprite
+instance HasPosition Toad where position = _position
+instance HasDirection Toad where direction = _direction
+instance HasJumpMotion Toad where jumpMotion = _jumpMotion
+instance HasCollisionBox Toad where collisionBox = _collisionBox
+instance HasSprite Toad where sprite = _sprite
+instance HasAnimated Toad ToadSprite.Animation where animated = _animated
 
 mk :: Position -> Toad
 mk pos = Toad
@@ -52,6 +47,7 @@ mk pos = Toad
     , __jumpMotion = JumpMotion.mk toadSpeed toadDistance toadCooldown
     , __collisionBox = CollisionBox.mkAt (V2 1 1) (V2 62 62)
     , __sprite = Sprite ImageAsset.Toad (V2 64 64)
+    , __animated = Animated.mk ToadSprite.Idle ToadSprite.animations
     , _initialPosition = pos
     , _lives = 5
     }
@@ -73,7 +69,7 @@ step :: (Time m, HasToad ent) => ent -> m ent
 step = mapMOf toad JumpMotion.step
 
 render :: Toad -> RenderCommand
-render = Sprite.render
+render = Animated.render
 
 -- | Jump in a given direction.
 -- |

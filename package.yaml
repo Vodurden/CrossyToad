@@ -25,6 +25,7 @@ default-extensions:
   - TypeSynonymInstances
   - FlexibleInstances
   - ScopedTypeVariables
+  - TypeOperators
 
 dependencies:
   - base >=4.9 && <4.12
@@ -37,6 +38,7 @@ dependencies:
   - lens
   - containers
   - text
+  - zippers
 
 library:
   source-dirs: src

@@ -12,6 +12,7 @@ import           CrossyToad.Effect.Logger.Logger
 import           CrossyToad.Scene.Game.Car (Car, HasCars(..))
 import           CrossyToad.Scene.Game.Toad (Toad, HasToad(..))
 import qualified CrossyToad.Scene.Game.Toad as Toad
+import           CrossyToad.Physics.CollisionBox (HasCollisionBox(..))
 
 step :: (Logger m, HasToad ent, HasCars ent) => ent -> m ent
 step ent = do
@@ -20,6 +21,6 @@ step ent = do
 
 carCollision :: (Logger m) => Toad -> Car -> m Toad
 carCollision toad' car' | Toad.collision toad' car' = do
-                            logText Debug $ (Text.pack "Toad Collision! ") <> (Text.pack $ show toad') <> " " <> (Text.pack $ show car')
+                            logText Debug $ (Text.pack "Toad Collision! ") <> (Text.pack $ show $ toad' ^. collisionBox) <> " " <> (Text.pack $ show car')
                             pure $ Toad.die toad'
                         | otherwise = pure toad'

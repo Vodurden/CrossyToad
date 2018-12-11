@@ -1,32 +1,26 @@
-{-# LANGUAGE TemplateHaskell #-}
+{-# LANGUAGE StandaloneDeriving #-}
+{-# OPTIONS_GHC -fno-warn-orphans #-}
 
-module CrossyToad.Sprite.Animation
-  ( Animation(..)
-  , HasAnimation(..)
-  , render
-  ) where
+module CrossyToad.Sprite.Animation where
 
-import Control.Lens
+import           Control.Lens
+import           Control.Zipper.Extended
 
-import CrossyToad.Effect.Renderer.Clip (Clip)
-import CrossyToad.Effect.Renderer.RenderCommand (RenderCommand(..), AsRenderCommand(..))
-import CrossyToad.Geometry.Position
-import CrossyToad.Physics.Direction
-import CrossyToad.Sprite.Sprite (HasSprite(..))
-import qualified CrossyToad.Sprite.Sprite as Sprite
+import           CrossyToad.Sprite.AnimationFrame (AnimationFrame)
 
-data Animation = Animation
-  { _textureClip :: !Clip
-  }
+-- | An animation describes the set of frames to apply to
+-- | an image asset representing a single concrete animation
+-- |
+-- | For example, the set of frames that describe the toads
+-- | jump animation would be a single "Animation"
+type Animation = Top :>> [AnimationFrame] :>> AnimationFrame
 
-makeClassy ''Animation
+-- TODO: Consider whether these instances are lawful and whether
+--       we can/should avoid orphan instances.
+--
+--       Also consider removing Show entirely in favor of Pretty
+instance Eq Animation where
+  (==) a b = a^.focus == b^.focus
 
-render ::
-  ( HasPosition ent
-  , HasDirection ent
-  , HasSprite ent
-  , HasAnimation ent
-  ) => ent -> RenderCommand
-render ent =
-  let clip = ent ^. textureClip
-  in (Sprite.render ent) & _Draw . _3 .~ (Just clip)
+instance Show Animation where
+  show a = show $ a^.focus

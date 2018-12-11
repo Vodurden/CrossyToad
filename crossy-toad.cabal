@@ -2,7 +2,7 @@
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: 99fc6d3306deb2abd3d99ed93a5463ee5b91a109b8e166b9ca70069240784630
+-- hash: 8f7df4d77724acc702518c72c54cb70d16d7e8c6787b758071d7d1773a452b41
 
 name:           crossy-toad
 version:        0.1.0.0
@@ -21,7 +21,9 @@ library
   other-modules:
       Control.Lens.Extended
       Control.Monad.State.Extended
+      Control.Zipper.Extended
       CrossyToad
+      CrossyToad.Asset.Sprite.Toad
       CrossyToad.Effect.Input.Input
       CrossyToad.Effect.Input.InputEvent
       CrossyToad.Effect.Input.InputState
@@ -80,7 +82,9 @@ library
       CrossyToad.Scene.SceneState
       CrossyToad.Scene.Title.Intent
       CrossyToad.Scene.Title.Title
+      CrossyToad.Sprite.Animated
       CrossyToad.Sprite.Animation
+      CrossyToad.Sprite.AnimationFrame
       CrossyToad.Sprite.Sprite
       Data.Degrees
       Data.List.Extended
@@ -88,7 +92,7 @@ library
       Paths_crossy_toad
   hs-source-dirs:
       src
-  default-extensions: FlexibleContexts GeneralizedNewtypeDeriving OverloadedStrings NamedFieldPuns MultiParamTypeClasses DuplicateRecordFields TypeSynonymInstances FlexibleInstances ScopedTypeVariables
+  default-extensions: FlexibleContexts GeneralizedNewtypeDeriving OverloadedStrings NamedFieldPuns MultiParamTypeClasses DuplicateRecordFields TypeSynonymInstances FlexibleInstances ScopedTypeVariables TypeOperators
   ghc-options: -Wall -Werror -Wcompat -Wincomplete-record-updates -Wincomplete-uni-patterns -Wredundant-constraints -O2 -fprof-auto-exported
   build-depends:
       base >=4.9 && <4.12
@@ -101,6 +105,7 @@ library
     , sdl2-ttf
     , text
     , transformers
+    , zippers
   default-language: Haskell2010
 
 executable crossy-toad
@@ -109,7 +114,7 @@ executable crossy-toad
       Paths_crossy_toad
   hs-source-dirs:
       executable
-  default-extensions: FlexibleContexts GeneralizedNewtypeDeriving OverloadedStrings NamedFieldPuns MultiParamTypeClasses DuplicateRecordFields TypeSynonymInstances FlexibleInstances ScopedTypeVariables
+  default-extensions: FlexibleContexts GeneralizedNewtypeDeriving OverloadedStrings NamedFieldPuns MultiParamTypeClasses DuplicateRecordFields TypeSynonymInstances FlexibleInstances ScopedTypeVariables TypeOperators
   ghc-options: -Wall -Werror -Wcompat -Wincomplete-record-updates -Wincomplete-uni-patterns -Wredundant-constraints -O2
   build-depends:
       base >=4.9 && <4.12
@@ -123,6 +128,7 @@ executable crossy-toad
     , sdl2-ttf
     , text
     , transformers
+    , zippers
   default-language: Haskell2010
 
 executable crossy-toad-prof
@@ -131,7 +137,7 @@ executable crossy-toad-prof
       Paths_crossy_toad
   hs-source-dirs:
       executable
-  default-extensions: FlexibleContexts GeneralizedNewtypeDeriving OverloadedStrings NamedFieldPuns MultiParamTypeClasses DuplicateRecordFields TypeSynonymInstances FlexibleInstances ScopedTypeVariables
+  default-extensions: FlexibleContexts GeneralizedNewtypeDeriving OverloadedStrings NamedFieldPuns MultiParamTypeClasses DuplicateRecordFields TypeSynonymInstances FlexibleInstances ScopedTypeVariables TypeOperators
   ghc-options: -Wall -Werror -Wcompat -Wincomplete-record-updates -Wincomplete-uni-patterns -Wredundant-constraints -O2 -rtsopts -threaded -fprof-auto-top "-with-rtsopts=-N -p -s -h -i0.1"
   build-depends:
       base >=4.9 && <4.12
@@ -145,6 +151,7 @@ executable crossy-toad-prof
     , sdl2-ttf
     , text
     , transformers
+    , zippers
   default-language: Haskell2010
 
 test-suite spec
@@ -164,11 +171,13 @@ test-suite spec
       CrossyToad.Scene.Game.ToadSpec
       CrossyToad.Scene.Title.IntentSpec
       CrossyToad.Scene.Title.TitleSpec
-      CrossyToad.Sprite.AnimationSpec
+      CrossyToad.Sprite.AnimatedSpec
       CrossyToad.Sprite.SpriteSpec
       Control.Lens.Extended
       Control.Monad.State.Extended
+      Control.Zipper.Extended
       CrossyToad
+      CrossyToad.Asset.Sprite.Toad
       CrossyToad.Effect.Input.Input
       CrossyToad.Effect.Input.InputEvent
       CrossyToad.Effect.Input.InputState
@@ -227,7 +236,9 @@ test-suite spec
       CrossyToad.Scene.SceneState
       CrossyToad.Scene.Title.Intent
       CrossyToad.Scene.Title.Title
+      CrossyToad.Sprite.Animated
       CrossyToad.Sprite.Animation
+      CrossyToad.Sprite.AnimationFrame
       CrossyToad.Sprite.Sprite
       Data.Degrees
       Data.List.Extended
@@ -237,7 +248,7 @@ test-suite spec
   hs-source-dirs:
       test
       src
-  default-extensions: FlexibleContexts GeneralizedNewtypeDeriving OverloadedStrings NamedFieldPuns MultiParamTypeClasses DuplicateRecordFields TypeSynonymInstances FlexibleInstances ScopedTypeVariables
+  default-extensions: FlexibleContexts GeneralizedNewtypeDeriving OverloadedStrings NamedFieldPuns MultiParamTypeClasses DuplicateRecordFields TypeSynonymInstances FlexibleInstances ScopedTypeVariables TypeOperators
   ghc-options: -Wall -Werror -Wcompat -Wincomplete-record-updates -Wincomplete-uni-patterns -Wredundant-constraints -O2
   build-depends:
       base >=4.9 && <4.12
@@ -256,4 +267,5 @@ test-suite spec
     , tasty-hspec
     , text
     , transformers
+    , zippers
   default-language: Haskell2010
