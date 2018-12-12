@@ -26,6 +26,7 @@ default-extensions:
   - FlexibleInstances
   - ScopedTypeVariables
   - TypeOperators
+  - MultiWayIf
 
 dependencies:
   - base >=4.9 && <4.12

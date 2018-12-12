@@ -3,6 +3,7 @@
 module CrossyToad.Scene.Game.Toad where
 
 import           Control.Lens
+import           Control.Monad ((>=>))
 import           Linear.V2
 
 import qualified CrossyToad.Asset.Sprite.Toad as ToadSprite
@@ -59,14 +60,23 @@ mk pos = Toad
     -- | How many pixels the toad moves per-second
     toadSpeed :: Speed
     toadSpeed = toadDistance * (1 / secondsToJump)
-      where secondsToJump = 0.10
+      where secondsToJump = 0.50
 
     -- | How long the toad must rest between jumps
     toadCooldown :: Seconds
     toadCooldown = 0.15
 
 step :: (Time m, HasToad ent) => ent -> m ent
-step = mapMOf toad JumpMotion.step
+step = mapMOf toad
+       $ JumpMotion.step
+       >=> (pure . stepAnimatedState)
+       >=> Animated.step
+
+stepAnimatedState :: Toad -> Toad
+stepAnimatedState t =
+  t & animated %~
+    if | JumpMotion.isMoving t -> (Animated.transition Animated.play) ToadSprite.Jump
+       | otherwise -> (Animated.transition Animated.pause) ToadSprite.Idle
 
 render :: Toad -> RenderCommand
 render = Animated.render
@@ -75,7 +85,9 @@ render = Animated.render
 -- |
 -- | This will cause the toad to change direction and begin moving.
 jump :: Direction -> Toad -> Toad
-jump dir = JumpMotion.jump dir
+jump dir =
+  (JumpMotion.jump dir)
+  . (Animated.play ToadSprite.Jump)
 
 -- | Kills the toad
 die :: Toad -> Toad

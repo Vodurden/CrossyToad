@@ -2,7 +2,7 @@
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: 8f7df4d77724acc702518c72c54cb70d16d7e8c6787b758071d7d1773a452b41
+-- hash: e47dfb5c9e1d8d934fe538f3a8c17c8c35dfb879516f948a2cab177900ba2726
 
 name:           crossy-toad
 version:        0.1.0.0
@@ -92,7 +92,7 @@ library
       Paths_crossy_toad
   hs-source-dirs:
       src
-  default-extensions: FlexibleContexts GeneralizedNewtypeDeriving OverloadedStrings NamedFieldPuns MultiParamTypeClasses DuplicateRecordFields TypeSynonymInstances FlexibleInstances ScopedTypeVariables TypeOperators
+  default-extensions: FlexibleContexts GeneralizedNewtypeDeriving OverloadedStrings NamedFieldPuns MultiParamTypeClasses DuplicateRecordFields TypeSynonymInstances FlexibleInstances ScopedTypeVariables TypeOperators MultiWayIf
   ghc-options: -Wall -Werror -Wcompat -Wincomplete-record-updates -Wincomplete-uni-patterns -Wredundant-constraints -O2 -fprof-auto-exported
   build-depends:
       base >=4.9 && <4.12
@@ -114,7 +114,7 @@ executable crossy-toad
       Paths_crossy_toad
   hs-source-dirs:
       executable
-  default-extensions: FlexibleContexts GeneralizedNewtypeDeriving OverloadedStrings NamedFieldPuns MultiParamTypeClasses DuplicateRecordFields TypeSynonymInstances FlexibleInstances ScopedTypeVariables TypeOperators
+  default-extensions: FlexibleContexts GeneralizedNewtypeDeriving OverloadedStrings NamedFieldPuns MultiParamTypeClasses DuplicateRecordFields TypeSynonymInstances FlexibleInstances ScopedTypeVariables TypeOperators MultiWayIf
   ghc-options: -Wall -Werror -Wcompat -Wincomplete-record-updates -Wincomplete-uni-patterns -Wredundant-constraints -O2
   build-depends:
       base >=4.9 && <4.12
@@ -137,7 +137,7 @@ executable crossy-toad-prof
       Paths_crossy_toad
   hs-source-dirs:
       executable
-  default-extensions: FlexibleContexts GeneralizedNewtypeDeriving OverloadedStrings NamedFieldPuns MultiParamTypeClasses DuplicateRecordFields TypeSynonymInstances FlexibleInstances ScopedTypeVariables TypeOperators
+  default-extensions: FlexibleContexts GeneralizedNewtypeDeriving OverloadedStrings NamedFieldPuns MultiParamTypeClasses DuplicateRecordFields TypeSynonymInstances FlexibleInstances ScopedTypeVariables TypeOperators MultiWayIf
   ghc-options: -Wall -Werror -Wcompat -Wincomplete-record-updates -Wincomplete-uni-patterns -Wredundant-constraints -O2 -rtsopts -threaded -fprof-auto-top "-with-rtsopts=-N -p -s -h -i0.1"
   build-depends:
       base >=4.9 && <4.12
@@ -172,6 +172,7 @@ test-suite spec
       CrossyToad.Scene.Title.IntentSpec
       CrossyToad.Scene.Title.TitleSpec
       CrossyToad.Sprite.AnimatedSpec
+      CrossyToad.Sprite.AnimationSpec
       CrossyToad.Sprite.SpriteSpec
       Control.Lens.Extended
       Control.Monad.State.Extended
@@ -248,7 +249,7 @@ test-suite spec
   hs-source-dirs:
       test
       src
-  default-extensions: FlexibleContexts GeneralizedNewtypeDeriving OverloadedStrings NamedFieldPuns MultiParamTypeClasses DuplicateRecordFields TypeSynonymInstances FlexibleInstances ScopedTypeVariables TypeOperators
+  default-extensions: FlexibleContexts GeneralizedNewtypeDeriving OverloadedStrings NamedFieldPuns MultiParamTypeClasses DuplicateRecordFields TypeSynonymInstances FlexibleInstances ScopedTypeVariables TypeOperators MultiWayIf
   ghc-options: -Wall -Werror -Wcompat -Wincomplete-record-updates -Wincomplete-uni-patterns -Wredundant-constraints -O2
   build-depends:
       base >=4.9 && <4.12

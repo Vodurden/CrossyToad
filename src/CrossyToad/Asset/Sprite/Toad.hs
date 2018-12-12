@@ -28,11 +28,9 @@ animations = Map.fromList
 idleAnimation :: [AnimationFrame]
 idleAnimation =
   [ mkFrame (V2 0 0) 0.1
-  , mkFrame (V2 0 1) 0.1
   ]
 
 jumpAnimation :: [AnimationFrame]
 jumpAnimation =
-  [ mkFrame (V2 0 0) 0.1
-  , mkFrame (V2 0 1) 0.1
+  [ mkFrame (V2 1 0) 0.15
   ]

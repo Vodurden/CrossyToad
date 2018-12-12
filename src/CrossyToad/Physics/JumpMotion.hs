@@ -57,12 +57,6 @@ step ent = do
   delta <- deltaTime
   pure $ stepBy delta ent
 
--- | Updates the jump motion for this frame and updates the position of the entity.
--- step :: (Time m, HasPosition s, HasJumpMotion s) => StateT s m ()
--- step = do
---   delta <- deltaTime
---   id %= stepBy delta
-
 -- | Step this motion by a given amount of seconds
 stepBy :: (HasPosition ent, HasDirection ent, HasJumpMotion ent) => Seconds -> ent -> ent
 stepBy delta = execState $ do

@@ -3,7 +3,6 @@
 module CrossyToad.Sprite.AnimatedSpec where
 
 import           Control.Lens
-import           Control.Zipper.Extended
 import           Data.Map.Strict (Map)
 import qualified Data.Map.Strict as Map
 import           Linear.V2
@@ -15,6 +14,7 @@ import           CrossyToad.Effect.Renderer.Clip (HasClip(..))
 import           CrossyToad.Effect.Renderer.RenderCommand
 import           CrossyToad.Geometry.Position
 import           CrossyToad.Physics.Direction
+import           CrossyToad.Sprite.Animation (currentFrame)
 import           CrossyToad.Sprite.Animated as Animated
 import           CrossyToad.Sprite.AnimationFrame (AnimationFrame)
 import qualified CrossyToad.Sprite.AnimationFrame as AnimationFrame
@@ -66,23 +66,18 @@ mkEnt = Ent
   , __animated = Animated.mk Idle testAnimations
   }
 
-spec_Sprite_AnimationSpec :: Spec
-spec_Sprite_AnimationSpec = do
+spec_Sprite_AnimatedSpec :: Spec
+spec_Sprite_AnimatedSpec = do
   describe "mk" $ do
     it "should start on the first frame of the initial key" $ do
       let animated' = Animated.mk Idle testAnimations
-      animated' ^. currentAnimation . focus `shouldBe` idleFrame1
+      animated'^.currentAnimation.currentFrame `shouldBe` idleFrame1
 
-  describe "animate" $ do
+  describe "play" $ do
     it "should switch to the given animation" $ do
       let animated' = Animated.mk Idle testAnimations
-      let jumpAnim = Animated.animate Jump animated'
+      let jumpAnim = Animated.play Jump animated'
       jumpAnim ^. currentAnimationKey `shouldBe` Jump
-
-    it "should switch to the first frame of the given animation" $ do
-      let animated' = Animated.mk Idle testAnimations
-      let jumpAnim = Animated.animate Jump animated'
-      jumpAnim ^. currentAnimation . focus `shouldBe` jumpFrame1
 
   describe "render" $ do
     it "should render the active animation" $ do
