@@ -19,27 +19,6 @@ let
 
       # sdl2 tests fail with an error related to an XDG environment variable
       sdl2 = pkgs.haskell.lib.dontCheck haskellOld.sdl2;
-
-      # OpenGL segfaults when we try to haddock it. It also fails to link when we use
-      # a version of OpenGL from a nixpkgs later then our NixOS install. It seems to be unable
-      # to find certain OpenGL symbols.
-      #
-      # To work around this we use the stable versions of the OpenGL libraries.
-      # GLUT = pkgs.haskell.lib.dontHaddock haskellPackagesStable.GLUT;
-      # OpenGL = pkgs.haskell.lib.dontHaddock haskellPackagesStable.OpenGL;
-      # OpenGLRaw = pkgs.haskell.lib.dontHaddock haskellPackagesStable.OpenGLRaw;
-
-      # Since we're using some stable stuff, sometimes we need to force other libraries
-      # to fall back to their stable version to prevent cabal from complaining.
-      # kan-extensions = haskellPackagesStable.kan-extensions;
-      # lens = haskellPackagesStable.lens;
-      # sdl2 = haskellPackagesStable.sdl2;
-      # sdl2-ttf = haskellPackagesStable.sdl2-ttf;
-      # hpack = haskellPackagesStable.hpack;
-
-      # these tests take _forever_
-      # linear = pkgsUnstable.haskell.lib.dontCheck haskellOld.linear;
-      # happy = pkgsUnstable.haskell.lib.dontCheck haskellOld.happy;
     };
   };
 
