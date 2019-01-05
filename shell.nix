@@ -1,4 +1,4 @@
-{ compiler ? "ghc843", doBenchmark ? false }:
+{ compiler ? "ghc844", doBenchmark ? false }:
 
 let
   pinnedVersion = builtins.fromJSON (builtins.readFile ./nix/nixpkgs-version.json);
