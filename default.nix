@@ -1,27 +1,18 @@
-{ # Nix dependencies
-  mkDerivation, stdenv, darwin, hpack, cabal-install
+{ compiler ? "ghc844" }:
 
-  # Haskell lib dependencies
-  , base, sdl2, sdl2-ttf, sdl2-image, linear, mtl, transformers, containers, lens, text, zippers
+let
+  pkgs = import ./nix/nixpkgs.nix {};
 
-  # Haskell test dependencies
-  , tasty, tasty-discover, tasty-hspec, hspec, tasty-hedgehog, hedgehog
+  haskellPackages = pkgs.haskell.packages.${compiler}.override {
+    overrides = haskellNew: haskellOld: rec {
+      ghc = haskellOld.ghc // { withPackages = haskellOld.ghc.withHoogle; };
+      ghcWithPackages = haskellNew.ghc.withPackages;
 
-  # Extra executables
-  , flamegraph, ghc-prof-flamegraph
-}:
-mkDerivation {
-  pname = "crossy-toad";
-  version = "0.1.0.0";
-  src = ./.;
-  isLibrary = false;
-  isExecutable = true;
-  buildDepends = [
-    flamegraph ghc-prof-flamegraph cabal-install hpack
-  ] ++ (if stdenv.isDarwin then [darwin.apple_sdk.frameworks.OpenGL] else []);
-  executableHaskellDepends = [
-    base sdl2 sdl2-ttf sdl2-image linear mtl transformers containers lens text zippers
-    tasty tasty-discover tasty-hspec hspec tasty-hedgehog hedgehog
-  ];
-  license = stdenv.lib.licenses.bsd3;
-}
+      # sdl2 tests fail with an error related to an XDG environment variable
+      sdl2 = pkgs.haskell.lib.dontCheck haskellOld.sdl2;
+    };
+  };
+
+  crossyToad = haskellPackages.callPackage ./crossy-toad.nix {};
+in
+  crossyToad
