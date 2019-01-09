@@ -66,19 +66,14 @@ stepAll ent = do
 -- | be spawned (if any)
 step :: (Time m, HasSpawnPoint ent) => StateT ent m [Car]
 step = do
-  spawnTimer `modifyingM` Timer.step
-  loopTimer `modifyingM` Timer.step
-
   -- If the spawn timer has finished, spawn a car
-  spawnTimerFinished <- uses spawnTimer Timer.finished
-  let cars' = if spawnTimerFinished
-                 then List.singleton <$> uses spawnPoint spawnCar
-                 else pure []
+  newCars <- Timer.tick spawnTimer (pure []) $
+    (List.singleton <$> uses spawnPoint spawnCar)
 
   -- Restart the spawn timer if it has finished
-  spawnTimer %= Timer.restart
+  spawnTimer %= Timer.loop
 
-  cars'
+  pure newCars
 
 spawnCar :: SpawnPoint -> Car
 spawnCar spawnPoint' = Car.mk (spawnPoint' ^. position) (spawnPoint' ^. direction)

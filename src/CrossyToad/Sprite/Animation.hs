@@ -16,7 +16,6 @@ module CrossyToad.Sprite.Animation
   ) where
 
 import           Control.Lens
-import           Control.Monad.State (execState)
 import           Control.Zipper.Extended
 
 import           CrossyToad.Effect.Time.Time
@@ -68,10 +67,7 @@ stepBy delta anim
 
 stepFrameDelta :: Seconds -> Animation -> Animation
 stepFrameDelta delta anim =
-  let nextFrame' = execState (Timer.stepBy delta) (anim^.frames.focus)
-  in if Timer.finished (nextFrame' ^. timer)
-     then nextFrame anim
-     else anim
+  anim & Timer.tickOverBy (frames.focus) delta nextFrame
 
 -- | Switches to the next frame.
 nextFrame :: Animation -> Animation
