@@ -2,7 +2,7 @@
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: e47dfb5c9e1d8d934fe538f3a8c17c8c35dfb879516f948a2cab177900ba2726
+-- hash: 15a1702ec610b20b22f523bbc7b93b56d9d41df404839cc75b2ee4489f257f20
 
 name:           crossy-toad
 version:        0.1.0.0
@@ -55,6 +55,7 @@ library
       CrossyToad.Effect.Time.SDL.TimeState
       CrossyToad.Effect.Time.Seconds
       CrossyToad.Effect.Time.Time
+      CrossyToad.Effect.Time.Timed
       CrossyToad.Effect.Time.Timer
       CrossyToad.Env
       CrossyToad.Geometry.AABB
@@ -75,6 +76,7 @@ library
       CrossyToad.Scene.Game.Game
       CrossyToad.Scene.Game.GameState
       CrossyToad.Scene.Game.Intent
+      CrossyToad.Scene.Game.RiverLog
       CrossyToad.Scene.Game.SpawnPoint
       CrossyToad.Scene.Game.Toad
       CrossyToad.Scene.Internal
@@ -210,6 +212,7 @@ test-suite spec
       CrossyToad.Effect.Time.SDL.TimeState
       CrossyToad.Effect.Time.Seconds
       CrossyToad.Effect.Time.Time
+      CrossyToad.Effect.Time.Timed
       CrossyToad.Effect.Time.Timer
       CrossyToad.Env
       CrossyToad.Geometry.AABB
@@ -230,6 +233,7 @@ test-suite spec
       CrossyToad.Scene.Game.Game
       CrossyToad.Scene.Game.GameState
       CrossyToad.Scene.Game.Intent
+      CrossyToad.Scene.Game.RiverLog
       CrossyToad.Scene.Game.SpawnPoint
       CrossyToad.Scene.Game.Toad
       CrossyToad.Scene.Internal

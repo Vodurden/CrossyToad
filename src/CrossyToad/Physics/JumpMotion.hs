@@ -31,26 +31,57 @@ import           CrossyToad.Physics.Direction
 import           CrossyToad.Physics.Distance
 import           CrossyToad.Physics.Speed
 import           CrossyToad.Effect.Time.Time
-import           CrossyToad.Effect.Time.Timer (Timer)
-import qualified CrossyToad.Effect.Time.Timer as Timer
+import           CrossyToad.Effect.Time.Timed (Timed)
+import qualified CrossyToad.Effect.Time.Timed as Timed
 
 data JumpMotion = JumpMotion
   { _speed :: Speed              -- ^ How fast we can move
   , _distance :: Distance        -- ^ How far we move in a single jump
-  , _cooldown :: Timer           -- ^ Timer to wait between jumps
+  , _cooldown :: Seconds         -- ^ How long to cooldown for after a jump
 
-  , _targetDistance :: Distance  -- ^ How far we _are_ moving
+  , _state :: JumpMotionState    -- ^ What we are current doing
   } deriving (Eq, Show)
 
+data JumpMotionState
+  = Ready
+  | Jumping Distance
+  | CoolingDown Seconds
+  deriving (Eq, Show)
+
 makeClassy ''JumpMotion
+makeClassyPrisms ''JumpMotionState
 
 mk :: Speed -> Distance -> Seconds -> JumpMotion
 mk speed' distance' cooldown' = JumpMotion
   { _speed = speed'
   , _distance = distance'
-  , _cooldown = Timer.mk cooldown'
-  , _targetDistance = 0
+  , _cooldown = cooldown'
+  , _state = Ready
   }
+
+-- | Readies the entity to begin another jump.
+ready :: (HasJumpMotion ent) => ent -> ent
+ready = state .~ Ready
+
+-- | Jump towards the given direction.
+-- |
+-- | If we are already moving this function will change nothing.
+-- | If we are currently cooling down this function will change nothing.
+jump ::
+  ( HasDirection ent
+  , HasJumpMotion ent
+  ) => Direction -> ent -> ent
+jump dir ent | (ent^.jumpMotion.state == Ready) =
+               ent & jumpMotion.state .~ Jumping (ent^.jumpMotion.distance)
+                   & direction .~ dir
+             | otherwise = ent
+
+-- | Puts the entity into a cooling down state. The entity will not be able to
+-- | jump until the cooldown has finished.
+cooldown :: (HasJumpMotion ent) => ent -> ent
+cooldown ent =
+  ent & state .~ CoolingDown $ Timed.mk (ent^.cooldown) 
+
 
 step :: (Time m, HasPosition ent, HasDirection ent, HasJumpMotion ent) => ent -> m ent
 step ent = do
@@ -59,19 +90,25 @@ step ent = do
 
 -- | Step this motion by a given amount of seconds
 stepBy :: (HasPosition ent, HasDirection ent, HasJumpMotion ent) => Seconds -> ent -> ent
-stepBy delta = execState $ do
-  jumpDelta <- stepCooldown delta
-  motionVector' <- stepJump jumpDelta
-  position %= (+motionVector')
+stepBy delta ent =
+  case ent^.state of
+    Ready -> ent
+    (Jumping targetDistance) -> ent
+    (CoolingDown timed) ->
+      ent & state . _CoolingDown .~ Timed.tickBy_ delta
+
+  -- execState $ do
+  -- state . _CoolingDown %= Timed.tickBy_ delta
+  -- motionVector' <- stepJump delta
+  -- position %= (+motionVector')
 
 -- | Steps the cooldown for this frame and returns any remaining delta time.
 -- |
 -- | The idea is that if the cooldown consumes some of the delta time, the remaining
 -- | delta time is still available to the entity to make a short jump.
-stepCooldown :: (HasJumpMotion s) => Seconds -> State s Seconds
-stepCooldown delta = do
-  remainingDelta <- zoom cooldown $ Timer.stepBy delta
-  pure remainingDelta
+-- stepCooldown :: (HasJumpMotion s) => Seconds -> State s Seconds
+-- stepCooldown delta = do
+--   zoom cooldown $ Timed.tickBy_ delta
 
 stepJump :: (HasDirection s, HasJumpMotion s) => Seconds -> State s Offset
 stepJump delta = do
@@ -95,7 +132,7 @@ stepJump delta = do
 -- | Steps to run when a jump finishes
 stepMovementFinished :: (HasJumpMotion s) => State s ()
 stepMovementFinished =
-  jumpMotion.cooldown %= Timer.start
+  jumpMotion.cooldown %= Timed.start
 
 -- | Calculate the motion vector and distance to travel from the current
 -- | motion.
@@ -108,23 +145,8 @@ motionVectorOverTime delta direction' motion' =
   in (motionVector', distanceThisFrame)
 
 
--- | Jump towards the given direction.
--- |
--- | If we are already moving this function will change nothing.
--- | If we are currently cooling down this function will change nothing.
-jump ::
-  ( HasDirection ent
-  , HasJumpMotion ent
-  ) => Direction -> ent -> ent
-jump dir ent | canJump (ent ^. jumpMotion) = ent & jumpMotion . targetDistance .~ ent^.jumpMotion.distance
-                                                 & direction .~ dir
-             | otherwise = ent
-
-canJump :: JumpMotion -> Bool
-canJump motion = (not $ isCoolingDown motion) && (not $ isMoving motion)
-
 isCoolingDown :: JumpMotion -> Bool
-isCoolingDown motion = Timer.running (motion ^. cooldown)
+isCoolingDown motion = Timed.value (motion ^. cooldown) == CoolingDown
 
 isMoving :: (HasJumpMotion ent) => ent -> Bool
 isMoving motion = (motion^.targetDistance > 0)
