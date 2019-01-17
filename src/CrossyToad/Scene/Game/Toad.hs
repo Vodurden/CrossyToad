@@ -75,7 +75,7 @@ step = mapMOf toad
 stepAnimatedState :: Toad -> Toad
 stepAnimatedState t =
   t & animated %~
-    if | JumpMotion.isMoving t -> (Animated.transition Animated.play) ToadSprite.Jump
+    if | JumpMotion.isJumping t -> (Animated.transition Animated.play) ToadSprite.Jump
        | otherwise -> (Animated.transition Animated.pause) ToadSprite.Idle
 
 render :: Toad -> RenderCommand
@@ -100,4 +100,4 @@ die toad' = toad' & (lives .~ max 0 (toad' ^. lives - 1))
 collision :: (HasPosition ent, HasCollisionBox ent) => Toad -> ent -> Bool
 collision toad' ent' =
   (CollisionBox.entCollision toad' ent')
-  && (not $ JumpMotion.isMoving toad')
+  && (not $ JumpMotion.isJumping toad')

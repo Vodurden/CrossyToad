@@ -2,7 +2,7 @@
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: 15a1702ec610b20b22f523bbc7b93b56d9d41df404839cc75b2ee4489f257f20
+-- hash: 48c50a86eea7b1a833b2c811104d938c3c541b9ac8a0cf44599bfb6a811bf0e9
 
 name:           crossy-toad
 version:        0.1.0.0
@@ -20,6 +20,7 @@ library
       Game
   other-modules:
       Control.Lens.Extended
+      Control.Monad.Extended
       Control.Monad.State.Extended
       Control.Zipper.Extended
       CrossyToad
@@ -90,6 +91,7 @@ library
       CrossyToad.Sprite.Sprite
       Data.Degrees
       Data.List.Extended
+      Data.Maybe.Extended
       SDL.Extended
       Paths_crossy_toad
   hs-source-dirs:
@@ -177,6 +179,7 @@ test-suite spec
       CrossyToad.Sprite.AnimationSpec
       CrossyToad.Sprite.SpriteSpec
       Control.Lens.Extended
+      Control.Monad.Extended
       Control.Monad.State.Extended
       Control.Zipper.Extended
       CrossyToad
@@ -247,6 +250,7 @@ test-suite spec
       CrossyToad.Sprite.Sprite
       Data.Degrees
       Data.List.Extended
+      Data.Maybe.Extended
       Game
       SDL.Extended
       Paths_crossy_toad

@@ -1,4 +1,5 @@
 {-# LANGUAGE TemplateHaskell #-}
+{-# LANGUAGE RankNTypes #-}
 
 module CrossyToad.Physics.JumpMotionSpec where
 
@@ -7,11 +8,12 @@ import           Linear.V2
 
 import           Test.Tasty.Hspec
 
-import           CrossyToad.Effect.Time.Timer (HasTimer(..))
-import qualified CrossyToad.Effect.Time.Timer as Timer
 import           CrossyToad.Geometry.Position
 import           CrossyToad.Physics.Direction
-import           CrossyToad.Physics.JumpMotion
+import           CrossyToad.Physics.JumpMotion as JumpMotion
+import           CrossyToad.Physics.Distance
+import           CrossyToad.Physics.Speed
+import           CrossyToad.Effect.Time.Time
 
 data Ent = Ent
   { __position :: !Position
@@ -30,129 +32,105 @@ instance HasDirection Ent where
 instance HasJumpMotion Ent where
   jumpMotion = _jumpMotion
 
-initialJumpMotion :: JumpMotion
-initialJumpMotion = mk 0 0 0.15
-
-stationaryEnt :: Ent
-stationaryEnt = Ent
+mkEnt :: Direction -> Speed -> Distance -> Seconds -> Ent
+mkEnt direction' speed' distance' cooldown' = Ent
   { __position = V2 0 0
-  , __direction = East
-  , __jumpMotion = initialJumpMotion
+  , __direction = direction'
+  , __jumpMotion = JumpMotion.mk speed' distance' cooldown'
   }
 
-movingEnt :: Ent
-movingEnt = stationaryEnt & jumpMotion .~ movingMotion
+mkEnt' :: Ent
+mkEnt' = mkEnt East 1 64 0.15
 
-movingMotion :: JumpMotion
-movingMotion = initialJumpMotion
-  { _speed = 1
-  , _targetDistance = 32
-  }
+ready :: Ent -> Ent
+ready = id
+
+jumping :: Ent -> Ent
+jumping ent' = JumpMotion.jump (ent' ^. direction) $ ent'
+
+coolingDown :: Ent -> Ent
+coolingDown ent' = JumpMotion.stepBy (ent'^.jumpMotion.speed * ent'^.jumpMotion.distance) $ jumping ent'
 
 spec_Physics_JumpMotion :: Spec
 spec_Physics_JumpMotion = do
   describe "jump" $ do
-    it "should not jump if we are already moving" $ do
-      let ent' = movingEnt & (direction .~ East)
+    it "should not jump if we are already jumping" $ do
+      let ent' = jumping $ mkEnt' & (direction .~ East)
       (jump West ent') `shouldBe` ent'
 
     it "should not jump if we are cooling down" $ do
-      let ent' = stationaryEnt & jumpMotion.cooldown %~ Timer.start
+      let ent' = coolingDown mkEnt'
       (jump East ent') `shouldBe` ent'
 
-    it "should update the target distance if we are not moving" $ do
-      let ent' = stationaryEnt
-      let distance' = (jump East ent')^.targetDistance
-      distance' `shouldBe` (ent'^.jumpMotion.distance)
+    it "should begin jumping if we are Ready" $ do
+      let ent' = ready mkEnt'
+      JumpMotion.isJumping (jump East ent') `shouldBe` True
 
-    it "should update the direction if we are not moving" $ do
-      let ent' = stationaryEnt & direction .~ East
+    it "should update the direction if we are not jumping" $ do
+      let ent' = mkEnt' & (direction .~ East)
       (jump West ent') ^. direction `shouldBe` West
 
-  describe "isMoving" $ do
-    it "should be true when we are moving" $ isMoving movingMotion `shouldBe` True
-    it "should be false when we are stationary" $ isMoving initialJumpMotion `shouldBe` False
+  describe "isJumping" $ do
+    it "should be true when we are jumping" $
+      isJumping (jumping mkEnt') `shouldBe` True
+
+    it "should be false when we are ready" $
+      isJumping (ready mkEnt') `shouldBe` False
+
+    it "should be false when we are cooling down" $
+      isJumping (coolingDown mkEnt') `shouldBe` False
 
   describe "stepBy" $ do
     let stepBy' = stepBy 1
-    context "should move the entity such that it" $ do
-      it "changes position based on speed" $ do
-        let ent' = movingEnt & jumpMotion %~ (speed .~ 2)
-                                           . (targetDistance .~ 3)
-                             & (direction .~ East)
-        (stepBy' ent') ^. position `shouldBe` (V2 2 0)
 
-      it "stops at the target distance when the speed exceeds the distance" $ do
-        let ent' = movingEnt & jumpMotion %~ (speed .~ 2)
-                                           . (targetDistance .~ 1)
-                             & (direction .~ East)
+    context "when the entity is ready it" $ do
+      it "should not do anything" $ do
+        let ent' = ready mkEnt'
+        (stepBy' ent') `shouldBe` ent'
+
+    context "when the entity is jumping it" $ do
+      it "should not move further then the target distance" $ do
+        let ent' = jumping $ mkEnt East 2 1 0.15
         (stepBy' ent') ^. position `shouldBe` (V2 1 0)
 
       it "moves by the speed of the motion" $ do
-        let ent' = movingEnt & jumpMotion %~ (speed .~ 2)
-                                           . (targetDistance .~ 5)
-                             & (direction .~ East)
+        let ent' = jumping $ mkEnt East 2 5 0.15
         (stepBy' ent') ^. position `shouldBe` (V2 2 0)
 
       it "does nothing when the speed is 0" $ do
-        let ent' = movingEnt & (jumpMotion.speed .~ 0)
+        let ent' = jumping $ mkEnt' & (jumpMotion.speed .~ 0)
         stepBy' ent' `shouldBe` ent'
 
-      it "does nothing when the target distance is 0" $ do
-        let ent' = movingEnt & (jumpMotion.targetDistance .~ 0)
-        stepBy' ent' `shouldBe` ent'
+      it "does not move further then the target distance" $ do
+        let ent' = jumping $ mkEnt East 10 5 0.15
+        (stepBy' ent') ^. position `shouldBe` (V2 5 0)
 
-    it "should reduce the target distance by the travelled distance" $ do
-      let ent' = movingEnt & jumpMotion %~ (speed .~ 5)
-                                         . (targetDistance .~ 11)
-      (stepBy' ent') ^. targetDistance `shouldBe` 6
+      it "should move linearly relative to the delta time" $ do
+        let ent' = jumping $ mkEnt East 10 10 0.15
+        let delta = 0.1
+        (stepBy delta ent') ^. position `shouldBe` (V2 1 0)
 
-    it "should not reduce the target distance below 0" $ do
-      let ent' = movingEnt & jumpMotion %~ (speed .~ 5)
-                                         . (targetDistance .~ 4.9)
-      (stepBy' ent') ^. targetDistance `shouldBe` 0
+      it "does not move further then the target distance when linearized" $ do
+        let ent' = jumping $ mkEnt East 20 1 0.15
+        let delta = 0.1
+        (stepBy delta ent') ^. position `shouldBe` (V2 1 0)
 
-    it "should linearize the result against the delta time" $ do
-      let ent' = movingEnt & jumpMotion %~ (speed .~ 10)
-                                         . (targetDistance .~ 10)
-                           & (direction .~ East)
-      let delta = 0.1
-      (stepBy delta ent') ^. position `shouldBe` (V2 1 0)
+      it "should not linearize target distance" $ do
+        let ent' = jumping $ mkEnt East 320 32 0.15
+        let delta = 0.05
+        (stepBy delta ent') ^. position `shouldBe` (V2 16 0)
 
-    it "should not linearize target distance" $ do
-      let ent' = movingEnt & jumpMotion %~ (speed .~ 320)
-                                         . (targetDistance .~ 32)
-                           & (direction .~ East)
-      let delta = 0.05
-      (stepBy delta ent') ^. position `shouldBe` (V2 16 0)
+    context "when the entity is cooling down it" $ do
+      it "should not move" $ do
+        let ent' = coolingDown $ mkEnt'
+        (stepBy' ent') ^. position `shouldBe` (ent' ^. position)
 
-    it "should update the target distance by the linearized amount" $ do
-      let ent' = movingEnt & jumpMotion %~ (speed .~ 20)
-                                         . (targetDistance .~ 10)
-                           & (direction .~ East)
-      let delta = 0.05
-      (stepBy delta ent') ^. targetDistance `shouldBe` 9
+      it "should become ready when the cooldown finishes" $ do
+        let ent' = coolingDown $ mkEnt'
+        let cooldown' = ent' ^. cooldown
+        JumpMotion.isReady (stepBy cooldown' ent') `shouldBe` True
 
-    it "should reduce the current cooldown by the delta" $ do
-      let ent' = movingEnt & jumpMotion %~ (cooldown.currentTime .~ 2)
-      (stepBy' ent') ^. cooldown.currentTime `shouldBe` 1
-
-    it "should linearize the result against the remaining delta time after cooldown" $ do
-      let ent' = movingEnt & jumpMotion %~ (speed .~ 10)
-                                         . (targetDistance .~ 10)
-                                         . (cooldown.currentTime .~ 0.1)
-                           & (direction .~ East)
-      let delta = 0.2
-      (stepBy delta ent') ^. position `shouldBe` (V2 1 0)
-
-    it "should begin cooling down when finishing a jump" $ do
-      let ent' = movingEnt & jumpMotion %~ (speed .~ 10)
-                                         . (targetDistance .~ 5)
-                                         . (cooldown.startTime .~ 0.2)
-      (stepBy 1 ent') ^. cooldown.currentTime `shouldBe` 0.2
-
-    it "should not cooldown if a jump has not finished yet" $ do
-      let ent' = movingEnt & jumpMotion %~ (speed .~ 10)
-                                         . (targetDistance .~ 11)
-                                         . (cooldown.currentTime .~ 0.2)
-      (stepBy 1 ent') ^. cooldown.currentTime `shouldBe` 0
+    context "when the entity finishes jumping" $ do
+      it "should begin cooling down" $ do
+        let ent' = jumping $ mkEnt East 5 5 0.15
+        JumpMotion.isCoolingDown (stepBy' ent') `shouldBe` True

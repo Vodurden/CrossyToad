@@ -1,6 +1,9 @@
 module Data.List.Extended
-  ( singleton
+  ( module Data.List
+  , singleton
   ) where
+
+import Data.List
 
 -- | Wrap a single element into a list
 singleton :: a -> [a]
