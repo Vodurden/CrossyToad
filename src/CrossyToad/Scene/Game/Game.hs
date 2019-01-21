@@ -1,3 +1,5 @@
+{-# LANGUAGE TupleSections #-}
+
 module CrossyToad.Scene.Game.Game
   ( initialize
   , handleInput
@@ -8,7 +10,7 @@ module CrossyToad.Scene.Game.Game
   ) where
 
 import           Control.Lens.Extended
-import           Control.Monad ((>=>))
+import           Control.Monad.State.Strict (execStateT)
 import           Data.Foldable (foldl')
 import           Linear.V2
 
@@ -21,6 +23,7 @@ import           CrossyToad.Effect.Renderer.RenderCommand (RenderCommand(..))
 import           CrossyToad.Effect.Time.Time (Time(..))
 import           CrossyToad.Scene.Internal (HasScene, scene)
 import qualified CrossyToad.Scene.Internal as Scene
+import           CrossyToad.Scene.Game.Command (Command(..))
 import           CrossyToad.Scene.Game.Intent (Intent(..))
 import qualified CrossyToad.Scene.Game.Intent as Intent
 import           CrossyToad.Scene.Game.GameState
@@ -29,6 +32,7 @@ import qualified CrossyToad.Scene.Game.Toad as Toad
 import           CrossyToad.Scene.Game.Car (HasCars(..))
 import qualified CrossyToad.Scene.Game.Car as Car
 import qualified CrossyToad.Scene.Game.Collision as Collision
+import qualified CrossyToad.Scene.Game.Entity as Entity
 import           CrossyToad.Scene.Game.SpawnPoint (SpawnPoint, HasSpawnPoints(..))
 import qualified CrossyToad.Scene.Game.SpawnPoint as SpawnPoint
 
@@ -44,10 +48,10 @@ initialize =
         -- TODO
 
         -- Road Spawns
-        SpawnPoint.mk (V2 (20*64) (7*64 )) West 5 1
-      , SpawnPoint.mk (V2 (20*64) (8*64 )) West (1.5) 1
-      , SpawnPoint.mk (V2 0       (9*64 )) East 3 1
-      , SpawnPoint.mk (V2 (20*64) (10*64)) West 2 1
+        SpawnPoint.mk (V2 (20*64) (7*64 )) West ((,Entity.Car) <$> [0,1,1]) 2
+      , SpawnPoint.mk (V2 (20*64) (8*64 )) West ((,Entity.Car) <$> [0,0.5,0.5,0.5]) 1
+      , SpawnPoint.mk (V2 0       (9*64 )) East ((,Entity.Car) <$> [0.5,2]) 3
+      , SpawnPoint.mk (V2 (20*64) (10*64)) West ((,Entity.Car) <$> [0.5,2,4]) 3
       ]
 
 -- | Update the GameState and Scene based on the user input
@@ -65,12 +69,21 @@ step ent = do
 
 -- | Step all the GameState specific logic
 stepGameState :: (Logger m, Time m, HasGameState ent) => ent -> m ent
-stepGameState =
-  mapMOf gameState $
-    Toad.step
-    >=> SpawnPoint.stepAll
-    >=> Car.stepAll
-    >=> Collision.step
+stepGameState ent' = flip execStateT ent' $ do
+  modifyingM (gameState.toad) Toad.step
+
+  spCommands <- zoom (gameState.spawnPoints) SpawnPoint.stepAll
+  id %= (runCommands spCommands)
+
+  modifyingM (gameState.cars) Car.stepAll
+  modifyingM gameState Collision.step
+
+runCommands :: forall ent. (HasGameState ent) => [Command] -> ent -> ent
+runCommands commands ent' = foldl' (flip runCommand) ent' commands
+  where runCommand :: Command -> ent -> ent
+        runCommand (Spawn Entity.Car pos dir) = gameState . cars %~ (Car.mk pos dir :)
+        runCommand (Spawn Entity.RiverLog _ _) = id
+        runCommand Kill = id
 
 render :: (HasGameState ent) => ent -> [RenderCommand]
 render ent =

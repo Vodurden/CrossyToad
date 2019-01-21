@@ -4,7 +4,7 @@
 module CrossyToad.Effect.Time.Timer where
 
 import Control.Lens
-import Control.Monad.State.Extended (StateT, State, execState, modify', hoistState)
+import Control.Monad.State.Strict.Extended (StateT, State, execState, modify', hoistState)
 
 import CrossyToad.Effect.Time.Seconds
 import CrossyToad.Effect.Time.Time
@@ -100,4 +100,3 @@ tickOver timerL onTick ent = do
 tickOverBy :: (HasTimer timer) => Lens' ent timer -> Seconds -> (ent -> ent) -> ent -> ent
 tickOverBy timerL delta onTick =
   execState $ tickBy timerL delta (modify' id) (modify' onTick)
-

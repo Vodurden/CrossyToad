@@ -10,22 +10,22 @@ module CrossyToad.Scene.Game.SpawnPoint
   ) where
 
 import           Control.Lens.Extended
-import           Control.Monad.State.Extended (StateT, runStateT)
-import qualified Data.List.Extended as List
+import           Control.Monad.State.Strict (StateT)
+import           Data.Maybe (maybeToList)
+import           Data.Foldable (foldl')
 
 import           CrossyToad.Geometry.Position
 import           CrossyToad.Physics.Physics (Direction, HasDirection(..))
-import           CrossyToad.Scene.Game.Car (Car(..), HasCars(..))
-import qualified CrossyToad.Scene.Game.Car as Car
+import           CrossyToad.Scene.Game.Entity (Entity)
+import           CrossyToad.Scene.Game.Command (Command(..))
 import           CrossyToad.Effect.Time.Time (Time, Seconds)
-import           CrossyToad.Effect.Time.Timer (Timer)
-import qualified CrossyToad.Effect.Time.Timer as Timer
+import           CrossyToad.Effect.Time.Timed (Timed)
+import qualified CrossyToad.Effect.Time.Timed as Timed
 
 data SpawnPoint = SpawnPoint
-  { __position :: !Position   -- ^ Position to spawn at
-  , __direction :: !Direction -- ^ Direction the spawned entity should face
-  , _spawnTimer :: !Timer     -- ^ Interval between spawns
-  , _loopTimer :: !Timer      -- ^ Interval between loops
+  { __position :: !Position      -- ^ Position to spawn at
+  , __direction :: !Direction    -- ^ Direction the spawned entity should face
+  , _spawns :: !(Timed (Maybe Entity))   -- ^ When to spawn the given entity
   } deriving (Eq, Show)
 
 makeClassy ''SpawnPoint
@@ -42,38 +42,27 @@ instance HasPosition SpawnPoint where
 instance HasDirection SpawnPoint where
   direction = _direction
 
-mk :: Position -> Direction -> Seconds -> Seconds -> SpawnPoint
-mk position' direction' spawnTime loopTime = SpawnPoint
-  { __position = position'
-  , __direction = direction'
-  , _spawnTimer = Timer.start $ Timer.mk spawnTime
-  , _loopTimer = Timer.start $ Timer.mk loopTime
-  }
+mk :: Position -> Direction -> [(Seconds, Entity)] -> Seconds -> SpawnPoint
+mk position' direction' spawnTimes loopInterval = SpawnPoint
+    { __position = position'
+    , __direction = direction'
+    , _spawns =
+      foldl' mkSpawn (Timed.mk Nothing) spawnTimes
+        & (Timed.after loopInterval Nothing)
+        & Timed.loop
+    }
+  where
+    mkSpawn :: Timed (Maybe Entity) -> (Seconds, Entity) -> Timed (Maybe Entity)
+    mkSpawn t (seconds, ent) = Timed.pulse seconds ent t
 
--- | Step all spawn points
--- |
--- | We have [StateT ent m [Car]]
-stepAll :: forall ent m. (Time m, HasSpawnPoints ent, HasCars ent) => ent -> m ent
-stepAll ent = do
-    let sps = ent ^. spawnPoints
-    states <- traverse (runStateT step) sps
-    let newCars = concatMap fst states
-    let newSpawnPoints = fmap snd states
-    pure $ ent & cars %~ (++ newCars)
-               & spawnPoints .~ newSpawnPoints
+stepAll :: forall m ent. (Time m, HasSpawnPoints ent) => StateT ent m [Command]
+stepAll = do
+  zoom (spawnPoints.traverse) (maybeToList <$> step)
 
--- | Steps a spawn point and return the cars that should
--- | be spawned (if any)
-step :: (Time m, HasSpawnPoint ent) => StateT ent m [Car]
+step :: (Time m, HasSpawnPoint ent) => StateT ent m (Maybe Command)
 step = do
-  -- If the spawn timer has finished, spawn a car
-  newCars <- Timer.tick spawnTimer (pure []) $
-    (List.singleton <$> uses spawnPoint spawnCar)
+  nextSpawn <- zoom spawns Timed.step
+  pos <- use (spawnPoint.position)
+  dir <- use (spawnPoint.direction)
 
-  -- Restart the spawn timer if it has finished
-  spawnTimer %= Timer.loop
-
-  pure newCars
-
-spawnCar :: SpawnPoint -> Car
-spawnCar spawnPoint' = Car.mk (spawnPoint' ^. position) (spawnPoint' ^. direction)
+  pure $ Spawn <$> nextSpawn <*> (pure pos) <*> (pure dir)

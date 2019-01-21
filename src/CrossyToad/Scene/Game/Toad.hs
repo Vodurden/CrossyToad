@@ -60,7 +60,7 @@ mk pos = Toad
     -- | How many pixels the toad moves per-second
     toadSpeed :: Speed
     toadSpeed = toadDistance * (1 / secondsToJump)
-      where secondsToJump = 0.50
+      where secondsToJump = 0.15
 
     -- | How long the toad must rest between jumps
     toadCooldown :: Seconds

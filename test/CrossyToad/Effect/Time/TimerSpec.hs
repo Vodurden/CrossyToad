@@ -1,7 +1,7 @@
 module CrossyToad.Effect.Time.TimerSpec where
 
 import Control.Lens
-import Control.Monad.State (execState, evalState)
+import Control.Monad.State.Strict (execState, evalState)
 
 import Test.Tasty.Hspec
 

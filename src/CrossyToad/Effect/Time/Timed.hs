@@ -4,36 +4,12 @@
 
 module CrossyToad.Effect.Time.Timed where
 
-import Control.Lens
-import Control.Monad.State.Extended (StateT, State, execState, execStateT, hoistState)
+import           Control.Arrow
+import           Control.Lens
+import           Control.Monad.State.Strict.Extended (StateT, State, execState, execStateT, hoistState)
 import qualified Data.List as List
 
-import CrossyToad.Effect.Time.Time
-
--- Consider soemething like:
---
--- data Timed a = Timed
---   { _currentTime :: Seconds
---   , _lastEventTime :: Seconds
---   , _events :: [(Seconds, a -> a)]
---   , _value :: a
---   }
---
--- I.e. the state change is just a set of events
--- denoting a change that occurs after a particular
--- time
---
--- state %= (Timed.now $ const CoolingDown) >>> (Timed.after 5 $ const Ready)
---
--- frame %= Timed.after (frame^.focus.seconds) nextFrame
---
--- spawnTimer %= Timed.loop . (Timed.next []) . (Timed.spread [0,1,2] [Car])
---
--- Q: How do we deal with "after"? Should all "now"/"next" be relative to the last event?
--- Q: How do we deal with overlap? If we make everything relative that will solve the issue,
---    or we can compose all the overlapping functions
--- Q: How do we ensure we don't miss events? Or do we even care?
---    Maybe force only transitioning by a single event per step?
+import           CrossyToad.Effect.Time.Time
 
 -- | Represents a value that changes over time.
 data Timed a = Timed
@@ -86,15 +62,19 @@ immediate :: a -> Timed a -> Timed a
 immediate value' = value .~ value'
 
 -- | Schedule an event at the current time
-now :: (Eq a) => a -> Timed a -> Timed a
+now :: a -> Timed a -> Timed a
 now value' = after 0 value'
+
+-- | Schedule the timer to have a value for one frame
+pulse :: Seconds -> a -> Timed (Maybe a) -> Timed (Maybe a)
+pulse time value' = (after time $ Just value') >>> (now Nothing)
 
 -- | Schedule an event at the given relative time
 -- |
 -- | Note: Relative time is relative to the current time when
 -- | this function is called as denoted by the `_currentTime` field
-after :: (Eq a) => Seconds -> a -> Timed a -> Timed a
-after time value' t = t & (events %~ List.insert (Event time value'))
+after :: Seconds -> a -> Timed a -> Timed a
+after time value' t = t & (events %~ (++ [Event time value']))
 
 -- | Repeat the current events infinitely
 loop :: Timed a -> Timed a

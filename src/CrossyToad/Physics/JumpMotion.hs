@@ -25,7 +25,7 @@ module CrossyToad.Physics.JumpMotion
 import           Control.Arrow ((>>>))
 import           Control.Lens
 import           Control.Monad.Extended (whenM)
-import           Control.Monad.State.Extended (State, execState, gets)
+import           Control.Monad.State.Strict.Extended (State, execState, gets)
 import           Data.Maybe.Extended (isJust, whenJust)
 
 import           CrossyToad.Geometry.Position

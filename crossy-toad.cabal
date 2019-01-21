@@ -2,7 +2,7 @@
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: 48c50a86eea7b1a833b2c811104d938c3c541b9ac8a0cf44599bfb6a811bf0e9
+-- hash: 114b0c3cddfd26ec72e2c173817c8ae13dff24dfb9aac64a509992e9c7b1a9bd
 
 name:           crossy-toad
 version:        0.1.0.0
@@ -21,7 +21,7 @@ library
   other-modules:
       Control.Lens.Extended
       Control.Monad.Extended
-      Control.Monad.State.Extended
+      Control.Monad.State.Strict.Extended
       Control.Zipper.Extended
       CrossyToad
       CrossyToad.Asset.Sprite.Toad
@@ -74,6 +74,8 @@ library
       CrossyToad.Scene.Env
       CrossyToad.Scene.Game.Car
       CrossyToad.Scene.Game.Collision
+      CrossyToad.Scene.Game.Command
+      CrossyToad.Scene.Game.Entity
       CrossyToad.Scene.Game.Game
       CrossyToad.Scene.Game.GameState
       CrossyToad.Scene.Game.Intent
@@ -180,7 +182,7 @@ test-suite spec
       CrossyToad.Sprite.SpriteSpec
       Control.Lens.Extended
       Control.Monad.Extended
-      Control.Monad.State.Extended
+      Control.Monad.State.Strict.Extended
       Control.Zipper.Extended
       CrossyToad
       CrossyToad.Asset.Sprite.Toad
@@ -233,6 +235,8 @@ test-suite spec
       CrossyToad.Scene.Env
       CrossyToad.Scene.Game.Car
       CrossyToad.Scene.Game.Collision
+      CrossyToad.Scene.Game.Command
+      CrossyToad.Scene.Game.Entity
       CrossyToad.Scene.Game.Game
       CrossyToad.Scene.Game.GameState
       CrossyToad.Scene.Game.Intent
