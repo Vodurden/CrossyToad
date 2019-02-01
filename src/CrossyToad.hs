@@ -12,11 +12,13 @@ import           CrossyToad.Effect.Renderer.Renderer
 import qualified CrossyToad.Effect.Renderer.SDL.SDL as SDLRenderer
 import           CrossyToad.Effect.Time.Time
 import qualified CrossyToad.Effect.Time.SDL.Time as SDLTime
+import           CrossyToad.Effect.Task.MonadTask
+import qualified CrossyToad.Effect.Task.IO.MonadTask as IOTask
 
-newtype CrossyToad a = CrossyToad (ReaderT Env IO a)
-  deriving (Functor, Applicative, Monad, MonadReader Env, MonadIO)
+newtype CrossyToad a = CrossyToad (ReaderT (Env CrossyToad) IO a)
+  deriving (Functor, Applicative, Monad, MonadReader (Env CrossyToad), MonadIO)
 
-runCrossyToad :: Env -> CrossyToad a -> IO a
+runCrossyToad :: Env CrossyToad -> CrossyToad a -> IO a
 runCrossyToad config (CrossyToad m) = runReaderT m config
 
 instance Input CrossyToad where
@@ -33,3 +35,7 @@ instance Renderer CrossyToad where
 instance Time CrossyToad where
   stepTime = SDLTime.stepTime
   deltaTime = SDLTime.deltaTime
+
+instance MonadTask CrossyToad where
+  pumpTasks = IOTask.pumpTasks
+  forkTask = IOTask.forkTask

@@ -2,7 +2,7 @@
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: 114b0c3cddfd26ec72e2c173817c8ae13dff24dfb9aac64a509992e9c7b1a9bd
+-- hash: 002989b32abd02a058341622004f45432e6f9c84564cc7aa71816e202e459a1f
 
 name:           crossy-toad
 version:        0.1.0.0
@@ -50,6 +50,11 @@ library
       CrossyToad.Effect.Renderer.SDL.SDL
       CrossyToad.Effect.Renderer.SDL.Texture
       CrossyToad.Effect.Renderer.SDL.Textures
+      CrossyToad.Effect.Task.IO.Env
+      CrossyToad.Effect.Task.IO.MonadTask
+      CrossyToad.Effect.Task.IO.TaskState
+      CrossyToad.Effect.Task.MonadTask
+      CrossyToad.Effect.Task.Task
       CrossyToad.Effect.Time.SDL.Env
       CrossyToad.Effect.Time.SDL.SDL
       CrossyToad.Effect.Time.SDL.Time
@@ -105,6 +110,7 @@ library
     , containers
     , lens
     , linear
+    , monad-coroutine
     , mtl
     , sdl2
     , sdl2-image
@@ -128,6 +134,7 @@ executable crossy-toad
     , crossy-toad
     , lens
     , linear
+    , monad-coroutine
     , mtl
     , sdl2
     , sdl2-image
@@ -151,6 +158,7 @@ executable crossy-toad-prof
     , crossy-toad
     , lens
     , linear
+    , monad-coroutine
     , mtl
     , sdl2
     , sdl2-image
@@ -211,6 +219,11 @@ test-suite spec
       CrossyToad.Effect.Renderer.SDL.SDL
       CrossyToad.Effect.Renderer.SDL.Texture
       CrossyToad.Effect.Renderer.SDL.Textures
+      CrossyToad.Effect.Task.IO.Env
+      CrossyToad.Effect.Task.IO.MonadTask
+      CrossyToad.Effect.Task.IO.TaskState
+      CrossyToad.Effect.Task.MonadTask
+      CrossyToad.Effect.Task.Task
       CrossyToad.Effect.Time.SDL.Env
       CrossyToad.Effect.Time.SDL.SDL
       CrossyToad.Effect.Time.SDL.Time
@@ -270,6 +283,7 @@ test-suite spec
     , hspec
     , lens
     , linear
+    , monad-coroutine
     , mtl
     , sdl2
     , sdl2-image

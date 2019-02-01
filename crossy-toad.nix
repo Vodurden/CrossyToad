@@ -3,12 +3,13 @@
 
   # Haskell lib dependencies
   , base, sdl2, sdl2-ttf, sdl2-image, linear, mtl, transformers, containers, lens, text, zippers
+  , monad-coroutine
 
   # Haskell test dependencies
   , tasty, tasty-discover, tasty-hspec, hspec, tasty-hedgehog, hedgehog
 
   # Extra executables
-  , flamegraph, ghc-prof-flamegraph
+  , flamegraph, ghc-prof-flamegraph, profiteur
 }:
 mkDerivation {
   pname = "crossy-toad";
@@ -17,10 +18,11 @@ mkDerivation {
   isLibrary = false;
   isExecutable = true;
   buildDepends = [
-    flamegraph ghc-prof-flamegraph cabal-install hpack
+    flamegraph ghc-prof-flamegraph cabal-install hpack profiteur
   ] ++ (if stdenv.isDarwin then [darwin.apple_sdk.frameworks.OpenGL] else []);
   executableHaskellDepends = [
     base sdl2 sdl2-ttf sdl2-image linear mtl transformers containers lens text zippers
+    monad-coroutine
     tasty tasty-discover tasty-hspec hspec tasty-hedgehog hedgehog
   ];
   license = stdenv.lib.licenses.bsd3;
