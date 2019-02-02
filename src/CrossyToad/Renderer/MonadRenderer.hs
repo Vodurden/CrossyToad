@@ -2,7 +2,7 @@
 -- |
 -- | In particular a renderer knows how to "draw" every visual artifact in
 -- | the game such that a human will see it.
-module CrossyToad.Effect.Renderer.Renderer where
+module CrossyToad.Renderer.MonadRenderer where
 
 import           Control.Lens
 import           Data.Text (Text)
@@ -10,26 +10,26 @@ import           Data.Degrees (Degrees)
 import           Linear.V2
 
 import           CrossyToad.Geometry.Position
-import           CrossyToad.Effect.Renderer.RenderCommand (RenderCommand(..))
-import           CrossyToad.Effect.Renderer.FontAsset (FontAsset)
-import qualified CrossyToad.Effect.Renderer.FontAsset as FontAsset
-import           CrossyToad.Effect.Renderer.ImageAsset (ImageAsset)
-import           CrossyToad.Effect.Renderer.Clip (Clip)
-import qualified CrossyToad.Effect.Renderer.Clip as Clip
-import           CrossyToad.Effect.Renderer.RGBAColour (RGBAColour)
-import qualified CrossyToad.Effect.Renderer.RGBAColour as RGBAColour
+import           CrossyToad.Renderer.RenderCommand (RenderCommand(..))
+import           CrossyToad.Renderer.FontAsset (FontAsset)
+import qualified CrossyToad.Renderer.FontAsset as FontAsset
+import           CrossyToad.Renderer.ImageAsset (ImageAsset)
+import           CrossyToad.Renderer.Clip (Clip)
+import qualified CrossyToad.Renderer.Clip as Clip
+import           CrossyToad.Renderer.RGBAColour (RGBAColour)
+import qualified CrossyToad.Renderer.RGBAColour as RGBAColour
 
-class Monad m => Renderer m where
+class Monad m => MonadRenderer m where
   runRenderCommand :: RenderCommand -> m ()
 
-clearScreen :: (Renderer m) => m ()
+clearScreen :: (MonadRenderer m) => m ()
 clearScreen = runRenderCommand ClearScreen
 
-drawScreen :: (Renderer m) => m ()
+drawScreen :: (MonadRenderer m) => m ()
 drawScreen = runRenderCommand DrawScreen
 
 -- | Draw an image
-draw :: (Renderer m)
+draw :: (MonadRenderer m)
      => ImageAsset
      -> (Maybe Degrees)
      -> (Maybe Clip)
@@ -40,7 +40,7 @@ draw a d t s = runRenderCommand (Draw a d t s)
 -- | Draw an image at the given screen position
 -- |
 -- | The size of the image will match it's actual resolution
-drawAt :: (Renderer m)
+drawAt :: (MonadRenderer m)
        => ImageAsset
        -> Position
        -> m ()
@@ -52,7 +52,7 @@ drawAt a p = runRenderCommand (DrawAt a p)
 -- | The size of the font is determined when we load the font
 -- | if we want different sizes we need to load multiple
 -- | versions of the same font.
-drawText :: (Renderer m)
+drawText :: (MonadRenderer m)
          => FontAsset
          -> (Maybe Degrees)
          -> (Maybe Clip)
@@ -62,7 +62,7 @@ drawText :: (Renderer m)
          -> m ()
 drawText a d t s c text= runRenderCommand (DrawText  a d t s c text)
 
-drawTitleText :: Renderer m => m ()
+drawTitleText :: MonadRenderer m => m ()
 drawTitleText =
   drawText FontAsset.Title
            Nothing

@@ -1,4 +1,4 @@
-module CrossyToad.Effect.Renderer.SDL.Renderer
+module CrossyToad.Renderer.MonadRenderer.SDL.MonadRenderer
   ( runRenderCommand
   ) where
 
@@ -13,19 +13,19 @@ import           Linear.V2
 import qualified SDL
 import qualified SDL.Font as Font
 
-import           CrossyToad.Effect.Renderer.FontAsset
-import           CrossyToad.Effect.Renderer.ImageAsset
-import           CrossyToad.Effect.Renderer.Clip (Clip)
-import qualified CrossyToad.Effect.Renderer.Clip as Clip
-import           CrossyToad.Effect.Renderer.RGBAColour
-import           CrossyToad.Effect.Renderer.RenderCommand
-import           CrossyToad.Effect.Renderer.SDL.Env
-import           CrossyToad.Effect.Renderer.SDL.Fonts (HasFonts(..))
-import qualified CrossyToad.Effect.Renderer.SDL.Fonts as Fonts
-import           CrossyToad.Effect.Renderer.SDL.Texture (Texture, HasTexture(..))
-import qualified CrossyToad.Effect.Renderer.SDL.Texture as Texture
-import           CrossyToad.Effect.Renderer.SDL.Textures (HasTextures(..))
-import qualified CrossyToad.Effect.Renderer.SDL.Textures as Textures
+import           CrossyToad.Renderer.FontAsset
+import           CrossyToad.Renderer.ImageAsset
+import           CrossyToad.Renderer.Clip (Clip)
+import qualified CrossyToad.Renderer.Clip as Clip
+import           CrossyToad.Renderer.RGBAColour
+import           CrossyToad.Renderer.RenderCommand
+import           CrossyToad.Renderer.MonadRenderer.SDL.Env
+import           CrossyToad.Renderer.MonadRenderer.SDL.Fonts (HasFonts(..))
+import qualified CrossyToad.Renderer.MonadRenderer.SDL.Fonts as Fonts
+import           CrossyToad.Renderer.MonadRenderer.SDL.Texture (Texture, HasTexture(..))
+import qualified CrossyToad.Renderer.MonadRenderer.SDL.Texture as Texture
+import           CrossyToad.Renderer.MonadRenderer.SDL.Textures (HasTextures(..))
+import qualified CrossyToad.Renderer.MonadRenderer.SDL.Textures as Textures
 import           CrossyToad.Geometry.Position
 import           CrossyToad.Geometry.Size
 

@@ -1,4 +1,4 @@
-module CrossyToad.Effect.Renderer.FontAsset where
+module CrossyToad.Renderer.FontAsset where
 
 import System.IO (FilePath)
 

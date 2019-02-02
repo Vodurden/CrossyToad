@@ -8,8 +8,8 @@ import           CrossyToad.Input.MonadInput
 import qualified CrossyToad.Input.MonadInput.SDL.MonadInput as SDLMonadInput
 import           CrossyToad.Logger.MonadLogger
 import qualified CrossyToad.Logger.MonadLogger.IO.MonadLogger as IOMonadLogger
-import           CrossyToad.Effect.Renderer.Renderer
-import qualified CrossyToad.Effect.Renderer.SDL.SDL as SDLRenderer
+import           CrossyToad.Renderer.MonadRenderer
+import qualified CrossyToad.Renderer.MonadRenderer.SDL.MonadRenderer as SDLMonadRenderer
 import           CrossyToad.Time.MonadTime
 import           CrossyToad.Time.MonadTime.SDL.MonadTime as SDLTime
 import           CrossyToad.Time.MonadTask
@@ -29,8 +29,8 @@ instance MonadLogger CrossyToad where
   getEnabledLogLevels = IOMonadLogger.getEnabledLogLevels
   logRaw = IOMonadLogger.logRawStdout
 
-instance Renderer CrossyToad where
-  runRenderCommand = SDLRenderer.runRenderCommand
+instance MonadRenderer CrossyToad where
+  runRenderCommand = SDLMonadRenderer.runRenderCommand
 
 instance MonadTime CrossyToad where
   stepTime = SDLTime.stepTime

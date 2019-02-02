@@ -9,9 +9,9 @@ module CrossyToad.Sprite.Sprite
 import           Control.Lens
 import           Control.Monad (mfilter)
 
-import qualified CrossyToad.Effect.Renderer.Clip as Clip
-import           CrossyToad.Effect.Renderer.ImageAsset (ImageAsset, HasImageAsset(..))
-import           CrossyToad.Effect.Renderer.RenderCommand (RenderCommand(..))
+import qualified CrossyToad.Renderer.Clip as Clip
+import           CrossyToad.Renderer.ImageAsset (ImageAsset, HasImageAsset(..))
+import           CrossyToad.Renderer.RenderCommand (RenderCommand(..))
 import           CrossyToad.Geometry.Position
 import           CrossyToad.Geometry.Size
 import           CrossyToad.Physics.Direction

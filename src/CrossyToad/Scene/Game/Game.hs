@@ -16,9 +16,9 @@ import           Linear.V2
 
 import           CrossyToad.Input.InputState (InputState)
 import           CrossyToad.Logger.MonadLogger (MonadLogger(..))
-import qualified CrossyToad.Effect.Renderer.ImageAsset as ImageAsset
-import           CrossyToad.Effect.Renderer.RenderCommand (RenderCommand(..))
-import qualified CrossyToad.Effect.Renderer.Renderer as Renderer
+import qualified CrossyToad.Renderer.ImageAsset as ImageAsset
+import           CrossyToad.Renderer.RenderCommand (RenderCommand(..))
+import qualified CrossyToad.Renderer.MonadRenderer as MonadRenderer
 import           CrossyToad.Physics.Physics (Direction(..))
 import           CrossyToad.Scene.Game.Car (HasCars(..))
 import qualified CrossyToad.Scene.Game.Car as Car
@@ -93,17 +93,17 @@ render ent =
 
 renderBackground' :: [RenderCommand]
 renderBackground' = concat $
-  [ Renderer.drawTileRow ImageAsset.Swamp (V2 0 0    ) 20 (V2 64 64)
-  , Renderer.drawTileRow ImageAsset.Water (V2 0 1*64 ) 20 (V2 64 64)
-  , Renderer.drawTileRow ImageAsset.Water (V2 0 2*64 ) 20 (V2 64 64)
-  , Renderer.drawTileRow ImageAsset.Water (V2 0 3*64 ) 20 (V2 64 64)
-  , Renderer.drawTileRow ImageAsset.Water (V2 0 4*64 ) 20 (V2 64 64)
-  , Renderer.drawTileRow ImageAsset.Water (V2 0 5*64 ) 20 (V2 64 64)
-  , Renderer.drawTileRow ImageAsset.Grass (V2 0 6*64 ) 20 (V2 64 64)
-  , Renderer.drawTileRow ImageAsset.Road  (V2 0 7*64 ) 20 (V2 64 64)
-  , Renderer.drawTileRow ImageAsset.Road  (V2 0 8*64 ) 20 (V2 64 64)
-  , Renderer.drawTileRow ImageAsset.Road  (V2 0 9*64 ) 20 (V2 64 64)
-  , Renderer.drawTileRow ImageAsset.Road  (V2 0 10*64) 20 (V2 64 64)
-  , Renderer.drawTileRow ImageAsset.Road  (V2 0 11*64) 20 (V2 64 64)
-  , Renderer.drawTileRow ImageAsset.Grass (V2 0 12*64) 20 (V2 64 64)
+  [ MonadRenderer.drawTileRow ImageAsset.Swamp (V2 0 0    ) 20 (V2 64 64)
+  , MonadRenderer.drawTileRow ImageAsset.Water (V2 0 1*64 ) 20 (V2 64 64)
+  , MonadRenderer.drawTileRow ImageAsset.Water (V2 0 2*64 ) 20 (V2 64 64)
+  , MonadRenderer.drawTileRow ImageAsset.Water (V2 0 3*64 ) 20 (V2 64 64)
+  , MonadRenderer.drawTileRow ImageAsset.Water (V2 0 4*64 ) 20 (V2 64 64)
+  , MonadRenderer.drawTileRow ImageAsset.Water (V2 0 5*64 ) 20 (V2 64 64)
+  , MonadRenderer.drawTileRow ImageAsset.Grass (V2 0 6*64 ) 20 (V2 64 64)
+  , MonadRenderer.drawTileRow ImageAsset.Road  (V2 0 7*64 ) 20 (V2 64 64)
+  , MonadRenderer.drawTileRow ImageAsset.Road  (V2 0 8*64 ) 20 (V2 64 64)
+  , MonadRenderer.drawTileRow ImageAsset.Road  (V2 0 9*64 ) 20 (V2 64 64)
+  , MonadRenderer.drawTileRow ImageAsset.Road  (V2 0 10*64) 20 (V2 64 64)
+  , MonadRenderer.drawTileRow ImageAsset.Road  (V2 0 11*64) 20 (V2 64 64)
+  , MonadRenderer.drawTileRow ImageAsset.Grass (V2 0 12*64) 20 (V2 64 64)
   ]

@@ -10,8 +10,8 @@ module CrossyToad.Sprite.AnimationFrame
 import Control.Lens
 import Linear.V2
 
-import           CrossyToad.Effect.Renderer.Clip (Clip, HasClip(..))
-import qualified CrossyToad.Effect.Renderer.Clip as Clip
+import           CrossyToad.Renderer.Clip (Clip, HasClip(..))
+import qualified CrossyToad.Renderer.Clip as Clip
 import           CrossyToad.Time.Seconds
 import           CrossyToad.Time.Timer (Timer, HasTimer(..))
 import qualified CrossyToad.Time.Timer as Timer

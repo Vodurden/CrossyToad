@@ -1,13 +1,13 @@
 {-# LANGUAGE TemplateHaskell #-}
 
-module CrossyToad.Effect.Renderer.SDL.Fonts where
+module CrossyToad.Renderer.MonadRenderer.SDL.Fonts where
 
 import           Control.Lens
 import           SDL.Font (Font, PointSize)
 import qualified SDL.Font as Font
 
-import           CrossyToad.Effect.Renderer.FontAsset (FontAsset)
-import qualified CrossyToad.Effect.Renderer.FontAsset as FontAsset
+import           CrossyToad.Renderer.FontAsset (FontAsset)
+import qualified CrossyToad.Renderer.FontAsset as FontAsset
 
 data Fonts = Fonts
   { _titleFont :: !Font

@@ -1,6 +1,6 @@
 {-# LANGUAGE TemplateHaskell #-}
 
-module CrossyToad.Effect.Renderer.Clip
+module CrossyToad.Renderer.Clip
   ( Clip
   , HasClip(..)
   , module CrossyToad.Geometry.AABB

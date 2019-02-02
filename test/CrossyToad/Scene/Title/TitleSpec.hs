@@ -3,7 +3,7 @@ module CrossyToad.Scene.Title.TitleSpec where
 import           Control.Lens
 import           Test.Tasty.Hspec
 
-import           CrossyToad.Effect.Renderer.RenderCommand
+import           CrossyToad.Renderer.RenderCommand
 import qualified CrossyToad.Scene.Scene as Scene
 import qualified CrossyToad.Scene.Title.Intent as Intent
 import           CrossyToad.Scene.Title.Title

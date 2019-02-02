@@ -9,9 +9,9 @@ import           Linear.V2
 
 import           Test.Tasty.Hspec
 
-import qualified CrossyToad.Effect.Renderer.ImageAsset as ImageAsset
-import           CrossyToad.Effect.Renderer.Clip (HasClip(..))
-import           CrossyToad.Effect.Renderer.RenderCommand
+import qualified CrossyToad.Renderer.ImageAsset as ImageAsset
+import           CrossyToad.Renderer.Clip (HasClip(..))
+import           CrossyToad.Renderer.RenderCommand
 import           CrossyToad.Geometry.Position
 import           CrossyToad.Physics.Direction
 import           CrossyToad.Sprite.Animation (currentFrame)

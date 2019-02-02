@@ -7,9 +7,9 @@ import           Linear.V2
 
 import           Test.Tasty.Hspec
 
-import           CrossyToad.Effect.Renderer.ImageAsset (HasImageAsset(..))
-import qualified CrossyToad.Effect.Renderer.ImageAsset as ImageAsset
-import           CrossyToad.Effect.Renderer.RenderCommand
+import           CrossyToad.Renderer.ImageAsset (HasImageAsset(..))
+import qualified CrossyToad.Renderer.ImageAsset as ImageAsset
+import           CrossyToad.Renderer.RenderCommand
 import           CrossyToad.Geometry.Position
 import           CrossyToad.Geometry.Size
 import           CrossyToad.Physics.Direction

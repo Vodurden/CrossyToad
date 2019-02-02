@@ -1,15 +1,15 @@
 {-# LANGUAGE TemplateHaskell #-}
 
-module CrossyToad.Effect.Renderer.RenderCommand where
+module CrossyToad.Renderer.RenderCommand where
 
 import Control.Lens
 import Data.Degrees (Degrees)
 import Data.Text (Text)
 
-import CrossyToad.Effect.Renderer.FontAsset (FontAsset)
-import CrossyToad.Effect.Renderer.ImageAsset (ImageAsset, AsImageAsset(..))
-import CrossyToad.Effect.Renderer.Clip
-import CrossyToad.Effect.Renderer.RGBAColour
+import CrossyToad.Renderer.FontAsset (FontAsset)
+import CrossyToad.Renderer.ImageAsset (ImageAsset, AsImageAsset(..))
+import CrossyToad.Renderer.Clip
+import CrossyToad.Renderer.RGBAColour
 import CrossyToad.Geometry.Position
 
 data RenderCommand

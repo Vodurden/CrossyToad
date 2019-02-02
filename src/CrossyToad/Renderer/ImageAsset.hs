@@ -1,6 +1,6 @@
 {-# LANGUAGE TemplateHaskell #-}
 
-module CrossyToad.Effect.Renderer.ImageAsset where
+module CrossyToad.Renderer.ImageAsset where
 
 import Control.Lens
 import System.IO (FilePath)

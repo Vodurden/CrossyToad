@@ -1,6 +1,6 @@
 {-# LANGUAGE TemplateHaskell #-}
 
-module CrossyToad.Effect.Renderer.SDL.Texture where
+module CrossyToad.Renderer.MonadRenderer.SDL.Texture where
 
 import           Control.Lens
 import           Control.Monad.IO.Class (MonadIO, liftIO)

@@ -12,8 +12,8 @@ module CrossyToad.Scene.Game.RiverLog
 import           Control.Lens
 import           Linear.V2
 
-import qualified CrossyToad.Effect.Renderer.ImageAsset as ImageAsset
-import           CrossyToad.Effect.Renderer.RenderCommand (RenderCommand)
+import qualified CrossyToad.Renderer.ImageAsset as ImageAsset
+import           CrossyToad.Renderer.RenderCommand (RenderCommand)
 import           CrossyToad.Time.MonadTime
 import           CrossyToad.Geometry.Position
 import           CrossyToad.Physics.Physics

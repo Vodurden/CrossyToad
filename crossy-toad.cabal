@@ -2,7 +2,7 @@
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: 38928a7969f6c6580af2012a03a3deaed120350c2933bfc2737d2ada22924b41
+-- hash: f5f90c91ac3fdd5462dd819e8e963e2411fac732882caa9b4c85a5dae4363c42
 
 name:           crossy-toad
 version:        0.1.0.0
@@ -25,18 +25,6 @@ library
       Control.Zipper.Extended
       CrossyToad
       CrossyToad.Asset.Sprite.Toad
-      CrossyToad.Effect.Renderer.Clip
-      CrossyToad.Effect.Renderer.FontAsset
-      CrossyToad.Effect.Renderer.ImageAsset
-      CrossyToad.Effect.Renderer.RenderCommand
-      CrossyToad.Effect.Renderer.Renderer
-      CrossyToad.Effect.Renderer.RGBAColour
-      CrossyToad.Effect.Renderer.SDL.Env
-      CrossyToad.Effect.Renderer.SDL.Fonts
-      CrossyToad.Effect.Renderer.SDL.Renderer
-      CrossyToad.Effect.Renderer.SDL.SDL
-      CrossyToad.Effect.Renderer.SDL.Texture
-      CrossyToad.Effect.Renderer.SDL.Textures
       CrossyToad.Env
       CrossyToad.Geometry.AABB
       CrossyToad.Geometry.Offset
@@ -60,6 +48,17 @@ library
       CrossyToad.Physics.LinearMotion
       CrossyToad.Physics.Physics
       CrossyToad.Physics.Speed
+      CrossyToad.Renderer.Clip
+      CrossyToad.Renderer.FontAsset
+      CrossyToad.Renderer.ImageAsset
+      CrossyToad.Renderer.MonadRenderer
+      CrossyToad.Renderer.MonadRenderer.SDL.Env
+      CrossyToad.Renderer.MonadRenderer.SDL.Fonts
+      CrossyToad.Renderer.MonadRenderer.SDL.MonadRenderer
+      CrossyToad.Renderer.MonadRenderer.SDL.Texture
+      CrossyToad.Renderer.MonadRenderer.SDL.Textures
+      CrossyToad.Renderer.RenderCommand
+      CrossyToad.Renderer.RGBAColour
       CrossyToad.Runner
       CrossyToad.Scene.Env
       CrossyToad.Scene.Game.Car
@@ -191,18 +190,6 @@ test-suite spec
       Control.Zipper.Extended
       CrossyToad
       CrossyToad.Asset.Sprite.Toad
-      CrossyToad.Effect.Renderer.Clip
-      CrossyToad.Effect.Renderer.FontAsset
-      CrossyToad.Effect.Renderer.ImageAsset
-      CrossyToad.Effect.Renderer.RenderCommand
-      CrossyToad.Effect.Renderer.Renderer
-      CrossyToad.Effect.Renderer.RGBAColour
-      CrossyToad.Effect.Renderer.SDL.Env
-      CrossyToad.Effect.Renderer.SDL.Fonts
-      CrossyToad.Effect.Renderer.SDL.Renderer
-      CrossyToad.Effect.Renderer.SDL.SDL
-      CrossyToad.Effect.Renderer.SDL.Texture
-      CrossyToad.Effect.Renderer.SDL.Textures
       CrossyToad.Env
       CrossyToad.Geometry.AABB
       CrossyToad.Geometry.Offset
@@ -226,6 +213,17 @@ test-suite spec
       CrossyToad.Physics.LinearMotion
       CrossyToad.Physics.Physics
       CrossyToad.Physics.Speed
+      CrossyToad.Renderer.Clip
+      CrossyToad.Renderer.FontAsset
+      CrossyToad.Renderer.ImageAsset
+      CrossyToad.Renderer.MonadRenderer
+      CrossyToad.Renderer.MonadRenderer.SDL.Env
+      CrossyToad.Renderer.MonadRenderer.SDL.Fonts
+      CrossyToad.Renderer.MonadRenderer.SDL.MonadRenderer
+      CrossyToad.Renderer.MonadRenderer.SDL.Texture
+      CrossyToad.Renderer.MonadRenderer.SDL.Textures
+      CrossyToad.Renderer.RenderCommand
+      CrossyToad.Renderer.RGBAColour
       CrossyToad.Runner
       CrossyToad.Scene.Env
       CrossyToad.Scene.Game.Car

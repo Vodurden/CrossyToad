@@ -1,4 +1,4 @@
-module CrossyToad.Effect.Renderer.RGBAColour where
+module CrossyToad.Renderer.RGBAColour where
 
 import Data.Word (Word8)
 import Linear.V4

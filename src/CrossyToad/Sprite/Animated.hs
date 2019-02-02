@@ -20,8 +20,8 @@ import           Data.Maybe (fromJust)
 
 import           CrossyToad.Time.Seconds
 import           CrossyToad.Time.MonadTime
-import           CrossyToad.Effect.Renderer.Clip (HasClip(..))
-import           CrossyToad.Effect.Renderer.RenderCommand (RenderCommand(..), AsRenderCommand(..))
+import           CrossyToad.Renderer.Clip (HasClip(..))
+import           CrossyToad.Renderer.RenderCommand (RenderCommand(..), AsRenderCommand(..))
 import           CrossyToad.Geometry.Position
 import           CrossyToad.Physics.Direction
 import           CrossyToad.Sprite.AnimationFrame (AnimationFrame)

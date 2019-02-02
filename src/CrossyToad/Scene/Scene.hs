@@ -20,8 +20,8 @@ import           Data.IORef
 import           Data.Foldable (traverse_)
 
 import           CrossyToad.Logger.MonadLogger (MonadLogger(..))
-import           CrossyToad.Effect.Renderer.RenderCommand (RenderCommand)
-import           CrossyToad.Effect.Renderer.Renderer (Renderer, runRenderCommand, clearScreen, drawScreen)
+import           CrossyToad.Renderer.RenderCommand (RenderCommand)
+import           CrossyToad.Renderer.MonadRenderer (MonadRenderer, runRenderCommand, clearScreen, drawScreen)
 import           CrossyToad.Input.InputState
 import           CrossyToad.Input.MonadInput
 import           CrossyToad.Scene.Env
@@ -39,7 +39,7 @@ run ::
   , MonadInput m
   , MonadLogger m
   , MonadTime m
-  , Renderer m
+  , MonadRenderer m
   , MonadIO m
   ) => m Scene
 run = do

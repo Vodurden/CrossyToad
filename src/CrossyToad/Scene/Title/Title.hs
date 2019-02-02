@@ -8,9 +8,9 @@ import           Control.Lens
 import           Data.Foldable (foldl')
 
 import           CrossyToad.Input.InputState (InputState, HasInputState(..))
-import           CrossyToad.Effect.Renderer.RenderCommand (RenderCommand(..))
-import qualified CrossyToad.Effect.Renderer.FontAsset as FontAsset
-import qualified CrossyToad.Effect.Renderer.RGBAColour as RGBAColour
+import           CrossyToad.Renderer.RenderCommand (RenderCommand(..))
+import qualified CrossyToad.Renderer.FontAsset as FontAsset
+import qualified CrossyToad.Renderer.RGBAColour as RGBAColour
 import           CrossyToad.Scene.Internal (HasScene, scene)
 import qualified CrossyToad.Scene.Internal as Scene
 import           CrossyToad.Scene.Title.Intent (Intent(..))

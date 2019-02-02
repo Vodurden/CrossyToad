@@ -1,15 +1,15 @@
 {-# LANGUAGE TemplateHaskell #-}
 
-module CrossyToad.Effect.Renderer.SDL.Textures where
+module CrossyToad.Renderer.MonadRenderer.SDL.Textures where
 
 import           Control.Lens
 import qualified SDL
 import qualified SDL.Image as Image
 
-import           CrossyToad.Effect.Renderer.ImageAsset (ImageAsset)
-import qualified CrossyToad.Effect.Renderer.ImageAsset as ImageAsset
-import           CrossyToad.Effect.Renderer.SDL.Texture (Texture)
-import qualified CrossyToad.Effect.Renderer.SDL.Texture as Texture
+import           CrossyToad.Renderer.ImageAsset (ImageAsset)
+import qualified CrossyToad.Renderer.ImageAsset as ImageAsset
+import           CrossyToad.Renderer.MonadRenderer.SDL.Texture (Texture)
+import qualified CrossyToad.Renderer.MonadRenderer.SDL.Texture as Texture
 
 data Textures = Textures
   { _toad :: !Texture
