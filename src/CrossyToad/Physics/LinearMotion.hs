@@ -18,7 +18,8 @@ module CrossyToad.Physics.LinearMotion
 
 import Control.Lens
 
-import CrossyToad.Effect.Time.Time
+import CrossyToad.Time.MonadTime
+import CrossyToad.Time.Seconds
 import CrossyToad.Geometry.Position
 import CrossyToad.Physics.Direction
 import CrossyToad.Physics.Speed
@@ -33,7 +34,7 @@ mk :: Speed -> LinearMotion
 mk = LinearMotion
 
 step ::
-  ( Time m
+  ( MonadTime m
   , HasPosition ent
   , HasDirection ent
   , HasLinearMotion ent

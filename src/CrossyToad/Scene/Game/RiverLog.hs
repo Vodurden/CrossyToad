@@ -14,7 +14,7 @@ import           Linear.V2
 
 import qualified CrossyToad.Effect.Renderer.ImageAsset as ImageAsset
 import           CrossyToad.Effect.Renderer.RenderCommand (RenderCommand)
-import           CrossyToad.Effect.Time.Time
+import           CrossyToad.Time.MonadTime
 import           CrossyToad.Geometry.Position
 import           CrossyToad.Physics.Physics
 import           CrossyToad.Physics.LinearMotion (LinearMotion(..), HasLinearMotion(..))
@@ -62,10 +62,10 @@ mk pos dir = RiverLog
     logSpeed = 64 * (1 / secondsPerTile)
       where secondsPerTile = 0.5
 
-stepAll :: (Time m, HasRiverLogs ent) => ent -> m ent
+stepAll :: (MonadTime m, HasRiverLogs ent) => ent -> m ent
 stepAll = (riverLogs.traverse) step
 
-step :: (Time m, HasRiverLog ent) => ent -> m ent
+step :: (MonadTime m, HasRiverLog ent) => ent -> m ent
 step = mapMOf riverLog LinearMotion.step
 
 render :: RiverLog -> RenderCommand

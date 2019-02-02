@@ -14,7 +14,7 @@ import Data.IORef (modifyIORef', readIORef, writeIORef)
 import CrossyToad.Effect.Task.IO.Env
 import CrossyToad.Effect.Task.IO.TaskState
 import CrossyToad.Effect.Task.Task
-import CrossyToad.Effect.Time.Seconds
+import CrossyToad.Time.Seconds
 
 -- | Start a new task
 forkTask :: (MonadReader r m, HasEnv r m, MonadIO m) => Task m () -> m ()

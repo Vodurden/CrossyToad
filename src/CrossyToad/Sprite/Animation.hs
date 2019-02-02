@@ -18,10 +18,10 @@ module CrossyToad.Sprite.Animation
 import           Control.Lens
 import           Control.Zipper.Extended
 
-import           CrossyToad.Effect.Time.Time
-import           CrossyToad.Effect.Time.Timer (HasTimer(..))
-import qualified CrossyToad.Effect.Time.Timer as Timer
 import           CrossyToad.Sprite.AnimationFrame (AnimationFrame)
+import           CrossyToad.Time.Seconds
+import           CrossyToad.Time.Timer (HasTimer(..))
+import qualified CrossyToad.Time.Timer as Timer
 
 -- TODO: Consider whether these instances are lawful and whether
 --       we can/should avoid orphan instances.

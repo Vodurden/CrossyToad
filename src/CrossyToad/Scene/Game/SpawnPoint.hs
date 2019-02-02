@@ -18,9 +18,10 @@ import           CrossyToad.Geometry.Position
 import           CrossyToad.Physics.Physics (Direction, HasDirection(..))
 import           CrossyToad.Scene.Game.Entity (Entity)
 import           CrossyToad.Scene.Game.Command (Command(..))
-import           CrossyToad.Effect.Time.Time (Time, Seconds)
-import           CrossyToad.Effect.Time.Timed (Timed)
-import qualified CrossyToad.Effect.Time.Timed as Timed
+import           CrossyToad.Time.Seconds
+import           CrossyToad.Time.Timed (Timed)
+import qualified CrossyToad.Time.Timed as Timed
+import           CrossyToad.Time.MonadTime
 
 data SpawnPoint = SpawnPoint
   { __position :: !Position      -- ^ Position to spawn at
@@ -55,11 +56,11 @@ mk position' direction' spawnTimes loopInterval = SpawnPoint
     mkSpawn :: Timed (Maybe Entity) -> (Seconds, Entity) -> Timed (Maybe Entity)
     mkSpawn t (seconds, ent) = Timed.pulse seconds ent t
 
-stepAll :: forall m ent. (Time m, HasSpawnPoints ent) => StateT ent m [Command]
+stepAll :: forall m ent. (MonadTime m, HasSpawnPoints ent) => StateT ent m [Command]
 stepAll = do
   zoom (spawnPoints.traverse) (maybeToList <$> step)
 
-step :: (Time m, HasSpawnPoint ent) => StateT ent m (Maybe Command)
+step :: (MonadTime m, HasSpawnPoint ent) => StateT ent m (Maybe Command)
 step = do
   nextSpawn <- zoom spawns Timed.step
   pos <- use (spawnPoint.position)

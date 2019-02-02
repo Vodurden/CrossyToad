@@ -7,7 +7,7 @@ import           Data.Map.Strict (Map)
 import qualified Data.Map.Strict as Map
 import           Linear.V2
 
-import           CrossyToad.Effect.Time.Seconds (Seconds)
+import           CrossyToad.Time.Seconds (Seconds)
 import           CrossyToad.Sprite.AnimationFrame (AnimationFrame)
 import qualified CrossyToad.Sprite.AnimationFrame as AnimationFrame
 

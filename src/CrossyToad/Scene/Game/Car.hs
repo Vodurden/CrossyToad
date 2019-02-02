@@ -15,7 +15,6 @@ import           Linear.V2
 
 import qualified CrossyToad.Effect.Renderer.ImageAsset as ImageAsset
 import           CrossyToad.Effect.Renderer.RenderCommand (RenderCommand)
-import           CrossyToad.Effect.Time.Time
 import           CrossyToad.Geometry.Position
 import           CrossyToad.Physics.CollisionBox (CollisionBox, HasCollisionBox(..))
 import qualified CrossyToad.Physics.CollisionBox as CollisionBox
@@ -24,6 +23,7 @@ import qualified CrossyToad.Physics.LinearMotion as LinearMotion
 import           CrossyToad.Physics.Physics
 import           CrossyToad.Sprite.Sprite (Sprite(..), HasSprite(..))
 import qualified CrossyToad.Sprite.Sprite as Sprite
+import           CrossyToad.Time.MonadTime
 
 data Car = Car
   { __position :: !Position
@@ -70,10 +70,10 @@ mk pos dir = Car
     carSpeed = 64 * (1 / secondsPerTile)
       where secondsPerTile = 0.5
 
-stepAll :: (Time m, HasCars ent) => ent -> m ent
+stepAll :: (MonadTime m, HasCars ent) => ent -> m ent
 stepAll = (cars.traverse) step
 
-step :: (Time m, HasCar ent) => ent -> m ent
+step :: (MonadTime m, HasCar ent) => ent -> m ent
 step = mapMOf car LinearMotion.step
 
 render :: Car -> RenderCommand

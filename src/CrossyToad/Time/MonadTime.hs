@@ -1,18 +1,17 @@
 {-# LANGUAGE DefaultSignatures #-}
 {-# LANGUAGE TypeFamilies #-}
 
-module CrossyToad.Effect.Time.Time
-  ( Time(..)
-  , module CrossyToad.Effect.Time.Seconds
+module CrossyToad.Time.MonadTime
+  ( MonadTime(..)
   ) where
 
 import Control.Monad.State.Strict (StateT)
 import Control.Monad.Reader (ReaderT)
 import Control.Monad.Trans (MonadTrans, lift)
 
-import CrossyToad.Effect.Time.Seconds
+import CrossyToad.Time.Seconds
 
-class Monad m => Time m where
+class Monad m => MonadTime m where
   -- | Marks the end of this timestep and begins a new timestep.
   stepTime :: m ()
 
@@ -21,10 +20,10 @@ class Monad m => Time m where
   deltaTime :: m Seconds
 
   -- | Default instances to easily derive our MonadTrans instances
-  default stepTime :: (MonadTrans t, Time m1, m ~ t m1) => m ()
+  default stepTime :: (MonadTrans t, MonadTime m1, m ~ t m1) => m ()
   stepTime = lift stepTime
-  default deltaTime :: (MonadTrans t, Time m1, m ~ t m1) => m Seconds
+  default deltaTime :: (MonadTrans t, MonadTime m1, m ~ t m1) => m Seconds
   deltaTime = lift deltaTime
 
-instance Time m => Time (StateT s m)
-instance Time m => Time (ReaderT s m)
+instance MonadTime m => MonadTime (StateT s m)
+instance MonadTime m => MonadTime (ReaderT s m)

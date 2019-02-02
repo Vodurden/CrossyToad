@@ -18,7 +18,8 @@ import           Control.Lens
 import           Data.Map.Strict (Map)
 import           Data.Maybe (fromJust)
 
-import           CrossyToad.Effect.Time.Time
+import           CrossyToad.Time.Seconds
+import           CrossyToad.Time.MonadTime
 import           CrossyToad.Effect.Renderer.Clip (HasClip(..))
 import           CrossyToad.Effect.Renderer.RenderCommand (RenderCommand(..), AsRenderCommand(..))
 import           CrossyToad.Geometry.Position
@@ -89,7 +90,7 @@ currentAnimation = lens getter setter
 
 step ::
   ( Ord key
-  , Time m
+  , MonadTime m
   , HasAnimated ent key
   ) => ent -> m ent
 step ent = do

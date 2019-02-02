@@ -33,9 +33,10 @@ import           CrossyToad.Geometry.Offset
 import           CrossyToad.Physics.Direction
 import           CrossyToad.Physics.Distance
 import           CrossyToad.Physics.Speed
-import           CrossyToad.Effect.Time.Time
-import           CrossyToad.Effect.Time.Timed (Timed, HasTimed(..))
-import qualified CrossyToad.Effect.Time.Timed as Timed
+import           CrossyToad.Time.MonadTime
+import           CrossyToad.Time.Timed (Timed, HasTimed(..))
+import qualified CrossyToad.Time.Timed as Timed
+import           CrossyToad.Time.Seconds
 
 data JumpMotion = JumpMotion
   { _speed :: Speed                    -- ^ How fast we can move
@@ -84,7 +85,7 @@ isJumping motion = isJust $ motion ^? state . value . _Jumping
 isCoolingDown :: (HasJumpMotion ent) => ent -> Bool
 isCoolingDown motion = isJust $ motion ^? state . value . _CoolingDown
 
-step :: (Time m, HasPosition ent, HasDirection ent, HasJumpMotion ent) => ent -> m ent
+step :: (MonadTime m, HasPosition ent, HasDirection ent, HasJumpMotion ent) => ent -> m ent
 step ent = stepBy <$> deltaTime <*> (pure ent)
 
 -- | Step this motion by a given amount of seconds

@@ -14,27 +14,27 @@ import           Control.Monad.State.Strict (execStateT)
 import           Data.Foldable (foldl')
 import           Linear.V2
 
-import           CrossyToad.Physics.Physics (Direction(..))
 import           CrossyToad.Effect.Input.Input (InputState)
 import           CrossyToad.Effect.Logger.Logger (Logger(..))
-import qualified CrossyToad.Effect.Renderer.Renderer as Renderer
 import qualified CrossyToad.Effect.Renderer.ImageAsset as ImageAsset
 import           CrossyToad.Effect.Renderer.RenderCommand (RenderCommand(..))
-import           CrossyToad.Effect.Time.Time (Time(..))
-import           CrossyToad.Scene.Internal (HasScene, scene)
-import qualified CrossyToad.Scene.Internal as Scene
-import           CrossyToad.Scene.Game.Command (Command(..))
-import           CrossyToad.Scene.Game.Intent (Intent(..))
-import qualified CrossyToad.Scene.Game.Intent as Intent
-import           CrossyToad.Scene.Game.GameState
-import           CrossyToad.Scene.Game.Toad (HasToad(..))
-import qualified CrossyToad.Scene.Game.Toad as Toad
+import qualified CrossyToad.Effect.Renderer.Renderer as Renderer
+import           CrossyToad.Physics.Physics (Direction(..))
 import           CrossyToad.Scene.Game.Car (HasCars(..))
 import qualified CrossyToad.Scene.Game.Car as Car
 import qualified CrossyToad.Scene.Game.Collision as Collision
+import           CrossyToad.Scene.Game.Command (Command(..))
 import qualified CrossyToad.Scene.Game.Entity as Entity
+import           CrossyToad.Scene.Game.GameState
+import           CrossyToad.Scene.Game.Intent (Intent(..))
+import qualified CrossyToad.Scene.Game.Intent as Intent
 import           CrossyToad.Scene.Game.SpawnPoint (SpawnPoint, HasSpawnPoints(..))
 import qualified CrossyToad.Scene.Game.SpawnPoint as SpawnPoint
+import           CrossyToad.Scene.Game.Toad (HasToad(..))
+import qualified CrossyToad.Scene.Game.Toad as Toad
+import           CrossyToad.Scene.Internal (HasScene, scene)
+import qualified CrossyToad.Scene.Internal as Scene
+import           CrossyToad.Time.MonadTime (MonadTime(..))
 
 initialize :: (HasGameState ent) => ent -> ent
 initialize =
@@ -63,12 +63,12 @@ stepIntent :: (HasGameState ent, HasScene ent) => Intent -> ent -> ent
 stepIntent (Move dir) = gameState.toad %~ (Toad.jump dir)
 stepIntent Exit = scene .~ Scene.Title
 
-step :: (Logger m, Time m, HasGameState ent) => ent -> m ent
+step :: (Logger m, MonadTime m, HasGameState ent) => ent -> m ent
 step ent = do
   stepGameState ent
 
 -- | Step all the GameState specific logic
-stepGameState :: (Logger m, Time m, HasGameState ent) => ent -> m ent
+stepGameState :: (Logger m, MonadTime m, HasGameState ent) => ent -> m ent
 stepGameState ent' = flip execStateT ent' $ do
   modifyingM (gameState.toad) Toad.step
 

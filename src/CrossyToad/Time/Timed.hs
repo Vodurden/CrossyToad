@@ -2,14 +2,15 @@
 {-# LANGUAGE FunctionalDependencies #-}
 {-# LANGUAGE LambdaCase #-}
 
-module CrossyToad.Effect.Time.Timed where
+module CrossyToad.Time.Timed where
 
 import           Control.Arrow
 import           Control.Lens
 import           Control.Monad.State.Strict.Extended (StateT, State, execState, execStateT, hoistState)
 import qualified Data.List as List
 
-import           CrossyToad.Effect.Time.Time
+import           CrossyToad.Time.MonadTime
+import           CrossyToad.Time.Seconds
 
 -- | Represents a value that changes over time.
 data Timed a = Timed
@@ -80,12 +81,12 @@ after time value' t = t & (events %~ (++ [Event time value']))
 loop :: Timed a -> Timed a
 loop timed' = timed' & events %~ List.cycle
 
-step :: (Time m, HasTimed ent a) => StateT ent m a
+step :: (MonadTime m, HasTimed ent a) => StateT ent m a
 step = do
   delta <- deltaTime
   hoistState $ stepBy delta
 
-step_ :: (Time m, HasTimed ent a) => ent -> m ent
+step_ :: (MonadTime m, HasTimed ent a) => ent -> m ent
 step_ = execStateT step
 
 -- | Advances the timer by the amount of time given.

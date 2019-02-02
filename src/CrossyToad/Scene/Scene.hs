@@ -29,7 +29,7 @@ import qualified CrossyToad.Scene.Game.Game as Game
 import           CrossyToad.Scene.Internal
 import           CrossyToad.Scene.SceneState
 import qualified CrossyToad.Scene.Title.Title as Title
-import           CrossyToad.Effect.Time.Time
+import           CrossyToad.Time.MonadTime
 
 -- | Runs all the computations for the active scene
 run ::
@@ -37,7 +37,7 @@ run ::
   , HasEnv r
   , Input m
   , Logger m
-  , Time m
+  , MonadTime m
   , Renderer m
   , MonadIO m
   ) => m Scene
@@ -84,7 +84,7 @@ step ::
   ( HasScene ent
   , HasGameState ent
   , Logger m
-  , Time m
+  , MonadTime m
   ) => ent -> m ent
 step ent = do
     step' (ent ^. scene) $ ent

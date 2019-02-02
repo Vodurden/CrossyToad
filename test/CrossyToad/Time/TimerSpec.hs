@@ -1,11 +1,11 @@
-module CrossyToad.Effect.Time.TimerSpec where
+module CrossyToad.Time.TimerSpec where
 
 import Control.Lens
 import Control.Monad.State.Strict (execState, evalState)
 
 import Test.Tasty.Hspec
 
-import CrossyToad.Effect.Time.Timer as Timer
+import CrossyToad.Time.Timer as Timer
 
 spec_Time_Timer :: Spec
 spec_Time_Timer = do

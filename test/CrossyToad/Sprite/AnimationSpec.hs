@@ -6,8 +6,8 @@ import           Linear.V2
 import           Test.Tasty.Hspec
 
 import           CrossyToad.Effect.Renderer.Clip (HasClip(..))
-import           CrossyToad.Effect.Time.Timer (HasTimer(..))
-import qualified CrossyToad.Effect.Time.Timer as Timer
+import           CrossyToad.Time.Timer (HasTimer(..))
+import qualified CrossyToad.Time.Timer as Timer
 import           CrossyToad.Sprite.AnimationFrame (AnimationFrame)
 import qualified CrossyToad.Sprite.AnimationFrame as AnimationFrame
 import           CrossyToad.Sprite.Animation as Animation

@@ -13,7 +13,7 @@ import           CrossyToad.Physics.Direction
 import           CrossyToad.Physics.JumpMotion as JumpMotion
 import           CrossyToad.Physics.Distance
 import           CrossyToad.Physics.Speed
-import           CrossyToad.Effect.Time.Time
+import           CrossyToad.Time.Seconds
 
 data Ent = Ent
   { __position :: !Position

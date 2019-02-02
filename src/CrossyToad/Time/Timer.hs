@@ -1,13 +1,13 @@
 {-# LANGUAGE TemplateHaskell #-}
 {-# LANGUAGE RankNTypes #-}
 
-module CrossyToad.Effect.Time.Timer where
+module CrossyToad.Time.Timer where
 
 import Control.Lens
 import Control.Monad.State.Strict.Extended (StateT, State, execState, modify', hoistState)
 
-import CrossyToad.Effect.Time.Seconds
-import CrossyToad.Effect.Time.Time
+import CrossyToad.Time.Seconds
+import CrossyToad.Time.MonadTime
 
 data Timer = Timer
   { _startTime :: !Seconds      -- ^ The time to start at when reset
@@ -37,7 +37,7 @@ finished :: Timer -> Bool
 finished = not . running
 
 -- | Steps a Timer
-step :: (Time m, HasTimer ent) => ent -> m ent
+step :: (MonadTime m, HasTimer ent) => ent -> m ent
 step ent = do
   delta <- deltaTime
   pure $ execState (stepBy delta) ent
@@ -54,7 +54,7 @@ stepBy delta = do
   pure remainingDelta
 
 tick
-  :: (Time m, HasTimer timer)
+  :: (MonadTime m, HasTimer timer)
   => Lens' ent timer      -- ^ The timer to tick
   -> State ent b          -- ^ Update to apply if the timer has not finished
   -> State ent b          -- ^ Update to apply if the timer has finished
@@ -83,7 +83,7 @@ tickBy timerL delta onNoTick onTick = do
       let nextSeconds = (timer' ^. currentTime) - delta'
       in timer' & (currentTime .~ max 0 nextSeconds)
 
-tickEnt :: (Time m, HasTimer ent) => (ent -> ent) -> ent -> m ent
+tickEnt :: (MonadTime m, HasTimer ent) => (ent -> ent) -> ent -> m ent
 tickEnt onTick ent = do
   delta <- deltaTime
   pure $ tickOverBy timer delta onTick ent
@@ -92,7 +92,7 @@ tickEntBy :: (HasTimer ent) => Seconds -> (ent -> ent) -> ent -> ent
 tickEntBy delta onTick =
   execState $ tickBy timer delta (modify' id) (modify' onTick)
 
-tickOver :: (Time m, HasTimer timer) => Lens' ent timer -> (ent -> ent) -> ent -> m ent
+tickOver :: (MonadTime m, HasTimer timer) => Lens' ent timer -> (ent -> ent) -> ent -> m ent
 tickOver timerL onTick ent = do
   delta <- deltaTime
   pure $ tickOverBy timerL delta onTick ent

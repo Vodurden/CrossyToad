@@ -10,7 +10,7 @@ import qualified CrossyToad.Effect.Task.IO.Env as IOTask
 import qualified CrossyToad.Effect.Logger.IO.Env as IOLogger
 import qualified CrossyToad.Effect.Input.SDL.SDL as SDLInput
 import qualified CrossyToad.Effect.Renderer.SDL.SDL as SDLRenderer
-import qualified CrossyToad.Effect.Time.SDL.SDL as SDLTime
+import qualified CrossyToad.Time.MonadTime.SDL.Env as SDLTime
 
 data Env m = Env
   { _sceneEnv :: !Scene.Env

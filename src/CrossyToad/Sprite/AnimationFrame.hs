@@ -12,9 +12,9 @@ import Linear.V2
 
 import           CrossyToad.Effect.Renderer.Clip (Clip, HasClip(..))
 import qualified CrossyToad.Effect.Renderer.Clip as Clip
-import           CrossyToad.Effect.Time.Seconds
-import           CrossyToad.Effect.Time.Timer (Timer, HasTimer(..))
-import qualified CrossyToad.Effect.Time.Timer as Timer
+import           CrossyToad.Time.Seconds
+import           CrossyToad.Time.Timer (Timer, HasTimer(..))
+import qualified CrossyToad.Time.Timer as Timer
 import           CrossyToad.Geometry.Position
 import           CrossyToad.Geometry.Size
 

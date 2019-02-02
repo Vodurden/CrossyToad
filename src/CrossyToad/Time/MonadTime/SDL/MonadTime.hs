@@ -1,4 +1,4 @@
-module CrossyToad.Effect.Time.SDL.Time
+module CrossyToad.Time.MonadTime.SDL.MonadTime
   ( stepTime
   , stepTimeState
   , deltaTime
@@ -10,10 +10,10 @@ import           Control.Monad.IO.Class (MonadIO, liftIO)
 import           Data.IORef
 import qualified SDL.Time as Time
 
-import           CrossyToad.Effect.Time.SDL.TimeState (TimeState, HasTimeState(..), HasTimeStateIORef(..))
-import qualified CrossyToad.Effect.Time.SDL.TimeState as TimeState
-import           CrossyToad.Effect.Time.SDL.Env
-import           CrossyToad.Effect.Time.Seconds
+import qualified CrossyToad.Time.MonadTime.SDL.MonadTimeState as TimeState
+import           CrossyToad.Time.MonadTime.SDL.MonadTimeState (MonadTimeState, HasMonadTimeState(..), HasMonadTimeStateIORef(..))
+import           CrossyToad.Time.MonadTime.SDL.Env (HasEnv(..))
+import           CrossyToad.Time.Seconds
 
 stepTime ::
   ( MonadReader r m
@@ -21,11 +21,11 @@ stepTime ::
   , MonadIO m
   ) => m ()
 stepTime = do
-  timeStateRef' <- view (env.timeStateRef)
+  timeStateRef' <- view (env.monadTimeStateRef)
   timeNow <- Time.time
   liftIO $ modifyIORef' timeStateRef' (stepTimeState timeNow)
 
-stepTimeState :: Seconds -> TimeState -> TimeState
+stepTimeState :: Seconds -> MonadTimeState -> MonadTimeState
 stepTimeState timeNow ts =
   ts & previousTime .~ (ts ^. currentTime)
      & currentTime .~ timeNow
@@ -36,6 +36,6 @@ deltaTime ::
   , MonadIO m
   ) => m Seconds
 deltaTime = do
-  timeStateRef' <- view (env.timeStateRef)
+  timeStateRef' <- view (env.monadTimeStateRef)
   timeState' <- liftIO $ readIORef timeStateRef'
   pure $ TimeState.deltaTime timeState'

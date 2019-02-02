@@ -9,7 +9,8 @@ import           Linear.V2
 import qualified CrossyToad.Asset.Sprite.Toad as ToadSprite
 import qualified CrossyToad.Effect.Renderer.ImageAsset as ImageAsset
 import           CrossyToad.Effect.Renderer.RenderCommand (RenderCommand(..))
-import           CrossyToad.Effect.Time.Time
+import           CrossyToad.Time.Seconds
+import           CrossyToad.Time.MonadTime
 import           CrossyToad.Geometry.Position
 import           CrossyToad.Physics.CollisionBox (CollisionBox, HasCollisionBox(..))
 import qualified CrossyToad.Physics.CollisionBox as CollisionBox
@@ -66,7 +67,7 @@ mk pos = Toad
     toadCooldown :: Seconds
     toadCooldown = 0.15
 
-step :: (Time m, HasToad ent) => ent -> m ent
+step :: (MonadTime m, HasToad ent) => ent -> m ent
 step = mapMOf toad
        $ JumpMotion.step
        >=> (pure . stepAnimatedState)

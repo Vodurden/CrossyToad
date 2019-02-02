@@ -8,7 +8,7 @@ module CrossyToad.Effect.Task.Task
 import Control.Monad.Coroutine
 import Control.Monad.Coroutine.SuspensionFunctors (Await(..), await)
 
-import CrossyToad.Effect.Time.Seconds
+import CrossyToad.Time.Seconds
 
 type Task m = Coroutine (Await Seconds) m
 

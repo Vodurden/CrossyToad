@@ -10,8 +10,8 @@ import           CrossyToad.Effect.Logger.Logger
 import qualified CrossyToad.Effect.Logger.IO.Logger as IOLogger
 import           CrossyToad.Effect.Renderer.Renderer
 import qualified CrossyToad.Effect.Renderer.SDL.SDL as SDLRenderer
-import           CrossyToad.Effect.Time.Time
-import qualified CrossyToad.Effect.Time.SDL.Time as SDLTime
+import           CrossyToad.Time.MonadTime
+import           CrossyToad.Time.MonadTime.SDL.MonadTime as SDLTime
 import           CrossyToad.Effect.Task.MonadTask
 import qualified CrossyToad.Effect.Task.IO.MonadTask as IOTask
 
@@ -32,7 +32,7 @@ instance Logger CrossyToad where
 instance Renderer CrossyToad where
   runRenderCommand = SDLRenderer.runRenderCommand
 
-instance Time CrossyToad where
+instance MonadTime CrossyToad where
   stepTime = SDLTime.stepTime
   deltaTime = SDLTime.deltaTime
 
