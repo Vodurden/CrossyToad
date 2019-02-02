@@ -4,8 +4,8 @@ import           Control.Monad.Reader (MonadReader, ReaderT, runReaderT)
 import           Control.Monad.IO.Class (MonadIO)
 
 import           CrossyToad.Env (Env(..))
-import           CrossyToad.Effect.Input.Input
-import qualified CrossyToad.Effect.Input.SDL.SDL as SDLInput
+import           CrossyToad.Input.MonadInput
+import qualified CrossyToad.Input.MonadInput.SDL.MonadInput as SDLMonadInput
 import           CrossyToad.Effect.Logger.Logger
 import qualified CrossyToad.Effect.Logger.IO.Logger as IOLogger
 import           CrossyToad.Effect.Renderer.Renderer
@@ -21,9 +21,9 @@ newtype CrossyToad a = CrossyToad (ReaderT (Env CrossyToad) IO a)
 runCrossyToad :: Env CrossyToad -> CrossyToad a -> IO a
 runCrossyToad config (CrossyToad m) = runReaderT m config
 
-instance Input CrossyToad where
-  stepInput = SDLInput.stepInput
-  getInputState = SDLInput.getInputState
+instance MonadInput CrossyToad where
+  stepInput = SDLMonadInput.stepInput
+  getInputState = SDLMonadInput.getInputState
 
 instance Logger CrossyToad where
   getEnabledLogLevels = IOLogger.getEnabledLogLevels

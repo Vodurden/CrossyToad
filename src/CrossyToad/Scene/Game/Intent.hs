@@ -6,12 +6,16 @@ module CrossyToad.Scene.Game.Intent
   , fromInputState
   ) where
 
-import Control.Lens
-import Control.Monad (mfilter)
-import Data.Maybe (catMaybes)
+import           Control.Lens
+import           Control.Monad (mfilter)
+import           Data.Maybe (catMaybes)
 
-import CrossyToad.Effect.Input.Input
-import CrossyToad.Physics.Physics
+import           CrossyToad.Input.InputEvent
+import           CrossyToad.Input.InputState
+import           CrossyToad.Input.Key (Key)
+import qualified CrossyToad.Input.Key as Key
+import           CrossyToad.Input.KeyboardState
+import           CrossyToad.Physics.Physics
 
 data Intent = Move Direction
             | Exit
@@ -26,10 +30,10 @@ fromInputState inputState' =
 
 fromKeyboardState :: KeyboardState -> [Intent]
 fromKeyboardState ks = catMaybes $
-    [ ifDown W (Move North)
-    , ifDown A (Move West)
-    , ifDown S (Move South)
-    , ifDown D (Move East)
+    [ ifDown Key.W (Move North)
+    , ifDown Key.A (Move West)
+    , ifDown Key.S (Move South)
+    , ifDown Key.D (Move East)
     ]
   where
     ifDown :: Key -> Intent -> Maybe Intent
@@ -39,5 +43,5 @@ fromEvents :: [InputEvent] -> [Intent]
 fromEvents events = catMaybes $ fmap fromInput' events
   where
     fromInput' :: InputEvent -> Maybe Intent
-    fromInput' (KeyPressed Escape) = Just Exit
+    fromInput' (KeyPressed Key.Escape) = Just Exit
     fromInput' _ = Nothing

@@ -1,4 +1,4 @@
-module CrossyToad.Effect.Input.SDL.InputSpec where
+module CrossyToad.Input.SDL.MonadInputSpec where
 
 import           Test.Tasty.Hspec
 
@@ -7,8 +7,11 @@ import           Control.Lens
 import qualified Data.Set as Set
 import qualified SDL.Extended as SDL
 
-import           CrossyToad.Effect.Input.Input hiding (stepInput)
-import           CrossyToad.Effect.Input.SDL.SDL
+import           CrossyToad.Input.Key
+import           CrossyToad.Input.KeyboardState
+import           CrossyToad.Input.InputEvent
+import           CrossyToad.Input.InputState
+import           CrossyToad.Input.MonadInput.SDL.MonadInput
 
 mkEvent :: SDL.EventPayload -> SDL.Event
 mkEvent payload = SDL.Event { eventTimestamp = undefined , eventPayload = payload }

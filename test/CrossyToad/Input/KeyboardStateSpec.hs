@@ -1,11 +1,11 @@
-module CrossyToad.Effect.Input.KeyboardStateSpec where
+module CrossyToad.Input.KeyboardStateSpec where
 
 import Test.Tasty.Hspec
 
 import qualified Data.Set as Set
 
-import CrossyToad.Effect.Input.KeyboardState
-import CrossyToad.Effect.Input.Key
+import CrossyToad.Input.KeyboardState
+import CrossyToad.Input.Key
 
 spec_Input_KeyboardState :: Spec
 spec_Input_KeyboardState =

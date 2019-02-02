@@ -7,7 +7,7 @@ module CrossyToad.Scene.Title.Title
 import           Control.Lens
 import           Data.Foldable (foldl')
 
-import           CrossyToad.Effect.Input.Input (InputState, HasInputState(..))
+import           CrossyToad.Input.InputState (InputState, HasInputState(..))
 import           CrossyToad.Effect.Renderer.RenderCommand (RenderCommand(..))
 import qualified CrossyToad.Effect.Renderer.FontAsset as FontAsset
 import qualified CrossyToad.Effect.Renderer.RGBAColour as RGBAColour

@@ -1,12 +1,12 @@
 {-# LANGUAGE TemplateHaskell #-}
 
-module CrossyToad.Effect.Input.KeyboardState where
+module CrossyToad.Input.KeyboardState where
 
 import           Control.Lens
 import           Data.Set (Set)
 import qualified Data.Set as Set
 
-import           CrossyToad.Effect.Input.Key
+import           CrossyToad.Input.Key
 
 data KeyboardState = KeyboardState
   { _pressed :: Set Key

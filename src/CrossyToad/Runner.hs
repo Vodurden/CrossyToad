@@ -1,12 +1,13 @@
 module CrossyToad.Runner (mainLoop) where
 
-import Control.Monad (unless)
+import           Control.Monad (unless)
 
 import           CrossyToad
-import           CrossyToad.Effect.Input.Input (InputEvent(..), stepInput, getInputEvents)
+import           CrossyToad.Input.InputEvent (InputEvent(..))
+import           CrossyToad.Input.MonadInput (stepInput, getInputEvents)
+import qualified CrossyToad.Scene.Scene as Scene
 import           CrossyToad.Time.MonadTask (pumpTasks)
 import           CrossyToad.Time.MonadTime (stepTime, deltaTime)
-import qualified CrossyToad.Scene.Scene as Scene
 
 mainLoop :: CrossyToad ()
 mainLoop = do

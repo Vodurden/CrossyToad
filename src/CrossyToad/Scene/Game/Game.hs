@@ -14,7 +14,7 @@ import           Control.Monad.State.Strict (execStateT)
 import           Data.Foldable (foldl')
 import           Linear.V2
 
-import           CrossyToad.Effect.Input.Input (InputState)
+import           CrossyToad.Input.InputState (InputState)
 import           CrossyToad.Effect.Logger.Logger (Logger(..))
 import qualified CrossyToad.Effect.Renderer.ImageAsset as ImageAsset
 import           CrossyToad.Effect.Renderer.RenderCommand (RenderCommand(..))

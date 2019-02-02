@@ -9,7 +9,7 @@ import           CrossyToad.Effect.Logger.Logger
 import qualified CrossyToad.Time.MonadTask.IO.Env as IOMonadTask
 import qualified CrossyToad.Effect.Logger.IO.IO as IOLogger
 import           CrossyToad.Effect.Logger.LogLevel as LogLevel
-import qualified CrossyToad.Effect.Input.SDL.SDL as SDLInput
+import qualified CrossyToad.Input.MonadInput.SDL.Env as SDLMonadInput
 import qualified CrossyToad.Effect.Renderer.SDL.SDL as SDLRenderer
 import qualified CrossyToad.Time.MonadTime.SDL.Env as SDLTime
 
@@ -18,7 +18,7 @@ main = do
   sceneEnv <- Scene.initialize
   ioTaskEnv <- IOMonadTask.initialize
   let ioLoggerEnv = IOLogger.initialize LogLevel.all
-  sdlInputEnv <- SDLInput.initialize
+  sdlInputEnv <- SDLMonadInput.initialize
   sdlRendererEnv <- SDLRenderer.initialize
   sdlTimeEnv <- SDLTime.initialize
   let cfg = Env

@@ -1,12 +1,12 @@
 {-# LANGUAGE TemplateHaskell #-}
 
-module CrossyToad.Effect.Input.InputState where
+module CrossyToad.Input.InputState where
 
 import Control.Lens
 import Data.IORef
 
-import CrossyToad.Effect.Input.KeyboardState
-import CrossyToad.Effect.Input.InputEvent
+import CrossyToad.Input.KeyboardState
+import CrossyToad.Input.InputEvent
 
 data InputState = InputState
   { __keyboardState :: KeyboardState

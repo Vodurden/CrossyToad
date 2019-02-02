@@ -1,10 +1,10 @@
 {-# LANGUAGE TemplateHaskell #-}
 
-module CrossyToad.Effect.Input.InputEvent where
+module CrossyToad.Input.InputEvent where
 
 import Control.Lens
 
-import CrossyToad.Effect.Input.Key
+import CrossyToad.Input.Key
 
 data InputEvent
   = KeyPressed Key

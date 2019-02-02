@@ -1,11 +1,11 @@
 {-# LANGUAGE TemplateHaskell #-}
 
-module CrossyToad.Effect.Input.SDL.Env where
+module CrossyToad.Input.MonadInput.SDL.Env where
 
 import Control.Lens
 import Data.IORef
 
-import CrossyToad.Effect.Input.InputState
+import CrossyToad.Input.InputState
 
 data Env = Env
   { __inputStateRef :: IORef InputState

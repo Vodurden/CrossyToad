@@ -1,4 +1,4 @@
-module CrossyToad.Effect.Input.SDL.Input
+module CrossyToad.Input.MonadInput.SDL.MonadInput
   ( stepInput
   , stepInputState
   , getInputState
@@ -13,11 +13,11 @@ import           Data.Foldable (foldl')
 import           Data.IORef (readIORef, modifyIORef')
 import qualified SDL.Extended as SDL
 
-import           CrossyToad.Effect.Input.InputEvent
-import           CrossyToad.Effect.Input.InputState
-import           CrossyToad.Effect.Input.KeyboardState
-import           CrossyToad.Effect.Input.Key
-import           CrossyToad.Effect.Input.SDL.Env
+import           CrossyToad.Input.InputEvent
+import           CrossyToad.Input.InputState
+import           CrossyToad.Input.KeyboardState
+import           CrossyToad.Input.Key
+import           CrossyToad.Input.MonadInput.SDL.Env
 
 stepInput ::
   ( MonadReader r m

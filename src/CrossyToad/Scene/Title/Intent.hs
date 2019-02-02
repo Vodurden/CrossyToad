@@ -5,7 +5,8 @@ module CrossyToad.Scene.Title.Intent where
 import Control.Lens
 import Data.Maybe (catMaybes)
 
-import CrossyToad.Effect.Input.Input
+import           CrossyToad.Input.InputEvent
+import qualified CrossyToad.Input.Key as Key
 
 data Intent = StartGame
             | Quit
@@ -17,6 +18,6 @@ fromInput :: [InputEvent] -> [Intent]
 fromInput events = catMaybes $ fmap fromInput' events
   where
     fromInput' :: InputEvent -> Maybe Intent
-    fromInput' (KeyPressed Return) = Just StartGame
-    fromInput' (KeyPressed Escape) = Just Quit
+    fromInput' (KeyPressed Key.Return) = Just StartGame
+    fromInput' (KeyPressed Key.Escape) = Just Quit
     fromInput' _ = Nothing

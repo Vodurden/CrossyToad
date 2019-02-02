@@ -2,7 +2,7 @@
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: 4aca534762d4e18cf3045d455ef8588a52d2949783e65758afc1c3f5a44d60d3
+-- hash: ca4cbd2c0a6b2fd17fb0fe2a4d8fa657259e9ebb88e3502d9fbbedd72cea5624
 
 name:           crossy-toad
 version:        0.1.0.0
@@ -25,14 +25,6 @@ library
       Control.Zipper.Extended
       CrossyToad
       CrossyToad.Asset.Sprite.Toad
-      CrossyToad.Effect.Input.Input
-      CrossyToad.Effect.Input.InputEvent
-      CrossyToad.Effect.Input.InputState
-      CrossyToad.Effect.Input.Key
-      CrossyToad.Effect.Input.KeyboardState
-      CrossyToad.Effect.Input.SDL.Env
-      CrossyToad.Effect.Input.SDL.Input
-      CrossyToad.Effect.Input.SDL.SDL
       CrossyToad.Effect.Logger.IO.Env
       CrossyToad.Effect.Logger.IO.IO
       CrossyToad.Effect.Logger.IO.Logger
@@ -55,6 +47,13 @@ library
       CrossyToad.Geometry.Offset
       CrossyToad.Geometry.Position
       CrossyToad.Geometry.Size
+      CrossyToad.Input.InputEvent
+      CrossyToad.Input.InputState
+      CrossyToad.Input.Key
+      CrossyToad.Input.KeyboardState
+      CrossyToad.Input.MonadInput
+      CrossyToad.Input.MonadInput.SDL.Env
+      CrossyToad.Input.MonadInput.SDL.MonadInput
       CrossyToad.Physics.CollisionBox
       CrossyToad.Physics.Direction
       CrossyToad.Physics.Distance
@@ -171,9 +170,9 @@ test-suite spec
   type: exitcode-stdio-1.0
   main-is: Driver.hs
   other-modules:
-      CrossyToad.Effect.Input.KeyboardStateSpec
-      CrossyToad.Effect.Input.SDL.InputSpec
       CrossyToad.Geometry.AABBSpec
+      CrossyToad.Input.KeyboardStateSpec
+      CrossyToad.Input.SDL.MonadInputSpec
       CrossyToad.Physics.CollisionBoxSpec
       CrossyToad.Physics.JumpMotionSpec
       CrossyToad.Physics.LinearMotionSpec
@@ -193,14 +192,6 @@ test-suite spec
       Control.Zipper.Extended
       CrossyToad
       CrossyToad.Asset.Sprite.Toad
-      CrossyToad.Effect.Input.Input
-      CrossyToad.Effect.Input.InputEvent
-      CrossyToad.Effect.Input.InputState
-      CrossyToad.Effect.Input.Key
-      CrossyToad.Effect.Input.KeyboardState
-      CrossyToad.Effect.Input.SDL.Env
-      CrossyToad.Effect.Input.SDL.Input
-      CrossyToad.Effect.Input.SDL.SDL
       CrossyToad.Effect.Logger.IO.Env
       CrossyToad.Effect.Logger.IO.IO
       CrossyToad.Effect.Logger.IO.Logger
@@ -223,6 +214,13 @@ test-suite spec
       CrossyToad.Geometry.Offset
       CrossyToad.Geometry.Position
       CrossyToad.Geometry.Size
+      CrossyToad.Input.InputEvent
+      CrossyToad.Input.InputState
+      CrossyToad.Input.Key
+      CrossyToad.Input.KeyboardState
+      CrossyToad.Input.MonadInput
+      CrossyToad.Input.MonadInput.SDL.Env
+      CrossyToad.Input.MonadInput.SDL.MonadInput
       CrossyToad.Physics.CollisionBox
       CrossyToad.Physics.Direction
       CrossyToad.Physics.Distance
