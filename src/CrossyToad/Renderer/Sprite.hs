@@ -1,6 +1,6 @@
 {-# LANGUAGE TemplateHaskell #-}
 
-module CrossyToad.Sprite.Sprite
+module CrossyToad.Renderer.Sprite
   ( Sprite(..)
   , HasSprite(..)
   , render

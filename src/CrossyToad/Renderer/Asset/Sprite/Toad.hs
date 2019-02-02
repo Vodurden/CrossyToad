@@ -8,8 +8,8 @@ import qualified Data.Map.Strict as Map
 import           Linear.V2
 
 import           CrossyToad.Time.Seconds (Seconds)
-import           CrossyToad.Sprite.AnimationFrame (AnimationFrame)
-import qualified CrossyToad.Sprite.AnimationFrame as AnimationFrame
+import           CrossyToad.Renderer.AnimationFrame (AnimationFrame)
+import qualified CrossyToad.Renderer.AnimationFrame as AnimationFrame
 
 data Animation
   = Idle

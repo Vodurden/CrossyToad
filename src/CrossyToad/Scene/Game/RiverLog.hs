@@ -19,8 +19,8 @@ import           CrossyToad.Geometry.Position
 import           CrossyToad.Physics.Physics
 import           CrossyToad.Physics.LinearMotion (LinearMotion(..), HasLinearMotion(..))
 import qualified CrossyToad.Physics.LinearMotion as LinearMotion
-import           CrossyToad.Sprite.Sprite (Sprite(..), HasSprite(..))
-import qualified CrossyToad.Sprite.Sprite as Sprite
+import           CrossyToad.Renderer.Sprite (Sprite(..), HasSprite(..))
+import qualified CrossyToad.Renderer.Sprite as Sprite
 
 data RiverLog = RiverLog
   { __position :: !Position

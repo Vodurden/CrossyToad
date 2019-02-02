@@ -1,6 +1,6 @@
 {-# LANGUAGE TemplateHaskell #-}
 
-module CrossyToad.Sprite.AnimatedSpec where
+module CrossyToad.Renderer.AnimatedSpec where
 
 import           Control.Lens
 import           Data.Map.Strict (Map)
@@ -9,17 +9,17 @@ import           Linear.V2
 
 import           Test.Tasty.Hspec
 
+import           CrossyToad.Geometry.Position
+import           CrossyToad.Physics.Direction
+import           CrossyToad.Renderer.Animated as Animated
+import           CrossyToad.Renderer.Animation (currentFrame)
+import           CrossyToad.Renderer.AnimationFrame (AnimationFrame)
+import qualified CrossyToad.Renderer.AnimationFrame as AnimationFrame
 import qualified CrossyToad.Renderer.Asset.ImageAsset as ImageAsset
 import           CrossyToad.Renderer.Clip (HasClip(..))
 import           CrossyToad.Renderer.RenderCommand
-import           CrossyToad.Geometry.Position
-import           CrossyToad.Physics.Direction
-import           CrossyToad.Sprite.Animation (currentFrame)
-import           CrossyToad.Sprite.Animated as Animated
-import           CrossyToad.Sprite.AnimationFrame (AnimationFrame)
-import qualified CrossyToad.Sprite.AnimationFrame as AnimationFrame
-import           CrossyToad.Sprite.Sprite (Sprite(..), HasSprite(..))
-import qualified CrossyToad.Sprite.Sprite as Sprite
+import           CrossyToad.Renderer.Sprite (Sprite(..), HasSprite(..))
+import qualified CrossyToad.Renderer.Sprite as Sprite
 
 data AnimationKey = Idle | Jump
   deriving (Eq, Show, Ord)

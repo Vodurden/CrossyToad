@@ -1,6 +1,6 @@
 {-# LANGUAGE TemplateHaskell #-}
 
-module CrossyToad.Sprite.AnimationFrame
+module CrossyToad.Renderer.AnimationFrame
   ( AnimationFrame(..)
   , HasAnimationFrame(..)
   , mk

@@ -2,7 +2,7 @@
 {-# LANGUAGE StandaloneDeriving #-}
 {-# OPTIONS_GHC -fno-warn-orphans #-}
 
-module CrossyToad.Sprite.Animation
+module CrossyToad.Renderer.Animation
   ( AnimationState(..)
   , Animation(..)
   , HasAnimation(..)
@@ -18,7 +18,7 @@ module CrossyToad.Sprite.Animation
 import           Control.Lens
 import           Control.Zipper.Extended
 
-import           CrossyToad.Sprite.AnimationFrame (AnimationFrame)
+import           CrossyToad.Renderer.AnimationFrame (AnimationFrame)
 import           CrossyToad.Time.Seconds
 import           CrossyToad.Time.Timer (HasTimer(..))
 import qualified CrossyToad.Time.Timer as Timer

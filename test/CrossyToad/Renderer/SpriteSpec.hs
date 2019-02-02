@@ -1,6 +1,6 @@
 {-# LANGUAGE TemplateHaskell #-}
 
-module CrossyToad.Sprite.SpriteSpec where
+module CrossyToad.Renderer.SpriteSpec where
 
 import           Control.Lens
 import           Linear.V2
@@ -13,7 +13,7 @@ import           CrossyToad.Renderer.RenderCommand
 import           CrossyToad.Geometry.Position
 import           CrossyToad.Geometry.Size
 import           CrossyToad.Physics.Direction
-import           CrossyToad.Sprite.Sprite as Sprite
+import           CrossyToad.Renderer.Sprite as Sprite
 
 data Ent = Ent
   { __position :: !Position

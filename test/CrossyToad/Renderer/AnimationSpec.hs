@@ -1,16 +1,16 @@
-module CrossyToad.Sprite.AnimationSpec where
+module CrossyToad.Renderer.AnimationSpec where
 
 import           Control.Lens
 import           Linear.V2
 
 import           Test.Tasty.Hspec
 
+import           CrossyToad.Renderer.Animation as Animation
+import           CrossyToad.Renderer.AnimationFrame (AnimationFrame)
+import qualified CrossyToad.Renderer.AnimationFrame as AnimationFrame
 import           CrossyToad.Renderer.Clip (HasClip(..))
 import           CrossyToad.Time.Timer (HasTimer(..))
 import qualified CrossyToad.Time.Timer as Timer
-import           CrossyToad.Sprite.AnimationFrame (AnimationFrame)
-import qualified CrossyToad.Sprite.AnimationFrame as AnimationFrame
-import           CrossyToad.Sprite.Animation as Animation
 
 frame1, frame2 :: AnimationFrame
 frame1 = AnimationFrame.mk (V2 0  0) (V2 64 64) 0.5

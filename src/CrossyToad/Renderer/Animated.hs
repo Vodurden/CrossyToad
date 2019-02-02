@@ -1,7 +1,7 @@
 {-# LANGUAGE TemplateHaskell #-}
 {-# LANGUAGE FunctionalDependencies #-}
 
-module CrossyToad.Sprite.Animated
+module CrossyToad.Renderer.Animated
   ( Animated(..)
   , HasAnimated(..)
   , mk
@@ -18,17 +18,17 @@ import           Control.Lens
 import           Data.Map.Strict (Map)
 import           Data.Maybe (fromJust)
 
-import           CrossyToad.Time.Seconds
-import           CrossyToad.Time.MonadTime
-import           CrossyToad.Renderer.Clip (HasClip(..))
-import           CrossyToad.Renderer.RenderCommand (RenderCommand(..), AsRenderCommand(..))
 import           CrossyToad.Geometry.Position
 import           CrossyToad.Physics.Direction
-import           CrossyToad.Sprite.AnimationFrame (AnimationFrame)
-import           CrossyToad.Sprite.Animation (Animation, currentFrame)
-import qualified CrossyToad.Sprite.Animation as Animation
-import           CrossyToad.Sprite.Sprite (HasSprite(..))
-import qualified CrossyToad.Sprite.Sprite as Sprite
+import           CrossyToad.Renderer.Animation (Animation, currentFrame)
+import qualified CrossyToad.Renderer.Animation as Animation
+import           CrossyToad.Renderer.AnimationFrame (AnimationFrame)
+import           CrossyToad.Renderer.Clip (HasClip(..))
+import           CrossyToad.Renderer.RenderCommand (RenderCommand(..), AsRenderCommand(..))
+import           CrossyToad.Renderer.Sprite (HasSprite(..))
+import qualified CrossyToad.Renderer.Sprite as Sprite
+import           CrossyToad.Time.MonadTime
+import           CrossyToad.Time.Seconds
 
 -- | The Animated component is used to allow an entity to
 -- | be animated.

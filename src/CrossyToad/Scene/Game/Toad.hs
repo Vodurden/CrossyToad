@@ -6,20 +6,20 @@ import           Control.Lens
 import           Control.Monad ((>=>))
 import           Linear.V2
 
-import qualified CrossyToad.Renderer.Asset.Sprite.Toad as ToadSprite
-import qualified CrossyToad.Renderer.Asset.ImageAsset as ImageAsset
-import           CrossyToad.Renderer.RenderCommand (RenderCommand(..))
-import           CrossyToad.Time.Seconds
-import           CrossyToad.Time.MonadTime
 import           CrossyToad.Geometry.Position
 import           CrossyToad.Physics.CollisionBox (CollisionBox, HasCollisionBox(..))
 import qualified CrossyToad.Physics.CollisionBox as CollisionBox
 import           CrossyToad.Physics.JumpMotion (JumpMotion(..), HasJumpMotion(..))
 import qualified CrossyToad.Physics.JumpMotion as JumpMotion
 import           CrossyToad.Physics.Physics
-import           CrossyToad.Sprite.Sprite (Sprite(..), HasSprite(..))
-import           CrossyToad.Sprite.Animated (Animated(..), HasAnimated(..))
-import qualified CrossyToad.Sprite.Animated as Animated
+import           CrossyToad.Renderer.Animated (Animated(..), HasAnimated(..))
+import qualified CrossyToad.Renderer.Animated as Animated
+import qualified CrossyToad.Renderer.Asset.ImageAsset as ImageAsset
+import qualified CrossyToad.Renderer.Asset.Sprite.Toad as ToadSprite
+import           CrossyToad.Renderer.RenderCommand (RenderCommand(..))
+import           CrossyToad.Renderer.Sprite (Sprite(..), HasSprite(..))
+import           CrossyToad.Time.MonadTime
+import           CrossyToad.Time.Seconds
 
 data Toad = Toad
   { __position :: !Position

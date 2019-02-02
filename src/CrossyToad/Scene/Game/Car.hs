@@ -21,8 +21,8 @@ import qualified CrossyToad.Physics.CollisionBox as CollisionBox
 import           CrossyToad.Physics.LinearMotion (LinearMotion(..), HasLinearMotion(..))
 import qualified CrossyToad.Physics.LinearMotion as LinearMotion
 import           CrossyToad.Physics.Physics
-import           CrossyToad.Sprite.Sprite (Sprite(..), HasSprite(..))
-import qualified CrossyToad.Sprite.Sprite as Sprite
+import           CrossyToad.Renderer.Sprite (Sprite(..), HasSprite(..))
+import qualified CrossyToad.Renderer.Sprite as Sprite
 import           CrossyToad.Time.MonadTime
 
 data Car = Car

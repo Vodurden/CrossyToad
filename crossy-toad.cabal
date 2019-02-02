@@ -2,7 +2,7 @@
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: e4bcc698f1e2fa89036f8b7f6131b43f4923a73aef1d84fbcc08e56efd9733cf
+-- hash: aaa81c83cbde5477937f76c677f2ecc0749afab7856c8d12db8d39e091406b5f
 
 name:           crossy-toad
 version:        0.1.0.0
@@ -47,6 +47,9 @@ library
       CrossyToad.Physics.LinearMotion
       CrossyToad.Physics.Physics
       CrossyToad.Physics.Speed
+      CrossyToad.Renderer.Animated
+      CrossyToad.Renderer.Animation
+      CrossyToad.Renderer.AnimationFrame
       CrossyToad.Renderer.Asset.FontAsset
       CrossyToad.Renderer.Asset.ImageAsset
       CrossyToad.Renderer.Asset.Sprite.Toad
@@ -59,6 +62,7 @@ library
       CrossyToad.Renderer.MonadRenderer.SDL.Textures
       CrossyToad.Renderer.RenderCommand
       CrossyToad.Renderer.RGBAColour
+      CrossyToad.Renderer.Sprite
       CrossyToad.Runner
       CrossyToad.Scene.Env
       CrossyToad.Scene.Game.Car
@@ -76,10 +80,6 @@ library
       CrossyToad.Scene.SceneState
       CrossyToad.Scene.Title.Intent
       CrossyToad.Scene.Title.Title
-      CrossyToad.Sprite.Animated
-      CrossyToad.Sprite.Animation
-      CrossyToad.Sprite.AnimationFrame
-      CrossyToad.Sprite.Sprite
       CrossyToad.Time.MonadTask
       CrossyToad.Time.MonadTask.IO.Env
       CrossyToad.Time.MonadTask.IO.MonadTask
@@ -174,15 +174,15 @@ test-suite spec
       CrossyToad.Physics.CollisionBoxSpec
       CrossyToad.Physics.JumpMotionSpec
       CrossyToad.Physics.LinearMotionSpec
+      CrossyToad.Renderer.AnimatedSpec
+      CrossyToad.Renderer.AnimationSpec
+      CrossyToad.Renderer.SpriteSpec
       CrossyToad.Scene.Game.CarSpec
       CrossyToad.Scene.Game.GameSpec
       CrossyToad.Scene.Game.IntentSpec
       CrossyToad.Scene.Game.ToadSpec
       CrossyToad.Scene.Title.IntentSpec
       CrossyToad.Scene.Title.TitleSpec
-      CrossyToad.Sprite.AnimatedSpec
-      CrossyToad.Sprite.AnimationSpec
-      CrossyToad.Sprite.SpriteSpec
       CrossyToad.Time.TimerSpec
       Control.Lens.Extended
       Control.Monad.Extended
@@ -212,6 +212,9 @@ test-suite spec
       CrossyToad.Physics.LinearMotion
       CrossyToad.Physics.Physics
       CrossyToad.Physics.Speed
+      CrossyToad.Renderer.Animated
+      CrossyToad.Renderer.Animation
+      CrossyToad.Renderer.AnimationFrame
       CrossyToad.Renderer.Asset.FontAsset
       CrossyToad.Renderer.Asset.ImageAsset
       CrossyToad.Renderer.Asset.Sprite.Toad
@@ -224,6 +227,7 @@ test-suite spec
       CrossyToad.Renderer.MonadRenderer.SDL.Textures
       CrossyToad.Renderer.RenderCommand
       CrossyToad.Renderer.RGBAColour
+      CrossyToad.Renderer.Sprite
       CrossyToad.Runner
       CrossyToad.Scene.Env
       CrossyToad.Scene.Game.Car
@@ -241,10 +245,6 @@ test-suite spec
       CrossyToad.Scene.SceneState
       CrossyToad.Scene.Title.Intent
       CrossyToad.Scene.Title.Title
-      CrossyToad.Sprite.Animated
-      CrossyToad.Sprite.Animation
-      CrossyToad.Sprite.AnimationFrame
-      CrossyToad.Sprite.Sprite
       CrossyToad.Time.MonadTask
       CrossyToad.Time.MonadTask.IO.Env
       CrossyToad.Time.MonadTask.IO.MonadTask
