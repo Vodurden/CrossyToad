@@ -1,9 +1,15 @@
 {-# LANGUAGE TemplateHaskell #-}
 
-module CrossyToad.Effect.Logger.LogLevel where
+module CrossyToad.Logger.LogLevel
+  ( LogLevel(..)
+  , HasLogLevel(..)
+  , all
+  , toPretty
+  ) where
 
 import Control.Lens
 import Data.Text (Text)
+import Prelude hiding (all)
 
 data LogLevel
   = Error

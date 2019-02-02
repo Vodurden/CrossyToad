@@ -19,7 +19,7 @@ import           Control.Monad.IO.Class (MonadIO, liftIO)
 import           Data.IORef
 import           Data.Foldable (traverse_)
 
-import           CrossyToad.Effect.Logger.Logger
+import           CrossyToad.Logger.MonadLogger (MonadLogger(..))
 import           CrossyToad.Effect.Renderer.RenderCommand (RenderCommand)
 import           CrossyToad.Effect.Renderer.Renderer (Renderer, runRenderCommand, clearScreen, drawScreen)
 import           CrossyToad.Input.InputState
@@ -37,7 +37,7 @@ run ::
   ( MonadReader r m
   , HasEnv r
   , MonadInput m
-  , Logger m
+  , MonadLogger m
   , MonadTime m
   , Renderer m
   , MonadIO m
@@ -84,7 +84,7 @@ step ::
   forall ent m.
   ( HasScene ent
   , HasGameState ent
-  , Logger m
+  , MonadLogger m
   , MonadTime m
   ) => ent -> m ent
 step ent = do

@@ -1,4 +1,4 @@
-module CrossyToad.Effect.Logger.IO.Logger where
+module CrossyToad.Logger.MonadLogger.IO.MonadLogger where
 
 import           Control.Lens
 import           Control.Monad.Reader (MonadReader)
@@ -7,8 +7,8 @@ import           Data.Set (Set)
 import           Data.Text (Text)
 import qualified Data.Text.IO as Text
 
-import CrossyToad.Effect.Logger.LogLevel
-import CrossyToad.Effect.Logger.IO.Env
+import CrossyToad.Logger.LogLevel
+import CrossyToad.Logger.MonadLogger.IO.Env
 
 getEnabledLogLevels ::
   ( MonadReader r m

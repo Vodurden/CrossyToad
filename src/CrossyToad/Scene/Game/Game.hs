@@ -15,7 +15,7 @@ import           Data.Foldable (foldl')
 import           Linear.V2
 
 import           CrossyToad.Input.InputState (InputState)
-import           CrossyToad.Effect.Logger.Logger (Logger(..))
+import           CrossyToad.Logger.MonadLogger (MonadLogger(..))
 import qualified CrossyToad.Effect.Renderer.ImageAsset as ImageAsset
 import           CrossyToad.Effect.Renderer.RenderCommand (RenderCommand(..))
 import qualified CrossyToad.Effect.Renderer.Renderer as Renderer
@@ -63,12 +63,12 @@ stepIntent :: (HasGameState ent, HasScene ent) => Intent -> ent -> ent
 stepIntent (Move dir) = gameState.toad %~ (Toad.jump dir)
 stepIntent Exit = scene .~ Scene.Title
 
-step :: (Logger m, MonadTime m, HasGameState ent) => ent -> m ent
+step :: (MonadLogger m, MonadTime m, HasGameState ent) => ent -> m ent
 step ent = do
   stepGameState ent
 
 -- | Step all the GameState specific logic
-stepGameState :: (Logger m, MonadTime m, HasGameState ent) => ent -> m ent
+stepGameState :: (MonadLogger m, MonadTime m, HasGameState ent) => ent -> m ent
 stepGameState ent' = flip execStateT ent' $ do
   modifyingM (gameState.toad) Toad.step
 

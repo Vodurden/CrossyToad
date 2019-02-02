@@ -1,12 +1,12 @@
 {-# LANGUAGE TemplateHaskell #-}
 
-module CrossyToad.Effect.Logger.IO.Env where
+module CrossyToad.Logger.MonadLogger.IO.Env where
 
 import           Control.Lens
 import           Data.Set (Set)
 import qualified Data.Set as Set
 
-import           CrossyToad.Effect.Logger.LogLevel
+import           CrossyToad.Logger.LogLevel
 
 data Env = Env
   { _logLevels :: Set LogLevel

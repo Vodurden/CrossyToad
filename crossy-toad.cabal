@@ -2,7 +2,7 @@
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: ca4cbd2c0a6b2fd17fb0fe2a4d8fa657259e9ebb88e3502d9fbbedd72cea5624
+-- hash: 38928a7969f6c6580af2012a03a3deaed120350c2933bfc2737d2ada22924b41
 
 name:           crossy-toad
 version:        0.1.0.0
@@ -25,11 +25,6 @@ library
       Control.Zipper.Extended
       CrossyToad
       CrossyToad.Asset.Sprite.Toad
-      CrossyToad.Effect.Logger.IO.Env
-      CrossyToad.Effect.Logger.IO.IO
-      CrossyToad.Effect.Logger.IO.Logger
-      CrossyToad.Effect.Logger.Logger
-      CrossyToad.Effect.Logger.LogLevel
       CrossyToad.Effect.Renderer.Clip
       CrossyToad.Effect.Renderer.FontAsset
       CrossyToad.Effect.Renderer.ImageAsset
@@ -54,6 +49,10 @@ library
       CrossyToad.Input.MonadInput
       CrossyToad.Input.MonadInput.SDL.Env
       CrossyToad.Input.MonadInput.SDL.MonadInput
+      CrossyToad.Logger.LogLevel
+      CrossyToad.Logger.MonadLogger
+      CrossyToad.Logger.MonadLogger.IO.Env
+      CrossyToad.Logger.MonadLogger.IO.MonadLogger
       CrossyToad.Physics.CollisionBox
       CrossyToad.Physics.Direction
       CrossyToad.Physics.Distance
@@ -192,11 +191,6 @@ test-suite spec
       Control.Zipper.Extended
       CrossyToad
       CrossyToad.Asset.Sprite.Toad
-      CrossyToad.Effect.Logger.IO.Env
-      CrossyToad.Effect.Logger.IO.IO
-      CrossyToad.Effect.Logger.IO.Logger
-      CrossyToad.Effect.Logger.Logger
-      CrossyToad.Effect.Logger.LogLevel
       CrossyToad.Effect.Renderer.Clip
       CrossyToad.Effect.Renderer.FontAsset
       CrossyToad.Effect.Renderer.ImageAsset
@@ -221,6 +215,10 @@ test-suite spec
       CrossyToad.Input.MonadInput
       CrossyToad.Input.MonadInput.SDL.Env
       CrossyToad.Input.MonadInput.SDL.MonadInput
+      CrossyToad.Logger.LogLevel
+      CrossyToad.Logger.MonadLogger
+      CrossyToad.Logger.MonadLogger.IO.Env
+      CrossyToad.Logger.MonadLogger.IO.MonadLogger
       CrossyToad.Physics.CollisionBox
       CrossyToad.Physics.Direction
       CrossyToad.Physics.Distance

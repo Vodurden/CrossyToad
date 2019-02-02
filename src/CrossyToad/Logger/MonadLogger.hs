@@ -1,10 +1,9 @@
 {-# LANGUAGE DefaultSignatures #-}
 {-# LANGUAGE TypeFamilies #-}
 
-module CrossyToad.Effect.Logger.Logger
-  ( Logger(..)
+module CrossyToad.Logger.MonadLogger
+  ( MonadLogger(..)
   , logText
-  , module CrossyToad.Effect.Logger.LogLevel
   ) where
 
 import Control.Monad (when)
@@ -14,10 +13,10 @@ import Control.Monad.Trans (MonadTrans, lift)
 import Data.Set (Set)
 import Data.Text (Text)
 
-import CrossyToad.Effect.Logger.LogLevel
+import CrossyToad.Logger.LogLevel
 import CrossyToad.Time.Task
 
-class Monad m => Logger m where
+class Monad m => MonadLogger m where
   -- | Get the enabled log levels.
   getEnabledLogLevels :: m (Set LogLevel)
 
@@ -27,20 +26,20 @@ class Monad m => Logger m where
   logRaw :: Text -> m ()
 
   -- | Default instances to easily derive our MonadTrans instances
-  default getEnabledLogLevels :: (MonadTrans t, Logger m1, m ~ t m1) => m (Set LogLevel)
+  default getEnabledLogLevels :: (MonadTrans t, MonadLogger m1, m ~ t m1) => m (Set LogLevel)
   getEnabledLogLevels = lift getEnabledLogLevels
 
-  default logRaw :: (MonadTrans t, Logger m1, m ~ t m1) => Text -> m ()
+  default logRaw :: (MonadTrans t, MonadLogger m1, m ~ t m1) => Text -> m ()
   logRaw = lift . logRaw
 
-instance Logger m => Logger (StateT s m)
-instance Logger m => Logger (ReaderT s m)
-instance Logger m => Logger (Task m)
+instance MonadLogger m => MonadLogger (StateT s m)
+instance MonadLogger m => MonadLogger (ReaderT s m)
+instance MonadLogger m => MonadLogger (Task m)
 
 -- | Logs a message at the given log level
 -- |
 -- | If the log level is not enabled the message will be ignored.
-logText :: (Logger m) => LogLevel -> Text -> m ()
+logText :: (MonadLogger m) => LogLevel -> Text -> m ()
 logText level text = do
   enabledLogLevels <- getEnabledLogLevels
   when (level `elem` enabledLogLevels) $ do
