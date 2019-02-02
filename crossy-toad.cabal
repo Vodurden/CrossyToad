@@ -2,7 +2,7 @@
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: f5f90c91ac3fdd5462dd819e8e963e2411fac732882caa9b4c85a5dae4363c42
+-- hash: e4bcc698f1e2fa89036f8b7f6131b43f4923a73aef1d84fbcc08e56efd9733cf
 
 name:           crossy-toad
 version:        0.1.0.0
@@ -24,7 +24,6 @@ library
       Control.Monad.State.Strict.Extended
       Control.Zipper.Extended
       CrossyToad
-      CrossyToad.Asset.Sprite.Toad
       CrossyToad.Env
       CrossyToad.Geometry.AABB
       CrossyToad.Geometry.Offset
@@ -48,9 +47,10 @@ library
       CrossyToad.Physics.LinearMotion
       CrossyToad.Physics.Physics
       CrossyToad.Physics.Speed
+      CrossyToad.Renderer.Asset.FontAsset
+      CrossyToad.Renderer.Asset.ImageAsset
+      CrossyToad.Renderer.Asset.Sprite.Toad
       CrossyToad.Renderer.Clip
-      CrossyToad.Renderer.FontAsset
-      CrossyToad.Renderer.ImageAsset
       CrossyToad.Renderer.MonadRenderer
       CrossyToad.Renderer.MonadRenderer.SDL.Env
       CrossyToad.Renderer.MonadRenderer.SDL.Fonts
@@ -189,7 +189,6 @@ test-suite spec
       Control.Monad.State.Strict.Extended
       Control.Zipper.Extended
       CrossyToad
-      CrossyToad.Asset.Sprite.Toad
       CrossyToad.Env
       CrossyToad.Geometry.AABB
       CrossyToad.Geometry.Offset
@@ -213,9 +212,10 @@ test-suite spec
       CrossyToad.Physics.LinearMotion
       CrossyToad.Physics.Physics
       CrossyToad.Physics.Speed
+      CrossyToad.Renderer.Asset.FontAsset
+      CrossyToad.Renderer.Asset.ImageAsset
+      CrossyToad.Renderer.Asset.Sprite.Toad
       CrossyToad.Renderer.Clip
-      CrossyToad.Renderer.FontAsset
-      CrossyToad.Renderer.ImageAsset
       CrossyToad.Renderer.MonadRenderer
       CrossyToad.Renderer.MonadRenderer.SDL.Env
       CrossyToad.Renderer.MonadRenderer.SDL.Fonts

@@ -6,8 +6,8 @@ import           Control.Lens
 import qualified SDL
 import qualified SDL.Image as Image
 
-import           CrossyToad.Renderer.ImageAsset (ImageAsset)
-import qualified CrossyToad.Renderer.ImageAsset as ImageAsset
+import           CrossyToad.Renderer.Asset.ImageAsset (ImageAsset)
+import qualified CrossyToad.Renderer.Asset.ImageAsset as ImageAsset
 import           CrossyToad.Renderer.MonadRenderer.SDL.Texture (Texture)
 import qualified CrossyToad.Renderer.MonadRenderer.SDL.Texture as Texture
 

@@ -16,7 +16,7 @@ import           Linear.V2
 
 import           CrossyToad.Input.InputState (InputState)
 import           CrossyToad.Logger.MonadLogger (MonadLogger(..))
-import qualified CrossyToad.Renderer.ImageAsset as ImageAsset
+import qualified CrossyToad.Renderer.Asset.ImageAsset as ImageAsset
 import           CrossyToad.Renderer.RenderCommand (RenderCommand(..))
 import qualified CrossyToad.Renderer.MonadRenderer as MonadRenderer
 import           CrossyToad.Physics.Physics (Direction(..))

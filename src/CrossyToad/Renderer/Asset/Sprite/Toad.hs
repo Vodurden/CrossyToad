@@ -1,4 +1,4 @@
-module CrossyToad.Asset.Sprite.Toad
+module CrossyToad.Renderer.Asset.Sprite.Toad
   ( Animation(..)
   , animations
   ) where

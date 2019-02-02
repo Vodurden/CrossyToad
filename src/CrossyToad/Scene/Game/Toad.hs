@@ -6,8 +6,8 @@ import           Control.Lens
 import           Control.Monad ((>=>))
 import           Linear.V2
 
-import qualified CrossyToad.Asset.Sprite.Toad as ToadSprite
-import qualified CrossyToad.Renderer.ImageAsset as ImageAsset
+import qualified CrossyToad.Renderer.Asset.Sprite.Toad as ToadSprite
+import qualified CrossyToad.Renderer.Asset.ImageAsset as ImageAsset
 import           CrossyToad.Renderer.RenderCommand (RenderCommand(..))
 import           CrossyToad.Time.Seconds
 import           CrossyToad.Time.MonadTime

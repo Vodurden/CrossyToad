@@ -9,7 +9,7 @@ import           Data.Foldable (foldl')
 
 import           CrossyToad.Input.InputState (InputState, HasInputState(..))
 import           CrossyToad.Renderer.RenderCommand (RenderCommand(..))
-import qualified CrossyToad.Renderer.FontAsset as FontAsset
+import qualified CrossyToad.Renderer.Asset.FontAsset as FontAsset
 import qualified CrossyToad.Renderer.RGBAColour as RGBAColour
 import           CrossyToad.Scene.Internal (HasScene, scene)
 import qualified CrossyToad.Scene.Internal as Scene

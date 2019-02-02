@@ -10,7 +10,7 @@ import           Control.Lens
 import           Control.Monad (mfilter)
 
 import qualified CrossyToad.Renderer.Clip as Clip
-import           CrossyToad.Renderer.ImageAsset (ImageAsset, HasImageAsset(..))
+import           CrossyToad.Renderer.Asset.ImageAsset (ImageAsset, HasImageAsset(..))
 import           CrossyToad.Renderer.RenderCommand (RenderCommand(..))
 import           CrossyToad.Geometry.Position
 import           CrossyToad.Geometry.Size

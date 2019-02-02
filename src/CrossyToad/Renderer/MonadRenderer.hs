@@ -11,9 +11,9 @@ import           Linear.V2
 
 import           CrossyToad.Geometry.Position
 import           CrossyToad.Renderer.RenderCommand (RenderCommand(..))
-import           CrossyToad.Renderer.FontAsset (FontAsset)
-import qualified CrossyToad.Renderer.FontAsset as FontAsset
-import           CrossyToad.Renderer.ImageAsset (ImageAsset)
+import           CrossyToad.Renderer.Asset.FontAsset (FontAsset)
+import qualified CrossyToad.Renderer.Asset.FontAsset as FontAsset
+import           CrossyToad.Renderer.Asset.ImageAsset (ImageAsset)
 import           CrossyToad.Renderer.Clip (Clip)
 import qualified CrossyToad.Renderer.Clip as Clip
 import           CrossyToad.Renderer.RGBAColour (RGBAColour)

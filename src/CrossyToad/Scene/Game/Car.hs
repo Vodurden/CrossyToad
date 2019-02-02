@@ -13,7 +13,7 @@ module CrossyToad.Scene.Game.Car
 import           Control.Lens
 import           Linear.V2
 
-import qualified CrossyToad.Renderer.ImageAsset as ImageAsset
+import qualified CrossyToad.Renderer.Asset.ImageAsset as ImageAsset
 import           CrossyToad.Renderer.RenderCommand (RenderCommand)
 import           CrossyToad.Geometry.Position
 import           CrossyToad.Physics.CollisionBox (CollisionBox, HasCollisionBox(..))

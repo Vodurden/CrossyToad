@@ -5,7 +5,7 @@ import           Linear.V2
 
 import           Test.Tasty.Hspec
 
-import qualified CrossyToad.Renderer.ImageAsset as ImageAsset
+import qualified CrossyToad.Renderer.Asset.ImageAsset as ImageAsset
 import           CrossyToad.Renderer.RenderCommand
 import           CrossyToad.Physics.Physics
 import           CrossyToad.Scene.Game.Car as Car

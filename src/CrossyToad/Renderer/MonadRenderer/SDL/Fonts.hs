@@ -6,8 +6,8 @@ import           Control.Lens
 import           SDL.Font (Font, PointSize)
 import qualified SDL.Font as Font
 
-import           CrossyToad.Renderer.FontAsset (FontAsset)
-import qualified CrossyToad.Renderer.FontAsset as FontAsset
+import           CrossyToad.Renderer.Asset.FontAsset (FontAsset)
+import qualified CrossyToad.Renderer.Asset.FontAsset as FontAsset
 
 data Fonts = Fonts
   { _titleFont :: !Font

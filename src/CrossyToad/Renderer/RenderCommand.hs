@@ -6,8 +6,8 @@ import Control.Lens
 import Data.Degrees (Degrees)
 import Data.Text (Text)
 
-import CrossyToad.Renderer.FontAsset (FontAsset)
-import CrossyToad.Renderer.ImageAsset (ImageAsset, AsImageAsset(..))
+import CrossyToad.Renderer.Asset.FontAsset (FontAsset)
+import CrossyToad.Renderer.Asset.ImageAsset (ImageAsset, AsImageAsset(..))
 import CrossyToad.Renderer.Clip
 import CrossyToad.Renderer.RGBAColour
 import CrossyToad.Geometry.Position

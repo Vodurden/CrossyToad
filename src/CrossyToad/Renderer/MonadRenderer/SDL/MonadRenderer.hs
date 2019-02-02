@@ -13,8 +13,8 @@ import           Linear.V2
 import qualified SDL
 import qualified SDL.Font as Font
 
-import           CrossyToad.Renderer.FontAsset
-import           CrossyToad.Renderer.ImageAsset
+import           CrossyToad.Renderer.Asset.FontAsset
+import           CrossyToad.Renderer.Asset.ImageAsset
 import           CrossyToad.Renderer.Clip (Clip)
 import qualified CrossyToad.Renderer.Clip as Clip
 import           CrossyToad.Renderer.RGBAColour
