@@ -1,7 +1,8 @@
-module CrossyToad.Effect.Task.MonadTask
-  where
+module CrossyToad.Time.MonadTask
+  ( MonadTask(..)
+  ) where
 
-import CrossyToad.Effect.Task.Task
+import CrossyToad.Time.Task
 import CrossyToad.Time.Seconds
 
 class Monad m => MonadTask m where

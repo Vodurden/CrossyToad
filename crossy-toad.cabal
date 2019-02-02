@@ -2,7 +2,7 @@
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: a2258539723ff9f911c72eb421333e9a7cc053a1b57e3c8779352832c3f6c8a9
+-- hash: 4aca534762d4e18cf3045d455ef8588a52d2949783e65758afc1c3f5a44d60d3
 
 name:           crossy-toad
 version:        0.1.0.0
@@ -50,11 +50,6 @@ library
       CrossyToad.Effect.Renderer.SDL.SDL
       CrossyToad.Effect.Renderer.SDL.Texture
       CrossyToad.Effect.Renderer.SDL.Textures
-      CrossyToad.Effect.Task.IO.Env
-      CrossyToad.Effect.Task.IO.MonadTask
-      CrossyToad.Effect.Task.IO.TaskState
-      CrossyToad.Effect.Task.MonadTask
-      CrossyToad.Effect.Task.Task
       CrossyToad.Env
       CrossyToad.Geometry.AABB
       CrossyToad.Geometry.Offset
@@ -88,11 +83,16 @@ library
       CrossyToad.Sprite.Animation
       CrossyToad.Sprite.AnimationFrame
       CrossyToad.Sprite.Sprite
+      CrossyToad.Time.MonadTask
+      CrossyToad.Time.MonadTask.IO.Env
+      CrossyToad.Time.MonadTask.IO.MonadTask
+      CrossyToad.Time.MonadTask.IO.TaskState
       CrossyToad.Time.MonadTime
       CrossyToad.Time.MonadTime.SDL.Env
       CrossyToad.Time.MonadTime.SDL.MonadTime
       CrossyToad.Time.MonadTime.SDL.MonadTimeState
       CrossyToad.Time.Seconds
+      CrossyToad.Time.Task
       CrossyToad.Time.Timed
       CrossyToad.Time.Timer
       Data.Degrees
@@ -218,11 +218,6 @@ test-suite spec
       CrossyToad.Effect.Renderer.SDL.SDL
       CrossyToad.Effect.Renderer.SDL.Texture
       CrossyToad.Effect.Renderer.SDL.Textures
-      CrossyToad.Effect.Task.IO.Env
-      CrossyToad.Effect.Task.IO.MonadTask
-      CrossyToad.Effect.Task.IO.TaskState
-      CrossyToad.Effect.Task.MonadTask
-      CrossyToad.Effect.Task.Task
       CrossyToad.Env
       CrossyToad.Geometry.AABB
       CrossyToad.Geometry.Offset
@@ -256,11 +251,16 @@ test-suite spec
       CrossyToad.Sprite.Animation
       CrossyToad.Sprite.AnimationFrame
       CrossyToad.Sprite.Sprite
+      CrossyToad.Time.MonadTask
+      CrossyToad.Time.MonadTask.IO.Env
+      CrossyToad.Time.MonadTask.IO.MonadTask
+      CrossyToad.Time.MonadTask.IO.TaskState
       CrossyToad.Time.MonadTime
       CrossyToad.Time.MonadTime.SDL.Env
       CrossyToad.Time.MonadTime.SDL.MonadTime
       CrossyToad.Time.MonadTime.SDL.MonadTimeState
       CrossyToad.Time.Seconds
+      CrossyToad.Time.Task
       CrossyToad.Time.Timed
       CrossyToad.Time.Timer
       Data.Degrees

@@ -1,6 +1,7 @@
--- | A task is an asynchronous effect that
--- | runs independently from the main game loop
-module CrossyToad.Effect.Task.Task
+-- | A task is an asynchronous effect that runs independently from the main game loop
+-- |
+-- | To execute a task see the MonadTask module
+module CrossyToad.Time.Task
   ( Task
   , wait
   ) where

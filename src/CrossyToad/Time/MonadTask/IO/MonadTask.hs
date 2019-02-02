@@ -1,4 +1,4 @@
-module CrossyToad.Effect.Task.IO.MonadTask
+module CrossyToad.Time.MonadTask.IO.MonadTask
   ( forkTask
   , pumpTasks
   ) where
@@ -11,10 +11,10 @@ import Control.Monad.IO.Class (MonadIO, liftIO)
 import Data.Maybe (catMaybes)
 import Data.IORef (modifyIORef', readIORef, writeIORef)
 
-import CrossyToad.Effect.Task.IO.Env
-import CrossyToad.Effect.Task.IO.TaskState
-import CrossyToad.Effect.Task.Task
+import CrossyToad.Time.MonadTask.IO.Env
+import CrossyToad.Time.MonadTask.IO.TaskState
 import CrossyToad.Time.Seconds
+import CrossyToad.Time.Task
 
 -- | Start a new task
 forkTask :: (MonadReader r m, HasEnv r m, MonadIO m) => Task m () -> m ()

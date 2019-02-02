@@ -1,12 +1,12 @@
 {-# LANGUAGE TemplateHaskell #-}
 {-# LANGUAGE FunctionalDependencies #-}
 
-module CrossyToad.Effect.Task.IO.TaskState where
+module CrossyToad.Time.MonadTask.IO.TaskState where
 
 import Control.Lens
 import Data.IORef
 
-import CrossyToad.Effect.Task.Task
+import CrossyToad.Time.Task
 
 data TaskState m = TaskState
   { _tasks :: [Task m ()]

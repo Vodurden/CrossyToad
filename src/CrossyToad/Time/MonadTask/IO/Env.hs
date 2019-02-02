@@ -1,13 +1,13 @@
 {-# LANGUAGE TemplateHaskell #-}
 {-# LANGUAGE FunctionalDependencies #-}
 
-module CrossyToad.Effect.Task.IO.Env where
+module CrossyToad.Time.MonadTask.IO.Env where
 
 import           Control.Lens
 import           Data.IORef
 
-import           CrossyToad.Effect.Task.IO.TaskState (TaskState, HasTaskStateIORef(..))
-import qualified CrossyToad.Effect.Task.IO.TaskState as TaskState
+import           CrossyToad.Time.MonadTask.IO.TaskState (TaskState, HasTaskStateIORef(..))
+import qualified CrossyToad.Time.MonadTask.IO.TaskState as TaskState
 
 data Env m = Env
   { __taskStateRef :: IORef (TaskState m)

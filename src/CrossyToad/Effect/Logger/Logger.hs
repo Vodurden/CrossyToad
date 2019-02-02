@@ -15,7 +15,7 @@ import Data.Set (Set)
 import Data.Text (Text)
 
 import CrossyToad.Effect.Logger.LogLevel
-import CrossyToad.Effect.Task.Task
+import CrossyToad.Time.Task
 
 class Monad m => Logger m where
   -- | Get the enabled log levels.
