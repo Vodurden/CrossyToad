@@ -1,12 +1,12 @@
-module CrossyToad.Scene.Game.Entity
+module CrossyToad.Game.Entity
   where
 
 import           Control.Lens
 
 import           CrossyToad.Geometry.Position
 import           CrossyToad.Physics.Direction
-import           CrossyToad.Scene.Game.Car (HasCars(..))
-import qualified CrossyToad.Scene.Game.Car as Car
+import           CrossyToad.Game.Car (HasCars(..))
+import qualified CrossyToad.Game.Car as Car
 
 data Entity
   = Car

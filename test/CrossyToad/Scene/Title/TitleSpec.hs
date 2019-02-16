@@ -1,12 +1,12 @@
-module CrossyToad.Scene.Title.TitleSpec where
+module CrossyToad.Title.TitleSpec where
 
 -- import           Control.Lens
 -- import           Test.Tasty.Hspec
 
 -- import           CrossyToad.Renderer.RenderCommand
 -- import qualified CrossyToad.Scene.Scene as Scene
--- import qualified CrossyToad.Scene.Title.Intent as Intent
--- import           CrossyToad.Scene.Title.Title
+-- import qualified CrossyToad.Title.Intent as Intent
+-- import           CrossyToad.Title.Title
 
 -- spec_Scene_Title :: Spec
 -- spec_Scene_Title = do

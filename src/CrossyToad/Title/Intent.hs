@@ -1,6 +1,6 @@
 {-# LANGUAGE TemplateHaskell #-}
 
-module CrossyToad.Scene.Title.Intent where
+module CrossyToad.Title.Intent where
 
 import Control.Lens
 import Data.Maybe (catMaybes)

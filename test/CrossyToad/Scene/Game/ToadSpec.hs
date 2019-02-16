@@ -1,4 +1,4 @@
-module CrossyToad.Scene.Game.ToadSpec where
+module CrossyToad.Game.ToadSpec where
 
 import           Control.Lens
 import           Linear.V2
@@ -9,7 +9,7 @@ import qualified CrossyToad.Renderer.Asset.ImageAsset as ImageAsset
 import           CrossyToad.Renderer.RenderCommand
 import           CrossyToad.Geometry.Position
 import           CrossyToad.Physics.Physics
-import           CrossyToad.Scene.Game.Toad as Toad
+import           CrossyToad.Game.Toad as Toad
 
 spec_Scene_Game_Toad :: Spec
 spec_Scene_Game_Toad = do

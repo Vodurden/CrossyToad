@@ -9,7 +9,7 @@ import qualified CrossyToad.Input.MonadInput.SDL.Env as SDLMonadInput
 import qualified CrossyToad.Logger.LogLevel as LogLevel
 import           CrossyToad.Logger.MonadLogger (logText)
 import qualified CrossyToad.Logger.MonadLogger.IO.Env as IOMonadLogger
-import qualified CrossyToad.Scene.Title.Title as Title
+import qualified CrossyToad.Title.Title as Title
 import qualified CrossyToad.Scene.MonadScene.IO.Env as IOMonadScene
 import qualified CrossyToad.Time.MonadTask.IO.Env as IOMonadTask
 import qualified CrossyToad.Time.MonadTime.SDL.Env as SDLTime

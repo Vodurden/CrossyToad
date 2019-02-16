@@ -1,6 +1,6 @@
 {-# LANGUAGE TemplateHaskell #-}
 
-module CrossyToad.Scene.Game.Car
+module CrossyToad.Game.Car
   ( Car(..)
   , HasCar(..)
   , HasCars(..)

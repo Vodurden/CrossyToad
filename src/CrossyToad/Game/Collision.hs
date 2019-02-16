@@ -1,6 +1,6 @@
 -- | This module is responsible for resolving collisions between
 -- | all entities in the game.
-module CrossyToad.Scene.Game.Collision
+module CrossyToad.Game.Collision
   ( step
   ) where
 
@@ -10,9 +10,9 @@ import qualified Data.Text as Text
 
 import           CrossyToad.Logger.MonadLogger
 import qualified CrossyToad.Logger.LogLevel as LogLevel
-import           CrossyToad.Scene.Game.Car (Car, HasCars(..))
-import           CrossyToad.Scene.Game.Toad (Toad, HasToad(..))
-import qualified CrossyToad.Scene.Game.Toad as Toad
+import           CrossyToad.Game.Car (Car, HasCars(..))
+import           CrossyToad.Game.Toad (Toad, HasToad(..))
+import qualified CrossyToad.Game.Toad as Toad
 import           CrossyToad.Physics.CollisionBox (HasCollisionBox(..))
 
 step :: (MonadLogger m, HasToad ent, HasCars ent) => ent -> m ent

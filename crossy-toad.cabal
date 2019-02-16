@@ -2,7 +2,7 @@
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: 5411fa3867487cd8dc02a97a62da5a05f999c73d355ca81caef658b18fd48eb0
+-- hash: 9b2c1833367a79bf0dd04388bf57108427c72bfe0947c82189be8a67ead529ca
 
 name:           crossy-toad
 version:        0.1.0.0
@@ -25,6 +25,16 @@ library
       Control.Zipper.Extended
       CrossyToad
       CrossyToad.Env
+      CrossyToad.Game.Car
+      CrossyToad.Game.Collision
+      CrossyToad.Game.Command
+      CrossyToad.Game.Entity
+      CrossyToad.Game.Game
+      CrossyToad.Game.GameState
+      CrossyToad.Game.Intent
+      CrossyToad.Game.RiverLog
+      CrossyToad.Game.SpawnPoint
+      CrossyToad.Game.Toad
       CrossyToad.Geometry.AABB
       CrossyToad.Geometry.Offset
       CrossyToad.Geometry.Position
@@ -64,16 +74,6 @@ library
       CrossyToad.Renderer.RGBAColour
       CrossyToad.Renderer.Sprite
       CrossyToad.Runner
-      CrossyToad.Scene.Game.Car
-      CrossyToad.Scene.Game.Collision
-      CrossyToad.Scene.Game.Command
-      CrossyToad.Scene.Game.Entity
-      CrossyToad.Scene.Game.Game
-      CrossyToad.Scene.Game.GameState
-      CrossyToad.Scene.Game.Intent
-      CrossyToad.Scene.Game.RiverLog
-      CrossyToad.Scene.Game.SpawnPoint
-      CrossyToad.Scene.Game.Toad
       CrossyToad.Scene.MonadScene
       CrossyToad.Scene.MonadScene.IO.Env
       CrossyToad.Scene.MonadScene.IO.MonadScene
@@ -81,8 +81,6 @@ library
       CrossyToad.Scene.Scene
       CrossyToad.Scene.SceneId
       CrossyToad.Scene.SceneMapping
-      CrossyToad.Scene.Title.Intent
-      CrossyToad.Scene.Title.Title
       CrossyToad.Time.MonadTask
       CrossyToad.Time.MonadTask.IO.Env
       CrossyToad.Time.MonadTask.IO.MonadTask
@@ -95,6 +93,8 @@ library
       CrossyToad.Time.Task
       CrossyToad.Time.Timed
       CrossyToad.Time.Timer
+      CrossyToad.Title.Intent
+      CrossyToad.Title.Title
       Data.Degrees
       Data.List.Extended
       Data.Maybe.Extended
@@ -193,6 +193,16 @@ test-suite spec
       Control.Zipper.Extended
       CrossyToad
       CrossyToad.Env
+      CrossyToad.Game.Car
+      CrossyToad.Game.Collision
+      CrossyToad.Game.Command
+      CrossyToad.Game.Entity
+      CrossyToad.Game.Game
+      CrossyToad.Game.GameState
+      CrossyToad.Game.Intent
+      CrossyToad.Game.RiverLog
+      CrossyToad.Game.SpawnPoint
+      CrossyToad.Game.Toad
       CrossyToad.Geometry.AABB
       CrossyToad.Geometry.Offset
       CrossyToad.Geometry.Position
@@ -232,16 +242,6 @@ test-suite spec
       CrossyToad.Renderer.RGBAColour
       CrossyToad.Renderer.Sprite
       CrossyToad.Runner
-      CrossyToad.Scene.Game.Car
-      CrossyToad.Scene.Game.Collision
-      CrossyToad.Scene.Game.Command
-      CrossyToad.Scene.Game.Entity
-      CrossyToad.Scene.Game.Game
-      CrossyToad.Scene.Game.GameState
-      CrossyToad.Scene.Game.Intent
-      CrossyToad.Scene.Game.RiverLog
-      CrossyToad.Scene.Game.SpawnPoint
-      CrossyToad.Scene.Game.Toad
       CrossyToad.Scene.MonadScene
       CrossyToad.Scene.MonadScene.IO.Env
       CrossyToad.Scene.MonadScene.IO.MonadScene
@@ -249,8 +249,6 @@ test-suite spec
       CrossyToad.Scene.Scene
       CrossyToad.Scene.SceneId
       CrossyToad.Scene.SceneMapping
-      CrossyToad.Scene.Title.Intent
-      CrossyToad.Scene.Title.Title
       CrossyToad.Time.MonadTask
       CrossyToad.Time.MonadTask.IO.Env
       CrossyToad.Time.MonadTask.IO.MonadTask
@@ -263,6 +261,8 @@ test-suite spec
       CrossyToad.Time.Task
       CrossyToad.Time.Timed
       CrossyToad.Time.Timer
+      CrossyToad.Title.Intent
+      CrossyToad.Title.Title
       Data.Degrees
       Data.List.Extended
       Data.Maybe.Extended

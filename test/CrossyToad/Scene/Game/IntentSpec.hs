@@ -1,4 +1,4 @@
-module CrossyToad.Scene.Game.IntentSpec where
+module CrossyToad.Game.IntentSpec where
 
 import Test.Tasty.Hspec
 
@@ -10,7 +10,7 @@ import           CrossyToad.Input.KeyboardState
 import           CrossyToad.Input.Key (Key)
 import qualified CrossyToad.Input.Key as Key
 import CrossyToad.Physics.Physics
-import CrossyToad.Scene.Game.Intent
+import CrossyToad.Game.Intent
 
 mkInputPressed :: Key -> InputState
 mkInputPressed key = initialInputState

@@ -1,13 +1,13 @@
 {-# LANGUAGE TupleSections #-}
 
-module CrossyToad.Scene.Game.Game
+module CrossyToad.Game.Game
   ( scene
   , initialize
   , handleInput
   , step
   , stepIntent
   , render
-  , module CrossyToad.Scene.Game.GameState
+  , module CrossyToad.Game.GameState
   ) where
 
 import           Control.Lens.Extended
@@ -28,19 +28,19 @@ import           CrossyToad.Scene.Scene (Scene)
 import qualified CrossyToad.Scene.Scene as Scene
 import           CrossyToad.Scene.MonadScene (MonadScene)
 import qualified CrossyToad.Scene.MonadScene as MonadScene
-import           CrossyToad.Scene.Game.Car (HasCars(..))
-import qualified CrossyToad.Scene.Game.Car as Car
-import qualified CrossyToad.Scene.Game.Collision as Collision
-import           CrossyToad.Scene.Game.Command (Command(..))
-import qualified CrossyToad.Scene.Game.Entity as Entity
-import           CrossyToad.Scene.Game.GameState (GameState, HasGameState(..))
-import qualified CrossyToad.Scene.Game.GameState as GameState
-import           CrossyToad.Scene.Game.Intent (Intent(..))
-import qualified CrossyToad.Scene.Game.Intent as Intent
-import           CrossyToad.Scene.Game.SpawnPoint (SpawnPoint, HasSpawnPoints(..))
-import qualified CrossyToad.Scene.Game.SpawnPoint as SpawnPoint
-import           CrossyToad.Scene.Game.Toad (HasToad(..))
-import qualified CrossyToad.Scene.Game.Toad as Toad
+import           CrossyToad.Game.Car (HasCars(..))
+import qualified CrossyToad.Game.Car as Car
+import qualified CrossyToad.Game.Collision as Collision
+import           CrossyToad.Game.Command (Command(..))
+import qualified CrossyToad.Game.Entity as Entity
+import           CrossyToad.Game.GameState (GameState, HasGameState(..))
+import qualified CrossyToad.Game.GameState as GameState
+import           CrossyToad.Game.Intent (Intent(..))
+import qualified CrossyToad.Game.Intent as Intent
+import           CrossyToad.Game.SpawnPoint (SpawnPoint, HasSpawnPoints(..))
+import qualified CrossyToad.Game.SpawnPoint as SpawnPoint
+import           CrossyToad.Game.Toad (HasToad(..))
+import qualified CrossyToad.Game.Toad as Toad
 import           CrossyToad.Time.MonadTime (MonadTime(..))
 
 scene ::

@@ -1,6 +1,6 @@
 {-# LANGUAGE TemplateHaskell #-}
 
-module CrossyToad.Scene.Game.Toad where
+module CrossyToad.Game.Toad where
 
 import           Control.Lens
 import           Control.Monad ((>=>))

@@ -1,6 +1,6 @@
 {-# LANGUAGE TemplateHaskell #-}
 
-module CrossyToad.Scene.Game.RiverLog
+module CrossyToad.Game.RiverLog
   ( RiverLog(..)
   , HasRiverLog(..)
   , mk

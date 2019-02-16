@@ -1,6 +1,6 @@
 {-# LANGUAGE TemplateHaskell #-}
 
-module CrossyToad.Scene.Game.GameSpec where
+module CrossyToad.Game.GameSpec where
 
 -- import           Control.Monad.State (State, execState)
 -- import           Control.Lens
@@ -9,8 +9,8 @@ module CrossyToad.Scene.Game.GameSpec where
 
 -- import           CrossyToad.Scene.Scene (Scene, HasScene(..))
 -- import qualified CrossyToad.Scene.Scene as Scene
--- import qualified CrossyToad.Scene.Game.Intent as Intent
--- import           CrossyToad.Scene.Game.Game
+-- import qualified CrossyToad.Game.Intent as Intent
+-- import           CrossyToad.Game.Game
 
 -- data MockState = MockState
 --   { __scene :: Scene

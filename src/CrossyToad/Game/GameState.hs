@@ -1,13 +1,13 @@
 {-# LANGUAGE TemplateHaskell #-}
 
-module CrossyToad.Scene.Game.GameState where
+module CrossyToad.Game.GameState where
 
 import Control.Lens
 import Linear.V2
 
-import CrossyToad.Scene.Game.Toad as Toad
-import CrossyToad.Scene.Game.Car
-import CrossyToad.Scene.Game.SpawnPoint
+import CrossyToad.Game.Toad as Toad
+import CrossyToad.Game.Car
+import CrossyToad.Game.SpawnPoint
 
 data GameState = GameState
   { __toad :: !Toad

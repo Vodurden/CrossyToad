@@ -1,6 +1,6 @@
 {-# LANGUAGE TemplateHaskell #-}
 
-module CrossyToad.Scene.Game.SpawnPoint
+module CrossyToad.Game.SpawnPoint
   ( SpawnPoint(..)
   , HasSpawnPoint(..)
   , HasSpawnPoints(..)
@@ -16,8 +16,8 @@ import           Data.Foldable (foldl')
 
 import           CrossyToad.Geometry.Position
 import           CrossyToad.Physics.Physics (Direction, HasDirection(..))
-import           CrossyToad.Scene.Game.Entity (Entity)
-import           CrossyToad.Scene.Game.Command (Command(..))
+import           CrossyToad.Game.Entity (Entity)
+import           CrossyToad.Game.Command (Command(..))
 import           CrossyToad.Time.Seconds
 import           CrossyToad.Time.Timed (Timed)
 import qualified CrossyToad.Time.Timed as Timed
