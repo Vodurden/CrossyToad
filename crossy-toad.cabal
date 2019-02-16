@@ -2,7 +2,7 @@
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: aaa81c83cbde5477937f76c677f2ecc0749afab7856c8d12db8d39e091406b5f
+-- hash: 5411fa3867487cd8dc02a97a62da5a05f999c73d355ca81caef658b18fd48eb0
 
 name:           crossy-toad
 version:        0.1.0.0
@@ -64,7 +64,6 @@ library
       CrossyToad.Renderer.RGBAColour
       CrossyToad.Renderer.Sprite
       CrossyToad.Runner
-      CrossyToad.Scene.Env
       CrossyToad.Scene.Game.Car
       CrossyToad.Scene.Game.Collision
       CrossyToad.Scene.Game.Command
@@ -75,9 +74,13 @@ library
       CrossyToad.Scene.Game.RiverLog
       CrossyToad.Scene.Game.SpawnPoint
       CrossyToad.Scene.Game.Toad
-      CrossyToad.Scene.Internal
+      CrossyToad.Scene.MonadScene
+      CrossyToad.Scene.MonadScene.IO.Env
+      CrossyToad.Scene.MonadScene.IO.MonadScene
+      CrossyToad.Scene.MonadScene.IO.SceneCommand
       CrossyToad.Scene.Scene
-      CrossyToad.Scene.SceneState
+      CrossyToad.Scene.SceneId
+      CrossyToad.Scene.SceneMapping
       CrossyToad.Scene.Title.Intent
       CrossyToad.Scene.Title.Title
       CrossyToad.Time.MonadTask
@@ -229,7 +232,6 @@ test-suite spec
       CrossyToad.Renderer.RGBAColour
       CrossyToad.Renderer.Sprite
       CrossyToad.Runner
-      CrossyToad.Scene.Env
       CrossyToad.Scene.Game.Car
       CrossyToad.Scene.Game.Collision
       CrossyToad.Scene.Game.Command
@@ -240,9 +242,13 @@ test-suite spec
       CrossyToad.Scene.Game.RiverLog
       CrossyToad.Scene.Game.SpawnPoint
       CrossyToad.Scene.Game.Toad
-      CrossyToad.Scene.Internal
+      CrossyToad.Scene.MonadScene
+      CrossyToad.Scene.MonadScene.IO.Env
+      CrossyToad.Scene.MonadScene.IO.MonadScene
+      CrossyToad.Scene.MonadScene.IO.SceneCommand
       CrossyToad.Scene.Scene
-      CrossyToad.Scene.SceneState
+      CrossyToad.Scene.SceneId
+      CrossyToad.Scene.SceneMapping
       CrossyToad.Scene.Title.Intent
       CrossyToad.Scene.Title.Title
       CrossyToad.Time.MonadTask

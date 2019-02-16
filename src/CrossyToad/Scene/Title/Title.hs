@@ -1,36 +1,46 @@
 module CrossyToad.Scene.Title.Title
-  ( handleInput
-  , stepIntent
-  , render
+  ( scene
   ) where
 
 import           Control.Lens
-import           Data.Foldable (foldl')
+import           Data.Foldable (traverse_)
 
+import           CrossyToad.Input.MonadInput (MonadInput)
+import qualified CrossyToad.Input.MonadInput as MonadInput
 import           CrossyToad.Input.InputState (InputState, HasInputState(..))
-import           CrossyToad.Renderer.RenderCommand (RenderCommand(..))
+import           CrossyToad.Renderer.MonadRenderer (MonadRenderer)
+import qualified CrossyToad.Renderer.MonadRenderer as MonadRenderer
 import qualified CrossyToad.Renderer.Asset.FontAsset as FontAsset
 import qualified CrossyToad.Renderer.RGBAColour as RGBAColour
-import           CrossyToad.Scene.Internal (HasScene, scene)
-import qualified CrossyToad.Scene.Internal as Scene
+import           CrossyToad.Scene.Scene (Scene)
+import qualified CrossyToad.Scene.Scene as Scene
+import qualified CrossyToad.Scene.SceneId as SceneId
+import           CrossyToad.Scene.MonadScene (MonadScene)
+import qualified CrossyToad.Scene.MonadScene as MonadScene
 import           CrossyToad.Scene.Title.Intent (Intent(..))
 import qualified CrossyToad.Scene.Title.Intent as Intent
 
-handleInput :: (HasScene ent) => InputState -> ent -> ent
-handleInput input ent =
+scene :: (MonadScene m, MonadInput m, MonadRenderer m) => Scene m
+scene = Scene.mk () (const tick)
+
+tick :: (MonadScene m, MonadInput m, MonadRenderer m) => m ()
+tick = do
+  inputState' <- MonadInput.getInputState
+  handleInput inputState'
+
+  render
+
+handleInput :: (MonadScene m) => InputState -> m ()
+handleInput input = do
   let intents = Intent.fromInput (input^.inputEvents)
-  in foldl' (flip stepIntent) ent intents
+  traverse_ stepIntent intents
 
-stepIntent :: (HasScene ent) => Intent -> ent -> ent
-stepIntent StartGame = scene .~ Scene.Game
-stepIntent Quit = scene .~ Scene.Quit
+stepIntent :: (MonadScene m) => Intent -> m ()
+stepIntent StartGame = MonadScene.delayPush SceneId.Game
+stepIntent Quit = MonadScene.delayPop
 
-render :: [RenderCommand]
-render = [drawTitleText']
-  where drawTitleText' =
-          DrawText FontAsset.Title
-                   Nothing
-                   Nothing
-                   Nothing
-                   RGBAColour.white
-                   " CROSSY TOAD "
+render :: (MonadRenderer m) => m ()
+render = do
+  MonadRenderer.clearScreen
+  MonadRenderer.drawText FontAsset.Title Nothing Nothing Nothing RGBAColour.white " CROSSY TOAD "
+  MonadRenderer.drawScreen

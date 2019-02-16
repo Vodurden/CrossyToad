@@ -7,6 +7,7 @@ module CrossyToad.Renderer.MonadRenderer where
 import           Control.Lens
 import           Data.Text (Text)
 import           Data.Degrees (Degrees)
+import           Data.Foldable (traverse_)
 import           Linear.V2
 
 import           CrossyToad.Geometry.Position
@@ -60,7 +61,7 @@ drawText :: (MonadRenderer m)
          -> RGBAColour
          -> Text
          -> m ()
-drawText a d t s c text= runRenderCommand (DrawText  a d t s c text)
+drawText a d t s c text = runRenderCommand (DrawText  a d t s c text)
 
 drawTitleText :: MonadRenderer m => m ()
 drawTitleText =
@@ -72,16 +73,17 @@ drawTitleText =
            " CROSSY TOAD "
 
 -- | Draws a row of tiles
-drawTileRow :: ImageAsset
+drawTileRow :: (MonadRenderer m)
+            => ImageAsset
             -> Position
             -> Int
             -> V2 Float
-            -> [RenderCommand]
+            -> m ()
 drawTileRow asset pos tiles tileDimensions = do
   let tileOffsets = (* tileDimensions^._x) <$> [0..fromIntegral tiles]
   let tilePositions = (\offset -> pos & _x %~ (+offset)) <$> tileOffsets
-  (flip fmap) tilePositions $ \tilePos ->
-    Draw asset
+  (flip traverse_) tilePositions $ \tilePos ->
+    draw asset
         Nothing
         Nothing
         (Just $ Clip.mkAt tilePos tileDimensions)

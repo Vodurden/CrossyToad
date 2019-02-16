@@ -10,10 +10,12 @@ import           CrossyToad.Logger.MonadLogger
 import qualified CrossyToad.Logger.MonadLogger.IO.MonadLogger as IOMonadLogger
 import           CrossyToad.Renderer.MonadRenderer
 import qualified CrossyToad.Renderer.MonadRenderer.SDL.MonadRenderer as SDLMonadRenderer
-import           CrossyToad.Time.MonadTime
-import           CrossyToad.Time.MonadTime.SDL.MonadTime as SDLTime
+import           CrossyToad.Scene.MonadScene
+import qualified CrossyToad.Scene.MonadScene.IO.MonadScene as IOMonadScene
 import           CrossyToad.Time.MonadTask
 import qualified CrossyToad.Time.MonadTask.IO.MonadTask as IOMonadTask
+import           CrossyToad.Time.MonadTime
+import           CrossyToad.Time.MonadTime.SDL.MonadTime as SDLTime
 
 newtype CrossyToad a = CrossyToad (ReaderT (Env CrossyToad) IO a)
   deriving (Functor, Applicative, Monad, MonadReader (Env CrossyToad), MonadIO)
@@ -31,6 +33,12 @@ instance MonadLogger CrossyToad where
 
 instance MonadRenderer CrossyToad where
   runRenderCommand = SDLMonadRenderer.runRenderCommand
+
+instance MonadScene CrossyToad where
+  tickCurrentScene = IOMonadScene.tickCurrentScene
+  getCurrentScene = IOMonadScene.getCurrentScene
+  delayPush = IOMonadScene.delayPush
+  delayPop = IOMonadScene.delayPop
 
 instance MonadTime CrossyToad where
   stepTime = SDLTime.stepTime

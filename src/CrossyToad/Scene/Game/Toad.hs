@@ -16,7 +16,6 @@ import           CrossyToad.Renderer.Animated (Animated(..), HasAnimated(..))
 import qualified CrossyToad.Renderer.Animated as Animated
 import qualified CrossyToad.Renderer.Asset.ImageAsset as ImageAsset
 import qualified CrossyToad.Renderer.Asset.Sprite.Toad as ToadSprite
-import           CrossyToad.Renderer.RenderCommand (RenderCommand(..))
 import           CrossyToad.Renderer.Sprite (Sprite(..), HasSprite(..))
 import           CrossyToad.Time.MonadTime
 import           CrossyToad.Time.Seconds
@@ -78,9 +77,6 @@ stepAnimatedState t =
   t & animated %~
     if | JumpMotion.isJumping t -> (Animated.transition Animated.play) ToadSprite.Jump
        | otherwise -> (Animated.transition Animated.pause) ToadSprite.Idle
-
-render :: Toad -> RenderCommand
-render = Animated.render
 
 -- | Jump in a given direction.
 -- |

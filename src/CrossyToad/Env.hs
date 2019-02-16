@@ -5,7 +5,7 @@ module CrossyToad.Env where
 
 import           Control.Lens
 
-import qualified CrossyToad.Scene.Scene as Scene
+import qualified CrossyToad.Scene.MonadScene.IO.Env as IOMonadScene
 import qualified CrossyToad.Time.MonadTask.IO.Env as IOMonadTask
 import qualified CrossyToad.Logger.MonadLogger.IO.Env as IOMonadLogger
 import qualified CrossyToad.Input.MonadInput.SDL.Env as SDLMonadInput
@@ -13,7 +13,7 @@ import qualified CrossyToad.Renderer.MonadRenderer.SDL.Env as SDLMonadRenderer
 import qualified CrossyToad.Time.MonadTime.SDL.Env as SDLMonadTime
 
 data Env m = Env
-  { _sceneEnv :: !Scene.Env
+  { _ioSceneEnv :: !(IOMonadScene.Env m)
   , _ioTaskEnv :: !(IOMonadTask.Env m)
   , _ioLoggerEnv :: !IOMonadLogger.Env
   , _sdlInputEnv :: !SDLMonadInput.Env
@@ -23,7 +23,7 @@ data Env m = Env
 
 makeClassy ''Env
 
-instance Scene.HasEnv (Env m) where env = sceneEnv
+instance IOMonadScene.HasEnv (Env m) m where env = ioSceneEnv
 instance IOMonadTask.HasEnv (Env m) m where env = ioTaskEnv
 instance IOMonadLogger.HasEnv (Env m) where env = ioLoggerEnv
 instance SDLMonadInput.HasEnv (Env m) where env = sdlInputEnv

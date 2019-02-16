@@ -26,8 +26,8 @@ instance HasCars GameState where
 instance HasSpawnPoints GameState where
   spawnPoints = _spawnPoints
 
-initialGameState :: GameState
-initialGameState = GameState
+mk :: GameState
+mk = GameState
   { __toad = Toad.mk (V2 0 0)
   , __cars = []
   , __spawnPoints = []

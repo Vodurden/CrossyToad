@@ -1,11 +1,11 @@
 module CrossyToad.Runner (mainLoop) where
 
 import           Control.Monad (unless)
+import           Data.Maybe (isNothing)
 
 import           CrossyToad
-import           CrossyToad.Input.InputEvent (InputEvent(..))
-import           CrossyToad.Input.MonadInput (stepInput, getInputEvents)
-import qualified CrossyToad.Scene.Scene as Scene
+import           CrossyToad.Input.MonadInput (stepInput)
+import qualified CrossyToad.Scene.MonadScene as MonadScene
 import           CrossyToad.Time.MonadTask (pumpTasks)
 import           CrossyToad.Time.MonadTime (stepTime, deltaTime)
 
@@ -16,7 +16,9 @@ mainLoop = do
 
   dt <- deltaTime
   pumpTasks dt
-  scene <- Scene.run
+  currentScene' <- MonadScene.tickCurrentScene
 
-  inputEvents' <- getInputEvents
-  unless (scene == Scene.Quit || QuitEvent `elem` inputEvents') mainLoop
+  unless (isNothing currentScene') mainLoop
+
+  -- inputEvents' <- getInputEvents
+  -- unless (scene == Scene.Quit || QuitEvent `elem` inputEvents') mainLoop
