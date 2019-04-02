@@ -2,7 +2,7 @@
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: 9b2c1833367a79bf0dd04388bf57108427c72bfe0947c82189be8a67ead529ca
+-- hash: 755ccd416b96196df34f8965f4ec1f2fbc3a4249f11dc01f82c6988f6df9cfde
 
 name:           crossy-toad
 version:        0.1.0.0
@@ -91,6 +91,7 @@ library
       CrossyToad.Time.MonadTime.SDL.MonadTimeState
       CrossyToad.Time.Seconds
       CrossyToad.Time.Task
+      CrossyToad.Time.Tick
       CrossyToad.Time.Timed
       CrossyToad.Time.Timer
       CrossyToad.Title.Intent
@@ -171,6 +172,10 @@ test-suite spec
   type: exitcode-stdio-1.0
   main-is: Driver.hs
   other-modules:
+      CrossyToad.Game.CarSpec
+      CrossyToad.Game.GameSpec
+      CrossyToad.Game.IntentSpec
+      CrossyToad.Game.ToadSpec
       CrossyToad.Geometry.AABBSpec
       CrossyToad.Input.KeyboardStateSpec
       CrossyToad.Input.SDL.MonadInputSpec
@@ -180,13 +185,9 @@ test-suite spec
       CrossyToad.Renderer.AnimatedSpec
       CrossyToad.Renderer.AnimationSpec
       CrossyToad.Renderer.SpriteSpec
-      CrossyToad.Scene.Game.CarSpec
-      CrossyToad.Scene.Game.GameSpec
-      CrossyToad.Scene.Game.IntentSpec
-      CrossyToad.Scene.Game.ToadSpec
-      CrossyToad.Scene.Title.IntentSpec
-      CrossyToad.Scene.Title.TitleSpec
       CrossyToad.Time.TimerSpec
+      CrossyToad.Title.IntentSpec
+      CrossyToad.Title.TitleSpec
       Control.Lens.Extended
       Control.Monad.Extended
       Control.Monad.State.Strict.Extended
@@ -259,6 +260,7 @@ test-suite spec
       CrossyToad.Time.MonadTime.SDL.MonadTimeState
       CrossyToad.Time.Seconds
       CrossyToad.Time.Task
+      CrossyToad.Time.Tick
       CrossyToad.Time.Timed
       CrossyToad.Time.Timer
       CrossyToad.Title.Intent

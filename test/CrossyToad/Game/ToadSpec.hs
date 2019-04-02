@@ -5,8 +5,6 @@ import           Linear.V2
 
 import           Test.Tasty.Hspec
 
-import qualified CrossyToad.Renderer.Asset.ImageAsset as ImageAsset
-import           CrossyToad.Renderer.RenderCommand
 import           CrossyToad.Geometry.Position
 import           CrossyToad.Physics.Physics
 import           CrossyToad.Game.Toad as Toad
@@ -37,8 +35,3 @@ spec_Scene_Game_Toad = do
       let jumpingToad = Toad.jump North (Toad.mk $ V2 0 0)
       let toad2 = (Toad.mk (V2 10 10))
       Toad.collision jumpingToad toad2 `shouldBe` False
-
-  describe "render" $ do
-    it "should draw the Toad asset" $ do
-      let asset = render (Toad.mk $ V2 0 0) ^? _Draw . _1
-      asset `shouldBe` (Just ImageAsset.Toad)

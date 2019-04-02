@@ -19,6 +19,3 @@ mainLoop = do
   currentScene' <- MonadScene.tickCurrentScene
 
   unless (isNothing currentScene') mainLoop
-
-  -- inputEvents' <- getInputEvents
-  -- unless (scene == Scene.Quit || QuitEvent `elem` inputEvents') mainLoop

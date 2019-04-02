@@ -50,7 +50,7 @@ scene ::
   , MonadLogger m
   , MonadTime m
   ) => Scene m
-scene = Scene.mk initialize tick
+scene = Scene.mk initialize tick render
 
 initialize :: GameState
 initialize = GameState.mk &
@@ -82,11 +82,13 @@ tick gameState' = do
   gameState'' <- handleInput inputState' gameState'
   gameState''' <- step gameState''
 
-  MonadRenderer.clearScreen
-  render gameState'''
-  MonadRenderer.drawScreen
-
   pure gameState'''
+
+render :: (MonadRenderer m) => GameState -> m ()
+render gameState' = do
+  MonadRenderer.clearScreen
+  renderGame gameState'
+  MonadRenderer.drawScreen
 
 -- | Update the GameState and Scene based on the user input
 handleInput :: (MonadScene m, HasGameState ent) => InputState -> ent -> m ent
@@ -119,8 +121,8 @@ runCommands commands ent' = foldl' (flip runCommand) ent' commands
         runCommand (Spawn Entity.RiverLog _ _) = id
         runCommand Kill = id
 
-render :: (MonadRenderer m, HasGameState ent) => ent -> m ()
-render ent = do
+renderGame :: (MonadRenderer m, HasGameState ent) => ent -> m ()
+renderGame ent = do
   renderBackground'
   sequence_ $ MonadRenderer.runRenderCommand <$> Car.render <$> (ent ^. gameState . cars)
   MonadRenderer.runRenderCommand $ Animated.render (ent ^. gameState . toad)
