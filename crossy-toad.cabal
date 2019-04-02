@@ -2,7 +2,7 @@
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: 9b2c1833367a79bf0dd04388bf57108427c72bfe0947c82189be8a67ead529ca
+-- hash: d76f2e7ab3ad30abaace3e53fae1d66146f76cdc62ad28beb1515ece98f5692e
 
 name:           crossy-toad
 version:        0.1.0.0
@@ -171,6 +171,10 @@ test-suite spec
   type: exitcode-stdio-1.0
   main-is: Driver.hs
   other-modules:
+      CrossyToad.Game.CarSpec
+      CrossyToad.Game.GameSpec
+      CrossyToad.Game.IntentSpec
+      CrossyToad.Game.ToadSpec
       CrossyToad.Geometry.AABBSpec
       CrossyToad.Input.KeyboardStateSpec
       CrossyToad.Input.SDL.MonadInputSpec
@@ -180,13 +184,9 @@ test-suite spec
       CrossyToad.Renderer.AnimatedSpec
       CrossyToad.Renderer.AnimationSpec
       CrossyToad.Renderer.SpriteSpec
-      CrossyToad.Scene.Game.CarSpec
-      CrossyToad.Scene.Game.GameSpec
-      CrossyToad.Scene.Game.IntentSpec
-      CrossyToad.Scene.Game.ToadSpec
-      CrossyToad.Scene.Title.IntentSpec
-      CrossyToad.Scene.Title.TitleSpec
       CrossyToad.Time.TimerSpec
+      CrossyToad.Title.IntentSpec
+      CrossyToad.Title.TitleSpec
       Control.Lens.Extended
       Control.Monad.Extended
       Control.Monad.State.Strict.Extended

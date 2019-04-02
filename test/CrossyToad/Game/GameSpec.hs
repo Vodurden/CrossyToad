@@ -13,8 +13,7 @@ module CrossyToad.Game.GameSpec where
 -- import           CrossyToad.Game.Game
 
 -- data MockState = MockState
---   { __scene :: Scene
---   , __gameState :: GameState
+--   { __gameState :: GameState
 --   } deriving (Eq, Show)
 
 -- makeClassy ''MockState
@@ -24,8 +23,7 @@ module CrossyToad.Game.GameSpec where
 
 -- initialMockState :: MockState
 -- initialMockState = MockState
---   { __scene = Scene.Game
---   , __gameState = initialGameState
+--   { __gameState = initialGameState
 --   }
 
 -- runMock :: State MockState a -> MockState
