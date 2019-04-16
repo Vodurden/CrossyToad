@@ -9,21 +9,23 @@ module CrossyToad.Scene.Scene
   , tick
   ) where
 
-import           Control.Lens.Extended
+import Control.Lens.Extended
+
+import CrossyToad.Time.TickSeconds (TickSeconds)
 
 data Scene' m s = Scene'
   { _state :: s
-  , _tick :: s -> m s
+  , _tick :: TickSeconds -> s -> m s
   }
 
 data Scene m = forall s. Scene (Scene' m s)
 
 makeClassy ''Scene
 
-mk :: s -> (s -> m s) -> Scene m
+mk :: s -> (TickSeconds -> s -> m s) -> Scene m
 mk state' tick' = Scene $ Scene' state' tick'
 
-tick :: (Monad m) => Scene m -> m (Scene m)
-tick (Scene sc) = do
-  nextState <- (_tick sc) (_state sc)
+tick :: (Monad m) => TickSeconds -> Scene m -> m (Scene m)
+tick seconds (Scene sc) = do
+  nextState <- _tick sc seconds (_state sc)
   pure $ Scene $ sc { _state = nextState }

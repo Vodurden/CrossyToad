@@ -10,17 +10,18 @@ module CrossyToad.Game.RiverLog
   ) where
 
 import           Control.Lens
+import           Control.Monad.Reader (MonadReader)
 import           Linear.V2
 
 import qualified CrossyToad.Renderer.Asset.ImageAsset as ImageAsset
 import           CrossyToad.Renderer.RenderCommand (RenderCommand)
-import           CrossyToad.Time.MonadTime
 import           CrossyToad.Geometry.Position
 import           CrossyToad.Physics.Physics
 import           CrossyToad.Physics.LinearMotion (LinearMotion(..), HasLinearMotion(..))
 import qualified CrossyToad.Physics.LinearMotion as LinearMotion
 import           CrossyToad.Renderer.Sprite (Sprite(..), HasSprite(..))
 import qualified CrossyToad.Renderer.Sprite as Sprite
+import           CrossyToad.Time.TickSeconds
 
 data RiverLog = RiverLog
   { __position :: !Position
@@ -62,10 +63,10 @@ mk pos dir = RiverLog
     logSpeed = 64 * (1 / secondsPerTile)
       where secondsPerTile = 0.5
 
-stepAll :: (MonadTime m, HasRiverLogs ent) => ent -> m ent
+stepAll :: (MonadReader TickSeconds m, HasRiverLogs ent) => ent -> m ent
 stepAll = (riverLogs.traverse) step
 
-step :: (MonadTime m, HasRiverLog ent) => ent -> m ent
+step :: (MonadReader TickSeconds m, HasRiverLog ent) => ent -> m ent
 step = mapMOf riverLog LinearMotion.step
 
 render :: RiverLog -> RenderCommand

@@ -26,6 +26,7 @@ import           Control.Arrow ((>>>))
 import           Control.Lens
 import           Control.Monad.Extended (whenM)
 import           Control.Monad.State.Strict.Extended (State, execState, gets)
+import           Control.Monad.Reader (MonadReader, asks)
 import           Data.Maybe.Extended (isJust, whenJust)
 
 import           CrossyToad.Geometry.Position
@@ -33,10 +34,10 @@ import           CrossyToad.Geometry.Offset
 import           CrossyToad.Physics.Direction
 import           CrossyToad.Physics.Distance
 import           CrossyToad.Physics.Speed
-import           CrossyToad.Time.MonadTime
 import           CrossyToad.Time.Timed (Timed, HasTimed(..))
 import qualified CrossyToad.Time.Timed as Timed
 import           CrossyToad.Time.Seconds
+import           CrossyToad.Time.TickSeconds
 
 data JumpMotion = JumpMotion
   { _speed :: Speed                    -- ^ How fast we can move
@@ -85,8 +86,13 @@ isJumping motion = isJust $ motion ^? state . value . _Jumping
 isCoolingDown :: (HasJumpMotion ent) => ent -> Bool
 isCoolingDown motion = isJust $ motion ^? state . value . _CoolingDown
 
-step :: (MonadTime m, HasPosition ent, HasDirection ent, HasJumpMotion ent) => ent -> m ent
-step ent = stepBy <$> deltaTime <*> (pure ent)
+step ::
+  ( MonadReader TickSeconds m
+  , HasPosition ent
+  , HasDirection ent
+  , HasJumpMotion ent
+  ) => ent -> m ent
+step ent = stepBy <$> (asks unTickSeconds) <*> (pure ent)
 
 -- | Step this motion by a given amount of seconds
 stepBy :: forall ent. (HasPosition ent, HasDirection ent, HasJumpMotion ent)

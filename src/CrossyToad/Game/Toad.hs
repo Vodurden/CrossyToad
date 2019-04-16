@@ -2,8 +2,8 @@
 
 module CrossyToad.Game.Toad where
 
+import           Control.Arrow ((>>>))
 import           Control.Lens
-import           Control.Monad ((>=>))
 import           Linear.V2
 
 import           CrossyToad.Geometry.Position
@@ -17,8 +17,8 @@ import qualified CrossyToad.Renderer.Animated as Animated
 import qualified CrossyToad.Renderer.Asset.ImageAsset as ImageAsset
 import qualified CrossyToad.Renderer.Asset.Sprite.Toad as ToadSprite
 import           CrossyToad.Renderer.Sprite (Sprite(..), HasSprite(..))
-import           CrossyToad.Time.MonadTime
 import           CrossyToad.Time.Seconds
+import           CrossyToad.Time.TickSeconds
 
 data Toad = Toad
   { __position :: !Position
@@ -66,11 +66,11 @@ mk pos = Toad
     toadCooldown :: Seconds
     toadCooldown = 0.15
 
-step :: (MonadTime m, HasToad ent) => ent -> m ent
-step = mapMOf toad
-       $ JumpMotion.step
-       >=> (pure . stepAnimatedState)
-       >=> Animated.step
+step :: (HasToad ent) => TickSeconds -> ent -> ent
+step (TickSeconds seconds) =
+  toad %~ (JumpMotion.stepBy seconds
+           >>> stepAnimatedState
+           >>> Animated.stepBy seconds)
 
 stepAnimatedState :: Toad -> Toad
 stepAnimatedState t =

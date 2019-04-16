@@ -21,7 +21,7 @@ import           CrossyToad.Title.Intent (Intent(..))
 import qualified CrossyToad.Title.Intent as Intent
 
 scene :: (MonadScene m, MonadInput m, MonadRenderer m) => Scene m
-scene = Scene.mk () (const tick)
+scene = Scene.mk () (const . const $ tick)
 
 tick :: (MonadScene m, MonadInput m, MonadRenderer m) => m ()
 tick = do

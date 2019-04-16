@@ -17,12 +17,13 @@ module CrossyToad.Physics.LinearMotion
   ) where
 
 import Control.Lens
+import Control.Monad.Reader (MonadReader, asks)
 
-import CrossyToad.Time.MonadTime
-import CrossyToad.Time.Seconds
 import CrossyToad.Geometry.Position
 import CrossyToad.Physics.Direction
 import CrossyToad.Physics.Speed
+import CrossyToad.Time.Seconds
+import CrossyToad.Time.TickSeconds
 
 data LinearMotion = LinearMotion
   { _speed     :: !Speed     -- ^ How fast we are moving
@@ -34,14 +35,12 @@ mk :: Speed -> LinearMotion
 mk = LinearMotion
 
 step ::
-  ( MonadTime m
+  ( MonadReader TickSeconds m
   , HasPosition ent
   , HasDirection ent
   , HasLinearMotion ent
   ) => ent -> m ent
-step ent = do
-  delta <- deltaTime
-  pure $ stepBy delta ent
+step ent = stepBy <$> (asks unTickSeconds) <*> (pure ent)
 
 -- | Step this motion by a given amount of seconds
 -- |

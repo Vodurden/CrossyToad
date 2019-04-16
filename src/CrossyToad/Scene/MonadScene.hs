@@ -2,12 +2,13 @@ module CrossyToad.Scene.MonadScene where
 
 import CrossyToad.Scene.Scene
 import CrossyToad.Scene.SceneId
+import CrossyToad.Time.TickSeconds (TickSeconds)
 
 class Monad m => MonadScene m where
   -- | Ticks the current scene and applies any delayed actions.
   -- |
   -- | Returns the current scene (if any)
-  tickCurrentScene :: m (Maybe (Scene m))
+  tickCurrentScene :: TickSeconds -> m (Maybe (Scene m))
 
   -- | Returns the current scene (if any)
   getCurrentScene :: m (Maybe (Scene m))

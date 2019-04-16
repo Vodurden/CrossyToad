@@ -2,7 +2,7 @@
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: d76f2e7ab3ad30abaace3e53fae1d66146f76cdc62ad28beb1515ece98f5692e
+-- hash: 71c25ae13b8f25359021a47757a4f0925df43358171ae8f222d8101828a04d95
 
 name:           crossy-toad
 version:        0.1.0.0
@@ -91,6 +91,7 @@ library
       CrossyToad.Time.MonadTime.SDL.MonadTimeState
       CrossyToad.Time.Seconds
       CrossyToad.Time.Task
+      CrossyToad.Time.TickSeconds
       CrossyToad.Time.Timed
       CrossyToad.Time.Timer
       CrossyToad.Title.Intent
@@ -259,6 +260,7 @@ test-suite spec
       CrossyToad.Time.MonadTime.SDL.MonadTimeState
       CrossyToad.Time.Seconds
       CrossyToad.Time.Task
+      CrossyToad.Time.TickSeconds
       CrossyToad.Time.Timed
       CrossyToad.Time.Timer
       CrossyToad.Title.Intent

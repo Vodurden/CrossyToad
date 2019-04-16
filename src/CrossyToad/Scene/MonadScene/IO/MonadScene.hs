@@ -25,19 +25,18 @@ import           CrossyToad.Scene.Scene (Scene)
 import qualified CrossyToad.Scene.Scene as Scene
 import           CrossyToad.Scene.SceneId (SceneId)
 import qualified CrossyToad.Scene.SceneMapping as SceneMapping
-import           CrossyToad.Time.MonadTime (MonadTime)
+import           CrossyToad.Time.TickSeconds (TickSeconds)
 
 tickCurrentScene :: forall r m.
   ( MonadReader r m
   , HasEnv r m
-  , MonadRenderer m
   , MonadScene m
   , MonadInput m
   , MonadLogger m
-  , MonadTime m
   , MonadIO m
-  ) => m (Maybe (Scene m))
-tickCurrentScene = do
+  , MonadRenderer m
+  ) => TickSeconds -> m (Maybe (Scene m))
+tickCurrentScene seconds = do
     scenesRef' <- view (env.scenesRef)
 
     -- Update the top scene. If the scene calls any of the push/pop/replace functions these
@@ -46,7 +45,7 @@ tickCurrentScene = do
     newScenes <- case scenes' of
       [] -> pure []
       (currentScene : rest) -> do
-        nextCurrentScene <- Scene.tick currentScene
+        nextCurrentScene <- Scene.tick seconds currentScene
         pure (nextCurrentScene : rest)
 
     -- Apply the scene commands accumulated from the previous step

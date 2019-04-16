@@ -10,7 +10,7 @@ module CrossyToad.Game.SpawnPoint
   ) where
 
 import           Control.Lens.Extended
-import           Control.Monad.State.Strict (StateT)
+import           Control.Monad.State.Strict (State)
 import           Data.Maybe (maybeToList)
 import           Data.Foldable (foldl')
 
@@ -21,7 +21,7 @@ import           CrossyToad.Game.Command (Command(..))
 import           CrossyToad.Time.Seconds
 import           CrossyToad.Time.Timed (Timed)
 import qualified CrossyToad.Time.Timed as Timed
-import           CrossyToad.Time.MonadTime
+import           CrossyToad.Time.TickSeconds
 
 data SpawnPoint = SpawnPoint
   { __position :: !Position      -- ^ Position to spawn at
@@ -56,13 +56,13 @@ mk position' direction' spawnTimes loopInterval = SpawnPoint
     mkSpawn :: Timed (Maybe Entity) -> (Seconds, Entity) -> Timed (Maybe Entity)
     mkSpawn t (seconds, ent) = Timed.pulse seconds ent t
 
-stepAll :: forall m ent. (MonadTime m, HasSpawnPoints ent) => StateT ent m [Command]
-stepAll = do
-  zoom (spawnPoints.traverse) (maybeToList <$> step)
+stepAll :: HasSpawnPoints ent => TickSeconds -> State ent [Command]
+stepAll seconds = do
+  zoom (spawnPoints.traverse) (maybeToList <$> step seconds)
 
-step :: (MonadTime m, HasSpawnPoint ent) => StateT ent m (Maybe Command)
-step = do
-  nextSpawn <- zoom spawns Timed.step
+step :: HasSpawnPoint ent => TickSeconds -> State ent (Maybe Command)
+step (TickSeconds seconds) = do
+  nextSpawn <- zoom spawns (Timed.stepBy seconds)
   pos <- use (spawnPoint.position)
   dir <- use (spawnPoint.direction)
 
