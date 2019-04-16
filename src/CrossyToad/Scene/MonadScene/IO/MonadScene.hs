@@ -2,12 +2,14 @@
 
 module CrossyToad.Scene.MonadScene.IO.MonadScene
   ( tickCurrentScene
+  , renderCurrentScene
   , getCurrentScene
   , delayPush
   , delayPop
   ) where
 
 import           Control.Lens
+import           Control.Monad (void)
 import           Control.Monad.Reader (MonadReader)
 import           Control.Monad.IO.Class (MonadIO, liftIO)
 import           Data.IORef (modifyIORef', readIORef, writeIORef)
@@ -33,8 +35,8 @@ tickCurrentScene :: forall r m.
   , MonadScene m
   , MonadInput m
   , MonadLogger m
-  , MonadIO m
   , MonadRenderer m
+  , MonadIO m
   ) => TickSeconds -> m (Maybe (Scene m))
 tickCurrentScene seconds = do
     scenesRef' <- view (env.scenesRef)
@@ -61,6 +63,15 @@ tickCurrentScene seconds = do
     applyCommand :: [Scene m] -> SceneCommand -> [Scene m]
     applyCommand scenes' (SceneCommand.Push sceneId') = (SceneMapping.fromId sceneId' : scenes')
     applyCommand scenes' SceneCommand.Pop = drop 1 scenes'
+
+renderCurrentScene ::
+  ( MonadReader r m
+  , HasEnv r m
+  , MonadIO m
+  ) => m ()
+renderCurrentScene = do
+  scene <- getCurrentScene
+  void $ traverse Scene.render scene
 
 getCurrentScene :: (MonadReader r m, HasEnv r m, MonadIO m) => m (Maybe (Scene m))
 getCurrentScene = do

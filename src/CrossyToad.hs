@@ -36,6 +36,7 @@ instance MonadRenderer CrossyToad where
 
 instance MonadScene CrossyToad where
   tickCurrentScene = IOMonadScene.tickCurrentScene
+  renderCurrentScene = IOMonadScene.renderCurrentScene
   getCurrentScene = IOMonadScene.getCurrentScene
   delayPush = IOMonadScene.delayPush
   delayPop = IOMonadScene.delayPop

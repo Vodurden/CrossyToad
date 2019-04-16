@@ -10,6 +10,9 @@ class Monad m => MonadScene m where
   -- | Returns the current scene (if any)
   tickCurrentScene :: TickSeconds -> m (Maybe (Scene m))
 
+  -- | Displays the current scene
+  renderCurrentScene :: m ()
+
   -- | Returns the current scene (if any)
   getCurrentScene :: m (Maybe (Scene m))
 

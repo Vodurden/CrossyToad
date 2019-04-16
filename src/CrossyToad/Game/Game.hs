@@ -49,7 +49,7 @@ scene ::
   , MonadInput m
   , MonadLogger m
   ) => Scene m
-scene = Scene.mk initialize tick
+scene = Scene.mk initialize tick render
 
 initialize :: GameState
 initialize = GameState.mk &
@@ -70,8 +70,7 @@ initialize = GameState.mk &
       ]
 
 tick ::
-  ( MonadRenderer m
-  , MonadScene m
+  ( MonadScene m
   , MonadInput m
   , MonadLogger m
   ) => TickSeconds -> GameState -> m GameState
@@ -79,10 +78,6 @@ tick seconds gameState' = do
   inputState' <- MonadInput.getInputState
   gameState'' <- handleInput inputState' gameState'
   gameState''' <- step seconds gameState''
-
-  MonadRenderer.clearScreen
-  render gameState'''
-  MonadRenderer.drawScreen
 
   pure gameState'''
 
@@ -119,9 +114,13 @@ runCommands commands ent' = foldl' (flip runCommand) ent' commands
 
 render :: (MonadRenderer m, HasGameState ent) => ent -> m ()
 render ent = do
+  MonadRenderer.clearScreen
+
   renderBackground'
   sequence_ $ MonadRenderer.runRenderCommand <$> Car.render <$> (ent ^. gameState . cars)
   MonadRenderer.runRenderCommand $ Animated.render (ent ^. gameState . toad)
+
+  MonadRenderer.drawScreen
 
 renderBackground' :: (MonadRenderer m) => m ()
 renderBackground' = do

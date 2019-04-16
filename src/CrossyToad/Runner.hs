@@ -20,4 +20,6 @@ mainLoop = do
 
   currentScene' <- MonadScene.tickCurrentScene (TickSeconds dt)
 
+  MonadScene.renderCurrentScene
+
   unless (isNothing currentScene') mainLoop
