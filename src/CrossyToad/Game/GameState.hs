@@ -6,12 +6,14 @@ import Control.Lens
 import Linear.V2
 
 import CrossyToad.Game.Toad as Toad
+import CrossyToad.Game.RiverLog
 import CrossyToad.Game.Car
 import CrossyToad.Game.SpawnPoint
 
 data GameState = GameState
   { __toad :: !Toad
   , __cars :: ![Car]
+  , __riverLogs :: ![RiverLog]
   , __spawnPoints :: ![SpawnPoint]
   } deriving (Eq, Show)
 
@@ -23,12 +25,16 @@ instance HasToad GameState where
 instance HasCars GameState where
   cars = _cars
 
+instance HasRiverLogs GameState where
+  riverLogs = _riverLogs
+
 instance HasSpawnPoints GameState where
   spawnPoints = _spawnPoints
 
 mk :: GameState
 mk = GameState
   { __toad = Toad.mk (V2 0 0)
+  , __riverLogs = []
   , __cars = []
   , __spawnPoints = []
   }

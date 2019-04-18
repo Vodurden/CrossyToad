@@ -7,14 +7,12 @@ module CrossyToad.Game.Car
   , mk
   , step
   , stepAll
-  , render
   ) where
 
 import           Control.Lens
 import           Linear.V2
 
 import qualified CrossyToad.Renderer.Asset.ImageAsset as ImageAsset
-import           CrossyToad.Renderer.RenderCommand (RenderCommand)
 import           CrossyToad.Geometry.Position
 import           CrossyToad.Physics.CollisionBox (CollisionBox, HasCollisionBox(..))
 import qualified CrossyToad.Physics.CollisionBox as CollisionBox
@@ -22,7 +20,6 @@ import           CrossyToad.Physics.LinearMotion (LinearMotion(..), HasLinearMot
 import qualified CrossyToad.Physics.LinearMotion as LinearMotion
 import           CrossyToad.Physics.Physics
 import           CrossyToad.Renderer.Sprite (Sprite(..), HasSprite(..))
-import qualified CrossyToad.Renderer.Sprite as Sprite
 import           CrossyToad.Time.TickSeconds
 
 data Car = Car
@@ -75,6 +72,3 @@ stepAll seconds = cars.mapped %~ (step seconds)
 
 step :: HasCar ent => TickSeconds -> ent -> ent
 step (TickSeconds seconds) = car %~ (LinearMotion.stepBy seconds)
-
-render :: Car -> RenderCommand
-render = Sprite.render

@@ -21,6 +21,7 @@ import qualified CrossyToad.Renderer.Asset.ImageAsset as ImageAsset
 import qualified CrossyToad.Renderer.MonadRenderer as MonadRenderer
 import           CrossyToad.Renderer.MonadRenderer (MonadRenderer)
 import qualified CrossyToad.Renderer.Animated as Animated
+import qualified CrossyToad.Renderer.Sprite as Sprite
 import           CrossyToad.Physics.Physics (Direction(..))
 import           CrossyToad.Scene.Scene (Scene)
 import qualified CrossyToad.Scene.Scene as Scene
@@ -28,6 +29,8 @@ import           CrossyToad.Scene.MonadScene (MonadScene)
 import qualified CrossyToad.Scene.MonadScene as MonadScene
 import           CrossyToad.Game.Car (HasCars(..))
 import qualified CrossyToad.Game.Car as Car
+import           CrossyToad.Game.RiverLog (HasRiverLogs(..))
+import qualified CrossyToad.Game.RiverLog as RiverLog
 import qualified CrossyToad.Game.Collision as Collision
 import           CrossyToad.Game.Command (Command(..))
 import qualified CrossyToad.Game.Entity as Entity
@@ -53,16 +56,18 @@ initialize :: GameState
 initialize = GameState.mk &
     (gameState.toad .~ Toad.mk (V2 (7*64) (13*64)))
     . (gameState.cars .~ [])
+    . (gameState.riverLogs .~ [])
     . (gameState.spawnPoints .~ spawnPoints')
   where
     spawnPoints' :: [SpawnPoint]
     spawnPoints' =
       [ -- River Spawns
+        SpawnPoint.mk (V2 0       (1*64 )) East ((,Entity.RiverLog) <$> [1]) 5
         -- TODO
 
         -- Road Spawns
-        SpawnPoint.mk (V2 (20*64) (7*64 )) West ((,Entity.Car) <$> [0,1,1]) 2
-      , SpawnPoint.mk (V2 (20*64) (8*64 )) West ((,Entity.Car) <$> [0,0.5,0.5,0.5]) 1
+      , SpawnPoint.mk (V2 (20*64) (7*64 )) West ((,Entity.Car) <$> [0,1,1]) 2
+      , SpawnPoint.mk (V2 (20*64) (8*64 )) West ((,Entity.Car) <$> [0,0.6,0.6,0.6]) 1
       , SpawnPoint.mk (V2 0       (9*64 )) East ((,Entity.Car) <$> [0.5,2]) 3
       , SpawnPoint.mk (V2 (20*64) (10*64)) West ((,Entity.Car) <$> [0.5,2,4]) 3
       ]
@@ -93,13 +98,13 @@ stepGameState seconds ent' = flip execStateT ent' $ do
   id %= (runCommands spCommands)
 
   gameState.cars %= Car.stepAll seconds
+  gameState.riverLogs %= RiverLog.stepAll seconds
   modifyingM gameState Collision.step
 
 runCommands :: forall ent. (HasGameState ent) => [Command] -> ent -> ent
 runCommands commands ent' = foldl' (flip runCommand) ent' commands
   where runCommand :: Command -> ent -> ent
-        runCommand (Spawn Entity.Car pos dir) = gameState . cars %~ (Car.mk pos dir :)
-        runCommand (Spawn Entity.RiverLog _ _) = id
+        runCommand (Spawn entity pos dir) = gameState %~ Entity.spawn entity pos dir
         runCommand Kill = id
 
 render :: (MonadRenderer m, HasGameState ent) => ent -> m ()
@@ -107,7 +112,8 @@ render ent = do
   MonadRenderer.clearScreen
 
   renderBackground'
-  sequence_ $ MonadRenderer.runRenderCommand <$> Car.render <$> (ent ^. gameState . cars)
+  sequence_ $ MonadRenderer.runRenderCommand <$> Sprite.render <$> (ent ^. gameState . cars)
+  sequence_ $ MonadRenderer.runRenderCommand <$> Sprite.render <$> (ent ^. gameState . riverLogs)
   MonadRenderer.runRenderCommand $ Animated.render (ent ^. gameState . toad)
 
   MonadRenderer.drawScreen
