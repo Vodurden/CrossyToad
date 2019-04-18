@@ -6,8 +6,6 @@ import           Control.Lens
 import           Data.Foldable (traverse_)
 
 import           CrossyToad.Input.InputState (InputState, HasInputState(..))
-import           CrossyToad.Logger.LogLevel (LogLevel(..))
-import           CrossyToad.Logger.MonadLogger (MonadLogger, logText)
 import qualified CrossyToad.Renderer.Asset.FontAsset as FontAsset
 import           CrossyToad.Renderer.MonadRenderer (MonadRenderer)
 import qualified CrossyToad.Renderer.MonadRenderer as MonadRenderer
@@ -20,7 +18,7 @@ import qualified CrossyToad.Scene.SceneId as SceneId
 import           CrossyToad.Title.Intent (Intent(..))
 import qualified CrossyToad.Title.Intent as Intent
 
-scene :: (MonadLogger m, MonadScene m, MonadRenderer m) => Scene m
+scene :: (MonadScene m, MonadRenderer m) => Scene m
 scene = Scene.mk () (flip . const $ handleInput) (const $ pure . id) (const render)
 
 handleInput :: (MonadScene m) => InputState -> m ()
@@ -32,9 +30,8 @@ stepIntent :: (MonadScene m) => Intent -> m ()
 stepIntent StartGame = MonadScene.delayPush SceneId.Game
 stepIntent Quit = MonadScene.delayPop
 
-render :: (MonadLogger m, MonadRenderer m) => m ()
+render :: (MonadRenderer m) => m ()
 render = do
-  logText Debug "Render"
   MonadRenderer.clearScreen
   MonadRenderer.drawText FontAsset.Title Nothing Nothing Nothing RGBAColour.white " CROSSY TOAD "
   MonadRenderer.drawScreen
