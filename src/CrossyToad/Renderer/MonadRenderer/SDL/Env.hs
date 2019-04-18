@@ -35,8 +35,11 @@ initialize = do
      { SDL.windowInitialSize = V2 1280 960
      , SDL.windowResizable = True
      }
-  renderer' <- SDL.createRenderer window' (-1) SDL.defaultRenderer
+
+  let rendererConfig = SDL.defaultRenderer { SDL.rendererType = SDL.AcceleratedVSyncRenderer }
+  renderer' <- SDL.createRenderer window' (-1) rendererConfig
   SDL.rendererLogicalSize renderer' $= (Just $ V2 1280 960)
+
   textures' <- loadTextures renderer'
   fonts' <- loadFonts
   pure $ Env
