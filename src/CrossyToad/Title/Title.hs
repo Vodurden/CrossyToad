@@ -19,7 +19,7 @@ import           CrossyToad.Title.Intent (Intent(..))
 import qualified CrossyToad.Title.Intent as Intent
 
 scene :: (MonadScene m, MonadRenderer m) => Scene m
-scene = Scene.mk () (flip . const $ handleInput) (const $ pure . id) (const render)
+scene = Scene.mkNoState handleInput render
 
 handleInput :: (MonadScene m) => InputState -> m ()
 handleInput input = do

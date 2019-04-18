@@ -6,6 +6,7 @@ module CrossyToad.Scene.Scene
   ( Scene
   , HasScene(..)
   , mk
+  , mkNoState
   , handleInput
   , tick
   , render
@@ -43,6 +44,11 @@ mk state' handleInput' tick' render' =
                  , _tick = tick'
                  , _render = render'
                  }
+
+-- | Create a scene that has no state
+mkNoState :: (Monad m) => (InputState -> m ()) -> m () -> Scene m
+mkNoState handleInput' render' =
+  mk () (flip . const $ handleInput') (const $ pure . id) (const render')
 
 handleInput :: (Monad m) => InputState -> Scene m -> m (Scene m)
 handleInput inputState (Scene sc) = do
