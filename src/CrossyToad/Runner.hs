@@ -20,6 +20,8 @@ mainLoop = do
   dt <- deltaTime
   pumpTasks dt
 
+  _ <- MonadScene.handleInputCurrentScene
+
   logText Debug "Tick Current Scene"
   currentScene' <- MonadScene.tickCurrentScene (TickSeconds dt)
 

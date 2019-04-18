@@ -15,8 +15,6 @@ import           Control.Monad.State.Strict.Extended (execStateT, hoistState)
 import           Data.Foldable (foldl', foldlM)
 import           Linear.V2
 
-import           CrossyToad.Input.MonadInput (MonadInput)
-import qualified CrossyToad.Input.MonadInput as MonadInput
 import           CrossyToad.Input.InputState (InputState)
 import           CrossyToad.Logger.MonadLogger (MonadLogger(..))
 import qualified CrossyToad.Renderer.Asset.ImageAsset as ImageAsset
@@ -47,10 +45,9 @@ import           CrossyToad.Time.TickSeconds
 scene ::
   ( MonadRenderer m
   , MonadScene m
-  , MonadInput m
   , MonadLogger m
   ) => Scene m
-scene = Scene.mk initialize tick render
+scene = Scene.mk initialize handleInput tick render
 
 initialize :: GameState
 initialize = GameState.mk &
@@ -70,17 +67,9 @@ initialize = GameState.mk &
       , SpawnPoint.mk (V2 (20*64) (10*64)) West ((,Entity.Car) <$> [0.5,2,4]) 3
       ]
 
-tick ::
-  ( MonadScene m
-  , MonadInput m
-  , MonadLogger m
-  ) => Seconds -> GameState -> m GameState
+tick :: MonadLogger m => Seconds -> GameState -> m GameState
 tick seconds gameState' = do
-  inputState' <- MonadInput.getInputState
-  gameState'' <- handleInput inputState' gameState'
-  gameState''' <- step (TickSeconds seconds) gameState''
-
-  pure gameState'''
+  step (TickSeconds seconds) gameState'
 
 -- | Update the GameState and Scene based on the user input
 handleInput :: (MonadScene m, HasGameState ent) => InputState -> ent -> m ent

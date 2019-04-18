@@ -35,6 +35,7 @@ instance MonadRenderer CrossyToad where
   runRenderCommand = SDLMonadRenderer.runRenderCommand
 
 instance MonadScene CrossyToad where
+  handleInputCurrentScene = IOMonadScene.handleInputCurrentScene
   tickCurrentScene = IOMonadScene.tickCurrentScene
   renderCurrentScene = IOMonadScene.renderCurrentScene
   getCurrentScene = IOMonadScene.getCurrentScene

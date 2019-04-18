@@ -5,6 +5,9 @@ import CrossyToad.Scene.SceneId
 import CrossyToad.Time.TickSeconds (TickSeconds)
 
 class Monad m => MonadScene m where
+  -- | Handles the input for the current scene
+  handleInputCurrentScene :: m (Maybe (Scene m))
+
   -- | Ticks the current scene and applies any delayed actions.
   -- |
   -- | Returns the current scene (if any)

@@ -3,6 +3,7 @@
 module CrossyToad.Scene.MonadScene.IO.MonadScene
   ( tickCurrentScene
   , renderCurrentScene
+  , handleInputCurrentScene
   , getCurrentScene
   , delayPush
   , delayPop
@@ -16,10 +17,10 @@ import           Data.IORef (modifyIORef', readIORef, writeIORef)
 import           Data.Maybe
 import           Data.List.Extended (foldl')
 
-import           CrossyToad.Input.MonadInput (MonadInput)
-import           CrossyToad.Logger.MonadLogger (MonadLogger, logText)
-import           CrossyToad.Logger.LogLevel (LogLevel(..))
+import           CrossyToad.Logger.MonadLogger (MonadLogger)
 import           CrossyToad.Renderer.MonadRenderer (MonadRenderer)
+import           CrossyToad.Input.MonadInput (MonadInput)
+import qualified CrossyToad.Input.MonadInput as MonadInput
 import           CrossyToad.Scene.MonadScene (MonadScene)
 import           CrossyToad.Scene.MonadScene.IO.Env
 import           CrossyToad.Scene.MonadScene.IO.SceneCommand (SceneCommand)
@@ -30,16 +31,40 @@ import           CrossyToad.Scene.SceneId (SceneId)
 import qualified CrossyToad.Scene.SceneMapping as SceneMapping
 import           CrossyToad.Time.TickSeconds (TickSeconds)
 
-tickCurrentScene :: forall r m.
+handleInputCurrentScene :: forall r m.
   ( MonadReader r m
   , HasEnv r m
   , MonadScene m
   , MonadInput m
+  , MonadRenderer m
+  , MonadLogger m
+  , MonadIO m
+  ) => m (Maybe (Scene m))
+handleInputCurrentScene =
+  overCurrentScene $ \currentScene -> do
+    inputState <- MonadInput.getInputState
+    Scene.handleInput inputState currentScene
+
+tickCurrentScene :: forall r m.
+  ( MonadReader r m
+  , HasEnv r m
+  , MonadScene m
   , MonadLogger m
   , MonadRenderer m
   , MonadIO m
   ) => TickSeconds -> m (Maybe (Scene m))
-tickCurrentScene seconds = do
+tickCurrentScene seconds =
+  overCurrentScene $ \currentScene -> Scene.tick seconds currentScene
+
+overCurrentScene :: forall r m.
+  ( MonadReader r m
+  , HasEnv r m
+  , MonadScene m
+  , MonadRenderer m
+  , MonadLogger m
+  , MonadIO m
+  ) => (Scene m -> m (Scene m)) -> m (Maybe (Scene m))
+overCurrentScene f = do
     scenesRef' <- view (env.scenesRef)
 
     -- Update the top scene. If the scene calls any of the push/pop/replace functions these
@@ -48,8 +73,7 @@ tickCurrentScene seconds = do
     newScenes <- case scenes' of
       [] -> pure []
       (currentScene : rest) -> do
-        logText Debug "Tick Current Scene Inner"
-        nextCurrentScene <- Scene.tick seconds currentScene
+        nextCurrentScene <- f currentScene
         pure (nextCurrentScene : rest)
 
     -- Apply the scene commands accumulated from the previous step
@@ -65,6 +89,7 @@ tickCurrentScene seconds = do
     applyCommand :: [Scene m] -> SceneCommand -> [Scene m]
     applyCommand scenes' (SceneCommand.Push sceneId') = (SceneMapping.fromId sceneId' : scenes')
     applyCommand scenes' SceneCommand.Pop = drop 1 scenes'
+
 
 renderCurrentScene ::
   ( MonadReader r m

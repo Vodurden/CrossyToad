@@ -6,8 +6,6 @@ import           Control.Lens
 import           Data.Foldable (traverse_)
 
 import           CrossyToad.Input.InputState (InputState, HasInputState(..))
-import           CrossyToad.Input.MonadInput (MonadInput)
-import qualified CrossyToad.Input.MonadInput as MonadInput
 import           CrossyToad.Logger.LogLevel (LogLevel(..))
 import           CrossyToad.Logger.MonadLogger (MonadLogger, logText)
 import qualified CrossyToad.Renderer.Asset.FontAsset as FontAsset
@@ -22,14 +20,8 @@ import qualified CrossyToad.Scene.SceneId as SceneId
 import           CrossyToad.Title.Intent (Intent(..))
 import qualified CrossyToad.Title.Intent as Intent
 
-scene :: (MonadLogger m, MonadScene m, MonadInput m, MonadRenderer m) => Scene m
-scene = Scene.mk () (const . const $ tick) (const render)
-
-tick :: (MonadLogger m, MonadScene m, MonadInput m) => m ()
-tick = do
-  logText Debug "Tick"
-  inputState' <- MonadInput.getInputState
-  handleInput inputState'
+scene :: (MonadLogger m, MonadScene m, MonadRenderer m) => Scene m
+scene = Scene.mk () (flip . const $ handleInput) (const $ pure . id) (const render)
 
 handleInput :: (MonadScene m) => InputState -> m ()
 handleInput input = do

@@ -6,22 +6,25 @@ module CrossyToad.Scene.Scene
   ( Scene
   , HasScene(..)
   , mk
+  , handleInput
   , tick
   , render
   ) where
 
-import Control.Lens.Extended
+import           Control.Lens.Extended
 import qualified Data.Text as Text
 
-import CrossyToad.Time.Seconds (Seconds)
-import qualified CrossyToad.Time.Seconds as Seconds
-import CrossyToad.Time.TickSeconds (TickSeconds(..))
--- import Debug.Trace
 import           CrossyToad.Logger.LogLevel (LogLevel(..))
 import           CrossyToad.Logger.MonadLogger (MonadLogger, logText)
+import           CrossyToad.Time.Seconds (Seconds)
+import qualified CrossyToad.Time.Seconds as Seconds
+import           CrossyToad.Time.TickSeconds (TickSeconds(..))
+import           CrossyToad.Input.InputState (InputState)
 
 data Scene' m s = Scene'
   { _state :: s
+
+  , _handleInput :: InputState -> s -> m s
 
   , _tickInterval :: Seconds
   , _tickAccumulator :: Seconds
@@ -34,14 +37,20 @@ data Scene m = forall s. Scene (Scene' m s)
 
 makeClassy ''Scene
 
-mk :: s -> (Seconds -> s -> m s) -> (s -> m ()) -> Scene m
-mk state' tick' render' =
+mk :: s -> (InputState -> s -> m s) -> (Seconds -> s -> m s) -> (s -> m ()) -> Scene m
+mk state' handleInput' tick' render' =
   Scene $ Scene' { _state = state'
-                 , _tickInterval = (1/20)
+                 , _handleInput = handleInput'
+                 , _tickInterval = (1/60)
                  , _tickAccumulator = 0
                  , _tick = tick'
                  , _render = render'
                  }
+
+handleInput :: (Monad m) => InputState -> Scene m -> m (Scene m)
+handleInput inputState (Scene sc) = do
+  nextState <- (_handleInput sc) inputState (_state sc)
+  pure $ Scene $ sc { _state = nextState }
 
 tick :: (Monad m, MonadLogger m) => TickSeconds -> Scene m -> m (Scene m)
 tick (TickSeconds seconds) (Scene sc) = do
