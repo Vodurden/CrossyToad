@@ -77,7 +77,7 @@ drawTileRow :: (MonadRenderer m)
             => ImageAsset
             -> Position
             -> Int
-            -> V2 Float
+            -> V2 Double
             -> m ()
 drawTileRow asset pos tiles tileDimensions = do
   let tileOffsets = (* tileDimensions^._x) <$> [0..fromIntegral tiles]

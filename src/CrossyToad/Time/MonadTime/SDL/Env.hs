@@ -17,4 +17,6 @@ instance HasMonadTimeStateIORef Env where
   monadTimeStateRef = _monadTimeStateRef
 
 initialize :: IO Env
-initialize = Env <$> (newIORef initialMonadTimeState)
+initialize = do
+  initialMonadTimeState' <- initialMonadTimeState
+  Env <$> (newIORef initialMonadTimeState')

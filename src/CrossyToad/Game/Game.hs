@@ -41,6 +41,7 @@ import           CrossyToad.Game.SpawnPoint (SpawnPoint, HasSpawnPoints(..))
 import qualified CrossyToad.Game.SpawnPoint as SpawnPoint
 import           CrossyToad.Game.Toad (HasToad(..))
 import qualified CrossyToad.Game.Toad as Toad
+import           CrossyToad.Time.Seconds
 import           CrossyToad.Time.TickSeconds
 
 scene ::
@@ -73,11 +74,11 @@ tick ::
   ( MonadScene m
   , MonadInput m
   , MonadLogger m
-  ) => TickSeconds -> GameState -> m GameState
+  ) => Seconds -> GameState -> m GameState
 tick seconds gameState' = do
   inputState' <- MonadInput.getInputState
   gameState'' <- handleInput inputState' gameState'
-  gameState''' <- step seconds gameState''
+  gameState''' <- step (TickSeconds seconds) gameState''
 
   pure gameState'''
 

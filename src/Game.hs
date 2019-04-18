@@ -1,7 +1,7 @@
 module Game where
 
 import           CrossyToad
-import           CrossyToad.Runner
+import           CrossyToad.Runner (mainLoop)
 
 import qualified CrossyToad.Renderer.MonadRenderer.SDL.Env as SDLMonadRenderer
 import           CrossyToad.Env (Env(..))
@@ -16,7 +16,7 @@ import qualified CrossyToad.Time.MonadTime.SDL.Env as SDLTime
 
 main :: IO ()
 main = do
-  ioSceneEnv <- IOMonadScene.initialize (Title.scene)
+  ioSceneEnv <- IOMonadScene.initialize Title.scene
   ioTaskEnv <- IOMonadTask.initialize
   let ioLoggerEnv = IOMonadLogger.initialize LogLevel.all
   sdlInputEnv <- SDLMonadInput.initialize

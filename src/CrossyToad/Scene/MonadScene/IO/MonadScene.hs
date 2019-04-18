@@ -17,7 +17,8 @@ import           Data.Maybe
 import           Data.List.Extended (foldl')
 
 import           CrossyToad.Input.MonadInput (MonadInput)
-import           CrossyToad.Logger.MonadLogger (MonadLogger)
+import           CrossyToad.Logger.MonadLogger (MonadLogger, logText)
+import           CrossyToad.Logger.LogLevel (LogLevel(..))
 import           CrossyToad.Renderer.MonadRenderer (MonadRenderer)
 import           CrossyToad.Scene.MonadScene (MonadScene)
 import           CrossyToad.Scene.MonadScene.IO.Env
@@ -47,6 +48,7 @@ tickCurrentScene seconds = do
     newScenes <- case scenes' of
       [] -> pure []
       (currentScene : rest) -> do
+        logText Debug "Tick Current Scene Inner"
         nextCurrentScene <- Scene.tick seconds currentScene
         pure (nextCurrentScene : rest)
 

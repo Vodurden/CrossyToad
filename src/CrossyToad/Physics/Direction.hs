@@ -14,7 +14,7 @@ makeClassy ''Direction
 makeClassyPrisms ''Direction
 
 -- | Returns a unit vector corresponding to the direction
-unitVector :: Direction -> V2 Float
+unitVector :: Direction -> V2 Double
 unitVector North = V2 0 (-1)
 unitVector East = V2 1 0
 unitVector South = V2 0 1
