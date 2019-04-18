@@ -38,7 +38,7 @@ mk :: s -> (InputState -> s -> m s) -> (Seconds -> s -> m s) -> (s -> m ()) -> S
 mk state' handleInput' tick' render' =
   Scene $ Scene' { _state = state'
                  , _handleInput = handleInput'
-                 , _tickInterval = (1/60)
+                 , _tickInterval = (1/120)
                  , _tickAccumulator = 0
                  , _tick = tick'
                  , _render = render'

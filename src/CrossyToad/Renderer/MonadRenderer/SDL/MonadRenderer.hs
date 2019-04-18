@@ -117,6 +117,6 @@ drawTexture texture' degrees textureClip targetClip = do
   where
     fromClip :: Clip -> SDL.Rectangle CInt
     fromClip clip =
-      let xy = truncate <$> clip ^. position
-          wh = truncate <$> clip ^. size
+      let xy = round <$> clip ^. position
+          wh = round <$> clip ^. size
       in SDL.Rectangle (SDL.P xy) wh
