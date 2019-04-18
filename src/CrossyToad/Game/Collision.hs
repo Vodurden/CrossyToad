@@ -1,27 +1,41 @@
+{-# LANGUAGE RankNTypes #-}
+
 -- | This module is responsible for resolving collisions between
 -- | all entities in the game.
 module CrossyToad.Game.Collision
-  ( step
+  ( toadCollision
   ) where
 
 import           Control.Lens
 import           Data.Foldable (foldlM)
-import qualified Data.Text as Text
 
 import           CrossyToad.Logger.MonadLogger
-import qualified CrossyToad.Logger.LogLevel as LogLevel
-import           CrossyToad.Game.Car (Car, HasCars(..))
-import           CrossyToad.Game.Toad (Toad, HasToad(..))
+import           CrossyToad.Game.Toad (Toad)
 import qualified CrossyToad.Game.Toad as Toad
+import           CrossyToad.Geometry.Position (HasPosition(..))
 import           CrossyToad.Physics.CollisionBox (HasCollisionBox(..))
 
-step :: (MonadLogger m, HasToad ent, HasCars ent) => ent -> m ent
-step ent = do
-  nextToad <- foldlM carCollision (ent ^. toad) (ent ^. cars)
-  pure $ ent & toad .~ nextToad
+toadCollision :: forall s m box. (MonadLogger m, HasPosition box, HasCollisionBox box)
+              => Lens' s Toad
+              -> Lens' s [box]
+              -> s
+              -> m s
+toadCollision toadL entsL state = do
+    nextToad <- foldlM toadCollision' (state ^. toadL) (state ^. entsL)
+    pure $ state & toadL .~ nextToad
+  where
+    toadCollision' :: Toad -> box -> m Toad
+    toadCollision' toad' ent' | Toad.collision toad' ent' = do
+                                  pure $ Toad.die toad'
+                              | otherwise = pure toad'
 
-carCollision :: (MonadLogger m) => Toad -> Car -> m Toad
-carCollision toad' car' | Toad.collision toad' car' = do
-                            logText LogLevel.Debug $ (Text.pack "Toad Collision! ") <> (Text.pack $ show $ toad' ^. collisionBox) <> " " <> (Text.pack $ show car')
-                            pure $ Toad.die toad'
-                        | otherwise = pure toad'
+-- step :: (MonadLogger m, HasToad ent, HasCar ent) => ent -> m ent
+-- step ent = do
+--   nextToad <- foldlM carCollision (ent ^. toad) (ent ^. cars)
+--   pure $ ent & toad .~ nextToad
+
+-- carCollision :: (MonadLogger m) => Toad -> Car -> m Toad
+-- carCollision toad' car' | Toad.collision toad' car' = do
+--                             logText LogLevel.Debug $ (Text.pack "Toad Collision! ") <> (Text.pack $ show $ toad' ^. collisionBox) <> " " <> (Text.pack $ show car')
+--                             pure $ Toad.die toad'
+--                         | otherwise = pure toad'

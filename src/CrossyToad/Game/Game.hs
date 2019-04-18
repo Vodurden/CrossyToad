@@ -27,9 +27,7 @@ import           CrossyToad.Scene.Scene (Scene)
 import qualified CrossyToad.Scene.Scene as Scene
 import           CrossyToad.Scene.MonadScene (MonadScene)
 import qualified CrossyToad.Scene.MonadScene as MonadScene
-import           CrossyToad.Game.Car (HasCars(..))
 import qualified CrossyToad.Game.Car as Car
-import           CrossyToad.Game.RiverLog (HasRiverLogs(..))
 import qualified CrossyToad.Game.RiverLog as RiverLog
 import qualified CrossyToad.Game.Collision as Collision
 import           CrossyToad.Game.Command (Command(..))
@@ -97,14 +95,16 @@ stepGameState seconds ent' = flip execStateT ent' $ do
   spCommands <- zoom (gameState.spawnPoints) (hoistState $ SpawnPoint.stepAll seconds)
   id %= (runCommands spCommands)
 
-  gameState.cars %= Car.stepAll seconds
-  gameState.riverLogs %= RiverLog.stepAll seconds
-  modifyingM gameState Collision.step
+  gameState.cars.mapped %= (Car.step seconds)
+  gameState.riverLogs.mapped %= (RiverLog.step seconds)
+
+  modifyingM gameState (Collision.toadCollision toad cars)
 
 runCommands :: forall ent. (HasGameState ent) => [Command] -> ent -> ent
 runCommands commands ent' = foldl' (flip runCommand) ent' commands
   where runCommand :: Command -> ent -> ent
-        runCommand (Spawn entity pos dir) = gameState %~ Entity.spawn entity pos dir
+        runCommand (Spawn Entity.Car pos dir) = gameState.cars %~ (Car.mk pos dir :)
+        runCommand (Spawn Entity.RiverLog pos dir) = gameState.riverLogs %~ (RiverLog.mk pos dir :)
         runCommand Kill = id
 
 render :: (MonadRenderer m, HasGameState ent) => ent -> m ()

@@ -3,10 +3,8 @@
 module CrossyToad.Game.Car
   ( Car(..)
   , HasCar(..)
-  , HasCars(..)
   , mk
   , step
-  , stepAll
   ) where
 
 import           Control.Lens
@@ -31,12 +29,6 @@ data Car = Car
   } deriving (Eq, Show)
 
 makeClassy ''Car
-
-class HasCars a where
-  cars :: Lens' a [Car]
-
-instance HasCars [Car] where
-  cars = id
 
 instance HasPosition Car where
   position = _position
@@ -66,9 +58,6 @@ mk pos dir = Car
     carSpeed :: Speed
     carSpeed = 64 * (1 / secondsPerTile)
       where secondsPerTile = 0.5
-
-stepAll :: HasCars ent => TickSeconds -> ent -> ent
-stepAll seconds = cars.mapped %~ (step seconds)
 
 step :: HasCar ent => TickSeconds -> ent -> ent
 step (TickSeconds seconds) = car %~ (LinearMotion.stepBy seconds)

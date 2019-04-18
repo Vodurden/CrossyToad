@@ -3,9 +3,7 @@
 module CrossyToad.Game.RiverLog
   ( RiverLog(..)
   , HasRiverLog(..)
-  , HasRiverLogs(..)
   , mk
-  , stepAll
   , step
   ) where
 
@@ -28,12 +26,6 @@ data RiverLog = RiverLog
   } deriving (Eq, Show)
 
 makeClassy ''RiverLog
-
-class HasRiverLogs a where
-  riverLogs :: Lens' a [RiverLog]
-
-instance HasRiverLogs [RiverLog] where
-  riverLogs = id
 
 instance HasPosition RiverLog where
   position = _position
@@ -59,9 +51,6 @@ mk pos dir = RiverLog
     logSpeed :: Speed
     logSpeed = 64 * (1 / secondsPerTile)
       where secondsPerTile = 0.5
-
-stepAll :: HasRiverLogs ent => TickSeconds -> ent -> ent
-stepAll seconds = riverLogs.mapped %~ (step seconds)
 
 step :: HasRiverLog ent => TickSeconds -> ent -> ent
 step (TickSeconds seconds) = riverLog %~ (LinearMotion.stepBy seconds)

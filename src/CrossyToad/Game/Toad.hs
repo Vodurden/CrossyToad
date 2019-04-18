@@ -82,9 +82,7 @@ stepAnimatedState t =
 -- |
 -- | This will cause the toad to change direction and begin moving.
 jump :: Direction -> Toad -> Toad
-jump dir =
-  (JumpMotion.jump dir)
-  . (Animated.play ToadSprite.Jump)
+jump dir = JumpMotion.jump dir
 
 -- | Kills the toad
 die :: Toad -> Toad

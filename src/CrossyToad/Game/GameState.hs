@@ -12,8 +12,8 @@ import CrossyToad.Game.SpawnPoint
 
 data GameState = GameState
   { __toad :: !Toad
-  , __cars :: ![Car]
-  , __riverLogs :: ![RiverLog]
+  , _cars :: ![Car]
+  , _riverLogs :: ![RiverLog]
   , __spawnPoints :: ![SpawnPoint]
   } deriving (Eq, Show)
 
@@ -22,19 +22,13 @@ makeClassy ''GameState
 instance HasToad GameState where
   toad = _toad
 
-instance HasCars GameState where
-  cars = _cars
-
-instance HasRiverLogs GameState where
-  riverLogs = _riverLogs
-
 instance HasSpawnPoints GameState where
   spawnPoints = _spawnPoints
 
 mk :: GameState
 mk = GameState
   { __toad = Toad.mk (V2 0 0)
-  , __riverLogs = []
-  , __cars = []
+  , _riverLogs = []
+  , _cars = []
   , __spawnPoints = []
   }
