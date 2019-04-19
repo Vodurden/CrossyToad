@@ -15,20 +15,6 @@ import           CrossyToad.Physics.LinearMotion (HasLinearMotion(..))
 import qualified CrossyToad.Physics.LinearMotion as LinearMotion
 import           CrossyToad.Time.Seconds (Seconds)
 
--- | Move the rider by the motion of _all_ platforms they are colliding with
--- moveOnAllPlatforms ::
---   ( HasPosition riderEnt
---   , HasPhysical riderEnt
-
---   , HasPosition platformEnt
---   , HasDirection platformEnt
---   , HasPhysical platformEnt
---   , HasLinearMotion platformEnt
---   ) => Seconds -> Lens' s riderEnt -> Lens' s [platformEnt] -> s -> s
--- moveOnAllPlatforms delta riderL platformsL state =
---   lensFoldl' (moveOnPlatform delta) riderL platformsL state
---   -- state & riderL .~ foldl' (moveOnPlatform delta) (state ^. riderL) (state ^. platformsL)
-
 -- | Move the rider by the motion of the platform if it is
 -- | standing on the platform
 moveOnPlatform ::
