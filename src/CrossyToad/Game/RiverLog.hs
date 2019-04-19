@@ -15,8 +15,8 @@ import           CrossyToad.Geometry.Position
 import           CrossyToad.Physics.Physics
 import           CrossyToad.Physics.LinearMotion (LinearMotion(..), HasLinearMotion(..))
 import qualified CrossyToad.Physics.LinearMotion as LinearMotion
-import           CrossyToad.Physics.Platform (Platform, HasPlatform(..))
-import qualified CrossyToad.Physics.Platform as Platform
+import           CrossyToad.Physics.Physical (Physical, HasPhysical(..))
+import qualified CrossyToad.Physics.Physical as Physical
 import           CrossyToad.Renderer.Sprite (Sprite(..), HasSprite(..))
 import           CrossyToad.Time.TickSeconds
 
@@ -25,7 +25,7 @@ data RiverLog = RiverLog
   , __direction :: !Direction
   , __linearMotion :: !LinearMotion
   , __sprite :: !Sprite
-  , __platform :: !Platform
+  , __physical :: !Physical
   } deriving (Eq, Show)
 
 makeClassy ''RiverLog
@@ -34,7 +34,7 @@ instance HasPosition RiverLog where position = _position
 instance HasDirection RiverLog where direction = _direction
 instance HasLinearMotion RiverLog where linearMotion = _linearMotion
 instance HasSprite RiverLog where sprite = _sprite
-instance HasPlatform RiverLog where platform = _platform
+instance HasPhysical RiverLog where physical = _physical
 
 mk :: Position -> Direction -> RiverLog
 mk pos dir = RiverLog
@@ -42,7 +42,7 @@ mk pos dir = RiverLog
     , __direction = dir
     , __linearMotion = LinearMotion.mk logSpeed
     , __sprite = Sprite ImageAsset.Car (V2 64 64)
-    , __platform = Platform.mkAt (V2 0 0) (V2 64 64)
+    , __physical = Physical.mkAt (V2 0 0) (V2 64 64) Physical.Platform
     }
   where
     -- | How far the log moves in one second

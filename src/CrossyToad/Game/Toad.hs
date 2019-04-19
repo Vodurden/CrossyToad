@@ -7,8 +7,8 @@ import           Control.Lens
 import           Linear.V2
 
 import           CrossyToad.Geometry.Position
-import           CrossyToad.Physics.CollisionBox (CollisionBox, HasCollisionBox(..))
-import qualified CrossyToad.Physics.CollisionBox as CollisionBox
+import           CrossyToad.Physics.Physical (Physical, HasPhysical(..), HasLayer(..))
+import qualified CrossyToad.Physics.Physical as Physical
 import           CrossyToad.Physics.JumpMotion (JumpMotion(..), HasJumpMotion(..))
 import qualified CrossyToad.Physics.JumpMotion as JumpMotion
 import           CrossyToad.Physics.Physics
@@ -24,7 +24,7 @@ data Toad = Toad
   { __position :: !Position
   , __direction :: !Direction
   , __jumpMotion :: !JumpMotion
-  , __collisionBox :: !CollisionBox
+  , __physical :: !Physical
   , __sprite :: !Sprite
   , __animated :: !(Animated ToadSprite.Animation)
 
@@ -37,7 +37,7 @@ makeClassy ''Toad
 instance HasPosition Toad where position = _position
 instance HasDirection Toad where direction = _direction
 instance HasJumpMotion Toad where jumpMotion = _jumpMotion
-instance HasCollisionBox Toad where collisionBox = _collisionBox
+instance HasPhysical Toad where physical = _physical
 instance HasSprite Toad where sprite = _sprite
 instance HasAnimated Toad ToadSprite.Animation where animated = _animated
 
@@ -46,7 +46,7 @@ mk pos = Toad
     { __position = pos
     , __direction = North
     , __jumpMotion = JumpMotion.mk toadSpeed toadDistance toadCooldown
-    , __collisionBox = CollisionBox.mkAt (V2 1 1) (V2 62 62)
+    , __physical = Physical.mkAt (V2 1 1) (V2 62 62) Physical.Ground
     , __sprite = Sprite ImageAsset.Toad (V2 64 64)
     , __animated = Animated.mk ToadSprite.Idle ToadSprite.animations
     , _initialPosition = pos
@@ -69,8 +69,15 @@ mk pos = Toad
 step :: (HasToad ent) => TickSeconds -> ent -> ent
 step (TickSeconds seconds) =
   toad %~ (JumpMotion.stepBy seconds
+           >>> stepPhysicalState
            >>> stepAnimatedState
            >>> Animated.stepBy seconds)
+
+stepPhysicalState :: Toad -> Toad
+stepPhysicalState t =
+  t & physical . layer .~
+    if | JumpMotion.isJumping t -> Physical.Air
+       | otherwise -> Physical.Ground
 
 stepAnimatedState :: Toad -> Toad
 stepAnimatedState t =
@@ -88,11 +95,3 @@ jump dir = JumpMotion.jump dir
 die :: Toad -> Toad
 die toad' = toad' & (lives .~ max 0 (toad' ^. lives - 1))
                   . (position .~ toad' ^. initialPosition)
-
--- | Returns true if the toad is colliding with the entity
--- |
--- | A toad cannot collide with an entity if it is jumping.
-collision :: (HasPosition ent, HasCollisionBox ent) => Toad -> ent -> Bool
-collision toad' ent' =
-  (CollisionBox.entCollision toad' ent')
-  && (not $ JumpMotion.isJumping toad')

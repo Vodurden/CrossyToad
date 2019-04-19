@@ -12,8 +12,8 @@ import           Linear.V2
 
 import qualified CrossyToad.Renderer.Asset.ImageAsset as ImageAsset
 import           CrossyToad.Geometry.Position
-import           CrossyToad.Physics.CollisionBox (CollisionBox, HasCollisionBox(..))
-import qualified CrossyToad.Physics.CollisionBox as CollisionBox
+import           CrossyToad.Physics.Physical (Physical, HasPhysical(..))
+import qualified CrossyToad.Physics.Physical as Physical
 import           CrossyToad.Physics.LinearMotion (LinearMotion(..), HasLinearMotion(..))
 import qualified CrossyToad.Physics.LinearMotion as LinearMotion
 import           CrossyToad.Physics.Physics
@@ -24,7 +24,7 @@ data Car = Car
   { __position :: !Position
   , __direction :: !Direction
   , __linearMotion :: !LinearMotion
-  , __collisionBox :: !CollisionBox
+  , __physical :: !Physical
   , __sprite :: !Sprite
   } deriving (Eq, Show)
 
@@ -39,8 +39,8 @@ instance HasDirection Car where
 instance HasLinearMotion Car where
   linearMotion = _linearMotion
 
-instance HasCollisionBox Car where
-  collisionBox = _collisionBox
+instance HasPhysical Car where
+  physical = _physical
 
 instance HasSprite Car where
   sprite = _sprite
@@ -50,7 +50,7 @@ mk pos dir = Car
     { __position = pos
     , __direction = dir
     , __linearMotion = LinearMotion.mk carSpeed
-    , __collisionBox = CollisionBox.mkAt (V2 1 1) (V2 62 62)
+    , __physical = Physical.mkAt (V2 1 1) (V2 62 62) Physical.Ground
     , __sprite = Sprite ImageAsset.Car (V2 64 64)
     }
   where

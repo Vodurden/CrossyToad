@@ -12,9 +12,10 @@ import           Data.Foldable (foldl')
 import           CrossyToad.Game.Toad (Toad)
 import qualified CrossyToad.Game.Toad as Toad
 import           CrossyToad.Geometry.Position (HasPosition(..))
-import           CrossyToad.Physics.CollisionBox (HasCollisionBox(..))
+import           CrossyToad.Physics.Physical (HasPhysical(..))
+import qualified CrossyToad.Physics.Physical as Physical
 
-toadCollision :: forall s box. (HasPosition box, HasCollisionBox box)
+toadCollision :: forall s box. (HasPosition box, HasPhysical box)
               => Lens' s Toad
               -> Lens' s [box]
               -> s
@@ -23,5 +24,5 @@ toadCollision toadL entsL state =
     state & toadL .~ foldl' toadCollision' (state ^. toadL) (state ^. entsL)
   where
     toadCollision' :: Toad -> box -> Toad
-    toadCollision' toad' ent' | Toad.collision toad' ent' = Toad.die toad'
+    toadCollision' toad' ent' | Physical.colliding toad' ent' = Toad.die toad'
                               | otherwise = toad'
