@@ -61,7 +61,7 @@ tickAll seconds = do
 
 tick :: HasSpawnPoint ent => Seconds -> State ent (Maybe Command)
 tick seconds = do
-  nextSpawn <- zoom spawns (Timed.tickBy seconds)
+  nextSpawn <- zoom spawns (Timed.tick seconds)
   pos <- use (spawnPoint.position)
   dir <- use (spawnPoint.direction)
 

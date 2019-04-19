@@ -7,7 +7,7 @@ module CrossyToad.Renderer.Animation
   , Animation(..)
   , HasAnimation(..)
   , mk
-  , tickBy
+  , tick
   , currentFrame
   , animate
   , play
@@ -60,8 +60,8 @@ mk frames' = Animation
 currentFrame :: Lens' Animation AnimationFrame
 currentFrame = (frames . focus)
 
-tickBy :: Seconds -> Animation -> Animation
-tickBy delta anim
+tick :: Seconds -> Animation -> Animation
+tick delta anim
   | anim ^. state == Paused = anim
   | otherwise = tickFrameDelta delta anim
 

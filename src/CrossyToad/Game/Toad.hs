@@ -70,7 +70,7 @@ tick seconds =
   toad %~ (JumpMotion.tick seconds
            >>> tickPhysicalState
            >>> tickAnimatedState
-           >>> Animated.tickBy seconds)
+           >>> Animated.tick seconds)
 
 tickPhysicalState :: Toad -> Toad
 tickPhysicalState t =

@@ -27,34 +27,34 @@ spec_Sprite_AnimationSpec = do
       let anim = Animation.mk [frame1, frame2]
       anim ^. currentFrame `shouldBe` frame1
 
-  describe "tickBy" $ do
+  describe "tick" $ do
     it "should do nothing if the animation is paused" $ do
       let anim = Animation.mk [frame1, frame2] & Animation.pause
-      tickBy 0.5 anim `shouldBe` anim
+      tick 0.5 anim `shouldBe` anim
 
     it "should move to the next frame if the animation is playing and the current frame is finished" $ do
       let frame = AnimationFrame.mk (V2 0 0) (V2 64 64) 1.1
       let anim = Animation.mk [frame, frame2] & Animation.play
-      (tickBy 1.1 anim) ^. currentFrame . clip `shouldBe` frame2 ^. clip
+      (tick 1.1 anim) ^. currentFrame . clip `shouldBe` frame2 ^. clip
 
     it "should move to the next frame if the animation is looping and the current frame is finished" $ do
       let f1 = AnimationFrame.mk (V2 0 0) (V2 64 64) 1.0
       let f2 = AnimationFrame.mk (V2 1 0) (V2 64 64) 1.0
       let anim = Animation.mk [f1, f2] & Animation.loop
-      (tickBy 1.1 anim) ^. currentFrame `shouldBe` f2
+      (tick 1.1 anim) ^. currentFrame `shouldBe` f2
 
     it "should stop at the last frame if the animation is playing, and the current frame is finished and the last" $ do
       let f1 = AnimationFrame.mk (V2 0 0) (V2 64 64) 1.0
       let f2 = AnimationFrame.mk (V2 1 0) (V2 64 64) 1.0
       let anim = Animation.mk [f1, f2] & Animation.play
-      let nextAnim = (tickBy 1.0 $ tickBy 1.0 anim)
+      let nextAnim = (tick 1.0 $ tick 1.0 anim)
       nextAnim ^. currentFrame . clip `shouldBe` f2 ^. clip
 
     it "should loop to the first frame if the animation is looping, the current frame is finished and the last" $ do
       let f1 = AnimationFrame.mk (V2 0 0) (V2 64 64) 1.0
       let f2 = AnimationFrame.mk (V2 0 0) (V2 64 64) 1.0
       let anim = Animation.mk [f1, f2] & Animation.loop
-      let nextAnim = (tickBy 1.0 $ tickBy 1.0 anim)
+      let nextAnim = (tick 1.0 $ tick 1.0 anim)
       nextAnim ^. currentFrame . clip `shouldBe` f1 ^. clip
 
   describe "animate" $ do
@@ -62,7 +62,7 @@ spec_Sprite_AnimationSpec = do
       let f1 = AnimationFrame.mk (V2 0 0) (V2 64 64) 1.0
       let f2 = AnimationFrame.mk (V2 0 0) (V2 64 64) 1.0
       let anim = Animation.mk [f1, f2] & Animation.loop
-      let anim' = (tickBy 1.0 $ tickBy 1.0 anim)
+      let anim' = (tick 1.0 $ tick 1.0 anim)
       let anim'' = Animation.animate anim'
       anim'' ^. currentFrame . clip `shouldBe` f1 ^. clip
 

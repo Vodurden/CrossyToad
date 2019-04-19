@@ -93,7 +93,7 @@ tick delta = execState stepBy'
   where
     stepBy' :: State ent ()
     stepBy' = do
-      state %= Timed.tickBy_ delta
+      state %= Timed.tick_ delta
 
       -- Move if we have any movement to do
       distanceThisFrame' <- gets (distanceThisFrame delta)

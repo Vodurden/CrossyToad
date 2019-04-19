@@ -10,7 +10,7 @@ module CrossyToad.Renderer.Animated
   , loop
   , pause
   , currentAnimation
-  , tickBy
+  , tick
   , render
   ) where
 
@@ -87,9 +87,9 @@ currentAnimation = lens getter setter
         setter animation' animations' =
           animation' & animations . (ix $ animation' ^. currentAnimationKey) .~ animations'
 
-tickBy :: (Ord key, HasAnimated ent key) => Seconds -> ent -> ent
-tickBy delta ent =
-  ent & animated.currentAnimation %~ (Animation.tickBy delta)
+tick :: (Ord key, HasAnimated ent key) => Seconds -> ent -> ent
+tick delta ent =
+  ent & animated.currentAnimation %~ (Animation.tick delta)
 
 render ::
   ( Ord key

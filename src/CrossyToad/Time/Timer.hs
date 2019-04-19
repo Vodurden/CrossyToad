@@ -39,22 +39,22 @@ finished = not . running
 -- | Ticks the timer by the given delta
 -- |
 -- | Returns any unused delta time
-tickBy :: (HasTimer ent) => Seconds -> State ent Seconds
-tickBy delta = do
+tick :: (HasTimer ent) => Seconds -> State ent Seconds
+tick delta = do
   timer' <- use timer
   let nextSeconds = (timer' ^. currentTime) - delta
   let remainingDelta = if nextSeconds < 0 then abs nextSeconds else 0
   timer.currentTime .= (max 0 nextSeconds)
   pure remainingDelta
 
-tickByL
+tickL
   :: (HasTimer timer)
   => Lens' ent timer      -- ^ The timer to tick
   -> Seconds              -- ^ Amount of time to tick ahead by
   -> State ent b          -- ^ Update to apply if the timer has not finished
   -> State ent b          -- ^ Update to apply if the timer has finished
   -> State ent b
-tickByL timerL delta onNoTick onTick = do
+tickL timerL delta onNoTick onTick = do
     timer' <- use (timerL.timer)
     let nextTimer = tickTimer delta timer'
     timerL . timer .= nextTimer
@@ -74,7 +74,7 @@ tickEnt onTick ent = do
 
 tickEntBy :: (HasTimer ent) => Seconds -> (ent -> ent) -> ent -> ent
 tickEntBy delta onTick =
-  execState $ tickByL timer delta (modify' id) (modify' onTick)
+  execState $ tickL timer delta (modify' id) (modify' onTick)
 
 tickOver :: (MonadTime m, HasTimer timer) => Lens' ent timer -> (ent -> ent) -> ent -> m ent
 tickOver timerL onTick ent = do
@@ -83,4 +83,4 @@ tickOver timerL onTick ent = do
 
 tickOverBy :: (HasTimer timer) => Lens' ent timer -> Seconds -> (ent -> ent) -> ent -> ent
 tickOverBy timerL delta onTick =
-  execState $ tickByL timerL delta (modify' id) (modify' onTick)
+  execState $ tickL timerL delta (modify' id) (modify' onTick)

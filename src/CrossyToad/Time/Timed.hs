@@ -81,8 +81,8 @@ loop :: Timed a -> Timed a
 loop timed' = timed' & events %~ List.cycle
 
 -- | Advances the timer by the amount of time given.
-tickBy :: (HasTimed ent a) => Seconds -> State ent a
-tickBy delta = do
+tick :: (HasTimed ent a) => Seconds -> State ent a
+tick delta = do
   timed' <- use timed
   case timed' ^. events of
     [] -> pure (timed' ^. value)
@@ -97,5 +97,5 @@ tickBy delta = do
         value .= (nextEvent ^. eventValue)
         use value
 
-tickBy_ :: (HasTimed ent a) => Seconds -> ent -> ent
-tickBy_ = execState . tickBy
+tick_ :: (HasTimed ent a) => Seconds -> ent -> ent
+tick_ = execState . tick
