@@ -2,7 +2,7 @@
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: 15df52946371660622cb318d13e1b1b7eb99ef1657bcade48426bb5f753782d0
+-- hash: 18fccc9b6abdca43968515675ced8b9d892378e3cef39394662711f7d0289c58
 
 name:           crossy-toad
 version:        0.1.0.0
@@ -175,7 +175,6 @@ test-suite spec
   type: exitcode-stdio-1.0
   main-is: Driver.hs
   other-modules:
-      CrossyToad.Game.CarSpec
       CrossyToad.Game.GameSpec
       CrossyToad.Game.IntentSpec
       CrossyToad.Game.ToadSpec
@@ -185,6 +184,7 @@ test-suite spec
       CrossyToad.Physics.CollisionBoxSpec
       CrossyToad.Physics.JumpMotionSpec
       CrossyToad.Physics.LinearMotionSpec
+      CrossyToad.Physics.PhysicalSpec
       CrossyToad.Renderer.AnimatedSpec
       CrossyToad.Renderer.AnimationSpec
       CrossyToad.Renderer.SpriteSpec

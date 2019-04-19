@@ -5,6 +5,7 @@ module CrossyToad.Physics.Physical
   , HasPhysical(..)
   , Layer(..)
   , HasLayer(..)
+  , mk
   , mkAt
   , colliding
   , overlapping
@@ -12,6 +13,7 @@ module CrossyToad.Physics.Physical
   ) where
 
 import           Control.Lens
+import           Linear.V2
 
 import           CrossyToad.Geometry.AABB (AABB, HasAABB(..))
 import qualified CrossyToad.Geometry.AABB as AABB
@@ -37,6 +39,9 @@ makeClassy ''Physical
 
 instance HasAABB Physical where aabb = _aabb
 instance HasLayer Physical where layer = _layer
+
+mk :: Size -> Layer -> Physical
+mk = mkAt (V2 0 0)
 
 mkAt :: Position -> Size -> Layer -> Physical
 mkAt pos size layer' = Physical (AABB.mkAt pos size) layer'
