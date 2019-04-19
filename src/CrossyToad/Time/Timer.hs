@@ -6,8 +6,7 @@ module CrossyToad.Time.Timer where
 import Control.Lens
 import Control.Monad.State.Strict.Extended (State, execState, modify')
 
-import CrossyToad.Time.Seconds
-import CrossyToad.Time.MonadTime
+import CrossyToad.Time.Seconds (Seconds)
 
 data Timer = Timer
   { _startTime :: !Seconds      -- ^ The time to start at when reset
@@ -67,20 +66,10 @@ tickL timerL delta onNoTick onTick = do
       let nextSeconds = (timer' ^. currentTime) - delta'
       in timer' & (currentTime .~ max 0 nextSeconds)
 
-tickEnt :: (MonadTime m, HasTimer ent) => (ent -> ent) -> ent -> m ent
-tickEnt onTick ent = do
-  delta <- deltaTime
-  pure $ tickOverBy timer delta onTick ent
-
-tickEntBy :: (HasTimer ent) => Seconds -> (ent -> ent) -> ent -> ent
-tickEntBy delta onTick =
+tickEnt :: (HasTimer ent) => Seconds -> (ent -> ent) -> ent -> ent
+tickEnt delta onTick =
   execState $ tickL timer delta (modify' id) (modify' onTick)
 
-tickOver :: (MonadTime m, HasTimer timer) => Lens' ent timer -> (ent -> ent) -> ent -> m ent
-tickOver timerL onTick ent = do
-  delta <- deltaTime
-  pure $ tickOverBy timerL delta onTick ent
-
-tickOverBy :: (HasTimer timer) => Lens' ent timer -> Seconds -> (ent -> ent) -> ent -> ent
-tickOverBy timerL delta onTick =
+tickOver :: (HasTimer timer) => Lens' ent timer -> Seconds -> (ent -> ent) -> ent -> ent
+tickOver timerL delta onTick =
   execState $ tickL timerL delta (modify' id) (modify' onTick)

@@ -67,7 +67,7 @@ tick delta anim
 
 tickFrameDelta :: Seconds -> Animation -> Animation
 tickFrameDelta delta anim =
-  anim & Timer.tickOverBy (frames.focus) delta nextFrame
+  anim & Timer.tickOver (frames.focus) delta nextFrame
 
 -- | Switches to the next frame.
 nextFrame :: Animation -> Animation
