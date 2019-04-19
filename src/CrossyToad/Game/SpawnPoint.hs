@@ -5,8 +5,8 @@ module CrossyToad.Game.SpawnPoint
   , HasSpawnPoint(..)
   , HasSpawnPoints(..)
   , mk
-  , stepAll
-  , step
+  , tickAll
+  , tick
   ) where
 
 import           Control.Lens.Extended
@@ -55,13 +55,13 @@ mk position' direction' spawnTimes loopInterval = SpawnPoint
     mkSpawn :: Timed (Maybe Entity) -> (Seconds, Entity) -> Timed (Maybe Entity)
     mkSpawn t (seconds, ent) = Timed.pulse seconds ent t
 
-stepAll :: HasSpawnPoints ent => Seconds -> State ent [Command]
-stepAll seconds = do
-  zoom (spawnPoints.traverse) (maybeToList <$> step seconds)
+tickAll :: HasSpawnPoints ent => Seconds -> State ent [Command]
+tickAll seconds = do
+  zoom (spawnPoints.traverse) (maybeToList <$> tick seconds)
 
-step :: HasSpawnPoint ent => Seconds -> State ent (Maybe Command)
-step seconds = do
-  nextSpawn <- zoom spawns (Timed.stepBy seconds)
+tick :: HasSpawnPoint ent => Seconds -> State ent (Maybe Command)
+tick seconds = do
+  nextSpawn <- zoom spawns (Timed.tickBy seconds)
   pos <- use (spawnPoint.position)
   dir <- use (spawnPoint.direction)
 

@@ -24,7 +24,7 @@ runCrossyToad :: Env CrossyToad -> CrossyToad a -> IO a
 runCrossyToad config (CrossyToad m) = runReaderT m config
 
 instance MonadInput CrossyToad where
-  stepInput = SDLMonadInput.stepInput
+  tickInput = SDLMonadInput.tickInput
   getInputState = SDLMonadInput.getInputState
 
 instance MonadLogger CrossyToad where
@@ -43,7 +43,7 @@ instance MonadScene CrossyToad where
   delayPop = IOMonadScene.delayPop
 
 instance MonadTime CrossyToad where
-  stepTime = SDLTime.stepTime
+  tickTime = SDLTime.tickTime
   deltaTime = SDLTime.deltaTime
 
 instance MonadTask CrossyToad where

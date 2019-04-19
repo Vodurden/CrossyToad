@@ -24,11 +24,11 @@ scene = Scene.mkNoState handleInput render
 handleInput :: (MonadScene m) => InputState -> m ()
 handleInput input = do
   let intents = Intent.fromInput (input^.inputEvents)
-  traverse_ stepIntent intents
+  traverse_ applyIntent intents
 
-stepIntent :: (MonadScene m) => Intent -> m ()
-stepIntent StartGame = MonadScene.delayPush SceneId.Game
-stepIntent Quit = MonadScene.delayPop
+applyIntent :: (MonadScene m) => Intent -> m ()
+applyIntent StartGame = MonadScene.delayPush SceneId.Game
+applyIntent Quit = MonadScene.delayPop
 
 render :: (MonadRenderer m) => m ()
 render = do

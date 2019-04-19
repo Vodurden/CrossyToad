@@ -12,16 +12,16 @@ import Control.Monad.Trans (MonadTrans, lift)
 import CrossyToad.Time.Seconds
 
 class Monad m => MonadTime m where
-  -- | Marks the end of this timestep and begins a new timestep.
-  stepTime :: m ()
+  -- | Marks the end of this tick and begins a new tick.
+  tickTime :: m ()
 
-  -- | Returns how many seconds have elaspsed between the current timestep
-  -- | and the previous timestep.
+  -- | Returns how many seconds have elaspsed between the current timetick
+  -- | and the previous timetick.
   deltaTime :: m Seconds
 
   -- | Default instances to easily derive our MonadTrans instances
-  default stepTime :: (MonadTrans t, MonadTime m1, m ~ t m1) => m ()
-  stepTime = lift stepTime
+  default tickTime :: (MonadTrans t, MonadTime m1, m ~ t m1) => m ()
+  tickTime = lift tickTime
   default deltaTime :: (MonadTrans t, MonadTime m1, m ~ t m1) => m Seconds
   deltaTime = lift deltaTime
 

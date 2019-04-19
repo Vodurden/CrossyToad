@@ -14,7 +14,7 @@ module CrossyToad.Physics.JumpMotion
   ( JumpMotion(..)
   , HasJumpMotion(jumpMotion, speed, distance, cooldown)
   , mk
-  , stepBy
+  , tick
   , jump
   , isJumping
   , isReady
@@ -84,13 +84,16 @@ isCoolingDown :: (HasJumpMotion ent) => ent -> Bool
 isCoolingDown motion = isJust $ motion ^? state . value . _CoolingDown
 
 -- | Step this motion by a given amount of seconds
-stepBy :: forall ent. (HasPosition ent, HasDirection ent, HasJumpMotion ent)
-       => Seconds -> ent -> ent
-stepBy delta = execState stepBy'
+tick :: forall ent.
+  ( HasPosition ent
+  , HasDirection ent
+  , HasJumpMotion ent
+  ) => Seconds -> ent -> ent
+tick delta = execState stepBy'
   where
     stepBy' :: State ent ()
     stepBy' = do
-      state %= Timed.stepBy_ delta
+      state %= Timed.tickBy_ delta
 
       -- Move if we have any movement to do
       distanceThisFrame' <- gets (distanceThisFrame delta)

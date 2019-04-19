@@ -13,7 +13,7 @@ module CrossyToad.Physics.LinearMotion
   , HasLinearMotion(..)
   , mk
   , stepBy
-  , motionVectorThisStep
+  , motionVectorThisTick
   ) where
 
 import Control.Lens
@@ -41,13 +41,13 @@ stepBy ::
   , HasLinearMotion ent
   ) => Seconds -> ent -> ent
 stepBy delta ent' =
-  ent' & position +~ (motionVectorThisStep delta ent')
+  ent' & position +~ (motionVectorThisTick delta ent')
 
-motionVectorThisStep ::
+motionVectorThisTick ::
   ( HasDirection ent
   , HasLinearMotion ent
   ) => Seconds -> ent -> V2 Distance
-motionVectorThisStep delta ent' =
+motionVectorThisTick delta ent' =
   let distanceThisFrame = (ent' ^. speed) * delta
       directionVector = unitVector $ ent'^.direction
   in (* distanceThisFrame) <$> directionVector

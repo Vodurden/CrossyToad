@@ -10,7 +10,7 @@ module CrossyToad.Renderer.Animated
   , loop
   , pause
   , currentAnimation
-  , stepBy
+  , tickBy
   , render
   ) where
 
@@ -33,7 +33,7 @@ import           CrossyToad.Time.Seconds
 -- | be animated.
 -- |
 -- | It keeps track of the current animation and provide
--- | functions to step and render the correct sprite.
+-- | functions to tick and render the correct sprite.
 data Animated key = Animated
   { _currentAnimationKey :: key
   , _animations :: Map key Animation
@@ -87,9 +87,9 @@ currentAnimation = lens getter setter
         setter animation' animations' =
           animation' & animations . (ix $ animation' ^. currentAnimationKey) .~ animations'
 
-stepBy :: (Ord key, HasAnimated ent key) => Seconds -> ent -> ent
-stepBy delta ent =
-  ent & animated.currentAnimation %~ (Animation.stepBy delta)
+tickBy :: (Ord key, HasAnimated ent key) => Seconds -> ent -> ent
+tickBy delta ent =
+  ent & animated.currentAnimation %~ (Animation.tickBy delta)
 
 render ::
   ( Ord key

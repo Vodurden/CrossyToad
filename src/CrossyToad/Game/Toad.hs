@@ -65,21 +65,21 @@ mk pos = Toad
     toadCooldown :: Seconds
     toadCooldown = 0.15
 
-step :: (HasToad ent) => Seconds -> ent -> ent
-step seconds =
-  toad %~ (JumpMotion.stepBy seconds
-           >>> stepPhysicalState
-           >>> stepAnimatedState
-           >>> Animated.stepBy seconds)
+tick :: (HasToad ent) => Seconds -> ent -> ent
+tick seconds =
+  toad %~ (JumpMotion.tick seconds
+           >>> tickPhysicalState
+           >>> tickAnimatedState
+           >>> Animated.tickBy seconds)
 
-stepPhysicalState :: Toad -> Toad
-stepPhysicalState t =
+tickPhysicalState :: Toad -> Toad
+tickPhysicalState t =
   t & physical . layer .~
     if | JumpMotion.isJumping t -> Physical.Air
        | otherwise -> Physical.Ground
 
-stepAnimatedState :: Toad -> Toad
-stepAnimatedState t =
+tickAnimatedState :: Toad -> Toad
+tickAnimatedState t =
   t & animated %~
     if | JumpMotion.isJumping t -> (Animated.transition Animated.play) ToadSprite.Jump
        | otherwise -> (Animated.transition Animated.pause) ToadSprite.Idle

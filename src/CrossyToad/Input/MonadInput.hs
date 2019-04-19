@@ -23,11 +23,11 @@ import CrossyToad.Input.InputState
 import CrossyToad.Input.KeyboardState
 
 class Monad m => MonadInput m where
-  stepInput :: m ()
+  tickInput :: m ()
   getInputState :: m InputState
 
-  default stepInput :: (MonadTrans t, MonadInput m1, m ~ t m1) => m ()
-  stepInput = lift stepInput
+  default tickInput :: (MonadTrans t, MonadInput m1, m ~ t m1) => m ()
+  tickInput = lift tickInput
 
   default getInputState :: (MonadTrans t, MonadInput m1, m ~ t m1) => m InputState
   getInputState = lift getInputState

@@ -42,5 +42,5 @@ moveOnPlatform ::
   ) => Seconds -> riderEnt -> platformEnt -> riderEnt
 moveOnPlatform delta riderEnt platformEnt
   | Physical.onPlatform riderEnt platformEnt =
-      riderEnt & position +~ (LinearMotion.motionVectorThisStep delta platformEnt)
+      riderEnt & position +~ (LinearMotion.motionVectorThisTick delta platformEnt)
   | otherwise = riderEnt

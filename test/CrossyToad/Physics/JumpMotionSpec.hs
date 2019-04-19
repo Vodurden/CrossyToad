@@ -49,7 +49,7 @@ jumping :: Ent -> Ent
 jumping ent' = JumpMotion.jump (ent' ^. direction) $ ent'
 
 coolingDown :: Ent -> Ent
-coolingDown ent' = JumpMotion.stepBy (ent'^.jumpMotion.speed * ent'^.jumpMotion.distance) $ jumping ent'
+coolingDown ent' = JumpMotion.tick (ent'^.jumpMotion.speed * ent'^.jumpMotion.distance) $ jumping ent'
 
 spec_Physics_JumpMotion :: Spec
 spec_Physics_JumpMotion = do
@@ -80,57 +80,57 @@ spec_Physics_JumpMotion = do
     it "should be false when we are cooling down" $
       isJumping (coolingDown mkEnt') `shouldBe` False
 
-  describe "stepBy" $ do
-    let stepBy' = stepBy 1
+  describe "tick" $ do
+    let tick' = tick 1
 
     context "when the entity is ready it" $ do
       it "should not do anything" $ do
         let ent' = ready mkEnt'
-        (stepBy' ent') `shouldBe` ent'
+        (tick' ent') `shouldBe` ent'
 
     context "when the entity is jumping it" $ do
       it "should not move further then the target distance" $ do
         let ent' = jumping $ mkEnt East 2 1 0.15
-        (stepBy' ent') ^. position `shouldBe` (V2 1 0)
+        (tick' ent') ^. position `shouldBe` (V2 1 0)
 
       it "moves by the speed of the motion" $ do
         let ent' = jumping $ mkEnt East 2 5 0.15
-        (stepBy' ent') ^. position `shouldBe` (V2 2 0)
+        (tick' ent') ^. position `shouldBe` (V2 2 0)
 
       it "does nothing when the speed is 0" $ do
         let ent' = jumping $ mkEnt' & (jumpMotion.speed .~ 0)
-        stepBy' ent' `shouldBe` ent'
+        tick' ent' `shouldBe` ent'
 
       it "does not move further then the target distance" $ do
         let ent' = jumping $ mkEnt East 10 5 0.15
-        (stepBy' ent') ^. position `shouldBe` (V2 5 0)
+        (tick' ent') ^. position `shouldBe` (V2 5 0)
 
       it "should move linearly relative to the delta time" $ do
         let ent' = jumping $ mkEnt East 10 10 0.15
         let delta = 0.1
-        (stepBy delta ent') ^. position `shouldBe` (V2 1 0)
+        (tick delta ent') ^. position `shouldBe` (V2 1 0)
 
       it "does not move further then the target distance when linearized" $ do
         let ent' = jumping $ mkEnt East 20 1 0.15
         let delta = 0.1
-        (stepBy delta ent') ^. position `shouldBe` (V2 1 0)
+        (tick delta ent') ^. position `shouldBe` (V2 1 0)
 
       it "should not linearize target distance" $ do
         let ent' = jumping $ mkEnt East 320 32 0.15
         let delta = 0.05
-        (stepBy delta ent') ^. position `shouldBe` (V2 16 0)
+        (tick delta ent') ^. position `shouldBe` (V2 16 0)
 
     context "when the entity is cooling down it" $ do
       it "should not move" $ do
         let ent' = coolingDown $ mkEnt'
-        (stepBy' ent') ^. position `shouldBe` (ent' ^. position)
+        (tick' ent') ^. position `shouldBe` (ent' ^. position)
 
       it "should become ready when the cooldown finishes" $ do
         let ent' = coolingDown $ mkEnt'
         let cooldown' = ent' ^. cooldown
-        JumpMotion.isReady (stepBy cooldown' ent') `shouldBe` True
+        JumpMotion.isReady (tick cooldown' ent') `shouldBe` True
 
     context "when the entity finishes jumping" $ do
       it "should begin cooling down" $ do
         let ent' = jumping $ mkEnt East 5 5 0.15
-        JumpMotion.isCoolingDown (stepBy' ent') `shouldBe` True
+        JumpMotion.isCoolingDown (tick' ent') `shouldBe` True

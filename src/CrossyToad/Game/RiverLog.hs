@@ -4,7 +4,7 @@ module CrossyToad.Game.RiverLog
   ( RiverLog(..)
   , HasRiverLog(..)
   , mk
-  , step
+  , tick
   ) where
 
 import           Control.Lens
@@ -50,5 +50,5 @@ mk pos dir = RiverLog
     logSpeed = 64 * (1 / secondsPerTile)
       where secondsPerTile = 0.5
 
-step :: HasRiverLog ent => Seconds -> ent -> ent
-step seconds = riverLog %~ (LinearMotion.stepBy seconds)
+tick :: HasRiverLog ent => Seconds -> ent -> ent
+tick seconds = riverLog %~ (LinearMotion.stepBy seconds)

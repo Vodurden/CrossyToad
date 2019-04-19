@@ -58,7 +58,7 @@ tick :: (Monad m) => Seconds -> Scene m -> m (Scene m)
 tick seconds (Scene sc) = do
   let interval = (_tickInterval sc)
   let nextAccumulator = (_tickAccumulator sc) + seconds
-  (nextState, leftoverTicks) <- (Seconds.fixedStepM interval (_tick sc)) nextAccumulator (_state sc)
+  (nextState, leftoverTicks) <- (Seconds.fixedTickM interval (_tick sc)) nextAccumulator (_state sc)
   pure $ Scene $ sc { _state = nextState
                     , _tickAccumulator = leftoverTicks
                     }

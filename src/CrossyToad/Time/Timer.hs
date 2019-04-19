@@ -4,7 +4,7 @@
 module CrossyToad.Time.Timer where
 
 import Control.Lens
-import Control.Monad.State.Strict.Extended (StateT, State, execState, modify', hoistState)
+import Control.Monad.State.Strict.Extended (State, execState, modify')
 
 import CrossyToad.Time.Seconds
 import CrossyToad.Time.MonadTime
@@ -36,41 +36,25 @@ running timer' = timer' ^. currentTime > 0
 finished :: Timer -> Bool
 finished = not . running
 
--- | Steps a Timer
-step :: (MonadTime m, HasTimer ent) => ent -> m ent
-step ent = do
-  delta <- deltaTime
-  pure $ execState (stepBy delta) ent
-
--- | Steps the timer by the given delta
+-- | Ticks the timer by the given delta
 -- |
 -- | Returns any unused delta time
-stepBy :: (HasTimer ent) => Seconds -> State ent Seconds
-stepBy delta = do
+tickBy :: (HasTimer ent) => Seconds -> State ent Seconds
+tickBy delta = do
   timer' <- use timer
   let nextSeconds = (timer' ^. currentTime) - delta
   let remainingDelta = if nextSeconds < 0 then abs nextSeconds else 0
   timer.currentTime .= (max 0 nextSeconds)
   pure remainingDelta
 
-tick
-  :: (MonadTime m, HasTimer timer)
-  => Lens' ent timer      -- ^ The timer to tick
-  -> State ent b          -- ^ Update to apply if the timer has not finished
-  -> State ent b          -- ^ Update to apply if the timer has finished
-  -> StateT ent m b
-tick timerL onNoTick onTick = do
-  delta <- deltaTime
-  hoistState $ tickBy timerL delta onNoTick onTick
-
-tickBy
+tickByL
   :: (HasTimer timer)
   => Lens' ent timer      -- ^ The timer to tick
   -> Seconds              -- ^ Amount of time to tick ahead by
   -> State ent b          -- ^ Update to apply if the timer has not finished
   -> State ent b          -- ^ Update to apply if the timer has finished
   -> State ent b
-tickBy timerL delta onNoTick onTick = do
+tickByL timerL delta onNoTick onTick = do
     timer' <- use (timerL.timer)
     let nextTimer = tickTimer delta timer'
     timerL . timer .= nextTimer
@@ -90,7 +74,7 @@ tickEnt onTick ent = do
 
 tickEntBy :: (HasTimer ent) => Seconds -> (ent -> ent) -> ent -> ent
 tickEntBy delta onTick =
-  execState $ tickBy timer delta (modify' id) (modify' onTick)
+  execState $ tickByL timer delta (modify' id) (modify' onTick)
 
 tickOver :: (MonadTime m, HasTimer timer) => Lens' ent timer -> (ent -> ent) -> ent -> m ent
 tickOver timerL onTick ent = do
@@ -99,4 +83,4 @@ tickOver timerL onTick ent = do
 
 tickOverBy :: (HasTimer timer) => Lens' ent timer -> Seconds -> (ent -> ent) -> ent -> ent
 tickOverBy timerL delta onTick =
-  execState $ tickBy timerL delta (modify' id) (modify' onTick)
+  execState $ tickByL timerL delta (modify' id) (modify' onTick)

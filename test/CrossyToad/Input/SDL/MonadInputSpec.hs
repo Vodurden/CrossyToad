@@ -38,7 +38,7 @@ describeKey keycode expectedKey = do
   let sdlReleaseEvent = (mkKeyboardEvent SDL.Released keycode)
 
   context ("when " ++ (show expectedKey) ++ " pressed") $ do
-    let inputState' = stepInputState [sdlPressEvent] initialInputState
+    let inputState' = tickInputState [sdlPressEvent] initialInputState
 
     it ("should have a 'KeyPressed' input event") $ do
       (inputState' ^. inputEvents) `shouldBe` [KeyPressed expectedKey]
@@ -47,7 +47,7 @@ describeKey keycode expectedKey = do
       (inputState' ^. keyboardState.pressed) `shouldBe` (Set.singleton expectedKey)
 
   context ("when " ++ (show expectedKey) ++ " released") $ do
-    let inputState' = stepInputState [sdlReleaseEvent] initialInputState
+    let inputState' = tickInputState [sdlReleaseEvent] initialInputState
 
     it ("should have a 'Released' input event") $ do
       (inputState' ^. inputEvents) `shouldBe` [KeyReleased expectedKey]
@@ -56,7 +56,7 @@ describeKey keycode expectedKey = do
       (inputState' ^. keyboardState.pressed) `shouldBe` (Set.empty)
 
   context ("when " ++ (show expectedKey) ++ " pressed and released in the same frame") $ do
-    let inputState' = stepInputState [sdlPressEvent, sdlReleaseEvent] initialInputState
+    let inputState' = tickInputState [sdlPressEvent, sdlReleaseEvent] initialInputState
 
     it ("should have a 'KeyPressed' and 'KeyReleased' input event") $ do
       (inputState' ^. inputEvents) `shouldBe` [KeyPressed expectedKey, KeyReleased expectedKey]
@@ -65,7 +65,7 @@ describeKey keycode expectedKey = do
       (inputState' ^. keyboardState.pressed) `shouldBe` (Set.empty)
 
   context ("when " ++ (show expectedKey) ++ " pressed and released across frames") $ do
-    let inputState' = (stepInputState [sdlPressEvent] >>> stepInputState [sdlReleaseEvent]) initialInputState
+    let inputState' = (tickInputState [sdlPressEvent] >>> tickInputState [sdlReleaseEvent]) initialInputState
 
     it ("should have a 'KeyReleased' input event") $ do
       (inputState' ^. inputEvents) `shouldBe` [KeyReleased expectedKey]
@@ -75,7 +75,7 @@ describeKey keycode expectedKey = do
 
 spec_Input_SDL_Input :: Spec
 spec_Input_SDL_Input =
-  describe "stepInput" $ do
+  describe "tickInput" $ do
     describeKey SDL.KeycodeReturn Return
     describeKey SDL.KeycodeEscape Escape
     describeKey SDL.KeycodeW W

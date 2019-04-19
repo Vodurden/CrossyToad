@@ -1,6 +1,6 @@
 module CrossyToad.Time.MonadTime.SDL.MonadTime
-  ( stepTime
-  , stepTimeState
+  ( tickTime
+  , tickTimeState
   , deltaTime
   ) where
 
@@ -15,18 +15,18 @@ import           CrossyToad.Time.MonadTime.SDL.MonadTimeState (MonadTimeState, H
 import           CrossyToad.Time.MonadTime.SDL.Env (HasEnv(..))
 import           CrossyToad.Time.Seconds
 
-stepTime ::
+tickTime ::
   ( MonadReader r m
   , HasEnv r
   , MonadIO m
   ) => m ()
-stepTime = do
+tickTime = do
   timeStateRef' <- view (env.monadTimeStateRef)
   timeNow <- Time.time
-  liftIO $ modifyIORef' timeStateRef' (stepTimeState timeNow)
+  liftIO $ modifyIORef' timeStateRef' (tickTimeState timeNow)
 
-stepTimeState :: Seconds -> MonadTimeState -> MonadTimeState
-stepTimeState timeNow ts =
+tickTimeState :: Seconds -> MonadTimeState -> MonadTimeState
+tickTimeState timeNow ts =
   ts & previousTime .~ (ts ^. currentTime)
      & currentTime .~ timeNow
 

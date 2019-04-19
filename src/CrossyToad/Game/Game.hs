@@ -4,8 +4,8 @@ module CrossyToad.Game.Game
   ( scene
   , initialize
   , handleInput
-  , step
-  , stepIntent
+  , tick
+  , tickIntent
   , render
   , module CrossyToad.Game.GameState
   ) where
@@ -70,35 +70,26 @@ initialize = GameState.mk &
       , SpawnPoint.mk (V2 (20*64) (10*64)) West ((,Entity.Car) <$> [0.5,2,4]) 3
       ]
 
-tick :: MonadLogger m => Seconds -> GameState -> m GameState
-tick seconds gameState' = do
-  step seconds gameState'
-
 -- | Update the GameState and Scene based on the user input
 handleInput :: (MonadScene m, HasGameState ent) => InputState -> ent -> m ent
 handleInput input ent' =
-  foldlM (flip stepIntent) ent' (Intent.fromInputState input)
+  foldlM (flip tickIntent) ent' (Intent.fromInputState input)
 
-stepIntent :: (MonadScene m, HasGameState ent) => Intent -> ent -> m ent
-stepIntent (Move dir) ent = pure $ ent & gameState . toad %~ (Toad.jump dir)
-stepIntent Exit ent = MonadScene.delayPop >> pure ent
+tickIntent :: (MonadScene m, HasGameState ent) => Intent -> ent -> m ent
+tickIntent (Move dir) ent = pure $ ent & gameState . toad %~ (Toad.jump dir)
+tickIntent Exit ent = MonadScene.delayPop >> pure ent
 
-step :: (MonadLogger m, HasGameState ent) => Seconds -> ent -> m ent
-step ent = do
-  stepGameState ent
-
--- | Step all the GameState specific logic
-stepGameState :: (MonadLogger m, HasGameState ent) => Seconds -> ent -> m ent
-stepGameState seconds ent' = flip execStateT ent' $ do
-  gameState.toad %= Toad.step seconds
+tick :: (MonadLogger m, HasGameState ent) => Seconds -> ent -> m ent
+tick seconds ent' = flip execStateT ent' $ do
+  gameState.toad %= Toad.tick seconds
 
   gameState %= lensFoldl' (MovementSystem.moveOnPlatform $ seconds) toad riverLogs
 
-  spCommands <- zoom (gameState.spawnPoints) (hoistState $ SpawnPoint.stepAll seconds)
+  spCommands <- zoom (gameState.spawnPoints) (hoistState $ SpawnPoint.tickAll seconds)
   id %= (runCommands spCommands)
 
-  gameState.cars.mapped %= (Car.step seconds)
-  gameState.riverLogs.mapped %= (RiverLog.step seconds)
+  gameState.cars.mapped %= (Car.tick seconds)
+  gameState.riverLogs.mapped %= (RiverLog.tick seconds)
 
   gameState %= lensFoldl' MortalSystem.mortalCollision toad cars
 

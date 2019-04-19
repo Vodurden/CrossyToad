@@ -4,7 +4,7 @@ module CrossyToad.Game.Car
   ( Car(..)
   , HasCar(..)
   , mk
-  , step
+  , tick
   ) where
 
 import           Control.Lens
@@ -59,5 +59,5 @@ mk pos dir = Car
     carSpeed = 64 * (1 / secondsPerTile)
       where secondsPerTile = 0.5
 
-step :: HasCar ent => Seconds -> ent -> ent
-step seconds = car %~ (LinearMotion.stepBy seconds)
+tick :: HasCar ent => Seconds -> ent -> ent
+tick seconds = car %~ (LinearMotion.stepBy seconds)

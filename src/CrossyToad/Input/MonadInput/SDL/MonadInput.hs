@@ -1,6 +1,6 @@
 module CrossyToad.Input.MonadInput.SDL.MonadInput
-  ( stepInput
-  , stepInputState
+  ( tickInput
+  , tickInputState
   , getInputState
   , mkInputEvent
   ) where
@@ -19,15 +19,15 @@ import           CrossyToad.Input.KeyboardState
 import           CrossyToad.Input.Key
 import           CrossyToad.Input.MonadInput.SDL.Env
 
-stepInput ::
+tickInput ::
   ( MonadReader r m
   , HasEnv r
   , MonadIO m
   ) => m ()
-stepInput = do
+tickInput = do
   inputStateRef' <- view (env.inputStateRef)
   events <- SDL.pollEvents
-  liftIO $ modifyIORef' inputStateRef' (stepInputState events)
+  liftIO $ modifyIORef' inputStateRef' (tickInputState events)
 
 getInputState ::
   ( MonadReader r m
@@ -38,8 +38,8 @@ getInputState = do
   inputStateRef' <- view (env.inputStateRef)
   liftIO $ readIORef inputStateRef'
 
-stepInputState :: [SDL.Event] -> InputState -> InputState
-stepInputState events =
+tickInputState :: [SDL.Event] -> InputState -> InputState
+tickInputState events =
   let inputEvents' = catMaybes $ fmap mkInputEvent events
   in (inputEvents .~ inputEvents')
      . (inputState %~ updateInputState inputEvents')
