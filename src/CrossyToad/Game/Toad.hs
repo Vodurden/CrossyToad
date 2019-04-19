@@ -19,6 +19,8 @@ import qualified CrossyToad.Renderer.Asset.Sprite.Toad as ToadSprite
 import           CrossyToad.Renderer.Sprite (Sprite(..), HasSprite(..))
 import           CrossyToad.Time.Seconds
 import           CrossyToad.Time.TickSeconds
+import           CrossyToad.Mortality.Mortal (Mortal, HasMortal(..))
+import qualified CrossyToad.Mortality.Mortal as Mortal
 
 data Toad = Toad
   { __position :: !Position
@@ -27,9 +29,7 @@ data Toad = Toad
   , __physical :: !Physical
   , __sprite :: !Sprite
   , __animated :: !(Animated ToadSprite.Animation)
-
-  , _initialPosition :: !Position        -- ^ The position the toad was originally created in
-  , _lives :: !Int                       -- ^ How many lives the toad has left
+  , __mortal :: !Mortal
   } deriving (Eq, Show)
 
 makeClassy ''Toad
@@ -40,6 +40,7 @@ instance HasJumpMotion Toad where jumpMotion = _jumpMotion
 instance HasPhysical Toad where physical = _physical
 instance HasSprite Toad where sprite = _sprite
 instance HasAnimated Toad ToadSprite.Animation where animated = _animated
+instance HasMortal Toad where mortal = _mortal
 
 mk :: Position -> Toad
 mk pos = Toad
@@ -49,8 +50,7 @@ mk pos = Toad
     , __physical = Physical.mkAt (V2 1 1) (V2 62 62) Physical.Ground
     , __sprite = Sprite ImageAsset.Toad (V2 64 64)
     , __animated = Animated.mk ToadSprite.Idle ToadSprite.animations
-    , _initialPosition = pos
-    , _lives = 5
+    , __mortal = Mortal.mk 5 pos
     }
   where
     -- | How far the toad moves in one jump
@@ -90,8 +90,3 @@ stepAnimatedState t =
 -- | This will cause the toad to change direction and begin moving.
 jump :: Direction -> Toad -> Toad
 jump dir = JumpMotion.jump dir
-
--- | Kills the toad
-die :: Toad -> Toad
-die toad' = toad' & (lives .~ max 0 (toad' ^. lives - 1))
-                  . (position .~ toad' ^. initialPosition)

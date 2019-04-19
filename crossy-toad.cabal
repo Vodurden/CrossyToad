@@ -2,7 +2,7 @@
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: 85e12271a42c5cb8684dea0812bf0c292d4284936510d9c890b679ed7148ea19
+-- hash: ddb10b506d0fe9ece377320df67ebadba07c8f2035628349b54bbf5c14694382
 
 name:           crossy-toad
 version:        0.1.0.0
@@ -26,7 +26,6 @@ library
       CrossyToad
       CrossyToad.Env
       CrossyToad.Game.Car
-      CrossyToad.Game.Collision
       CrossyToad.Game.Command
       CrossyToad.Game.Entity
       CrossyToad.Game.Game
@@ -50,6 +49,8 @@ library
       CrossyToad.Logger.MonadLogger
       CrossyToad.Logger.MonadLogger.IO.Env
       CrossyToad.Logger.MonadLogger.IO.MonadLogger
+      CrossyToad.Mortality.Mortal
+      CrossyToad.Mortality.MortalSystem
       CrossyToad.Physics.Direction
       CrossyToad.Physics.Distance
       CrossyToad.Physics.JumpMotion
@@ -175,7 +176,6 @@ test-suite spec
   other-modules:
       CrossyToad.Game.GameSpec
       CrossyToad.Game.IntentSpec
-      CrossyToad.Game.ToadSpec
       CrossyToad.Geometry.AABBSpec
       CrossyToad.Input.KeyboardStateSpec
       CrossyToad.Input.SDL.MonadInputSpec
@@ -195,7 +195,6 @@ test-suite spec
       CrossyToad
       CrossyToad.Env
       CrossyToad.Game.Car
-      CrossyToad.Game.Collision
       CrossyToad.Game.Command
       CrossyToad.Game.Entity
       CrossyToad.Game.Game
@@ -219,6 +218,8 @@ test-suite spec
       CrossyToad.Logger.MonadLogger
       CrossyToad.Logger.MonadLogger.IO.Env
       CrossyToad.Logger.MonadLogger.IO.MonadLogger
+      CrossyToad.Mortality.Mortal
+      CrossyToad.Mortality.MortalSystem
       CrossyToad.Physics.Direction
       CrossyToad.Physics.Distance
       CrossyToad.Physics.JumpMotion

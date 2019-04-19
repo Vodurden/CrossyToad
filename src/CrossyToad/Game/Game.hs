@@ -16,7 +16,6 @@ import           Data.Foldable (foldl', foldlM)
 import           Linear.V2
 
 import qualified CrossyToad.Game.Car as Car
-import qualified CrossyToad.Game.Collision as Collision
 import           CrossyToad.Game.Command (Command(..))
 import qualified CrossyToad.Game.Entity as Entity
 import           CrossyToad.Game.GameState (GameState, HasGameState(..))
@@ -43,6 +42,7 @@ import           CrossyToad.Scene.Scene (Scene)
 import qualified CrossyToad.Scene.Scene as Scene
 import           CrossyToad.Time.Seconds
 import           CrossyToad.Time.TickSeconds
+import qualified CrossyToad.Mortality.MortalSystem as MortalSystem
 
 scene ::
   ( MonadRenderer m
@@ -93,7 +93,7 @@ stepGameState :: (MonadLogger m, HasGameState ent) => TickSeconds -> ent -> m en
 stepGameState seconds ent' = flip execStateT ent' $ do
   gameState.toad %= Toad.step seconds
 
-  gameState %= MovementSystem.moveOnAllPlatforms (unTickSeconds seconds) toad riverLogs
+  gameState %= lensFoldl' (MovementSystem.moveOnPlatform $ unTickSeconds seconds) toad riverLogs
 
   spCommands <- zoom (gameState.spawnPoints) (hoistState $ SpawnPoint.stepAll seconds)
   id %= (runCommands spCommands)
@@ -101,7 +101,7 @@ stepGameState seconds ent' = flip execStateT ent' $ do
   gameState.cars.mapped %= (Car.step seconds)
   gameState.riverLogs.mapped %= (RiverLog.step seconds)
 
-  gameState %= Collision.toadCollision toad cars
+  gameState %= lensFoldl' MortalSystem.mortalCollision toad cars
 
 runCommands :: forall ent. (HasGameState ent) => [Command] -> ent -> ent
 runCommands commands ent' = foldl' (flip runCommand) ent' commands
