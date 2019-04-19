@@ -40,8 +40,7 @@ import           CrossyToad.Scene.MonadScene (MonadScene)
 import qualified CrossyToad.Scene.MonadScene as MonadScene
 import           CrossyToad.Scene.Scene (Scene)
 import qualified CrossyToad.Scene.Scene as Scene
-import           CrossyToad.Time.Seconds
-import           CrossyToad.Time.TickSeconds
+import           CrossyToad.Time.Seconds (Seconds)
 import qualified CrossyToad.Mortality.MortalSystem as MortalSystem
 
 scene ::
@@ -73,7 +72,7 @@ initialize = GameState.mk &
 
 tick :: MonadLogger m => Seconds -> GameState -> m GameState
 tick seconds gameState' = do
-  step (TickSeconds seconds) gameState'
+  step seconds gameState'
 
 -- | Update the GameState and Scene based on the user input
 handleInput :: (MonadScene m, HasGameState ent) => InputState -> ent -> m ent
@@ -84,16 +83,16 @@ stepIntent :: (MonadScene m, HasGameState ent) => Intent -> ent -> m ent
 stepIntent (Move dir) ent = pure $ ent & gameState . toad %~ (Toad.jump dir)
 stepIntent Exit ent = MonadScene.delayPop >> pure ent
 
-step :: (MonadLogger m, HasGameState ent) => TickSeconds -> ent -> m ent
+step :: (MonadLogger m, HasGameState ent) => Seconds -> ent -> m ent
 step ent = do
   stepGameState ent
 
 -- | Step all the GameState specific logic
-stepGameState :: (MonadLogger m, HasGameState ent) => TickSeconds -> ent -> m ent
+stepGameState :: (MonadLogger m, HasGameState ent) => Seconds -> ent -> m ent
 stepGameState seconds ent' = flip execStateT ent' $ do
   gameState.toad %= Toad.step seconds
 
-  gameState %= lensFoldl' (MovementSystem.moveOnPlatform $ unTickSeconds seconds) toad riverLogs
+  gameState %= lensFoldl' (MovementSystem.moveOnPlatform $ seconds) toad riverLogs
 
   spCommands <- zoom (gameState.spawnPoints) (hoistState $ SpawnPoint.stepAll seconds)
   id %= (runCommands spCommands)

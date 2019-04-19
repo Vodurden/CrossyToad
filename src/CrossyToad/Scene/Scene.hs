@@ -16,7 +16,6 @@ import           Control.Lens.Extended
 
 import           CrossyToad.Time.Seconds (Seconds)
 import qualified CrossyToad.Time.Seconds as Seconds
-import           CrossyToad.Time.TickSeconds (TickSeconds(..))
 import           CrossyToad.Input.InputState (InputState)
 
 data Scene' m s = Scene'
@@ -55,8 +54,8 @@ handleInput inputState (Scene sc) = do
   nextState <- (_handleInput sc) inputState (_state sc)
   pure $ Scene $ sc { _state = nextState }
 
-tick :: (Monad m) => TickSeconds -> Scene m -> m (Scene m)
-tick (TickSeconds seconds) (Scene sc) = do
+tick :: (Monad m) => Seconds -> Scene m -> m (Scene m)
+tick seconds (Scene sc) = do
   let interval = (_tickInterval sc)
   let nextAccumulator = (_tickAccumulator sc) + seconds
   (nextState, leftoverTicks) <- (Seconds.fixedStepM interval (_tick sc)) nextAccumulator (_state sc)

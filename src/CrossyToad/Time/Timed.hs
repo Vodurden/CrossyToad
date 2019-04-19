@@ -6,12 +6,10 @@ module CrossyToad.Time.Timed where
 
 import           Control.Arrow
 import           Control.Lens
-import           Control.Monad.State.Strict.Extended (StateT, State, execState, execStateT, hoistState)
-import           Control.Monad.Reader (MonadReader, ask)
+import           Control.Monad.State.Strict.Extended (State, execState)
 import qualified Data.List as List
 
 import           CrossyToad.Time.Seconds
-import           CrossyToad.Time.TickSeconds
 
 -- | Represents a value that changes over time.
 data Timed a = Timed
@@ -81,14 +79,6 @@ after time value' t = t & (events %~ (++ [Event time value']))
 -- | Repeat the current events infinitely
 loop :: Timed a -> Timed a
 loop timed' = timed' & events %~ List.cycle
-
-step :: (MonadReader TickSeconds m, HasTimed ent a) => StateT ent m a
-step = do
-  delta <- ask
-  hoistState $ stepBy (unTickSeconds delta)
-
-step_ :: (MonadReader TickSeconds m, HasTimed ent a) => ent -> m ent
-step_ = execStateT step
 
 -- | Advances the timer by the amount of time given.
 stepBy :: (HasTimed ent a) => Seconds -> State ent a

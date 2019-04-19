@@ -17,8 +17,7 @@ import qualified CrossyToad.Renderer.Animated as Animated
 import qualified CrossyToad.Renderer.Asset.ImageAsset as ImageAsset
 import qualified CrossyToad.Renderer.Asset.Sprite.Toad as ToadSprite
 import           CrossyToad.Renderer.Sprite (Sprite(..), HasSprite(..))
-import           CrossyToad.Time.Seconds
-import           CrossyToad.Time.TickSeconds
+import           CrossyToad.Time.Seconds (Seconds)
 import           CrossyToad.Mortality.Mortal (Mortal, HasMortal(..))
 import qualified CrossyToad.Mortality.Mortal as Mortal
 
@@ -66,8 +65,8 @@ mk pos = Toad
     toadCooldown :: Seconds
     toadCooldown = 0.15
 
-step :: (HasToad ent) => TickSeconds -> ent -> ent
-step (TickSeconds seconds) =
+step :: (HasToad ent) => Seconds -> ent -> ent
+step seconds =
   toad %~ (JumpMotion.stepBy seconds
            >>> stepPhysicalState
            >>> stepAnimatedState

@@ -18,7 +18,7 @@ import           CrossyToad.Physics.LinearMotion (LinearMotion(..), HasLinearMot
 import qualified CrossyToad.Physics.LinearMotion as LinearMotion
 import           CrossyToad.Physics.Physics
 import           CrossyToad.Renderer.Sprite (Sprite(..), HasSprite(..))
-import           CrossyToad.Time.TickSeconds
+import           CrossyToad.Time.Seconds (Seconds)
 
 data Car = Car
   { __position :: !Position
@@ -59,5 +59,5 @@ mk pos dir = Car
     carSpeed = 64 * (1 / secondsPerTile)
       where secondsPerTile = 0.5
 
-step :: HasCar ent => TickSeconds -> ent -> ent
-step (TickSeconds seconds) = car %~ (LinearMotion.stepBy seconds)
+step :: HasCar ent => Seconds -> ent -> ent
+step seconds = car %~ (LinearMotion.stepBy seconds)

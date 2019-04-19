@@ -29,7 +29,7 @@ import           CrossyToad.Scene.Scene (Scene)
 import qualified CrossyToad.Scene.Scene as Scene
 import           CrossyToad.Scene.SceneId (SceneId)
 import qualified CrossyToad.Scene.SceneMapping as SceneMapping
-import           CrossyToad.Time.TickSeconds (TickSeconds)
+import           CrossyToad.Time.Seconds (Seconds)
 
 handleInputCurrentScene :: forall r m.
   ( MonadReader r m
@@ -52,7 +52,7 @@ tickCurrentScene :: forall r m.
   , MonadLogger m
   , MonadRenderer m
   , MonadIO m
-  ) => TickSeconds -> m (Maybe (Scene m))
+  ) => Seconds -> m (Maybe (Scene m))
 tickCurrentScene seconds =
   overCurrentScene $ \currentScene -> Scene.tick seconds currentScene
 

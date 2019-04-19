@@ -10,13 +10,11 @@ module CrossyToad.Renderer.Animated
   , loop
   , pause
   , currentAnimation
-  , step
   , stepBy
   , render
   ) where
 
 import           Control.Lens
-import           Control.Monad.Reader (MonadReader, ask)
 import           Data.Map.Strict (Map)
 import           Data.Maybe (fromJust)
 
@@ -30,7 +28,6 @@ import           CrossyToad.Renderer.RenderCommand (RenderCommand(..), AsRenderC
 import           CrossyToad.Renderer.Sprite (HasSprite(..))
 import qualified CrossyToad.Renderer.Sprite as Sprite
 import           CrossyToad.Time.Seconds
-import           CrossyToad.Time.TickSeconds
 
 -- | The Animated component is used to allow an entity to
 -- | be animated.
@@ -89,14 +86,6 @@ currentAnimation = lens getter setter
         setter :: Animated key -> Animation -> Animated key
         setter animation' animations' =
           animation' & animations . (ix $ animation' ^. currentAnimationKey) .~ animations'
-
-step ::
-  ( Ord key
-  , MonadReader TickSeconds m
-  , HasAnimated ent key
-  ) => ent -> m ent
-step ent = do
-  stepBy <$> (unTickSeconds <$> ask) <*> (pure ent)
 
 stepBy :: (Ord key, HasAnimated ent key) => Seconds -> ent -> ent
 stepBy delta ent =

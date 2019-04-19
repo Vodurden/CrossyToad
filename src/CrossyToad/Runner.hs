@@ -8,7 +8,6 @@ import           CrossyToad.Input.MonadInput (stepInput)
 import qualified CrossyToad.Scene.MonadScene as MonadScene
 import           CrossyToad.Time.MonadTask (pumpTasks)
 import           CrossyToad.Time.MonadTime (stepTime, deltaTime)
-import           CrossyToad.Time.TickSeconds (TickSeconds(..))
 
 mainLoop :: CrossyToad ()
 mainLoop = do
@@ -20,7 +19,7 @@ mainLoop = do
 
   _ <- MonadScene.handleInputCurrentScene
 
-  currentScene' <- MonadScene.tickCurrentScene (TickSeconds dt)
+  currentScene' <- MonadScene.tickCurrentScene dt
 
   MonadScene.renderCurrentScene
 
