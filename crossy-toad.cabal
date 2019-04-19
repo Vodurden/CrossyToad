@@ -2,7 +2,7 @@
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: 18fccc9b6abdca43968515675ced8b9d892378e3cef39394662711f7d0289c58
+-- hash: 85e12271a42c5cb8684dea0812bf0c292d4284936510d9c890b679ed7148ea19
 
 name:           crossy-toad
 version:        0.1.0.0
@@ -50,7 +50,6 @@ library
       CrossyToad.Logger.MonadLogger
       CrossyToad.Logger.MonadLogger.IO.Env
       CrossyToad.Logger.MonadLogger.IO.MonadLogger
-      CrossyToad.Physics.CollisionBox
       CrossyToad.Physics.Direction
       CrossyToad.Physics.Distance
       CrossyToad.Physics.JumpMotion
@@ -58,7 +57,6 @@ library
       CrossyToad.Physics.MovementSystem
       CrossyToad.Physics.Physical
       CrossyToad.Physics.Physics
-      CrossyToad.Physics.Platform
       CrossyToad.Physics.Speed
       CrossyToad.Renderer.Animated
       CrossyToad.Renderer.Animation
@@ -181,7 +179,6 @@ test-suite spec
       CrossyToad.Geometry.AABBSpec
       CrossyToad.Input.KeyboardStateSpec
       CrossyToad.Input.SDL.MonadInputSpec
-      CrossyToad.Physics.CollisionBoxSpec
       CrossyToad.Physics.JumpMotionSpec
       CrossyToad.Physics.LinearMotionSpec
       CrossyToad.Physics.PhysicalSpec
@@ -222,7 +219,6 @@ test-suite spec
       CrossyToad.Logger.MonadLogger
       CrossyToad.Logger.MonadLogger.IO.Env
       CrossyToad.Logger.MonadLogger.IO.MonadLogger
-      CrossyToad.Physics.CollisionBox
       CrossyToad.Physics.Direction
       CrossyToad.Physics.Distance
       CrossyToad.Physics.JumpMotion
@@ -230,7 +226,6 @@ test-suite spec
       CrossyToad.Physics.MovementSystem
       CrossyToad.Physics.Physical
       CrossyToad.Physics.Physics
-      CrossyToad.Physics.Platform
       CrossyToad.Physics.Speed
       CrossyToad.Renderer.Animated
       CrossyToad.Renderer.Animation
