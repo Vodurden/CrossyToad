@@ -2,7 +2,7 @@
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: 71c25ae13b8f25359021a47757a4f0925df43358171ae8f222d8101828a04d95
+-- hash: 721ba114ec41f66b5f18433660e0f08f5e501fa0af44d57bd68103f9879db5a3
 
 name:           crossy-toad
 version:        0.1.0.0
@@ -55,7 +55,9 @@ library
       CrossyToad.Physics.Distance
       CrossyToad.Physics.JumpMotion
       CrossyToad.Physics.LinearMotion
+      CrossyToad.Physics.MovementSystem
       CrossyToad.Physics.Physics
+      CrossyToad.Physics.Platform
       CrossyToad.Physics.Speed
       CrossyToad.Renderer.Animated
       CrossyToad.Renderer.Animation
@@ -224,7 +226,9 @@ test-suite spec
       CrossyToad.Physics.Distance
       CrossyToad.Physics.JumpMotion
       CrossyToad.Physics.LinearMotion
+      CrossyToad.Physics.MovementSystem
       CrossyToad.Physics.Physics
+      CrossyToad.Physics.Platform
       CrossyToad.Physics.Speed
       CrossyToad.Renderer.Animated
       CrossyToad.Renderer.Animation

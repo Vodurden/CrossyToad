@@ -14,7 +14,11 @@ data AABB = AABB
   , _maxPoint :: !Position
   } deriving (Eq, Show)
 
-makeClassy ''AABB
+-- makeClassy ''AABB
+makeClassyFor "HasAABB" "aabb"
+  [ ("_minPoint", "minPoint")
+  , ("_maxPoint", "maxPoint")
+  ] ''AABB
 
 instance HasPosition AABB where
   position = minPoint

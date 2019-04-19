@@ -15,20 +15,7 @@ import           Control.Monad.State.Strict.Extended (execStateT, hoistState)
 import           Data.Foldable (foldl', foldlM)
 import           Linear.V2
 
-import           CrossyToad.Input.InputState (InputState)
-import           CrossyToad.Logger.MonadLogger (MonadLogger(..))
-import qualified CrossyToad.Renderer.Asset.ImageAsset as ImageAsset
-import qualified CrossyToad.Renderer.MonadRenderer as MonadRenderer
-import           CrossyToad.Renderer.MonadRenderer (MonadRenderer)
-import qualified CrossyToad.Renderer.Animated as Animated
-import qualified CrossyToad.Renderer.Sprite as Sprite
-import           CrossyToad.Physics.Physics (Direction(..))
-import           CrossyToad.Scene.Scene (Scene)
-import qualified CrossyToad.Scene.Scene as Scene
-import           CrossyToad.Scene.MonadScene (MonadScene)
-import qualified CrossyToad.Scene.MonadScene as MonadScene
 import qualified CrossyToad.Game.Car as Car
-import qualified CrossyToad.Game.RiverLog as RiverLog
 import qualified CrossyToad.Game.Collision as Collision
 import           CrossyToad.Game.Command (Command(..))
 import qualified CrossyToad.Game.Entity as Entity
@@ -36,10 +23,24 @@ import           CrossyToad.Game.GameState (GameState, HasGameState(..))
 import qualified CrossyToad.Game.GameState as GameState
 import           CrossyToad.Game.Intent (Intent(..))
 import qualified CrossyToad.Game.Intent as Intent
+import qualified CrossyToad.Game.RiverLog as RiverLog
 import           CrossyToad.Game.SpawnPoint (SpawnPoint, HasSpawnPoints(..))
 import qualified CrossyToad.Game.SpawnPoint as SpawnPoint
 import           CrossyToad.Game.Toad (HasToad(..))
 import qualified CrossyToad.Game.Toad as Toad
+import           CrossyToad.Input.InputState (InputState)
+import           CrossyToad.Logger.MonadLogger (MonadLogger(..))
+import           CrossyToad.Physics.Physics (Direction(..))
+import qualified CrossyToad.Physics.MovementSystem as MovementSystem
+import qualified CrossyToad.Renderer.Animated as Animated
+import qualified CrossyToad.Renderer.Asset.ImageAsset as ImageAsset
+import           CrossyToad.Renderer.MonadRenderer (MonadRenderer)
+import qualified CrossyToad.Renderer.MonadRenderer as MonadRenderer
+import qualified CrossyToad.Renderer.Sprite as Sprite
+import           CrossyToad.Scene.MonadScene (MonadScene)
+import qualified CrossyToad.Scene.MonadScene as MonadScene
+import           CrossyToad.Scene.Scene (Scene)
+import qualified CrossyToad.Scene.Scene as Scene
 import           CrossyToad.Time.Seconds
 import           CrossyToad.Time.TickSeconds
 
@@ -92,13 +93,15 @@ stepGameState :: (MonadLogger m, HasGameState ent) => TickSeconds -> ent -> m en
 stepGameState seconds ent' = flip execStateT ent' $ do
   gameState.toad %= Toad.step seconds
 
+  gameState %= MovementSystem.moveOnAllPlatforms (unTickSeconds seconds) toad riverLogs
+
   spCommands <- zoom (gameState.spawnPoints) (hoistState $ SpawnPoint.stepAll seconds)
   id %= (runCommands spCommands)
 
   gameState.cars.mapped %= (Car.step seconds)
   gameState.riverLogs.mapped %= (RiverLog.step seconds)
 
-  modifyingM gameState (Collision.toadCollision toad cars)
+  gameState %= Collision.toadCollision toad cars
 
 runCommands :: forall ent. (HasGameState ent) => [Command] -> ent -> ent
 runCommands commands ent' = foldl' (flip runCommand) ent' commands
