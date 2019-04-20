@@ -29,10 +29,12 @@ import           CrossyToad.Game.Toad (HasToad(..))
 import qualified CrossyToad.Game.Toad as Toad
 import           CrossyToad.Input.InputState (InputState)
 import           CrossyToad.Logger.MonadLogger (MonadLogger(..))
-import           CrossyToad.Physics.Physics (Direction(..))
-import qualified CrossyToad.Physics.MovementSystem as MovementSystem
+import qualified CrossyToad.Mortality.MortalSystem as MortalSystem
 import qualified CrossyToad.Physics.LinearMotion as LinearMotion
+import qualified CrossyToad.Physics.MovementSystem as MovementSystem
+import           CrossyToad.Physics.Physics (Direction(..))
 import qualified CrossyToad.Renderer.Animated as Animated
+import qualified CrossyToad.Renderer.AnimationSystem as AnimationSystem
 import qualified CrossyToad.Renderer.Asset.ImageAsset as ImageAsset
 import           CrossyToad.Renderer.MonadRenderer (MonadRenderer)
 import qualified CrossyToad.Renderer.MonadRenderer as MonadRenderer
@@ -42,7 +44,6 @@ import qualified CrossyToad.Scene.MonadScene as MonadScene
 import           CrossyToad.Scene.Scene (Scene)
 import qualified CrossyToad.Scene.Scene as Scene
 import           CrossyToad.Time.Seconds (Seconds)
-import qualified CrossyToad.Mortality.MortalSystem as MortalSystem
 
 scene ::
   ( MonadRenderer m
@@ -82,9 +83,8 @@ tickIntent Exit ent = MonadScene.delayPop >> pure ent
 
 tick :: (MonadLogger m, HasGameState ent) => Seconds -> ent -> m ent
 tick seconds ent' = flip execStateT ent' $ do
-  gameState.toad %= Toad.tick seconds
   gameState.toad %= MovementSystem.tickJumping seconds
-  gameState.toad %= Animated.tick seconds
+  gameState.toad %= AnimationSystem.tickToadSprite seconds
   gameState %= lensFoldl' (MovementSystem.moveOnPlatform $ seconds) toad riverLogs
 
   spCommands <- zoom (gameState.spawnPoints) (hoistState $ SpawnPoint.tickAll seconds)

@@ -2,7 +2,6 @@
 
 module CrossyToad.Game.Toad where
 
-import           Control.Arrow ((>>>))
 import           Control.Lens
 import           Linear.V2
 
@@ -64,16 +63,6 @@ mk pos = Toad
     -- | How long the toad must rest between jumps
     toadCooldown :: Seconds
     toadCooldown = 0.15
-
-tick :: (HasToad ent) => Seconds -> ent -> ent
-tick seconds =
-  toad %~ (tickAnimatedState >>> Animated.tick seconds)
-
-tickAnimatedState :: Toad -> Toad
-tickAnimatedState t =
-  t & animated %~
-    if | JumpMotion.isJumping t -> (Animated.transition Animated.play) ToadSprite.Jump
-       | otherwise -> (Animated.transition Animated.pause) ToadSprite.Idle
 
 -- | Jump in a given direction.
 -- |
