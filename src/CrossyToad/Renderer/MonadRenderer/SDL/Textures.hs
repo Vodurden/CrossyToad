@@ -13,6 +13,7 @@ import qualified CrossyToad.Renderer.MonadRenderer.SDL.Texture as Texture
 
 data Textures = Textures
   { _toad :: !Texture
+  , _toadHome :: !Texture
   , _car :: !Texture
   , _grass :: !Texture
   , _water :: !Texture
@@ -24,6 +25,7 @@ makeClassy ''Textures
 
 fromImageAsset :: ImageAsset -> Textures -> Texture
 fromImageAsset ImageAsset.Toad = view toad
+fromImageAsset ImageAsset.ToadHome = view toadHome
 fromImageAsset ImageAsset.Car = view car
 fromImageAsset ImageAsset.Grass = view grass
 fromImageAsset ImageAsset.Water = view water
@@ -33,6 +35,7 @@ fromImageAsset ImageAsset.Road = view road
 loadTextures :: SDL.Renderer -> IO Textures
 loadTextures renderer = do
     toad' <- loadImage renderer ImageAsset.Toad
+    toadHome' <- loadImage renderer ImageAsset.ToadHome
     car' <- loadImage renderer ImageAsset.Car
     grass' <- loadImage renderer ImageAsset.Grass
     water' <- loadImage renderer ImageAsset.Water
@@ -41,6 +44,7 @@ loadTextures renderer = do
 
     pure $ Textures
       { _toad = toad'
+      , _toadHome = toadHome'
       , _car = car'
       , _grass = grass'
       , _water = water'

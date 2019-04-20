@@ -2,7 +2,7 @@
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: 3250d45313c696ae43216118c1e0402be142c2d7bf1dfbba89b696bcc55ba7a2
+-- hash: a311febdd66064df7471036ba92b2a0c5c2a7124a699aee3f5a366dac272faaf
 
 name:           crossy-toad
 version:        0.1.0.0
@@ -67,6 +67,7 @@ library
       CrossyToad.Renderer.Asset.FontAsset
       CrossyToad.Renderer.Asset.ImageAsset
       CrossyToad.Renderer.Asset.Sprite.Toad
+      CrossyToad.Renderer.Asset.Sprite.ToadHome
       CrossyToad.Renderer.Clip
       CrossyToad.Renderer.MonadRenderer
       CrossyToad.Renderer.MonadRenderer.SDL.Env
@@ -240,6 +241,7 @@ test-suite spec
       CrossyToad.Renderer.Asset.FontAsset
       CrossyToad.Renderer.Asset.ImageAsset
       CrossyToad.Renderer.Asset.Sprite.Toad
+      CrossyToad.Renderer.Asset.Sprite.ToadHome
       CrossyToad.Renderer.Clip
       CrossyToad.Renderer.MonadRenderer
       CrossyToad.Renderer.MonadRenderer.SDL.Env

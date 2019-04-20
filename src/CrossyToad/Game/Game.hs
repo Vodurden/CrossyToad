@@ -107,6 +107,8 @@ tick seconds ent' = flip execStateT ent' $ do
   gameState %= lensMapAccumL (VictorySystem.collectScorable) toad toadHomes
   gameState %= lensMapAccumL (VictorySystem.goalCollision) toad toadHomes
 
+  gameState.toadHomes.mapped %= (AnimationSystem.tickToadHomeSprite seconds)
+
   spCommands <- zoom (gameState.spawnPoints) (hoistState $ SpawnPoint.tickAll seconds)
   gameState %= (runCommands spCommands)
 
@@ -129,7 +131,7 @@ render ent = do
   renderBackground'
   sequence_ $ MonadRenderer.runRenderCommand <$> Sprite.render <$> (ent ^. gameState . cars)
   sequence_ $ MonadRenderer.runRenderCommand <$> Sprite.render <$> (ent ^. gameState . riverLogs)
-  sequence_ $ MonadRenderer.runRenderCommand <$> Sprite.renderNoDirection  <$> (ent ^. gameState . toadHomes)
+  sequence_ $ MonadRenderer.runRenderCommand <$> Animated.renderNoDirection  <$> (ent ^. gameState . toadHomes)
   MonadRenderer.runRenderCommand $ Animated.render (ent ^. gameState . toad)
 
   renderScore (ent^.gameState.toad)
