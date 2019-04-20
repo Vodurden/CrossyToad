@@ -12,6 +12,7 @@ module CrossyToad.Renderer.Animated
   , currentAnimation
   , tick
   , render
+  , renderNoDirection
   ) where
 
 import           Control.Lens
@@ -101,3 +102,13 @@ render ::
 render ent =
   let frame = ent ^. animated . currentAnimation . currentFrame
   in (Sprite.render ent) & _Draw . _3 .~ (Just $ frame ^. clip)
+
+renderNoDirection ::
+  ( Ord key
+  , HasPosition ent
+  , HasSprite ent
+  , HasAnimated ent key
+  ) => ent -> RenderCommand
+renderNoDirection ent =
+  let frame = ent ^. animated . currentAnimation . currentFrame
+  in (Sprite.renderNoDirection ent) & _Draw . _3 .~ (Just $ frame ^. clip)

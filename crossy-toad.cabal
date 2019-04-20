@@ -2,7 +2,7 @@
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: 0535bc723421358d892b160ff0de2e7fb1fea56f1bf2f18754d1ff6a4f7054ca
+-- hash: 5d5d50523e9774bad5650b7d265ffec66f0906d4de886b95d692f9cd9ced9d59
 
 name:           crossy-toad
 version:        0.1.0.0
@@ -34,6 +34,7 @@ library
       CrossyToad.Game.RiverLog
       CrossyToad.Game.SpawnPoint
       CrossyToad.Game.Toad
+      CrossyToad.Game.ToadHome
       CrossyToad.Geometry.AABB
       CrossyToad.Geometry.Offset
       CrossyToad.Geometry.Position
@@ -202,6 +203,7 @@ test-suite spec
       CrossyToad.Game.RiverLog
       CrossyToad.Game.SpawnPoint
       CrossyToad.Game.Toad
+      CrossyToad.Game.ToadHome
       CrossyToad.Geometry.AABB
       CrossyToad.Geometry.Offset
       CrossyToad.Geometry.Position

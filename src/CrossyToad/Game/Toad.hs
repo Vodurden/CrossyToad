@@ -5,7 +5,7 @@ module CrossyToad.Game.Toad where
 import           Control.Lens
 import           Linear.V2
 
-import           CrossyToad.Geometry.Position
+import           CrossyToad.Geometry.Position (Position, HasPosition(..))
 import           CrossyToad.Physics.Physical (Physical, HasPhysical(..))
 import qualified CrossyToad.Physics.Physical as Physical
 import           CrossyToad.Physics.JumpMotion (JumpMotion(..), HasJumpMotion(..))

@@ -27,6 +27,8 @@ import           CrossyToad.Game.SpawnPoint (SpawnPoint, HasSpawnPoints(..))
 import qualified CrossyToad.Game.SpawnPoint as SpawnPoint
 import           CrossyToad.Game.Toad (HasToad(..))
 import qualified CrossyToad.Game.Toad as Toad
+import           CrossyToad.Game.ToadHome (ToadHome)
+import qualified CrossyToad.Game.ToadHome as ToadHome
 import           CrossyToad.Input.InputState (InputState)
 import           CrossyToad.Logger.MonadLogger (MonadLogger(..))
 import qualified CrossyToad.Mortality.MortalSystem as MortalSystem
@@ -55,10 +57,19 @@ scene = Scene.mk initialize handleInput tick render
 initialize :: GameState
 initialize = GameState.mk &
     (gameState.toad .~ Toad.mk (V2 (7*64) (13*64)))
+    . (gameState.toadHomes .~ toadHomes')
     . (gameState.cars .~ [])
     . (gameState.riverLogs .~ [])
     . (gameState.spawnPoints .~ spawnPoints')
   where
+    toadHomes' :: [ToadHome]
+    toadHomes' =
+      [ ToadHome.mk (V2 (2*64 ) 0)
+      , ToadHome.mk (V2 (7*64 ) 0)
+      , ToadHome.mk (V2 (12*64) 0)
+      , ToadHome.mk (V2 (17*64) 0)
+      ]
+
     spawnPoints' :: [SpawnPoint]
     spawnPoints' =
       [ -- River Spawns
@@ -109,6 +120,7 @@ render ent = do
   renderBackground'
   sequence_ $ MonadRenderer.runRenderCommand <$> Sprite.render <$> (ent ^. gameState . cars)
   sequence_ $ MonadRenderer.runRenderCommand <$> Sprite.render <$> (ent ^. gameState . riverLogs)
+  sequence_ $ MonadRenderer.runRenderCommand <$> Sprite.renderNoDirection  <$> (ent ^. gameState . toadHomes)
   MonadRenderer.runRenderCommand $ Animated.render (ent ^. gameState . toad)
 
   MonadRenderer.drawScreen
