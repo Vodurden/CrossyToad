@@ -7,7 +7,7 @@ import           Control.Lens
 import           Linear.V2
 
 import           CrossyToad.Geometry.Position
-import           CrossyToad.Physics.Physical (Physical, HasPhysical(..), HasLayer(..))
+import           CrossyToad.Physics.Physical (Physical, HasPhysical(..))
 import qualified CrossyToad.Physics.Physical as Physical
 import           CrossyToad.Physics.JumpMotion (JumpMotion(..), HasJumpMotion(..))
 import qualified CrossyToad.Physics.JumpMotion as JumpMotion
@@ -67,16 +67,7 @@ mk pos = Toad
 
 tick :: (HasToad ent) => Seconds -> ent -> ent
 tick seconds =
-  toad %~ (JumpMotion.tick seconds
-           >>> tickPhysicalState
-           >>> tickAnimatedState
-           >>> Animated.tick seconds)
-
-tickPhysicalState :: Toad -> Toad
-tickPhysicalState t =
-  t & physical . layer .~
-    if | JumpMotion.isJumping t -> Physical.Air
-       | otherwise -> Physical.Ground
+  toad %~ (tickAnimatedState >>> Animated.tick seconds)
 
 tickAnimatedState :: Toad -> Toad
 tickAnimatedState t =

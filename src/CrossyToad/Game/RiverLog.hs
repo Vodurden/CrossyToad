@@ -4,7 +4,6 @@ module CrossyToad.Game.RiverLog
   ( RiverLog(..)
   , HasRiverLog(..)
   , mk
-  , tick
   ) where
 
 import           Control.Lens
@@ -18,7 +17,6 @@ import qualified CrossyToad.Physics.LinearMotion as LinearMotion
 import           CrossyToad.Physics.Physical (Physical, HasPhysical(..))
 import qualified CrossyToad.Physics.Physical as Physical
 import           CrossyToad.Renderer.Sprite (Sprite(..), HasSprite(..))
-import           CrossyToad.Time.Seconds (Seconds)
 
 data RiverLog = RiverLog
   { __position :: !Position
@@ -49,6 +47,3 @@ mk pos dir = RiverLog
     logSpeed :: Speed
     logSpeed = 64 * (1 / secondsPerTile)
       where secondsPerTile = 0.5
-
-tick :: HasRiverLog ent => Seconds -> ent -> ent
-tick seconds = riverLog %~ (LinearMotion.stepBy seconds)

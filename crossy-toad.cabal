@@ -2,7 +2,7 @@
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: d9738a5c7341536009068a809f55907086ecec41d4533dad5716c7b8579cf87f
+-- hash: 9b4719bf0255848047daf9d782a19da61b538b2e277eac09f3f5ee0133bc133f
 
 name:           crossy-toad
 version:        0.1.0.0
@@ -179,7 +179,6 @@ test-suite spec
       CrossyToad.Input.KeyboardStateSpec
       CrossyToad.Input.SDL.MonadInputSpec
       CrossyToad.Physics.JumpMotionSpec
-      CrossyToad.Physics.LinearMotionSpec
       CrossyToad.Physics.PhysicalSpec
       CrossyToad.Renderer.AnimatedSpec
       CrossyToad.Renderer.AnimationSpec

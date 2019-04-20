@@ -13,6 +13,7 @@
 module CrossyToad.Physics.JumpMotion
   ( JumpMotion(..)
   , HasJumpMotion(jumpMotion, speed, distance, cooldown)
+  , HasJumpMotions(..)
   , mk
   , tick
   , jump
@@ -52,6 +53,12 @@ data JumpMotionState
 
 makeClassy ''JumpMotion
 makeClassyPrisms ''JumpMotionState
+
+class HasJumpMotions a where
+  jumpMotions :: Traversal' a JumpMotion
+
+instance HasJumpMotions JumpMotion where
+  jumpMotions = jumpMotion
 
 mk :: Speed -> Distance -> Seconds -> JumpMotion
 mk speed' distance' cooldown' = JumpMotion

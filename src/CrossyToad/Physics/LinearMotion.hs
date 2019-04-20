@@ -12,7 +12,7 @@ module CrossyToad.Physics.LinearMotion
   ( LinearMotion(..)
   , HasLinearMotion(..)
   , mk
-  , stepBy
+  , tick
   , motionVectorThisTick
   ) where
 
@@ -35,12 +35,12 @@ mk :: Speed -> LinearMotion
 mk = LinearMotion
 
 -- | Step this motion by a given amount of seconds
-stepBy ::
+tick ::
   ( HasPosition ent
   , HasDirection ent
   , HasLinearMotion ent
   ) => Seconds -> ent -> ent
-stepBy delta ent' =
+tick delta ent' =
   ent' & position +~ (motionVectorThisTick delta ent')
 
 motionVectorThisTick ::
