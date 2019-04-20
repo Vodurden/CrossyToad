@@ -4,6 +4,7 @@ module CrossyToad.Mortality.Mortal
   ( Mortal(..)
   , HasMortal(..)
   , mk
+  , respawn
   , die
   ) where
 
@@ -26,4 +27,8 @@ mk = Mortal
 -- | Kills the entity
 die :: (HasPosition ent, HasMortal ent) => ent -> ent
 die ent = ent & (lives .~ max 0 (ent ^. lives - 1))
-              . (position .~ ent ^. respawnPosition)
+              & respawn
+
+-- | Kills the ent without losing a life
+respawn :: (HasPosition ent, HasMortal ent) => ent -> ent
+respawn ent = ent & position .~ ent ^. respawnPosition
