@@ -1,14 +1,22 @@
 module CrossyToad.Victory.VictorySystem
-  ( collectScorable
+  ( jumpScore
+  , collectScorable
   ) where
 
 import           Control.Lens
 
 import           CrossyToad.Geometry.Position (HasPosition(..))
+import           CrossyToad.Physics.JumpMotion (HasJumpMotion(..))
+import qualified CrossyToad.Physics.JumpMotion as JumpMotion
 import           CrossyToad.Physics.Physical (HasPhysical(..))
 import qualified CrossyToad.Physics.Physical as Physical
-import           CrossyToad.Victory.Score (HasScore(..))
 import           CrossyToad.Victory.Scorable (HasScorable(..))
+import           CrossyToad.Victory.Score (HasScore(..))
+
+-- | Gain score when jumping
+jumpScore :: (HasScore ent , HasJumpMotion ent) => ent -> ent
+jumpScore ent | JumpMotion.isJumping ent = ent & score . totalScore +~ 1
+              | otherwise = ent
 
 collectScorable ::
   ( HasPosition collector

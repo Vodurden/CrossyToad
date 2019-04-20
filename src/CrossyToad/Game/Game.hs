@@ -103,6 +103,7 @@ tick seconds ent' = flip execStateT ent' $ do
   gameState.toad %= MovementSystem.tickJumping seconds
   gameState.toad %= AnimationSystem.tickToadSprite seconds
   gameState %= lensFoldl' (MovementSystem.moveOnPlatform $ seconds) toad riverLogs
+  gameState.toad %= VictorySystem.jumpScore
   gameState %= lensMapAccumL (VictorySystem.collectScorable) toad toadHomes
 
   spCommands <- zoom (gameState.spawnPoints) (hoistState $ SpawnPoint.tickAll seconds)
