@@ -19,6 +19,8 @@ import           CrossyToad.Renderer.Sprite (Sprite(..), HasSprite(..))
 import           CrossyToad.Time.Seconds (Seconds)
 import           CrossyToad.Mortality.Mortal (Mortal, HasMortal(..))
 import qualified CrossyToad.Mortality.Mortal as Mortal
+import           CrossyToad.Victory.Score (Score, HasScore(..))
+import qualified CrossyToad.Victory.Score as Score
 
 data Toad = Toad
   { __position :: !Position
@@ -28,6 +30,7 @@ data Toad = Toad
   , __sprite :: !Sprite
   , __animated :: !(Animated ToadSprite.Animation)
   , __mortal :: !Mortal
+  , __score :: !Score
   } deriving (Eq, Show)
 
 makeClassy ''Toad
@@ -39,6 +42,7 @@ instance HasPhysical Toad where physical = _physical
 instance HasSprite Toad where sprite = _sprite
 instance HasAnimated Toad ToadSprite.Animation where animated = _animated
 instance HasMortal Toad where mortal = _mortal
+instance HasScore Toad where score = _score
 
 mk :: Position -> Toad
 mk pos = Toad
@@ -49,6 +53,7 @@ mk pos = Toad
     , __sprite = Sprite ImageAsset.Toad (V2 64 64)
     , __animated = Animated.mk ToadSprite.Idle ToadSprite.animations
     , __mortal = Mortal.mk 5 pos
+    , __score = Score.mk
     }
   where
     -- | How far the toad moves in one jump

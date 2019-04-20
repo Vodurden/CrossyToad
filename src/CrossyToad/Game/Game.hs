@@ -13,6 +13,7 @@ module CrossyToad.Game.Game
 import           Control.Lens.Extended
 import           Control.Monad.State.Strict.Extended (execStateT, hoistState)
 import           Data.Foldable (foldl', foldlM)
+import qualified Data.Text as Text
 import           Linear.V2
 
 import qualified CrossyToad.Game.Car as Car
@@ -38,14 +39,19 @@ import           CrossyToad.Physics.Physics (Direction(..))
 import qualified CrossyToad.Renderer.Animated as Animated
 import qualified CrossyToad.Renderer.AnimationSystem as AnimationSystem
 import qualified CrossyToad.Renderer.Asset.ImageAsset as ImageAsset
+import qualified CrossyToad.Renderer.Asset.FontAsset as FontAsset
 import           CrossyToad.Renderer.MonadRenderer (MonadRenderer)
 import qualified CrossyToad.Renderer.MonadRenderer as MonadRenderer
+import qualified CrossyToad.Renderer.RGBAColour as RGBAColour
 import qualified CrossyToad.Renderer.Sprite as Sprite
+import qualified CrossyToad.Renderer.Clip as Clip
 import           CrossyToad.Scene.MonadScene (MonadScene)
 import qualified CrossyToad.Scene.MonadScene as MonadScene
 import           CrossyToad.Scene.Scene (Scene)
 import qualified CrossyToad.Scene.Scene as Scene
 import           CrossyToad.Time.Seconds (Seconds)
+import           CrossyToad.Victory.Score (HasScore(..))
+import qualified CrossyToad.Victory.VictorySystem as VictorySystem
 
 scene ::
   ( MonadRenderer m
@@ -97,6 +103,7 @@ tick seconds ent' = flip execStateT ent' $ do
   gameState.toad %= MovementSystem.tickJumping seconds
   gameState.toad %= AnimationSystem.tickToadSprite seconds
   gameState %= lensFoldl' (MovementSystem.moveOnPlatform $ seconds) toad riverLogs
+  gameState %= lensMapAccumL (VictorySystem.collectScorable) toad toadHomes
 
   spCommands <- zoom (gameState.spawnPoints) (hoistState $ SpawnPoint.tickAll seconds)
   gameState %= (runCommands spCommands)
@@ -123,7 +130,24 @@ render ent = do
   sequence_ $ MonadRenderer.runRenderCommand <$> Sprite.renderNoDirection  <$> (ent ^. gameState . toadHomes)
   MonadRenderer.runRenderCommand $ Animated.render (ent ^. gameState . toad)
 
+  renderScore (ent^.gameState.toad)
+
   MonadRenderer.drawScreen
+
+renderScore :: (MonadRenderer m, HasScore ent) => ent -> m ()
+renderScore ent =
+    MonadRenderer.drawText
+      FontAsset.Title
+      Nothing
+      Nothing
+      (Just scoreClip)
+      RGBAColour.white
+      scoreText
+  where
+    scorePos = V2 0 (14*64)
+    scoreSize = V2 256 64
+    scoreClip = Clip.mkAt scorePos scoreSize
+    scoreText = Text.pack $ "Score: " ++ (show $ (ent^.score.totalScore))
 
 renderBackground' :: (MonadRenderer m) => m ()
 renderBackground' = do

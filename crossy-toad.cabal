@@ -2,7 +2,7 @@
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: 5d5d50523e9774bad5650b7d265ffec66f0906d4de886b95d692f9cd9ced9d59
+-- hash: b5fe121447f459e3c7b74605e61ecdfb385f3244b281ae8ee25c35cfcf0504d7
 
 name:           crossy-toad
 version:        0.1.0.0
@@ -99,6 +99,9 @@ library
       CrossyToad.Time.Timer
       CrossyToad.Title.Intent
       CrossyToad.Title.Title
+      CrossyToad.Victory.Scorable
+      CrossyToad.Victory.Score
+      CrossyToad.Victory.VictorySystem
       Data.Degrees
       Data.List.Extended
       Data.Maybe.Extended
@@ -268,6 +271,9 @@ test-suite spec
       CrossyToad.Time.Timer
       CrossyToad.Title.Intent
       CrossyToad.Title.Title
+      CrossyToad.Victory.Scorable
+      CrossyToad.Victory.Score
+      CrossyToad.Victory.VictorySystem
       Data.Degrees
       Data.List.Extended
       Data.Maybe.Extended
