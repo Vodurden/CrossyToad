@@ -30,21 +30,23 @@ import           CrossyToad.Game.Toad (HasToad(..))
 import qualified CrossyToad.Game.Toad as Toad
 import           CrossyToad.Game.ToadHome (ToadHome)
 import qualified CrossyToad.Game.ToadHome as ToadHome
+import           CrossyToad.Geometry.Position (fromGrid)
 import           CrossyToad.Input.InputState (InputState)
 import           CrossyToad.Logger.MonadLogger (MonadLogger(..))
 import qualified CrossyToad.Mortality.MortalSystem as MortalSystem
 import qualified CrossyToad.Physics.LinearMotion as LinearMotion
 import qualified CrossyToad.Physics.MovementSystem as MovementSystem
-import           CrossyToad.Physics.Physics (Direction(..))
+import           CrossyToad.Physics.Direction (Direction(..))
+import           CrossyToad.Physics.Speed (secondsPerTile)
 import qualified CrossyToad.Renderer.Animated as Animated
 import qualified CrossyToad.Renderer.AnimationSystem as AnimationSystem
-import qualified CrossyToad.Renderer.Asset.ImageAsset as ImageAsset
 import qualified CrossyToad.Renderer.Asset.FontAsset as FontAsset
+import qualified CrossyToad.Renderer.Asset.ImageAsset as ImageAsset
+import qualified CrossyToad.Renderer.Clip as Clip
 import           CrossyToad.Renderer.MonadRenderer (MonadRenderer)
 import qualified CrossyToad.Renderer.MonadRenderer as MonadRenderer
 import qualified CrossyToad.Renderer.RGBAColour as RGBAColour
 import qualified CrossyToad.Renderer.Sprite as Sprite
-import qualified CrossyToad.Renderer.Clip as Clip
 import           CrossyToad.Scene.MonadScene (MonadScene)
 import qualified CrossyToad.Scene.MonadScene as MonadScene
 import           CrossyToad.Scene.Scene (Scene)
@@ -79,14 +81,14 @@ initialize = GameState.mk &
     spawnPoints' :: [SpawnPoint]
     spawnPoints' =
       [ -- River Spawns
-        SpawnPoint.mk (V2 0       (1*64 )) East ((,Entity.RiverLog) <$> [1]) 5
-        -- TODO
+        SpawnPoint.mkUniform Entity.RiverLog (fromGrid (-1) 1) East (secondsPerTile 1) 3 4 6
 
         -- Road Spawns
-      , SpawnPoint.mk (V2 (20*64) (7*64 )) West ((,Entity.Car) <$> [0,1,1]) 2
-      , SpawnPoint.mk (V2 (20*64) (8*64 )) West ((,Entity.Car) <$> [0,0.6,0.6,0.6]) 1
-      , SpawnPoint.mk (V2 0       (9*64 )) East ((,Entity.Car) <$> [0.5,2]) 3
-      , SpawnPoint.mk (V2 (20*64) (10*64)) West ((,Entity.Car) <$> [0.5,2,4]) 3
+      , SpawnPoint.mkUniform Entity.Car (fromGrid 21    7 ) West (secondsPerTile 0.8) 1 0 4
+      , SpawnPoint.mkUniform Entity.Car (fromGrid (-1)  8 ) East (secondsPerTile 0.5) 1 0 5
+      , SpawnPoint.mkUniform Entity.Car (fromGrid 21    9 ) West (secondsPerTile 1) 3 4 6
+      , SpawnPoint.mkUniform Entity.Car (fromGrid (-1)  10) East (secondsPerTile 1) 3 4 6
+      , SpawnPoint.mkUniform Entity.Car (fromGrid 21    11) West (secondsPerTile 1) 3 4 6
       ]
 
 -- | Update the GameState and Scene based on the user input
@@ -120,8 +122,8 @@ tick seconds ent' = flip execStateT ent' $ do
 runCommands :: forall ent. (HasGameState ent) => [Command] -> ent -> ent
 runCommands commands ent' = foldl' (flip runCommand) ent' commands
   where runCommand :: Command -> ent -> ent
-        runCommand (Spawn Entity.Car pos dir) = gameState.cars %~ (Car.mk pos dir :)
-        runCommand (Spawn Entity.RiverLog pos dir) = gameState.riverLogs %~ (RiverLog.mk pos dir :)
+        runCommand (Spawn Entity.Car pos dir speed) = gameState.cars %~ (Car.mk pos dir speed :)
+        runCommand (Spawn Entity.RiverLog pos dir speed) = gameState.riverLogs %~ (RiverLog.mk pos dir speed :)
         runCommand Kill = id
 
 render :: (MonadRenderer m, HasGameState ent) => ent -> m ()

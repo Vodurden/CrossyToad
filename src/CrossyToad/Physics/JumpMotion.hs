@@ -12,7 +12,7 @@
 -- |
 module CrossyToad.Physics.JumpMotion
   ( JumpMotion(..)
-  , HasJumpMotion(jumpMotion, speed, distance, cooldown)
+  , HasJumpMotion(..)
   , HasJumpMotions(..)
   , mk
   , tick
@@ -32,13 +32,13 @@ import           CrossyToad.Geometry.Position
 import           CrossyToad.Geometry.Offset
 import           CrossyToad.Physics.Direction
 import           CrossyToad.Physics.Distance
-import           CrossyToad.Physics.Speed
+import           CrossyToad.Physics.Speed (Speed, HasSpeed(..))
 import           CrossyToad.Time.Timed (Timed, HasTimed(..))
 import qualified CrossyToad.Time.Timed as Timed
 import           CrossyToad.Time.Seconds
 
 data JumpMotion = JumpMotion
-  { _speed :: Speed                    -- ^ How fast we can move
+  { __speed :: Speed                   -- ^ How fast we can move
   , _distance :: Distance              -- ^ How far we move in a single jump
   , _cooldown :: Seconds               -- ^ How long to cooldown for after a jump
 
@@ -57,12 +57,12 @@ makeClassyPrisms ''JumpMotionState
 class HasJumpMotions a where
   jumpMotions :: Traversal' a JumpMotion
 
-instance HasJumpMotions JumpMotion where
-  jumpMotions = jumpMotion
+instance HasJumpMotions JumpMotion where jumpMotions = jumpMotion
+instance HasSpeed JumpMotion where speed = _speed
 
 mk :: Speed -> Distance -> Seconds -> JumpMotion
 mk speed' distance' cooldown' = JumpMotion
-  { _speed = speed'
+  { __speed = speed'
   , _distance = distance'
   , _cooldown = cooldown'
   , _state = Timed.mk Ready
@@ -121,7 +121,7 @@ distanceThisFrame delta ent' =
     Ready -> 0
     CoolingDown -> 0
     (Jumping targetDistance) ->
-      let scaledVelocity = (ent' ^. speed) * delta
+      let scaledVelocity = (ent' ^. jumpMotion.speed) * delta
       in min scaledVelocity targetDistance
 
 -- | Calculate the motion vector based on how far we want to travel this frame

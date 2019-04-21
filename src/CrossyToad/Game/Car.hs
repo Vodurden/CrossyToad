@@ -43,16 +43,11 @@ instance HasPhysical Car where
 instance HasSprite Car where
   sprite = _sprite
 
-mk :: Position -> Direction -> Car
-mk pos dir = Car
+mk :: Position -> Direction -> Speed -> Car
+mk pos dir carSpeed = Car
     { __position = pos
     , __direction = dir
     , __linearMotion = LinearMotion.mk carSpeed
     , __physical = Physical.mkAt (V2 1 1) (V2 62 62) Physical.Ground
     , __sprite = Sprite ImageAsset.Car (V2 64 64)
     }
-  where
-    -- | How far the car moves in one second
-    carSpeed :: Speed
-    carSpeed = 64 * (1 / secondsPerTile)
-      where secondsPerTile = 0.5

@@ -34,16 +34,11 @@ instance HasLinearMotion RiverLog where linearMotion = _linearMotion
 instance HasSprite RiverLog where sprite = _sprite
 instance HasPhysical RiverLog where physical = _physical
 
-mk :: Position -> Direction -> RiverLog
-mk pos dir = RiverLog
+mk :: Position -> Direction -> Speed -> RiverLog
+mk pos dir logSpeed = RiverLog
     { __position = pos
     , __direction = dir
     , __linearMotion = LinearMotion.mk logSpeed
     , __sprite = Sprite ImageAsset.Car (V2 64 64)
     , __physical = Physical.mkAt (V2 0 0) (V2 64 64) Physical.Platform
     }
-  where
-    -- | How far the log moves in one second
-    logSpeed :: Speed
-    logSpeed = 64 * (1 / secondsPerTile)
-      where secondsPerTile = 0.5

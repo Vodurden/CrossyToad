@@ -16,20 +16,23 @@ module CrossyToad.Physics.LinearMotion
   , motionVectorThisTick
   ) where
 
-import Control.Lens
-import Linear.V2
+import           Control.Lens
+import           Linear.V2
 
-import CrossyToad.Geometry.Position
-import CrossyToad.Physics.Direction
-import CrossyToad.Physics.Distance
-import CrossyToad.Physics.Speed
-import CrossyToad.Time.Seconds
+import           CrossyToad.Geometry.Position (HasPosition(..))
+import           CrossyToad.Physics.Direction (HasDirection(..))
+import qualified CrossyToad.Physics.Direction as Direction
+import           CrossyToad.Physics.Distance (Distance)
+import           CrossyToad.Physics.Speed (Speed, HasSpeed(..))
+import           CrossyToad.Time.Seconds
 
 data LinearMotion = LinearMotion
-  { _speed     :: !Speed     -- ^ How fast we are moving
+  { __speed     :: !Speed     -- ^ How fast we are moving
   } deriving (Eq, Show)
 
 makeClassy ''LinearMotion
+
+instance HasSpeed LinearMotion where speed = _speed
 
 mk :: Speed -> LinearMotion
 mk = LinearMotion
@@ -48,6 +51,6 @@ motionVectorThisTick ::
   , HasLinearMotion ent
   ) => Seconds -> ent -> V2 Distance
 motionVectorThisTick delta ent' =
-  let distanceThisFrame = (ent' ^. speed) * delta
-      directionVector = unitVector $ ent'^.direction
+  let distanceThisFrame = (ent' ^. linearMotion.speed) * delta
+      directionVector = Direction.unitVector $ ent'^.direction
   in (* distanceThisFrame) <$> directionVector

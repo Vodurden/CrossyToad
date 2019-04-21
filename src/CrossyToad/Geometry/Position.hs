@@ -19,5 +19,7 @@ type Position = (V2 Double)
 class HasPosition t where
   position :: Lens' t Position
 
-instance HasPosition Position where
-  position = id
+instance HasPosition Position where position = id
+
+fromGrid :: Int -> Int -> Position
+fromGrid x y = V2 (64 * (fromIntegral x)) (64 * (fromIntegral y))
