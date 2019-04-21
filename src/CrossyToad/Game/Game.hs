@@ -34,7 +34,6 @@ import           CrossyToad.Geometry.Position (fromGrid)
 import           CrossyToad.Input.InputState (InputState)
 import           CrossyToad.Logger.MonadLogger (MonadLogger(..))
 import qualified CrossyToad.Mortality.MortalSystem as MortalSystem
-import qualified CrossyToad.Physics.LinearMotion as LinearMotion
 import qualified CrossyToad.Physics.MovementSystem as MovementSystem
 import           CrossyToad.Physics.Direction (Direction(..))
 import           CrossyToad.Physics.Speed (secondsPerTile)
@@ -102,22 +101,26 @@ tickIntent Exit ent = MonadScene.delayPop >> pure ent
 
 tick :: (MonadLogger m, HasGameState ent) => Seconds -> ent -> m ent
 tick seconds ent' = flip execStateT ent' $ do
+  -- Physics
   gameState.toad %= MovementSystem.tickJumping seconds
-  gameState.toad %= AnimationSystem.tickToadSprite seconds
   gameState %= lensFoldl' (MovementSystem.moveOnPlatform $ seconds) toad riverLogs
+  gameState.cars.mapped %= (MovementSystem.tickLinear seconds)
+  gameState.riverLogs.mapped %= (MovementSystem.tickLinear seconds)
+
+  -- Victory
   gameState.toad %= VictorySystem.jumpScore
   gameState %= lensMapAccumL (VictorySystem.collectScorable) toad toadHomes
   gameState %= lensMapAccumL (VictorySystem.goalCollision) toad toadHomes
 
-  gameState.toadHomes.mapped %= (AnimationSystem.tickToadHomeSprite seconds)
-
+  -- Life & Death
   spCommands <- zoom (gameState.spawnPoints) (hoistState $ SpawnPoint.tickAll seconds)
   gameState %= (runCommands spCommands)
-
-  gameState.cars.mapped %= (LinearMotion.tick seconds)
-  gameState.riverLogs.mapped %= (LinearMotion.tick seconds)
-
   gameState %= lensFoldl' MortalSystem.mortalCollision toad cars
+
+  -- Animation
+  gameState.toad %= AnimationSystem.tickToadSprite seconds
+  gameState.toadHomes.mapped %= (AnimationSystem.tickToadHomeSprite seconds)
+
 
 runCommands :: forall ent. (HasGameState ent) => [Command] -> ent -> ent
 runCommands commands ent' = foldl' (flip runCommand) ent' commands
