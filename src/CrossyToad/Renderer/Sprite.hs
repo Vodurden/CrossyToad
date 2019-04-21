@@ -25,11 +25,8 @@ data Sprite = Sprite
 
 makeClassy ''Sprite
 
-instance HasImageAsset Sprite where
-  imageAsset = _imageAsset
-
-instance HasSize Sprite where
-  size = _size
+instance HasImageAsset Sprite where imageAsset = _imageAsset
+instance HasSize Sprite where size = _size
 
 render :: (HasPosition ent, HasDirection ent, HasSprite ent) => ent -> RenderCommand
 render ent = render' (ent^.position) (Just $ ent^.direction) (ent^.sprite)

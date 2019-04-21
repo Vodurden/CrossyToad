@@ -4,6 +4,7 @@ module CrossyToad.Game.Car
   ( Car(..)
   , HasCar(..)
   , mk
+  , mkTruck
   ) where
 
 import           Control.Lens
@@ -44,10 +45,19 @@ instance HasSprite Car where
   sprite = _sprite
 
 mk :: Position -> Direction -> Speed -> Car
-mk pos dir carSpeed = Car
+mk pos dir speed' = Car
     { __position = pos
     , __direction = dir
-    , __linearMotion = LinearMotion.mk carSpeed
+    , __linearMotion = LinearMotion.mk speed'
     , __physical = Physical.mkAt (V2 1 1) (V2 62 62) Physical.Ground
     , __sprite = Sprite ImageAsset.Car (V2 64 64)
+    }
+
+mkTruck :: Position -> Direction -> Speed -> Car
+mkTruck pos dir speed' = Car
+    { __position = pos
+    , __direction = dir
+    , __linearMotion = LinearMotion.mk speed'
+    , __physical = Physical.mkAt (V2 1 1) (V2 127 62) Physical.Ground
+    , __sprite = Sprite ImageAsset.Truck (V2 128 64)
     }
