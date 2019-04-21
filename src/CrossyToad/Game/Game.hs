@@ -10,23 +10,19 @@ module CrossyToad.Game.Game
   ) where
 
 import           Control.Lens.Extended
-import           Control.Monad.State.Strict.Extended (execStateT, hoistState)
-import           Data.Foldable (foldl', foldlM)
+import           Control.Monad.State.Strict.Extended (execStateT)
+import           Data.Foldable (foldlM)
 import qualified Data.Text as Text
 import           Linear.V2
 
 import           CrossyToad.Game.Car (Car)
 import qualified CrossyToad.Game.Car as Car
-import           CrossyToad.Game.Command (Command(..))
-import qualified CrossyToad.Game.Entity as Entity
 import           CrossyToad.Game.GameState (GameState, HasGameState(..))
 import qualified CrossyToad.Game.GameState as GameState
 import           CrossyToad.Game.Intent (Intent(..))
 import qualified CrossyToad.Game.Intent as Intent
 import           CrossyToad.Game.RiverLog (RiverLog)
 import qualified CrossyToad.Game.RiverLog as RiverLog
-import           CrossyToad.Game.SpawnPoint (SpawnPoint, HasSpawnPoints(..))
-import qualified CrossyToad.Game.SpawnPoint as SpawnPoint
 import           CrossyToad.Game.Toad (HasToad(..))
 import qualified CrossyToad.Game.Toad as Toad
 import           CrossyToad.Game.ToadHome (ToadHome)
@@ -70,7 +66,6 @@ initialize = GameState.mk &
     . (gameState.toadHomes .~ toadHomes')
     . (gameState.cars .~ cars')
     . (gameState.riverLogs .~ riverLogs')
-    . (gameState.spawnPoints .~ spawnPoints')
   where
     toadHomes' :: [ToadHome]
     toadHomes' =
@@ -95,19 +90,6 @@ initialize = GameState.mk &
       [ (\x -> RiverLog.mk (fromGrid x 1) East (secondsPerTile 1)) <$> [1]
       ]
 
-    spawnPoints' :: [SpawnPoint]
-    spawnPoints' = []
-      -- [ -- River Spawns
-      --   SpawnPoint.mkUniform Entity.RiverLog (fromGrid (-1) 1) East (secondsPerTile 1) 3 4 6
-
-      --   -- Road Spawns
-      -- , SpawnPoint.mkUniform Entity.Car (fromGrid 21    7 ) West (secondsPerTile 0.8) 1 0 4
-      -- , SpawnPoint.mkUniform Entity.Car (fromGrid (-1)  8 ) East (secondsPerTile 0.5) 1 0 5
-      -- , SpawnPoint.mkUniform Entity.Car (fromGrid 21    9 ) West (secondsPerTile 1) 3 4 6
-      -- , SpawnPoint.mkUniform Entity.Car (fromGrid (-1)  10) East (secondsPerTile 1) 3 4 6
-      -- , SpawnPoint.mkUniform Entity.Car (fromGrid 21    11) West (secondsPerTile 1) 3 4 6
-      -- ]
-
 -- | Update the GameState and Scene based on the user input
 handleInput :: (MonadScene m, HasGameState ent) => InputState -> ent -> m ent
 handleInput input ent' =
@@ -131,20 +113,11 @@ tick seconds ent' = flip execStateT ent' $ do
   gameState %= lensMapAccumL (VictorySystem.goalCollision) toad toadHomes
 
   -- Life & Death
-  spCommands <- zoom (gameState.spawnPoints) (hoistState $ SpawnPoint.tickAll seconds)
-  gameState %= (runCommands spCommands)
   gameState %= lensFoldl' MortalSystem.mortalCollision toad cars
 
   -- Animation
   gameState.toad %= AnimationSystem.tickToadSprite seconds
   gameState.toadHomes.mapped %= (AnimationSystem.tickToadHomeSprite seconds)
-
-runCommands :: forall ent. (HasGameState ent) => [Command] -> ent -> ent
-runCommands commands ent' = foldl' (flip runCommand) ent' commands
-  where runCommand :: Command -> ent -> ent
-        runCommand (Spawn Entity.Car pos dir speed) = gameState.cars %~ (Car.mk pos dir speed :)
-        runCommand (Spawn Entity.RiverLog pos dir speed) = gameState.riverLogs %~ (RiverLog.mk pos dir speed :)
-        runCommand Kill = id
 
 render :: (MonadRenderer m, HasGameState ent) => ent -> m ()
 render ent = do

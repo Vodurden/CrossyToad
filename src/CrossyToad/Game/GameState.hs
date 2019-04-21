@@ -7,7 +7,6 @@ import Linear.V2
 
 import CrossyToad.Game.Car
 import CrossyToad.Game.RiverLog
-import CrossyToad.Game.SpawnPoint
 import CrossyToad.Game.Toad as Toad
 import CrossyToad.Game.ToadHome
 
@@ -16,13 +15,11 @@ data GameState = GameState
   , _toadHomes :: ![ToadHome]
   , _cars :: ![Car]
   , _riverLogs :: ![RiverLog]
-  , __spawnPoints :: ![SpawnPoint]
   } deriving (Eq, Show)
 
 makeClassy ''GameState
 
 instance HasToad GameState where toad = _toad
-instance HasSpawnPoints GameState where spawnPoints = _spawnPoints
 
 mk :: GameState
 mk = GameState
@@ -30,5 +27,4 @@ mk = GameState
   , _toadHomes = []
   , _riverLogs = []
   , _cars = []
-  , __spawnPoints = []
   }
