@@ -1,40 +1,49 @@
 module CrossyToad.Renderer.AnimationSystem
-  ( tickToadSprite
-  , tickToadHomeSprite
+  ( tickToadAnimation
+  , tickToadHomeAnimation
   ) where
 
 import           Control.Arrow ((>>>))
 import           Control.Lens
 
+import           CrossyToad.Physics.Direction (HasDirection(..))
+import qualified CrossyToad.Physics.Direction as Direction
 import           CrossyToad.Physics.JumpMotion (HasJumpMotion(..))
 import qualified CrossyToad.Physics.JumpMotion as JumpMotion
 import           CrossyToad.Renderer.Animated (HasAnimated(..))
 import qualified CrossyToad.Renderer.Animated as Animated
-import qualified CrossyToad.Renderer.Asset.Sprite.Toad as ToadSprite
-import qualified CrossyToad.Renderer.Asset.Sprite.ToadHome as ToadHomeSprite
+import qualified CrossyToad.Renderer.Asset.Animation.Toad as ToadAnimation
+import qualified CrossyToad.Renderer.Asset.Animation.ToadHome as ToadHomeAnimation
 import           CrossyToad.Victory.Goal (HasGoal(..))
 import           CrossyToad.Time.Seconds (Seconds)
 
-tickToadSprite ::
-  ( HasJumpMotion ent
-  , HasAnimated ent ToadSprite.Animation
+tickToadAnimation :: forall ent.
+  ( HasDirection ent
+  , HasJumpMotion ent
+  , HasAnimated ent ToadAnimation.Animation
   ) => Seconds -> ent -> ent
-tickToadSprite seconds =
-    transitionToadSprite >>> (Animated.tick seconds)
+tickToadAnimation seconds =
+    transitionToadAnimation >>> (Animated.tick seconds)
   where
-    transitionToadSprite ent =
-      ent & animated %~
-        if | JumpMotion.isJumping ent -> (Animated.transition Animated.play) ToadSprite.Jump
-           | otherwise -> (Animated.transition Animated.pause) ToadSprite.Idle
+    -- TODO: Deal with direction better here and in animations
+    transitionToadAnimation ent =
+      let nextAnimation =
+              if | JumpMotion.isJumping ent ->
+                  if | Direction.horizontal ent -> ToadAnimation.JumpLeft
+                     | otherwise -> ToadAnimation.JumpUp
+                 | otherwise ->
+                  if | Direction.horizontal ent -> ToadAnimation.IdleLeft
+                     | otherwise -> ToadAnimation.IdleUp
+      in ent & animated %~ (Animated.transition Animated.play) nextAnimation
 
-tickToadHomeSprite ::
+tickToadHomeAnimation ::
   ( HasGoal ent
-  , HasAnimated ent ToadHomeSprite.Animation
+  , HasAnimated ent ToadHomeAnimation.Animation
   ) => Seconds -> ent -> ent
-tickToadHomeSprite seconds =
-    transitionToadHomeSprite >>> (Animated.tick seconds)
+tickToadHomeAnimation seconds =
+    transitionToadHomeAnimation >>> (Animated.tick seconds)
   where
-    transitionToadHomeSprite ent =
+    transitionToadHomeAnimation ent =
       ent & animated %~
-        if | ent^.goal.reached -> (Animated.transition Animated.play) ToadHomeSprite.Filled
-           | otherwise -> (Animated.transition Animated.play) ToadHomeSprite.Empty
+        if | ent^.goal.reached -> (Animated.transition Animated.play) ToadHomeAnimation.Filled
+           | otherwise -> (Animated.transition Animated.play) ToadHomeAnimation.Empty

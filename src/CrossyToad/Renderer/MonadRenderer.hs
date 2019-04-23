@@ -32,11 +32,13 @@ drawScreen = runRenderCommand DrawScreen
 -- | Draw an image
 draw :: (MonadRenderer m)
      => ImageAsset
+     -> (Maybe Clip)
+     -> (Maybe Clip)
      -> (Maybe Degrees)
-     -> (Maybe Clip)
-     -> (Maybe Clip)
+     -> Maybe (V2 Bool)
      -> m ()
-draw a d t s = runRenderCommand (Draw a d t s)
+draw asset' textureClip screenClip degrees flip' =
+  (pure $ Draw asset' textureClip screenClip degrees flip') >>= runRenderCommand
 
 -- | Draw an image at the given screen position
 -- |
@@ -85,5 +87,6 @@ drawTileRow asset pos tiles tileDimensions = do
   (flip traverse_) tilePositions $ \tilePos ->
     draw asset
         Nothing
-        Nothing
         (Just $ Clip.mkAt tilePos tileDimensions)
+        Nothing
+        Nothing

@@ -34,8 +34,8 @@ runRenderCommand :: (MonadReader r m, HasEnv r, MonadIO m)
                  -> m ()
 runRenderCommand ClearScreen = clearScreen
 runRenderCommand DrawScreen = drawScreen
-runRenderCommand (Draw asset degrees tClip sClip) =
-  draw asset degrees tClip sClip
+runRenderCommand (Draw asset tClip sClip degrees flip') =
+  draw asset tClip sClip degrees flip'
 runRenderCommand (DrawAt asset pos) = drawAt asset pos
 runRenderCommand (DrawText asset degrees tClip sClip colour text) =
   drawText asset degrees tClip sClip colour text
@@ -51,14 +51,15 @@ draw ::
   , HasEnv r
   , MonadIO m)
   => ImageAsset
-  -> (Maybe Degrees)
-  -> (Maybe Clip)
-  -> (Maybe Clip)
+  -> Maybe Clip
+  -> Maybe Clip
+  -> Maybe Degrees
+  -> Maybe (V2 Bool)
   -> m ()
-draw asset' degrees textureClip screenClip = do
+draw asset' textureClip screenClip degrees flip' = do
     textures' <- view (env.textures)
     let texture' = Textures.fromImageAsset asset' textures'
-    drawTexture texture' degrees textureClip screenClip
+    drawTexture texture' textureClip screenClip degrees flip'
 
 drawAt ::
   ( MonadReader r m
@@ -72,7 +73,7 @@ drawAt asset' pos = do
   let texture' = Textures.fromImageAsset asset' textures'
   let wh = V2 (texture' ^. Texture.width) (texture' ^. Texture.height)
   let screenClip = Clip.mkAt pos (fromIntegral <$> wh)
-  drawTexture texture' Nothing Nothing (Just screenClip)
+  drawTexture texture' Nothing (Just screenClip) Nothing Nothing
 
 drawText ::
   ( MonadReader r m
@@ -93,18 +94,19 @@ drawText asset' degrees textureClip screenClip colour message = do
   renderer' <- view (env.renderer)
   sdlTexture' <- SDL.createTextureFromSurface renderer' surface
   texture' <- Texture.fromSDL sdlTexture'
-  drawTexture texture' degrees textureClip screenClip
+  drawTexture texture' textureClip screenClip degrees Nothing
 
 drawTexture ::
   ( MonadReader r m
   , HasEnv r
   , MonadIO m)
   => Texture
-  -> (Maybe Double)
-  -> (Maybe Clip)
-  -> (Maybe Clip)
+  -> Maybe Clip
+  -> Maybe Clip
+  -> Maybe Double
+  -> Maybe (V2 Bool)
   -> m ()
-drawTexture texture' degrees textureClip targetClip = do
+drawTexture texture' textureClip targetClip degrees flip' = do
     renderer' <- view (env.renderer)
     SDL.copyEx
       renderer'
@@ -113,7 +115,7 @@ drawTexture texture' degrees textureClip targetClip = do
       (fromClip <$> targetClip)
       (realToFrac $ fromMaybe 0 degrees)
       Nothing
-      (V2 False False)
+      (fromMaybe (V2 False False) flip')
   where
     fromClip :: Clip -> SDL.Rectangle CInt
     fromClip clip =

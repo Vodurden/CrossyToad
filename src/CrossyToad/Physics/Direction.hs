@@ -25,3 +25,14 @@ degrees North = 0
 degrees East = 90
 degrees South = 180
 degrees West = 270
+
+horizontal :: (HasDirection ent) => ent -> Bool
+horizontal ent =
+  case (ent^.direction) of
+    North -> False
+    South -> False
+    East -> True
+    West -> True
+
+vertical :: (HasDirection ent) => ent -> Bool
+vertical = not . horizontal

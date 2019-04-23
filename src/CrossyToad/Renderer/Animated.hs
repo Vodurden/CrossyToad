@@ -18,34 +18,40 @@ module CrossyToad.Renderer.Animated
 import           Control.Lens
 import           Data.Map.Strict (Map)
 import           Data.Maybe (fromJust)
+import           Linear.V2
 
-import           CrossyToad.Geometry.Position
-import           CrossyToad.Physics.Direction
+import           CrossyToad.Geometry.Position (Position, HasPosition(..))
+import           CrossyToad.Geometry.Size (Size, HasSize(..))
+import           CrossyToad.Physics.Direction (Direction(..), HasDirection(..))
 import           CrossyToad.Renderer.Animation (Animation, currentFrame)
 import qualified CrossyToad.Renderer.Animation as Animation
-import           CrossyToad.Renderer.AnimationFrame (AnimationFrame)
+import           CrossyToad.Renderer.Asset.AnimationAsset (AnimationAsset, HasAnimationAsset(frames))
+import           CrossyToad.Renderer.Asset.ImageAsset (ImageAsset, HasImageAsset(..))
 import           CrossyToad.Renderer.Clip (HasClip(..))
-import           CrossyToad.Renderer.RenderCommand (RenderCommand(..), AsRenderCommand(..))
-import           CrossyToad.Renderer.Sprite (HasSprite(..))
-import qualified CrossyToad.Renderer.Sprite as Sprite
+import qualified CrossyToad.Renderer.Clip as Clip
+import           CrossyToad.Renderer.RenderCommand (RenderCommand(..))
 import           CrossyToad.Time.Seconds
 
--- | The Animated component is used to allow an entity to
--- | be animated.
--- |
--- | It keeps track of the current animation and provide
--- | functions to tick and render the correct sprite.
+-- | An entity with this component can be rendered. This includes
+-- | both static rendering and animated rendering
 data Animated key = Animated
-  { _currentAnimationKey :: key
-  , _animations :: Map key Animation
+  { _currentAnimationKey :: !key
+  , __imageAsset :: !ImageAsset
+  , _animations :: !(Map key Animation)
+  , __size :: !Size
   } deriving (Eq, Show)
 
 makeClassy ''Animated
 
-mk :: key -> Map key [AnimationFrame] -> Animated key
-mk initialKey animations' = Animated
+instance HasImageAsset (Animated key) where imageAsset = _imageAsset
+instance HasSize (Animated key) where size = _size
+
+mk :: key -> AnimationAsset key -> Animated key
+mk initialKey animationAsset = Animated
   { _currentAnimationKey = initialKey
-  , _animations = Animation.mk <$> animations'
+  , __imageAsset = animationAsset ^. imageAsset
+  , _animations = Animation.mk <$> animationAsset ^. frames
+  , __size = animationAsset ^. size
   }
 
 -- | Transition to a new animated state if we are not already
@@ -96,19 +102,25 @@ render ::
   ( Ord key
   , HasPosition ent
   , HasDirection ent
-  , HasSprite ent
   , HasAnimated ent key
   ) => ent -> RenderCommand
-render ent =
-  let frame = ent ^. animated . currentAnimation . currentFrame
-  in (Sprite.render ent) & _Draw . _3 .~ (Just $ frame ^. clip)
+render ent = render' (ent^.position) (Just $ ent^.direction) (ent^.animated)
 
 renderNoDirection ::
   ( Ord key
   , HasPosition ent
-  , HasSprite ent
   , HasAnimated ent key
   ) => ent -> RenderCommand
-renderNoDirection ent =
-  let frame = ent ^. animated . currentAnimation . currentFrame
-  in (Sprite.renderNoDirection ent) & _Draw . _3 .~ (Just $ frame ^. clip)
+renderNoDirection ent = render' (ent^.position) Nothing (ent^.animated)
+
+render' :: (Ord key) => Position -> Maybe Direction -> Animated key -> RenderCommand
+render' pos maybeDir animated' =
+  let frame = animated' ^. currentAnimation . currentFrame
+      screenClip = Clip.mkAt (pos) (animated' ^. size)
+      flipX = maybeDir == (Just East)
+      flipY = maybeDir == (Just South)
+  in Draw (animated' ^. imageAsset)
+          (Just $ frame ^. clip)
+          (Just screenClip)
+          Nothing
+          (Just $ V2 flipX flipY)

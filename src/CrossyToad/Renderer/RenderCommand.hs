@@ -5,6 +5,7 @@ module CrossyToad.Renderer.RenderCommand where
 import Control.Lens
 import Data.Degrees (Degrees)
 import Data.Text (Text)
+import Linear.V2
 
 import CrossyToad.Renderer.Asset.FontAsset (FontAsset)
 import CrossyToad.Renderer.Asset.ImageAsset (ImageAsset, AsImageAsset(..))
@@ -18,9 +19,10 @@ data RenderCommand
   | DrawScreen
 
   | Draw !ImageAsset
+         !(Maybe Clip)
+         !(Maybe Clip)
          !(Maybe Degrees)
-         !(Maybe Clip)
-         !(Maybe Clip)
+         !(Maybe (V2 Bool))
 
   | DrawAt !ImageAsset
            !Position

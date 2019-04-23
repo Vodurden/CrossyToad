@@ -29,11 +29,8 @@ data AnimationFrame = AnimationFrame
 
 makeClassy ''AnimationFrame
 
-instance HasClip AnimationFrame where
-  clip = _clip
-
-instance HasTimer AnimationFrame where
-  timer = _timer
+instance HasClip AnimationFrame where clip = _clip
+instance HasTimer AnimationFrame where timer = _timer
 
 mk :: Position -> Size -> Seconds -> AnimationFrame
 mk pos size' seconds' = AnimationFrame

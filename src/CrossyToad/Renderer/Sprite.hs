@@ -39,6 +39,7 @@ render' pos maybeDir sprite' =
   let rotation = mfilter (/= 0) (Direction.degrees <$> maybeDir)
       screenClip = Clip.mkAt pos (sprite' ^. size)
   in Draw (sprite' ^. imageAsset)
-          rotation
           Nothing
           (Just screenClip)
+          rotation
+          Nothing

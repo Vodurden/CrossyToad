@@ -13,9 +13,7 @@ import qualified CrossyToad.Physics.JumpMotion as JumpMotion
 import           CrossyToad.Physics.Physics
 import           CrossyToad.Renderer.Animated (Animated(..), HasAnimated(..))
 import qualified CrossyToad.Renderer.Animated as Animated
-import qualified CrossyToad.Renderer.Asset.ImageAsset as ImageAsset
-import qualified CrossyToad.Renderer.Asset.Sprite.Toad as ToadSprite
-import           CrossyToad.Renderer.Sprite (Sprite(..), HasSprite(..))
+import qualified CrossyToad.Renderer.Asset.Animation.Toad as ToadAnimation
 import           CrossyToad.Time.Seconds (Seconds)
 import           CrossyToad.Mortality.Mortal (Mortal, HasMortal(..))
 import qualified CrossyToad.Mortality.Mortal as Mortal
@@ -27,8 +25,7 @@ data Toad = Toad
   , __direction :: !Direction
   , __jumpMotion :: !JumpMotion
   , __physical :: !Physical
-  , __sprite :: !Sprite
-  , __animated :: !(Animated ToadSprite.Animation)
+  , __animated :: !(Animated ToadAnimation.Animation)
   , __mortal :: !Mortal
   , __score :: !Score
   } deriving (Eq, Show)
@@ -39,8 +36,7 @@ instance HasPosition Toad where position = _position
 instance HasDirection Toad where direction = _direction
 instance HasJumpMotion Toad where jumpMotion = _jumpMotion
 instance HasPhysical Toad where physical = _physical
-instance HasSprite Toad where sprite = _sprite
-instance HasAnimated Toad ToadSprite.Animation where animated = _animated
+instance HasAnimated Toad ToadAnimation.Animation where animated = _animated
 instance HasMortal Toad where mortal = _mortal
 instance HasScore Toad where score = _score
 
@@ -50,8 +46,7 @@ mk pos = Toad
     , __direction = North
     , __jumpMotion = JumpMotion.mk toadSpeed toadDistance toadCooldown
     , __physical = Physical.mkAt (V2 1 1) (V2 62 62) Physical.Ground
-    , __sprite = Sprite ImageAsset.Toad (V2 64 64)
-    , __animated = Animated.mk ToadSprite.Idle ToadSprite.animations
+    , __animated = Animated.mk ToadAnimation.IdleUp ToadAnimation.asset
     , __mortal = Mortal.mk 5 pos
     , __score = Score.mk
     }

@@ -2,7 +2,7 @@
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: e4910ad4bf83c56220224be7bdb7429a91446398ce1652eb5e2a87b809a0bc7d
+-- hash: b38ac1d072a47df4185686c952c45fd5cdf1b1e05afd0e93bdc1753627596263
 
 name:           crossy-toad
 version:        0.1.0.0
@@ -61,10 +61,11 @@ library
       CrossyToad.Renderer.Animation
       CrossyToad.Renderer.AnimationFrame
       CrossyToad.Renderer.AnimationSystem
+      CrossyToad.Renderer.Asset.Animation.Toad
+      CrossyToad.Renderer.Asset.Animation.ToadHome
+      CrossyToad.Renderer.Asset.AnimationAsset
       CrossyToad.Renderer.Asset.FontAsset
       CrossyToad.Renderer.Asset.ImageAsset
-      CrossyToad.Renderer.Asset.Sprite.Toad
-      CrossyToad.Renderer.Asset.Sprite.ToadHome
       CrossyToad.Renderer.Clip
       CrossyToad.Renderer.MonadRenderer
       CrossyToad.Renderer.MonadRenderer.SDL.Env
@@ -232,10 +233,11 @@ test-suite spec
       CrossyToad.Renderer.Animation
       CrossyToad.Renderer.AnimationFrame
       CrossyToad.Renderer.AnimationSystem
+      CrossyToad.Renderer.Asset.Animation.Toad
+      CrossyToad.Renderer.Asset.Animation.ToadHome
+      CrossyToad.Renderer.Asset.AnimationAsset
       CrossyToad.Renderer.Asset.FontAsset
       CrossyToad.Renderer.Asset.ImageAsset
-      CrossyToad.Renderer.Asset.Sprite.Toad
-      CrossyToad.Renderer.Asset.Sprite.ToadHome
       CrossyToad.Renderer.Clip
       CrossyToad.Renderer.MonadRenderer
       CrossyToad.Renderer.MonadRenderer.SDL.Env

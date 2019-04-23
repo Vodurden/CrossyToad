@@ -16,10 +16,7 @@ data Textures = Textures
   , _toadHome :: !Texture
   , _car :: !Texture
   , _truck :: !Texture
-  , _grass :: !Texture
-  , _water :: !Texture
-  , _swamp :: !Texture
-  , _road :: !Texture
+  , _terrain :: !Texture
   }
 
 makeClassy ''Textures
@@ -29,10 +26,7 @@ fromImageAsset ImageAsset.Toad = view toad
 fromImageAsset ImageAsset.ToadHome = view toadHome
 fromImageAsset ImageAsset.Car = view car
 fromImageAsset ImageAsset.Truck = view truck
-fromImageAsset ImageAsset.Grass = view grass
-fromImageAsset ImageAsset.Water = view water
-fromImageAsset ImageAsset.Swamp = view swamp
-fromImageAsset ImageAsset.Road = view road
+fromImageAsset ImageAsset.Terrain = view terrain
 
 loadTextures :: SDL.Renderer -> IO Textures
 loadTextures renderer = do
@@ -40,20 +34,14 @@ loadTextures renderer = do
     toadHome' <- loadImage renderer ImageAsset.ToadHome
     car' <- loadImage renderer ImageAsset.Car
     truck' <- loadImage renderer ImageAsset.Truck
-    grass' <- loadImage renderer ImageAsset.Grass
-    water' <- loadImage renderer ImageAsset.Water
-    swamp' <- loadImage renderer ImageAsset.Swamp
-    road' <- loadImage renderer ImageAsset.Road
+    terrain' <- loadImage renderer ImageAsset.Terrain
 
     pure $ Textures
       { _toad = toad'
       , _toadHome = toadHome'
       , _car = car'
       , _truck = truck'
-      , _grass = grass'
-      , _water = water'
-      , _swamp = swamp'
-      , _road = road'
+      , _terrain = terrain'
       }
 
 loadImage :: SDL.Renderer -> ImageAsset -> IO Texture

@@ -9,7 +9,7 @@
   , tasty, tasty-discover, tasty-hspec, hspec, tasty-hedgehog, hedgehog
 
   # Extra executables
-  , flamegraph, ghc-prof-flamegraph, profiteur
+  , flamegraph, ghc-prof-flamegraph, profiteur, imagemagick7
 }:
 mkDerivation {
   pname = "crossy-toad";
@@ -19,6 +19,7 @@ mkDerivation {
   isExecutable = true;
   buildDepends = [
     flamegraph ghc-prof-flamegraph cabal-install hpack profiteur
+    imagemagick7
   ] ++ (if stdenv.isDarwin then [darwin.apple_sdk.frameworks.OpenGL] else []);
   executableHaskellDepends = [
     base sdl2 sdl2-ttf sdl2-image linear mtl transformers containers lens text zippers

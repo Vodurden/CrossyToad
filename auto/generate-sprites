@@ -1,0 +1,22 @@
+#!/usr/bin/env bash
+SOURCE_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null && pwd )"
+
+SPRITES_DIR="${SOURCE_DIR}/../assets/sprite"
+
+for SPRITE_DIR in ${SPRITES_DIR}/*/; do
+  SPRITE_DIR=${SPRITE_DIR%*/}
+  SPRITE_DIR_NAME=${SPRITE_DIR##*/}
+  SPRITE_NAME=${SPRITE_DIR_NAME}.png
+
+  echo "* Generating ${SPRITE_NAME} from ${SPRITE_DIR_NAME}/"
+
+  SPRITE_ROWS=$(ls ${SPRITE_DIR} | cut -d'_' -f-1 | uniq)
+  CONVERT_COMMAND=""
+  for SPRITE_ROW in ${SPRITE_ROWS}; do
+    echo "** Row ${SPRITE_ROW}:" ${SPRITE_DIR}/${SPRITE_ROW}_*.png
+    CONVERT_COMMAND="${CONVERT_COMMAND} ( ${SPRITE_DIR}/${SPRITE_ROW}_*.png +append )"
+  done
+
+  echo "** Writing ${SPRITES_DIR}/${SPRITE_NAME}"
+  convert ${CONVERT_COMMAND} -append ${SPRITES_DIR}/${SPRITE_NAME}
+done

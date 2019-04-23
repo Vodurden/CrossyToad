@@ -37,7 +37,6 @@ import           CrossyToad.Physics.Speed (secondsPerTile)
 import qualified CrossyToad.Renderer.Animated as Animated
 import qualified CrossyToad.Renderer.AnimationSystem as AnimationSystem
 import qualified CrossyToad.Renderer.Asset.FontAsset as FontAsset
-import qualified CrossyToad.Renderer.Asset.ImageAsset as ImageAsset
 import qualified CrossyToad.Renderer.Clip as Clip
 import           CrossyToad.Renderer.MonadRenderer (MonadRenderer)
 import qualified CrossyToad.Renderer.MonadRenderer as MonadRenderer
@@ -116,14 +115,14 @@ tick seconds ent' = flip execStateT ent' $ do
   gameState %= lensFoldl' MortalSystem.mortalCollision toad cars
 
   -- Animation
-  gameState.toad %= AnimationSystem.tickToadSprite seconds
-  gameState.toadHomes.mapped %= (AnimationSystem.tickToadHomeSprite seconds)
+  gameState.toad %= AnimationSystem.tickToadAnimation seconds
+  gameState.toadHomes.mapped %= (AnimationSystem.tickToadHomeAnimation seconds)
 
 render :: (MonadRenderer m, HasGameState ent) => ent -> m ()
 render ent = do
   MonadRenderer.clearScreen
 
-  renderBackground'
+  -- renderBackground'
   sequence_ $ MonadRenderer.runRenderCommand <$> Sprite.renderNoDirection <$> (ent ^. gameState . cars)
   sequence_ $ MonadRenderer.runRenderCommand <$> Sprite.renderNoDirection <$> (ent ^. gameState . riverLogs)
   sequence_ $ MonadRenderer.runRenderCommand <$> Animated.renderNoDirection  <$> (ent ^. gameState . toadHomes)
@@ -148,18 +147,18 @@ renderScore ent =
     scoreClip = Clip.mkAt scorePos scoreSize
     scoreText = Text.pack $ "Score: " ++ (show $ (ent^.score.totalScore))
 
-renderBackground' :: (MonadRenderer m) => m ()
-renderBackground' = do
-  MonadRenderer.drawTileRow ImageAsset.Swamp (V2 0 0    ) 20 (V2 64 64)
-  MonadRenderer.drawTileRow ImageAsset.Water (V2 0 1*64 ) 20 (V2 64 64)
-  MonadRenderer.drawTileRow ImageAsset.Water (V2 0 2*64 ) 20 (V2 64 64)
-  MonadRenderer.drawTileRow ImageAsset.Water (V2 0 3*64 ) 20 (V2 64 64)
-  MonadRenderer.drawTileRow ImageAsset.Water (V2 0 4*64 ) 20 (V2 64 64)
-  MonadRenderer.drawTileRow ImageAsset.Water (V2 0 5*64 ) 20 (V2 64 64)
-  MonadRenderer.drawTileRow ImageAsset.Grass (V2 0 6*64 ) 20 (V2 64 64)
-  MonadRenderer.drawTileRow ImageAsset.Road  (V2 0 7*64 ) 20 (V2 64 64)
-  MonadRenderer.drawTileRow ImageAsset.Road  (V2 0 8*64 ) 20 (V2 64 64)
-  MonadRenderer.drawTileRow ImageAsset.Road  (V2 0 9*64 ) 20 (V2 64 64)
-  MonadRenderer.drawTileRow ImageAsset.Road  (V2 0 10*64) 20 (V2 64 64)
-  MonadRenderer.drawTileRow ImageAsset.Road  (V2 0 11*64) 20 (V2 64 64)
-  MonadRenderer.drawTileRow ImageAsset.Grass (V2 0 12*64) 20 (V2 64 64)
+-- renderBackground' :: (MonadRenderer m) => m ()
+-- renderBackground' = do
+--   MonadRenderer.drawTileRow ImageAsset.Swamp (V2 0 0    ) 20 (V2 64 64)
+--   MonadRenderer.drawTileRow ImageAsset.Water (V2 0 1*64 ) 20 (V2 64 64)
+--   MonadRenderer.drawTileRow ImageAsset.Water (V2 0 2*64 ) 20 (V2 64 64)
+--   MonadRenderer.drawTileRow ImageAsset.Water (V2 0 3*64 ) 20 (V2 64 64)
+--   MonadRenderer.drawTileRow ImageAsset.Water (V2 0 4*64 ) 20 (V2 64 64)
+--   MonadRenderer.drawTileRow ImageAsset.Water (V2 0 5*64 ) 20 (V2 64 64)
+--   MonadRenderer.drawTileRow ImageAsset.Grass (V2 0 6*64 ) 20 (V2 64 64)
+--   MonadRenderer.drawTileRow ImageAsset.Road  (V2 0 7*64 ) 20 (V2 64 64)
+--   MonadRenderer.drawTileRow ImageAsset.Road  (V2 0 8*64 ) 20 (V2 64 64)
+--   MonadRenderer.drawTileRow ImageAsset.Road  (V2 0 9*64 ) 20 (V2 64 64)
+--   MonadRenderer.drawTileRow ImageAsset.Road  (V2 0 10*64) 20 (V2 64 64)
+--   MonadRenderer.drawTileRow ImageAsset.Road  (V2 0 11*64) 20 (V2 64 64)
+--   MonadRenderer.drawTileRow ImageAsset.Grass (V2 0 12*64) 20 (V2 64 64)
