@@ -15,8 +15,8 @@ import           Data.Foldable (foldlM)
 import qualified Data.Text as Text
 import           Linear.V2
 
-import           CrossyToad.Game.Car (Car)
-import qualified CrossyToad.Game.Car as Car
+import           CrossyToad.Game.Vehicle (Car, Truck)
+import qualified CrossyToad.Game.Vehicle as Vehicle
 import           CrossyToad.Game.GameState (GameState, HasGameState(..))
 import qualified CrossyToad.Game.GameState as GameState
 import           CrossyToad.Game.Intent (Intent(..))
@@ -41,7 +41,6 @@ import qualified CrossyToad.Renderer.Clip as Clip
 import           CrossyToad.Renderer.MonadRenderer (MonadRenderer)
 import qualified CrossyToad.Renderer.MonadRenderer as MonadRenderer
 import qualified CrossyToad.Renderer.RGBAColour as RGBAColour
-import qualified CrossyToad.Renderer.Sprite as Sprite
 import           CrossyToad.Scene.MonadScene (MonadScene)
 import qualified CrossyToad.Scene.MonadScene as MonadScene
 import           CrossyToad.Scene.Scene (Scene)
@@ -64,6 +63,7 @@ initialize = GameState.mk &
     (gameState.toad .~ Toad.mk (fromGrid 10 13))
     . (gameState.toadHomes .~ toadHomes')
     . (gameState.cars .~ cars')
+    . (gameState.trucks .~ trucks')
     . (gameState.riverLogs .~ riverLogs')
   where
     toadHomes' :: [ToadHome]
@@ -76,12 +76,16 @@ initialize = GameState.mk &
 
     cars' :: [Car]
     cars' = concat
-      [ (\x -> Car.mkTruck (fromGrid x 6) East (secondsPerTile 0.8)) <$> [10,19]
-      , (\x -> Car.mkTruck (fromGrid x 7) West (secondsPerTile 0.8)) <$> [10,19]
-      , (\x -> Car.mk (fromGrid x 8 ) East (secondsPerTile 0.4)) <$> [0,10]
-      , (\x -> Car.mk (fromGrid x 9 ) West (secondsPerTile 1)) <$> [10,13,16,19,2]
-      , (\x -> Car.mk (fromGrid x 10) East (secondsPerTile 1)) <$> [12,16,0,4,8]
-      , (\x -> Car.mk (fromGrid x 11) West (secondsPerTile 1)) <$> [7,11,15,19,3]
+      [ (\x -> Vehicle.mkCar   (fromGrid x 8 ) East (secondsPerTile 0.4)) <$> [0,10]
+      , (\x -> Vehicle.mkCar   (fromGrid x 9 ) West (secondsPerTile 1)) <$> [10,13,16,19,2]
+      , (\x -> Vehicle.mkCar   (fromGrid x 10) East (secondsPerTile 1)) <$> [12,16,0,4,8]
+      , (\x -> Vehicle.mkCar   (fromGrid x 11) West (secondsPerTile 1)) <$> [7,11,15,19,3]
+      ]
+
+    trucks' :: [Truck]
+    trucks' = concat
+      [ (\x -> Vehicle.mkTruck (fromGrid x 6) East (secondsPerTile 0.8)) <$> [10,19]
+      , (\x -> Vehicle.mkTruck (fromGrid x 7) West (secondsPerTile 0.8)) <$> [10,19]
       ]
 
     riverLogs' :: [RiverLog]
@@ -104,6 +108,7 @@ tick seconds ent' = flip execStateT ent' $ do
   gameState.toad %= MovementSystem.tickJumping seconds
   gameState %= lensFoldl' (MovementSystem.moveOnPlatform $ seconds) toad riverLogs
   gameState.cars.mapped %= (MovementSystem.tickLinear seconds)
+  gameState.trucks.mapped %= (MovementSystem.tickLinear seconds)
   gameState.riverLogs.mapped %= (MovementSystem.tickLinear seconds)
 
   -- Victory
@@ -113,6 +118,7 @@ tick seconds ent' = flip execStateT ent' $ do
 
   -- Life & Death
   gameState %= lensFoldl' MortalSystem.mortalCollision toad cars
+  gameState %= lensFoldl' MortalSystem.mortalCollision toad trucks
 
   -- Animation
   gameState.toad %= AnimationSystem.tickToadAnimation seconds
@@ -123,10 +129,13 @@ render ent = do
   MonadRenderer.clearScreen
 
   -- renderBackground'
-  sequence_ $ MonadRenderer.runRenderCommand <$> Sprite.renderNoDirection <$> (ent ^. gameState . cars)
-  sequence_ $ MonadRenderer.runRenderCommand <$> Sprite.renderNoDirection <$> (ent ^. gameState . riverLogs)
-  sequence_ $ MonadRenderer.runRenderCommand <$> Animated.renderNoDirection  <$> (ent ^. gameState . toadHomes)
-  MonadRenderer.runRenderCommand $ Animated.render (ent ^. gameState . toad)
+  sequence_ $ MonadRenderer.runRenderCommand <$> concat
+    [ Animated.render <$> (ent ^. gameState . cars)
+    , Animated.render <$> (ent ^. gameState . trucks)
+    , Animated.renderNoDirection <$> (ent ^. gameState . toadHomes)
+    ]
+
+  MonadRenderer.runRenderCommand (Animated.render $ ent^.gameState.toad)
 
   renderScore (ent^.gameState.toad)
 
