@@ -63,8 +63,8 @@ mkEnt = Ent
   , __animated = Animated.mk Idle asset
   }
 
-spec_Sprite_AnimatedSpec :: Spec
-spec_Sprite_AnimatedSpec = do
+spec_Renderer_AnimatedSpec :: Spec
+spec_Renderer_AnimatedSpec = do
   describe "mk" $ do
     it "should start on the first frame of the initial key" $ do
       let animated' = Animated.mk Idle asset

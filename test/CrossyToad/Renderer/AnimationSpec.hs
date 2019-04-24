@@ -16,8 +16,8 @@ frame1, frame2 :: AnimationFrame
 frame1 = AnimationFrame.mk (V2 0  0) (V2 64 64) 0.5
 frame2 = AnimationFrame.mk (V2 64 0) (V2 64 64) 0.5
 
-spec_Sprite_AnimationSpec :: Spec
-spec_Sprite_AnimationSpec = do
+spec_Renderer_AnimationSpec :: Spec
+spec_Renderer_AnimationSpec = do
   describe "mk" $ do
     it "should start in the Paused state" $ do
       let anim = Animation.mk [frame1, frame2]

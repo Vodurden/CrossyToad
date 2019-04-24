@@ -2,7 +2,7 @@
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: 750f85a5966b2fd7ec6f6d30bbcbc7645d256354b6346b7e94f0540bf136f36d
+-- hash: 24df7c18ef119bf01cebeebf5e1b0cf1c4dfef9a803c891b82cf0c20bb9d8796
 
 name:           crossy-toad
 version:        0.1.0.0
@@ -79,7 +79,6 @@ library
       CrossyToad.Renderer.MonadRenderer.SDL.Textures
       CrossyToad.Renderer.RenderCommand
       CrossyToad.Renderer.RGBAColour
-      CrossyToad.Renderer.Sprite
       CrossyToad.Runner
       CrossyToad.Scene.MonadScene
       CrossyToad.Scene.MonadScene.IO.Env
@@ -191,7 +190,6 @@ test-suite spec
       CrossyToad.Physics.PhysicalSpec
       CrossyToad.Renderer.AnimatedSpec
       CrossyToad.Renderer.AnimationSpec
-      CrossyToad.Renderer.SpriteSpec
       CrossyToad.Time.TimerSpec
       CrossyToad.Title.IntentSpec
       CrossyToad.Title.TitleSpec
@@ -255,7 +253,6 @@ test-suite spec
       CrossyToad.Renderer.MonadRenderer.SDL.Textures
       CrossyToad.Renderer.RenderCommand
       CrossyToad.Renderer.RGBAColour
-      CrossyToad.Renderer.Sprite
       CrossyToad.Runner
       CrossyToad.Scene.MonadScene
       CrossyToad.Scene.MonadScene.IO.Env
