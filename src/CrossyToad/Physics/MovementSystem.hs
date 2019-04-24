@@ -5,7 +5,6 @@ module CrossyToad.Physics.MovementSystem
   ( tickJumping
   , tickLinear
   , moveOnPlatform
-  , loopXPosition
   ) where
 
 import           Control.Arrow ((>>>))
@@ -30,7 +29,7 @@ tickJumping ::
   , HasJumpMotion ent
   ) => Seconds -> ent -> ent
 tickJumping seconds =
-    (JumpMotion.tick seconds) >>> airJump >>> loopXPosition
+    (JumpMotion.tick seconds) >>> airJump >>> enforceMapBoundaries
   where
     airJump :: (HasPhysical ent, HasJumpMotion ent) => ent -> ent
     airJump ent =
@@ -44,7 +43,7 @@ tickLinear ::
   , HasLinearMotion ent
   ) => Seconds -> ent -> ent
 tickLinear seconds =
-  (LinearMotion.tick seconds) >>> loopXPosition
+  (LinearMotion.tick seconds) >>> enforceMapBoundaries
 
 -- | Move the rider by the motion of the platform if it is
 -- | standing on the platform
@@ -62,12 +61,24 @@ moveOnPlatform delta riderEnt platformEnt
       riderEnt & position +~ (LinearMotion.motionVectorThisTick delta platformEnt)
   | otherwise = riderEnt
 
--- | If an entity goes out of bounds on the X-axis: move it to the other side of the screen
-loopXPosition :: (HasPosition ent) => ent -> ent
-loopXPosition ent
-  | ent^.position._x > gridMax^._x = ent & position._x .~ gridMin^._x
-  | ent^.position._x < gridMin^._x = ent & position._x .~ gridMax^._x
-  | otherwise = ent
+-- | If an entity goes out of bounds we need to handle it.
+-- |
+-- | On the x-axis we loop to the other side of the screen
+-- | On the y-axis we cap the movement
+enforceMapBoundaries :: (HasPosition ent) => ent -> ent
+enforceMapBoundaries = loopXPosition . constrainYPosition
   where
+    loopXPosition :: (HasPosition ent) => ent -> ent
+    loopXPosition ent
+      | ent^.position._x > gridMax^._x = ent & position._x .~ gridMin^._x
+      | ent^.position._x < gridMin^._x = ent & position._x .~ gridMax^._x
+      | otherwise = ent
+
+    constrainYPosition :: (HasPosition ent) => ent -> ent
+    constrainYPosition ent
+      | ent ^.position._y > gridMax^._y = ent & position._y .~ gridMax^._y
+      | ent ^.position._y < gridMin^._y = ent & position._y .~ gridMin^._y
+      | otherwise = ent
+
     gridMin = (Position.fromGrid (-1) 0)
-    gridMax = (Position.fromGrid 20 14)
+    gridMax = (Position.fromGrid 20 13)
