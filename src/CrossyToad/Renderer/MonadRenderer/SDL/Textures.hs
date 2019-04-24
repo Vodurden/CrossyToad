@@ -16,6 +16,7 @@ data Textures = Textures
   , _toadHome :: !Texture
   , _car :: !Texture
   , _truck :: !Texture
+  , _woodLog :: !Texture
   , _terrain :: !Texture
   }
 
@@ -26,6 +27,7 @@ fromImageAsset ImageAsset.Toad = view toad
 fromImageAsset ImageAsset.ToadHome = view toadHome
 fromImageAsset ImageAsset.Car = view car
 fromImageAsset ImageAsset.Truck = view truck
+fromImageAsset ImageAsset.WoodLog = view woodLog
 fromImageAsset ImageAsset.Terrain = view terrain
 
 loadTextures :: SDL.Renderer -> IO Textures
@@ -34,6 +36,7 @@ loadTextures renderer = do
     toadHome' <- loadImage renderer ImageAsset.ToadHome
     car' <- loadImage renderer ImageAsset.Car
     truck' <- loadImage renderer ImageAsset.Truck
+    woodLog' <- loadImage renderer ImageAsset.WoodLog
     terrain' <- loadImage renderer ImageAsset.Terrain
 
     pure $ Textures
@@ -41,6 +44,7 @@ loadTextures renderer = do
       , _toadHome = toadHome'
       , _car = car'
       , _truck = truck'
+      , _woodLog = woodLog'
       , _terrain = terrain'
       }
 

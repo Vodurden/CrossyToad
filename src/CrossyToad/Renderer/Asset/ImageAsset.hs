@@ -10,6 +10,7 @@ data ImageAsset
   | ToadHome
   | Car
   | Truck
+  | WoodLog
   | Terrain
 
   deriving (Eq, Show)
@@ -25,4 +26,5 @@ filename Toad = "toad.png"
 filename ToadHome = "toad_home.png"
 filename Car = "car.png"
 filename Truck = "truck.png"
+filename WoodLog = "wood_log.png"
 filename Terrain = "terrain.png"

@@ -15,14 +15,12 @@ import           Data.Foldable (foldlM)
 import qualified Data.Text as Text
 import           Linear.V2
 
-import           CrossyToad.Game.Vehicle (Car, Truck)
+import           CrossyToad.Game.Vehicle (Car, Truck, WoodLog)
 import qualified CrossyToad.Game.Vehicle as Vehicle
 import           CrossyToad.Game.GameState (GameState, HasGameState(..))
 import qualified CrossyToad.Game.GameState as GameState
 import           CrossyToad.Game.Intent (Intent(..))
 import qualified CrossyToad.Game.Intent as Intent
-import           CrossyToad.Game.RiverLog (RiverLog)
-import qualified CrossyToad.Game.RiverLog as RiverLog
 import           CrossyToad.Game.Toad (HasToad(..))
 import qualified CrossyToad.Game.Toad as Toad
 import           CrossyToad.Game.ToadHome (ToadHome)
@@ -64,7 +62,7 @@ initialize = GameState.mk &
     . (gameState.toadHomes .~ toadHomes')
     . (gameState.cars .~ cars')
     . (gameState.trucks .~ trucks')
-    . (gameState.riverLogs .~ riverLogs')
+    . (gameState.woodLogs .~ woodLogs')
   where
     toadHomes' :: [ToadHome]
     toadHomes' =
@@ -88,9 +86,9 @@ initialize = GameState.mk &
       , (\x -> Vehicle.mkTruck (fromGrid x 7) West (secondsPerTile 0.8)) <$> [10,19]
       ]
 
-    riverLogs' :: [RiverLog]
-    riverLogs' = concat
-      [ (\x -> RiverLog.mk (fromGrid x 1) East (secondsPerTile 1)) <$> [1]
+    woodLogs' :: [WoodLog]
+    woodLogs' = concat
+      [ (\x -> Vehicle.mkWoodLog (fromGrid x 1) East (secondsPerTile 1)) <$> [1]
       ]
 
 -- | Update the GameState and Scene based on the user input
@@ -106,10 +104,10 @@ tick :: (MonadLogger m, HasGameState ent) => Seconds -> ent -> m ent
 tick seconds ent' = flip execStateT ent' $ do
   -- Physics
   gameState.toad %= MovementSystem.tickJumping seconds
-  gameState %= lensFoldl' (MovementSystem.moveOnPlatform $ seconds) toad riverLogs
+  gameState %= lensFoldl' (MovementSystem.moveOnPlatform $ seconds) toad woodLogs
   gameState.cars.mapped %= (MovementSystem.tickLinear seconds)
   gameState.trucks.mapped %= (MovementSystem.tickLinear seconds)
-  gameState.riverLogs.mapped %= (MovementSystem.tickLinear seconds)
+  gameState.woodLogs.mapped %= (MovementSystem.tickLinear seconds)
 
   -- Victory
   gameState.toad %= VictorySystem.jumpScore
@@ -132,6 +130,7 @@ render ent = do
   sequence_ $ MonadRenderer.runRenderCommand <$> concat
     [ Animated.render <$> (ent ^. gameState . cars)
     , Animated.render <$> (ent ^. gameState . trucks)
+    , Animated.render <$> (ent ^. gameState . woodLogs)
     , Animated.renderNoDirection <$> (ent ^. gameState . toadHomes)
     ]
 

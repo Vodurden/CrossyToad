@@ -2,7 +2,7 @@
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: ff1a2676f16f4bb58819ff906ea7577598afbb4cce9fe0039104e71425fae3c0
+-- hash: fd91ff976d5320c00ea29fc56c39d19ba698814054b76837c94f06a638e8fc9a
 
 name:           crossy-toad
 version:        0.1.0.0
@@ -28,7 +28,6 @@ library
       CrossyToad.Game.Game
       CrossyToad.Game.GameState
       CrossyToad.Game.Intent
-      CrossyToad.Game.RiverLog
       CrossyToad.Game.Toad
       CrossyToad.Game.ToadHome
       CrossyToad.Game.Vehicle
@@ -65,6 +64,7 @@ library
       CrossyToad.Renderer.Asset.Animation.Toad
       CrossyToad.Renderer.Asset.Animation.ToadHome
       CrossyToad.Renderer.Asset.Animation.Truck
+      CrossyToad.Renderer.Asset.Animation.WoodLog
       CrossyToad.Renderer.Asset.AnimationAsset
       CrossyToad.Renderer.Asset.FontAsset
       CrossyToad.Renderer.Asset.ImageAsset
@@ -202,7 +202,6 @@ test-suite spec
       CrossyToad.Game.Game
       CrossyToad.Game.GameState
       CrossyToad.Game.Intent
-      CrossyToad.Game.RiverLog
       CrossyToad.Game.Toad
       CrossyToad.Game.ToadHome
       CrossyToad.Game.Vehicle
@@ -239,6 +238,7 @@ test-suite spec
       CrossyToad.Renderer.Asset.Animation.Toad
       CrossyToad.Renderer.Asset.Animation.ToadHome
       CrossyToad.Renderer.Asset.Animation.Truck
+      CrossyToad.Renderer.Asset.Animation.WoodLog
       CrossyToad.Renderer.Asset.AnimationAsset
       CrossyToad.Renderer.Asset.FontAsset
       CrossyToad.Renderer.Asset.ImageAsset
