@@ -7,12 +7,14 @@ module CrossyToad.Game.GameState where
 import Control.Lens
 import Linear.V2
 
-import CrossyToad.Game.Vehicle (Car, Truck, WoodLog)
+import CrossyToad.Game.Terrain (Terrain)
 import CrossyToad.Game.Toad as Toad
-import CrossyToad.Game.ToadHome
+import CrossyToad.Game.ToadHome (ToadHome)
+import CrossyToad.Game.Vehicle (Car, Truck, WoodLog)
 
 data GameState = GameState
   { __toad :: !Toad
+  , _terrains :: ![Terrain]
   , _toadHomes :: ![ToadHome]
   , _cars :: ![Car]
   , _trucks :: ![Truck]
@@ -26,6 +28,7 @@ instance HasToad GameState where toad = _toad
 mk :: GameState
 mk = GameState
   { __toad = Toad.mk (V2 0 0)
+  , _terrains = []
   , _toadHomes = []
   , _cars = []
   , _trucks = []

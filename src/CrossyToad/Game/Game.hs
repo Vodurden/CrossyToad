@@ -15,16 +15,18 @@ import           Data.Foldable (foldlM)
 import qualified Data.Text as Text
 import           Linear.V2
 
-import           CrossyToad.Game.Vehicle (Car, Truck, WoodLog)
-import qualified CrossyToad.Game.Vehicle as Vehicle
 import           CrossyToad.Game.GameState (GameState, HasGameState(..))
 import qualified CrossyToad.Game.GameState as GameState
 import           CrossyToad.Game.Intent (Intent(..))
 import qualified CrossyToad.Game.Intent as Intent
+import           CrossyToad.Game.Terrain (Terrain)
+import qualified CrossyToad.Game.Terrain as Terrain
 import           CrossyToad.Game.Toad (HasToad(..))
 import qualified CrossyToad.Game.Toad as Toad
 import           CrossyToad.Game.ToadHome (ToadHome)
 import qualified CrossyToad.Game.ToadHome as ToadHome
+import           CrossyToad.Game.Vehicle (Car, Truck, WoodLog)
+import qualified CrossyToad.Game.Vehicle as Vehicle
 import           CrossyToad.Geometry.Position (fromGrid)
 import           CrossyToad.Input.InputState (InputState)
 import           CrossyToad.Logger.MonadLogger (MonadLogger(..))
@@ -59,11 +61,29 @@ scene = Scene.mk initialize handleInput tick render
 initialize :: GameState
 initialize = GameState.mk &
     (gameState.toad .~ Toad.mk (fromGrid 10 13))
+    . (gameState.terrains .~ terrains')
     . (gameState.toadHomes .~ toadHomes')
     . (gameState.cars .~ cars')
     . (gameState.trucks .~ trucks')
     . (gameState.woodLogs .~ woodLogs')
   where
+    terrains' :: [Terrain]
+    terrains' = concat
+      [ Terrain.mkSwamp <$> (\x -> fromGrid x 0 ) <$> [0..20]
+      , Terrain.mkWater <$> (\x -> fromGrid x 1 ) <$> [0..20]
+      , Terrain.mkWater <$> (\x -> fromGrid x 2 ) <$> [0..20]
+      , Terrain.mkWater <$> (\x -> fromGrid x 3 ) <$> [0..20]
+      , Terrain.mkWater <$> (\x -> fromGrid x 4 ) <$> [0..20]
+      , Terrain.mkWater <$> (\x -> fromGrid x 5 ) <$> [0..20]
+      , Terrain.mkGrass <$> (\x -> fromGrid x 6 ) <$> [0..20]
+      , Terrain.mkRoad  <$> (\x -> fromGrid x 7 ) <$> [0..20]
+      , Terrain.mkRoad  <$> (\x -> fromGrid x 8 ) <$> [0..20]
+      , Terrain.mkRoad  <$> (\x -> fromGrid x 9 ) <$> [0..20]
+      , Terrain.mkRoad  <$> (\x -> fromGrid x 10) <$> [0..20]
+      , Terrain.mkRoad  <$> (\x -> fromGrid x 11) <$> [0..20]
+      , Terrain.mkGrass <$> (\x -> fromGrid x 12) <$> [0..20]
+      ]
+
     toadHomes' :: [ToadHome]
     toadHomes' =
       [ ToadHome.mk (fromGrid 2  0)
@@ -126,7 +146,11 @@ render :: (MonadRenderer m, HasGameState ent) => ent -> m ()
 render ent = do
   MonadRenderer.clearScreen
 
-  -- renderBackground'
+  -- Background
+  sequence_ $ MonadRenderer.runRenderCommand <$>
+    (Animated.renderNoDirection <$> (ent ^. gameState . terrains))
+
+  -- Vehicles
   sequence_ $ MonadRenderer.runRenderCommand <$> concat
     [ Animated.render <$> (ent ^. gameState . cars)
     , Animated.render <$> (ent ^. gameState . trucks)
@@ -134,6 +158,7 @@ render ent = do
     , Animated.renderNoDirection <$> (ent ^. gameState . toadHomes)
     ]
 
+  -- Player
   MonadRenderer.runRenderCommand (Animated.render $ ent^.gameState.toad)
 
   renderScore (ent^.gameState.toad)
@@ -154,19 +179,3 @@ renderScore ent =
     scoreSize = V2 256 64
     scoreClip = Clip.mkAt scorePos scoreSize
     scoreText = Text.pack $ "Score: " ++ (show $ (ent^.score.totalScore))
-
--- renderBackground' :: (MonadRenderer m) => m ()
--- renderBackground' = do
---   MonadRenderer.drawTileRow ImageAsset.Swamp (V2 0 0    ) 20 (V2 64 64)
---   MonadRenderer.drawTileRow ImageAsset.Water (V2 0 1*64 ) 20 (V2 64 64)
---   MonadRenderer.drawTileRow ImageAsset.Water (V2 0 2*64 ) 20 (V2 64 64)
---   MonadRenderer.drawTileRow ImageAsset.Water (V2 0 3*64 ) 20 (V2 64 64)
---   MonadRenderer.drawTileRow ImageAsset.Water (V2 0 4*64 ) 20 (V2 64 64)
---   MonadRenderer.drawTileRow ImageAsset.Water (V2 0 5*64 ) 20 (V2 64 64)
---   MonadRenderer.drawTileRow ImageAsset.Grass (V2 0 6*64 ) 20 (V2 64 64)
---   MonadRenderer.drawTileRow ImageAsset.Road  (V2 0 7*64 ) 20 (V2 64 64)
---   MonadRenderer.drawTileRow ImageAsset.Road  (V2 0 8*64 ) 20 (V2 64 64)
---   MonadRenderer.drawTileRow ImageAsset.Road  (V2 0 9*64 ) 20 (V2 64 64)
---   MonadRenderer.drawTileRow ImageAsset.Road  (V2 0 10*64) 20 (V2 64 64)
---   MonadRenderer.drawTileRow ImageAsset.Road  (V2 0 11*64) 20 (V2 64 64)
---   MonadRenderer.drawTileRow ImageAsset.Grass (V2 0 12*64) 20 (V2 64 64)

@@ -15,7 +15,7 @@ module CrossyToad.Game.Vehicle
 import           Control.Lens
 import           Linear.V2
 
-import           CrossyToad.Geometry.Position
+import           CrossyToad.Geometry.Position (Position, HasPosition(..))
 import           CrossyToad.Physics.LinearMotion (LinearMotion(..), HasLinearMotion(..))
 import qualified CrossyToad.Physics.LinearMotion as LinearMotion
 import           CrossyToad.Physics.Physical (Physical, HasPhysical(..))

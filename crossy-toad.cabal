@@ -2,7 +2,7 @@
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: fd91ff976d5320c00ea29fc56c39d19ba698814054b76837c94f06a638e8fc9a
+-- hash: 750f85a5966b2fd7ec6f6d30bbcbc7645d256354b6346b7e94f0540bf136f36d
 
 name:           crossy-toad
 version:        0.1.0.0
@@ -28,6 +28,7 @@ library
       CrossyToad.Game.Game
       CrossyToad.Game.GameState
       CrossyToad.Game.Intent
+      CrossyToad.Game.Terrain
       CrossyToad.Game.Toad
       CrossyToad.Game.ToadHome
       CrossyToad.Game.Vehicle
@@ -61,6 +62,7 @@ library
       CrossyToad.Renderer.AnimationFrame
       CrossyToad.Renderer.AnimationSystem
       CrossyToad.Renderer.Asset.Animation.Car
+      CrossyToad.Renderer.Asset.Animation.Terrain
       CrossyToad.Renderer.Asset.Animation.Toad
       CrossyToad.Renderer.Asset.Animation.ToadHome
       CrossyToad.Renderer.Asset.Animation.Truck
@@ -202,6 +204,7 @@ test-suite spec
       CrossyToad.Game.Game
       CrossyToad.Game.GameState
       CrossyToad.Game.Intent
+      CrossyToad.Game.Terrain
       CrossyToad.Game.Toad
       CrossyToad.Game.ToadHome
       CrossyToad.Game.Vehicle
@@ -235,6 +238,7 @@ test-suite spec
       CrossyToad.Renderer.AnimationFrame
       CrossyToad.Renderer.AnimationSystem
       CrossyToad.Renderer.Asset.Animation.Car
+      CrossyToad.Renderer.Asset.Animation.Terrain
       CrossyToad.Renderer.Asset.Animation.Toad
       CrossyToad.Renderer.Asset.Animation.ToadHome
       CrossyToad.Renderer.Asset.Animation.Truck

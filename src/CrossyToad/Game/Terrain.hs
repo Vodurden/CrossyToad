@@ -1,0 +1,51 @@
+{-# LANGUAGE TemplateHaskell #-}
+
+module CrossyToad.Game.Terrain
+  ( Terrain(..)
+  , HasTerrain(..)
+  , mkGrass
+  , mkRoad
+  , mkSwamp
+  , mkWater
+  ) where
+
+import           Control.Lens
+
+import           CrossyToad.Geometry.Position (Position, HasPosition(..))
+import           CrossyToad.Renderer.Animated (Animated(..), HasAnimated(..))
+import qualified CrossyToad.Renderer.Animated as Animated
+import qualified CrossyToad.Renderer.Asset.Animation.Terrain as TerrainAnimation
+
+data Terrain = Terrain
+  { __position :: !Position
+  , __animated :: !(Animated TerrainAnimation.Animation)
+  } deriving (Eq, Show)
+
+makeClassy ''Terrain
+
+instance HasPosition Terrain where position = _position
+instance HasAnimated Terrain TerrainAnimation.Animation where animated = _animated
+
+mkGrass :: Position -> Terrain
+mkGrass pos = Terrain
+  { __position = pos
+  , __animated = Animated.mk TerrainAnimation.Grass TerrainAnimation.asset
+  }
+
+mkRoad :: Position -> Terrain
+mkRoad pos = Terrain
+  { __position = pos
+  , __animated = Animated.mk TerrainAnimation.Road TerrainAnimation.asset
+  }
+
+mkSwamp :: Position -> Terrain
+mkSwamp pos = Terrain
+  { __position = pos
+  , __animated = Animated.mk TerrainAnimation.Swamp TerrainAnimation.asset
+  }
+
+mkWater :: Position -> Terrain
+mkWater pos = Terrain
+  { __position = pos
+  , __animated = Animated.mk TerrainAnimation.Water TerrainAnimation.asset
+  }
