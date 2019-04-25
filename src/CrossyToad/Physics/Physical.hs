@@ -29,7 +29,11 @@ data Physical = Physical
   , __layer :: Layer
   } deriving (Eq, Show)
 
-data Layer = Platform | Ground | Air
+-- | Represents the vertical position of this physical entity.
+data Layer
+  = Ground
+  | Platform
+  | Air
   deriving (Eq, Show)
 
 makeClassy ''Layer
@@ -47,9 +51,12 @@ mkAt :: Position -> Size -> Layer -> Physical
 mkAt pos size layer' = Physical (AABB.mkAt pos size) layer'
 
 -- | Returns true if both entities are sharing the same space (regardless of layer)
-overlapping
-  :: (HasPosition ent1 , HasPhysical ent1 , HasPosition ent2 , HasPhysical ent2)
-  => ent1 -> ent2 -> Bool
+overlapping ::
+  ( HasPosition ent1
+  , HasPhysical ent1
+  , HasPosition ent2
+  , HasPhysical ent2
+  ) => ent1 -> ent2 -> Bool
 overlapping ent1 ent2 =
     AABB.collision box1 box2
   where
@@ -57,10 +64,14 @@ overlapping ent1 ent2 =
     box2 = AABB.offset (ent2^.position) (ent2^.physical.aabb)
 
 -- | Returns true if both entities sharing the same space and on the same layer
-colliding
-  :: (HasPosition ent1 , HasPhysical ent1 , HasPosition ent2 , HasPhysical ent2)
-  => ent1 -> ent2 -> Bool
-colliding ent1 ent2 = overlapping ent1 ent2 && ent1 ^. physical.layer == ent2 ^. physical.layer
+colliding ::
+  ( HasPosition ent1
+  , HasPhysical ent1
+  , HasPosition ent2
+  , HasPhysical ent2
+  ) => ent1 -> ent2 -> Bool
+colliding ent1 ent2 =
+  overlapping ent1 ent2 && ent1 ^. physical.layer == ent2 ^. physical.layer
 
 -- | Returns true if the rider is standing on the platform
 onPlatform ::

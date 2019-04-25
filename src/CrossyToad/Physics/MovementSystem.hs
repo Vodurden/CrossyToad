@@ -45,8 +45,7 @@ tickLinear ::
 tickLinear seconds =
   (LinearMotion.tick seconds) >>> enforceMapBoundaries
 
--- | Move the rider by the motion of the platform if it is
--- | standing on the platform
+-- | Move the rider by the motion of the platform if it is standing on the platform
 moveOnPlatform ::
   ( HasPosition riderEnt
   , HasPhysical riderEnt
@@ -58,7 +57,8 @@ moveOnPlatform ::
   ) => Seconds -> riderEnt -> platformEnt -> riderEnt
 moveOnPlatform delta riderEnt platformEnt
   | Physical.onPlatform riderEnt platformEnt =
-      riderEnt & position +~ (LinearMotion.motionVectorThisTick delta platformEnt)
+      riderEnt & (position +~ (LinearMotion.motionVectorThisTick delta platformEnt))
+                 . (physical . layer .~ Physical.Platform)
   | otherwise = riderEnt
 
 -- | If an entity goes out of bounds we need to handle it.
@@ -81,4 +81,4 @@ enforceMapBoundaries = loopXPosition . constrainYPosition
       | otherwise = ent
 
     gridMin = (Position.fromGrid (-1) 0)
-    gridMax = (Position.fromGrid 20 13)
+    gridMax = (Position.fromGrid 21 13)

@@ -18,7 +18,7 @@ data Animation
   deriving (Eq, Show, Ord)
 
 asset :: AnimationAsset Animation
-asset = AnimationAsset ImageAsset.WoodLog animations (V2 128 64)
+asset = AnimationAsset ImageAsset.WoodLog animations (V2 64 64)
 
 animations :: Map Animation [AnimationFrame]
 animations = Map.fromList
@@ -26,4 +26,4 @@ animations = Map.fromList
   ]
 
 mkFrame :: (V2 Int) -> Seconds -> AnimationFrame
-mkFrame = AnimationFrame.mkIndexed (V2 128 64)
+mkFrame = AnimationFrame.mkIndexed (V2 64 64)

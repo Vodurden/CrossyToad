@@ -61,7 +61,7 @@ mkTruck pos dir speed' = Vehicle
     { __position = pos
     , __direction = dir
     , __linearMotion = LinearMotion.mk speed'
-    , __physical = Physical.mkAt (V2 1 1) (V2 127 62) Physical.Ground
+    , __physical = Physical.mkAt (V2 1 1) (V2 62 62) Physical.Ground
     , __animated = Animated.mk TruckAnimation.DriveLeft TruckAnimation.asset
     }
 

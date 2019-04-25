@@ -34,6 +34,7 @@ import qualified CrossyToad.Mortality.MortalSystem as MortalSystem
 import           CrossyToad.Physics.Direction (Direction(..))
 import qualified CrossyToad.Physics.MovementSystem as MovementSystem
 import           CrossyToad.Physics.Speed (secondsPerTile)
+import qualified CrossyToad.Physics.Rendering as PhysicsRendering
 import qualified CrossyToad.Renderer.Animated as Animated
 import qualified CrossyToad.Renderer.AnimationSystem as AnimationSystem
 import qualified CrossyToad.Renderer.Asset.FontAsset as FontAsset
@@ -61,21 +62,26 @@ scene = Scene.mk initialize handleInput tick render
 initialize :: GameState
 initialize = GameState.mk &
     (gameState.toad .~ Toad.mk (fromGrid 10 13))
-    . (gameState.terrains .~ terrains')
+    . (gameState.deathTerrain .~ deathTerrain')
+    . (gameState.safeTerrain .~ safeTerrain')
     . (gameState.toadHomes .~ toadHomes')
     . (gameState.cars .~ cars')
     . (gameState.trucks .~ trucks')
     . (gameState.woodLogs .~ woodLogs')
   where
-    terrains' :: [Terrain]
-    terrains' = concat
+    deathTerrain' :: [Terrain]
+    deathTerrain' = concat
       [ Terrain.mkSwamp <$> (\x -> fromGrid x 0 ) <$> [0..20]
       , Terrain.mkWater <$> (\x -> fromGrid x 1 ) <$> [0..20]
       , Terrain.mkWater <$> (\x -> fromGrid x 2 ) <$> [0..20]
       , Terrain.mkWater <$> (\x -> fromGrid x 3 ) <$> [0..20]
       , Terrain.mkWater <$> (\x -> fromGrid x 4 ) <$> [0..20]
       , Terrain.mkWater <$> (\x -> fromGrid x 5 ) <$> [0..20]
-      , Terrain.mkGrass <$> (\x -> fromGrid x 6 ) <$> [0..20]
+      ]
+
+    safeTerrain' :: [Terrain]
+    safeTerrain' = concat
+      [ Terrain.mkGrass <$> (\x -> fromGrid x 6 ) <$> [0..20]
       , Terrain.mkRoad  <$> (\x -> fromGrid x 7 ) <$> [0..20]
       , Terrain.mkRoad  <$> (\x -> fromGrid x 8 ) <$> [0..20]
       , Terrain.mkRoad  <$> (\x -> fromGrid x 9 ) <$> [0..20]
@@ -94,7 +100,7 @@ initialize = GameState.mk &
 
     cars' :: [Car]
     cars' = concat
-      [ (\x -> Vehicle.mkCar   (fromGrid x 8 ) East (secondsPerTile 0.4)) <$> [0,10]
+      [ (\x -> Vehicle.mkCar   (fromGrid x 8 ) East (secondsPerTile 0.5)) <$> [0,10]
       , (\x -> Vehicle.mkCar   (fromGrid x 9 ) West (secondsPerTile 1)) <$> [10,13,16,19,2]
       , (\x -> Vehicle.mkCar   (fromGrid x 10) East (secondsPerTile 1)) <$> [12,16,0,4,8]
       , (\x -> Vehicle.mkCar   (fromGrid x 11) West (secondsPerTile 1)) <$> [7,11,15,19,3]
@@ -108,7 +114,11 @@ initialize = GameState.mk &
 
     woodLogs' :: [WoodLog]
     woodLogs' = concat
-      [ (\x -> Vehicle.mkWoodLog (fromGrid x 1) East (secondsPerTile 1)) <$> [1]
+      [ (\x -> Vehicle.mkWoodLog (fromGrid x 1) East (secondsPerTile 1)) <$> [1,2,3,6,7,8,11,12,13,16,17,18]
+      , (\x -> Vehicle.mkWoodLog (fromGrid x 2) West (secondsPerTile 0.75)) <$> [0,1,4,5,8,9,12,13,16,17]
+      , (\x -> Vehicle.mkWoodLog (fromGrid x 3) East (secondsPerTile 0.3)) <$> [0,1,2,3,4,8,9,10,11,12,15,16,17,18,19]
+      , (\x -> Vehicle.mkWoodLog (fromGrid x 4) East (secondsPerTile 1)) <$> [0,1,5,6,10,11,15,16]
+      , (\x -> Vehicle.mkWoodLog (fromGrid x 5) West (secondsPerTile 0.75)) <$> [1,2,3,5,6,7,9,10,11,13,14,15,17,18,19]
       ]
 
 -- | Update the GameState and Scene based on the user input
@@ -137,6 +147,7 @@ tick seconds ent' = flip execStateT ent' $ do
   -- Life & Death
   gameState %= lensFoldl' MortalSystem.mortalCollision toad cars
   gameState %= lensFoldl' MortalSystem.mortalCollision toad trucks
+  gameState %= lensFoldl' MortalSystem.mortalCollision toad deathTerrain
 
   -- Animation
   gameState.toad %= AnimationSystem.tickToadAnimation seconds
@@ -147,8 +158,10 @@ render ent = do
   MonadRenderer.clearScreen
 
   -- Background
-  sequence_ $ MonadRenderer.runRenderCommand <$>
-    (Animated.renderNoDirection <$> (ent ^. gameState . terrains))
+  sequence_ $ MonadRenderer.runRenderCommand <$> concat
+    [ Animated.renderNoDirection <$> (ent ^. gameState . deathTerrain)
+    , Animated.renderNoDirection <$> (ent ^. gameState . safeTerrain)
+    ]
 
   -- Vehicles
   sequence_ $ MonadRenderer.runRenderCommand <$> concat
@@ -161,7 +174,13 @@ render ent = do
   -- Player
   MonadRenderer.runRenderCommand (Animated.render $ ent^.gameState.toad)
 
+  -- Player Stats
   renderScore (ent^.gameState.toad)
+
+  -- Debug Rendering
+  sequence_ $ MonadRenderer.runRenderCommand <$> concat
+    [ PhysicsRendering.renderPhysical <$> (ent ^. gameState . woodLogs)
+    ]
 
   MonadRenderer.drawScreen
 

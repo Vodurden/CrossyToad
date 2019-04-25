@@ -14,7 +14,8 @@ import CrossyToad.Game.Vehicle (Car, Truck, WoodLog)
 
 data GameState = GameState
   { __toad :: !Toad
-  , _terrains :: ![Terrain]
+  , _deathTerrain :: ![Terrain]
+  , _safeTerrain :: ![Terrain]
   , _toadHomes :: ![ToadHome]
   , _cars :: ![Car]
   , _trucks :: ![Truck]
@@ -28,7 +29,8 @@ instance HasToad GameState where toad = _toad
 mk :: GameState
 mk = GameState
   { __toad = Toad.mk (V2 0 0)
-  , _terrains = []
+  , _deathTerrain = []
+  , _safeTerrain = []
   , _toadHomes = []
   , _cars = []
   , _trucks = []
