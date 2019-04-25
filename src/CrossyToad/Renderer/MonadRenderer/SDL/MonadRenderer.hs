@@ -36,6 +36,7 @@ runRenderCommand ClearScreen = clearScreen
 runRenderCommand DrawScreen = drawScreen
 runRenderCommand (Draw asset tClip sClip degrees flip') =
   draw asset tClip sClip degrees flip'
+runRenderCommand (DrawRect clip) = drawRect clip
 runRenderCommand (DrawAt asset pos) = drawAt asset pos
 runRenderCommand (DrawText asset degrees tClip sClip colour text) =
   drawText asset degrees tClip sClip colour text
@@ -60,6 +61,15 @@ draw asset' textureClip screenClip degrees flip' = do
     textures' <- view (env.textures)
     let texture' = Textures.fromImageAsset asset' textures'
     drawTexture texture' textureClip screenClip degrees flip'
+
+drawRect ::
+  ( MonadReader r m
+  , HasEnv r
+  , MonadIO m
+  ) => Clip -> m ()
+drawRect clip = do
+  renderer' <- view (env.renderer)
+  SDL.drawRect renderer' (Just $ fromClip clip)
 
 drawAt ::
   ( MonadReader r m
@@ -116,9 +126,9 @@ drawTexture texture' textureClip targetClip degrees flip' = do
       (realToFrac $ fromMaybe 0 degrees)
       Nothing
       (fromMaybe (V2 False False) flip')
-  where
-    fromClip :: Clip -> SDL.Rectangle CInt
-    fromClip clip =
-      let xy = round <$> clip ^. position
-          wh = round <$> clip ^. size
-      in SDL.Rectangle (SDL.P xy) wh
+
+fromClip :: Clip -> SDL.Rectangle CInt
+fromClip clip =
+  let xy = round <$> clip ^. position
+      wh = round <$> clip ^. size
+  in SDL.Rectangle (SDL.P xy) wh

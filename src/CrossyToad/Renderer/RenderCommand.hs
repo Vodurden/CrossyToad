@@ -24,6 +24,8 @@ data RenderCommand
          !(Maybe Degrees)
          !(Maybe (V2 Bool))
 
+  | DrawRect Clip
+
   | DrawAt !ImageAsset
            !Position
 
