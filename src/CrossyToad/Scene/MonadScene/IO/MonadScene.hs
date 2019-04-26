@@ -19,8 +19,7 @@ import           Data.List.Extended (foldl')
 
 import           CrossyToad.Logger.MonadLogger (MonadLogger)
 import           CrossyToad.Renderer.MonadRenderer (MonadRenderer)
-import           CrossyToad.Input.MonadInput (MonadInput)
-import qualified CrossyToad.Input.MonadInput as MonadInput
+import           CrossyToad.Input.Intents (Intents)
 import           CrossyToad.Scene.MonadScene (MonadScene)
 import           CrossyToad.Scene.MonadScene.IO.Env
 import           CrossyToad.Scene.MonadScene.IO.SceneCommand (SceneCommand)
@@ -35,15 +34,13 @@ handleInputCurrentScene :: forall r m.
   ( MonadReader r m
   , HasEnv r m
   , MonadScene m
-  , MonadInput m
   , MonadRenderer m
   , MonadLogger m
   , MonadIO m
-  ) => m (Maybe (Scene m))
-handleInputCurrentScene =
+  ) => Intents -> m (Maybe (Scene m))
+handleInputCurrentScene intents =
   overCurrentScene $ \currentScene -> do
-    inputState <- MonadInput.getInputState
-    Scene.handleInput inputState currentScene
+    Scene.handleInput intents currentScene
 
 tickCurrentScene :: forall r m.
   ( MonadReader r m

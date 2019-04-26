@@ -2,10 +2,11 @@ module CrossyToad.Title.Title
   ( scene
   ) where
 
-import           Control.Lens
 import           Data.Foldable (traverse_)
 
-import           CrossyToad.Input.InputState (InputState, HasInputState(..))
+import           CrossyToad.Input.Intents (Intents)
+import           CrossyToad.Input.Intent (Intent(..))
+import qualified CrossyToad.Input.Intents as Intents
 import qualified CrossyToad.Renderer.Asset.FontAsset as FontAsset
 import           CrossyToad.Renderer.MonadRenderer (MonadRenderer)
 import qualified CrossyToad.Renderer.MonadRenderer as MonadRenderer
@@ -15,20 +16,17 @@ import qualified CrossyToad.Scene.MonadScene as MonadScene
 import           CrossyToad.Scene.Scene (Scene)
 import qualified CrossyToad.Scene.Scene as Scene
 import qualified CrossyToad.Scene.SceneId as SceneId
-import           CrossyToad.Title.Intent (Intent(..))
-import qualified CrossyToad.Title.Intent as Intent
 
 scene :: (MonadScene m, MonadRenderer m) => Scene m
 scene = Scene.mkNoState handleInput render
 
-handleInput :: (MonadScene m) => InputState -> m ()
-handleInput input = do
-  let intents = Intent.fromInput (input^.inputEvents)
-  traverse_ applyIntent intents
+handleInput :: (MonadScene m) => Intents -> m ()
+handleInput intents = traverse_ applyIntent (Intents.tapped intents)
 
 applyIntent :: (MonadScene m) => Intent -> m ()
-applyIntent StartGame = MonadScene.delayPush SceneId.Game
-applyIntent Quit = MonadScene.delayPop
+applyIntent EnterOrConfirm = MonadScene.delayPush SceneId.Game
+applyIntent PauseOrExit = MonadScene.delayPop
+applyIntent _ = pure ()
 
 render :: (MonadRenderer m) => m ()
 render = do

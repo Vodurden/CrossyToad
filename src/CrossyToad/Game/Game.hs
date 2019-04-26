@@ -15,10 +15,11 @@ import           Data.Foldable (foldlM)
 import qualified Data.Text as Text
 import           Linear.V2
 
+import           CrossyToad.Input.Intents (Intents)
+import qualified CrossyToad.Input.Intents as Intents
+import           CrossyToad.Input.Intent (Intent(..))
 import           CrossyToad.Game.GameState (GameState, HasGameState(..))
 import qualified CrossyToad.Game.GameState as GameState
-import           CrossyToad.Game.Intent (Intent(..))
-import qualified CrossyToad.Game.Intent as Intent
 import           CrossyToad.Game.Terrain (Terrain)
 import qualified CrossyToad.Game.Terrain as Terrain
 import           CrossyToad.Game.Toad (HasToad(..))
@@ -28,7 +29,6 @@ import qualified CrossyToad.Game.ToadHome as ToadHome
 import           CrossyToad.Game.Vehicle (Car, Truck, WoodLog)
 import qualified CrossyToad.Game.Vehicle as Vehicle
 import           CrossyToad.Geometry.Position (fromGrid)
-import           CrossyToad.Input.InputState (InputState)
 import           CrossyToad.Logger.MonadLogger (MonadLogger(..))
 import qualified CrossyToad.Mortality.MortalSystem as MortalSystem
 import           CrossyToad.Physics.Direction (Direction(..))
@@ -122,13 +122,15 @@ initialize = GameState.mk &
       ]
 
 -- | Update the GameState and Scene based on the user input
-handleInput :: (MonadScene m, HasGameState ent) => InputState -> ent -> m ent
-handleInput input ent' =
-    foldlM (flip tickIntent) ent' (Intent.fromInputState input)
+handleInput :: (MonadScene m, HasGameState ent) => Intents -> ent -> m ent
+handleInput intents ent' =
+    foldlM (flip tickIntent) ent' (Intents.all intents)
   where
     tickIntent :: (MonadScene m, HasGameState ent) => Intent -> ent -> m ent
     tickIntent (Move dir) ent = pure $ ent & gameState . toad %~ (Toad.jump dir)
-    tickIntent Exit ent = MonadScene.delayPop >> pure ent
+    tickIntent EnterOrConfirm ent = pure ent
+    tickIntent PauseOrExit ent = MonadScene.delayPop >> pure ent
+    tickIntent ForceExit ent = MonadScene.delayPop >> pure ent
 
 tick :: (MonadLogger m, HasGameState ent) => Seconds -> ent -> m ent
 tick seconds ent' = flip execStateT ent' $ do

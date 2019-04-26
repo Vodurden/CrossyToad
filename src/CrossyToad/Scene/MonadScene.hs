@@ -2,11 +2,12 @@ module CrossyToad.Scene.MonadScene where
 
 import CrossyToad.Scene.Scene
 import CrossyToad.Scene.SceneId
+import CrossyToad.Input.Intents (Intents)
 import CrossyToad.Time.Seconds (Seconds)
 
 class Monad m => MonadScene m where
   -- | Handles the input for the current scene
-  handleInputCurrentScene :: m (Maybe (Scene m))
+  handleInputCurrentScene :: Intents -> m (Maybe (Scene m))
 
   -- | Ticks the current scene and applies any delayed actions.
   -- |

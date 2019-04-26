@@ -5,16 +5,14 @@ module CrossyToad.Input.MonadInput.SDL.Env where
 import Control.Lens
 import Data.IORef
 
-import CrossyToad.Input.InputState
+import           CrossyToad.Input.Intents (Intents)
+import qualified CrossyToad.Input.Intents as Intents
 
 data Env = Env
-  { __inputStateRef :: IORef InputState
+  { _intentsRef :: IORef Intents
   }
 
 makeClassy ''Env
 
-instance HasInputStateIORef Env where
-  inputStateRef = _inputStateRef
-
 initialize :: IO Env
-initialize = Env <$> (newIORef initialInputState)
+initialize = Env <$> (newIORef Intents.initialize)

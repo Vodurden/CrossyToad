@@ -16,12 +16,12 @@ import           Control.Lens.Extended
 
 import           CrossyToad.Time.Seconds (Seconds)
 import qualified CrossyToad.Time.Seconds as Seconds
-import           CrossyToad.Input.InputState (InputState)
+import           CrossyToad.Input.Intents (Intents)
 
 data Scene' m s = Scene'
   { _state :: s
 
-  , _handleInput :: InputState -> s -> m s
+  , _handleInput :: Intents -> s -> m s
 
   , _tickInterval :: Seconds
   , _tickAccumulator :: Seconds
@@ -34,7 +34,7 @@ data Scene m = forall s. Scene (Scene' m s)
 
 makeClassy ''Scene
 
-mk :: s -> (InputState -> s -> m s) -> (Seconds -> s -> m s) -> (s -> m ()) -> Scene m
+mk :: s -> (Intents -> s -> m s) -> (Seconds -> s -> m s) -> (s -> m ()) -> Scene m
 mk state' handleInput' tick' render' =
   Scene $ Scene' { _state = state'
                  , _handleInput = handleInput'
@@ -45,13 +45,13 @@ mk state' handleInput' tick' render' =
                  }
 
 -- | Create a scene that has no state
-mkNoState :: (Monad m) => (InputState -> m ()) -> m () -> Scene m
+mkNoState :: (Monad m) => (Intents -> m ()) -> m () -> Scene m
 mkNoState handleInput' render' =
   mk () (flip . const $ handleInput') (const $ pure . id) (const render')
 
-handleInput :: (Monad m) => InputState -> Scene m -> m (Scene m)
-handleInput inputState (Scene sc) = do
-  nextState <- (_handleInput sc) inputState (_state sc)
+handleInput :: (Monad m) => Intents -> Scene m -> m (Scene m)
+handleInput intents (Scene sc) = do
+  nextState <- (_handleInput sc) intents (_state sc)
   pure $ Scene $ sc { _state = nextState }
 
 tick :: (Monad m) => Seconds -> Scene m -> m (Scene m)

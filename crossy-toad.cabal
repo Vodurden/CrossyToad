@@ -2,7 +2,7 @@
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: 94585c822bbbad89a4f815ab5233a5c774bec4efe906fa281227b8243c0f70f2
+-- hash: e548b0f1525bf456b15482f4ac1146198bd667dbff8e1b201b2d99c9f8e1e438
 
 name:           crossy-toad
 version:        0.1.0.0
@@ -27,7 +27,6 @@ library
       CrossyToad.Env
       CrossyToad.Game.Game
       CrossyToad.Game.GameState
-      CrossyToad.Game.Intent
       CrossyToad.Game.Terrain
       CrossyToad.Game.Toad
       CrossyToad.Game.ToadHome
@@ -36,10 +35,9 @@ library
       CrossyToad.Geometry.Offset
       CrossyToad.Geometry.Position
       CrossyToad.Geometry.Size
-      CrossyToad.Input.InputEvent
-      CrossyToad.Input.InputState
-      CrossyToad.Input.Key
-      CrossyToad.Input.KeyboardState
+      CrossyToad.Input.Intent
+      CrossyToad.Input.IntentEvent
+      CrossyToad.Input.Intents
       CrossyToad.Input.MonadInput
       CrossyToad.Input.MonadInput.SDL.Env
       CrossyToad.Input.MonadInput.SDL.MonadInput
@@ -100,7 +98,6 @@ library
       CrossyToad.Time.Task
       CrossyToad.Time.Timed
       CrossyToad.Time.Timer
-      CrossyToad.Title.Intent
       CrossyToad.Title.Title
       CrossyToad.Victory.Goal
       CrossyToad.Victory.Scorable
@@ -108,6 +105,7 @@ library
       CrossyToad.Victory.VictorySystem
       Data.Degrees
       Data.List.Extended
+      Data.Map.Strict.Extended
       Data.Maybe.Extended
       SDL.Extended
       Paths_crossy_toad
@@ -192,7 +190,6 @@ test-suite spec
       CrossyToad.Renderer.AnimatedSpec
       CrossyToad.Renderer.AnimationSpec
       CrossyToad.Time.TimerSpec
-      CrossyToad.Title.IntentSpec
       CrossyToad.Title.TitleSpec
       Control.Lens.Extended
       Control.Monad.Extended
@@ -202,7 +199,6 @@ test-suite spec
       CrossyToad.Env
       CrossyToad.Game.Game
       CrossyToad.Game.GameState
-      CrossyToad.Game.Intent
       CrossyToad.Game.Terrain
       CrossyToad.Game.Toad
       CrossyToad.Game.ToadHome
@@ -211,10 +207,9 @@ test-suite spec
       CrossyToad.Geometry.Offset
       CrossyToad.Geometry.Position
       CrossyToad.Geometry.Size
-      CrossyToad.Input.InputEvent
-      CrossyToad.Input.InputState
-      CrossyToad.Input.Key
-      CrossyToad.Input.KeyboardState
+      CrossyToad.Input.Intent
+      CrossyToad.Input.IntentEvent
+      CrossyToad.Input.Intents
       CrossyToad.Input.MonadInput
       CrossyToad.Input.MonadInput.SDL.Env
       CrossyToad.Input.MonadInput.SDL.MonadInput
@@ -275,7 +270,6 @@ test-suite spec
       CrossyToad.Time.Task
       CrossyToad.Time.Timed
       CrossyToad.Time.Timer
-      CrossyToad.Title.Intent
       CrossyToad.Title.Title
       CrossyToad.Victory.Goal
       CrossyToad.Victory.Scorable
@@ -283,6 +277,7 @@ test-suite spec
       CrossyToad.Victory.VictorySystem
       Data.Degrees
       Data.List.Extended
+      Data.Map.Strict.Extended
       Data.Maybe.Extended
       Game
       SDL.Extended

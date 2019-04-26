@@ -12,12 +12,11 @@ import           CrossyToad.Time.MonadTime (tickTime, deltaTime)
 mainLoop :: CrossyToad ()
 mainLoop = do
   tickTime
-  tickInput
-
   dt <- deltaTime
   pumpTasks dt
 
-  _ <- MonadScene.handleInputCurrentScene
+  intent <- tickInput
+  _ <- MonadScene.handleInputCurrentScene intent
 
   currentScene' <- MonadScene.tickCurrentScene dt
 

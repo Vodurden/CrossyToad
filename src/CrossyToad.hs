@@ -25,7 +25,6 @@ runCrossyToad config (CrossyToad m) = runReaderT m config
 
 instance MonadInput CrossyToad where
   tickInput = SDLMonadInput.tickInput
-  getInputState = SDLMonadInput.getInputState
 
 instance MonadLogger CrossyToad where
   getEnabledLogLevels = IOMonadLogger.getEnabledLogLevels
