@@ -21,7 +21,7 @@ scene :: (MonadScene m, MonadRenderer m) => Scene m
 scene = Scene.mkNoState handleInput render
 
 handleInput :: (MonadScene m) => Intents -> m ()
-handleInput intents = traverse_ applyIntent (Intents.tapped intents)
+handleInput intents = traverse_ applyIntent (Intents.once intents)
 
 applyIntent :: (MonadScene m) => Intent -> m ()
 applyIntent EnterOrConfirm = MonadScene.delayPush SceneId.Game

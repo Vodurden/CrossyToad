@@ -1,5 +1,6 @@
 module CrossyToad.Input.MonadInput.SDL.MonadInput
   ( tickInput
+  , tickIntents
   ) where
 
 import           Control.Lens

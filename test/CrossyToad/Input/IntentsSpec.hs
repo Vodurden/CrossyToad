@@ -9,21 +9,21 @@ import qualified CrossyToad.Input.IntentEvent as IntentEvent
 spec_Input_Intents :: Spec
 spec_Input_Intents =
   describe "tick" $ do
-    it "should tap tapped intents" $ do
+    it "should intend to do tapped intents once" $ do
       let intents = Intents.tick [IntentEvent.Tap Intent.PauseOrExit] Intents.initialize
-      Intents.tapped intents `shouldBe` [Intent.PauseOrExit]
+      Intents.once intents `shouldBe` [Intent.PauseOrExit]
 
-    it "should cause previously tapped intents to become held" $ do
+    it "should intend to do previously tapped intents continually" $ do
       let intents = Intents.tick [IntentEvent.Tap Intent.PauseOrExit] Intents.initialize
       let intents' = Intents.tick [] intents
-      Intents.held intents' `shouldBe` [Intent.PauseOrExit]
+      Intents.continuous intents' `shouldBe` [Intent.PauseOrExit]
 
-    it "should hold previously tapped intents if they are tapped again" $ do
+    it "should continue previously tapped intents if they are tapped again" $ do
       let intents = Intents.tick [IntentEvent.Tap Intent.PauseOrExit] Intents.initialize
       let intents' = Intents.tick [IntentEvent.Tap Intent.PauseOrExit] intents
-      Intents.held intents' `shouldBe` [Intent.PauseOrExit]
+      Intents.continuous intents' `shouldBe` [Intent.PauseOrExit]
 
-    it "should release released intents" $ do
+    it "should not intend to do released intents" $ do
       let intents = Intents.tick [IntentEvent.Tap Intent.PauseOrExit] Intents.initialize
       let intents' = Intents.tick [IntentEvent.Release Intent.PauseOrExit] intents
       Intents.all intents' `shouldBe` []

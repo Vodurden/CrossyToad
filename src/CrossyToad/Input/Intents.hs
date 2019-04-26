@@ -5,8 +5,8 @@ module CrossyToad.Input.Intents
   , initialize
   , tick
   , all
-  , tapped
-  , held
+  , once
+  , continuous
   ) where
 
 import           Prelude hiding (all)
@@ -19,7 +19,9 @@ import           CrossyToad.Input.IntentEvent (IntentEvent(..))
 
 type Intents = Map Intent IntentState
 
-data IntentState = Tapped | Held
+data IntentState
+  = Once
+  | Continually
   deriving (Eq, Show, Ord)
 
 initialize :: Intents
@@ -29,20 +31,20 @@ tick :: [IntentEvent] -> Intents -> Intents
 tick events intents' = foldl' (flip applyEvent) (tickExisting intents') events
   where
     tickExisting :: Intents -> Intents
-    tickExisting = Map.map (const Held)
+    tickExisting = Map.map (const Continually)
 
     applyEvent :: IntentEvent -> Intents -> Intents
-    applyEvent (Tap intent') = Map.create intent' Tapped
+    applyEvent (Tap intent') = Map.create intent' Once
     applyEvent (Release intent') = Map.delete intent'
 
 all :: Intents -> [Intent]
 all = matchedEvents (const True)
 
-tapped :: Intents -> [Intent]
-tapped = matchedEvents ((==) Tapped)
+once :: Intents -> [Intent]
+once = matchedEvents ((==) Once)
 
-held :: Intents -> [Intent]
-held = matchedEvents ((==) Held)
+continuous :: Intents -> [Intent]
+continuous = matchedEvents ((==) Continually)
 
 matchedEvents :: (IntentState -> Bool) -> Intents -> [Intent]
 matchedEvents f intents' = fst <$> (Map.toList $ Map.filter f intents')
