@@ -11,6 +11,7 @@ import CrossyToad.Game.Terrain (Terrain)
 import CrossyToad.Game.Toad as Toad
 import CrossyToad.Game.ToadHome (ToadHome)
 import CrossyToad.Game.Vehicle (Car, Truck, WoodLog)
+import CrossyToad.Game.Turtle (Turtle)
 
 data GameState = GameState
   { __toad :: !Toad
@@ -19,6 +20,7 @@ data GameState = GameState
   , _toadHomes :: ![ToadHome]
   , _cars :: ![Car]
   , _trucks :: ![Truck]
+  , _turtles :: ![Turtle]
   , _woodLogs :: ![WoodLog]
   } deriving (Eq, Show)
 
@@ -34,5 +36,6 @@ mk = GameState
   , _toadHomes = []
   , _cars = []
   , _trucks = []
+  , _turtles = []
   , _woodLogs = []
   }

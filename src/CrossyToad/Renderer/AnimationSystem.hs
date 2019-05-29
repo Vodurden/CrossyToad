@@ -1,6 +1,7 @@
 module CrossyToad.Renderer.AnimationSystem
   ( tickToadAnimation
   , tickToadHomeAnimation
+  , tickTurtleAnimation
   ) where
 
 import           Control.Arrow ((>>>))
@@ -10,10 +11,13 @@ import           CrossyToad.Physics.Direction (HasDirection(..))
 import qualified CrossyToad.Physics.Direction as Direction
 import           CrossyToad.Physics.JumpMotion (HasJumpMotion(..))
 import qualified CrossyToad.Physics.JumpMotion as JumpMotion
+import           CrossyToad.Physics.Submersible (HasSubmersible(..))
+import qualified CrossyToad.Physics.Submersible as Submersible
 import           CrossyToad.Renderer.Animated (HasAnimated(..))
 import qualified CrossyToad.Renderer.Animated as Animated
 import qualified CrossyToad.Renderer.Asset.Animation.Toad as ToadAnimation
 import qualified CrossyToad.Renderer.Asset.Animation.ToadHome as ToadHomeAnimation
+import qualified CrossyToad.Renderer.Asset.Animation.Turtle as TurtleAnimation
 import           CrossyToad.Victory.Goal (HasGoal(..))
 import           CrossyToad.Time.Seconds (Seconds)
 
@@ -47,3 +51,17 @@ tickToadHomeAnimation seconds =
       ent & animated %~
         if | ent^.goal.reached -> (Animated.transition Animated.play) ToadHomeAnimation.Filled
            | otherwise -> (Animated.transition Animated.play) ToadHomeAnimation.Empty
+
+tickTurtleAnimation ::
+  ( HasSubmersible ent
+  , HasAnimated ent TurtleAnimation.Animation
+  ) => Seconds -> ent -> ent
+tickTurtleAnimation seconds =
+    transitionTurtleAnimation >>> (Animated.tick seconds)
+  where
+    transitionTurtleAnimation ent =
+      ent & animated %~
+        if | ent ^. (to Submersible.swimming) ->
+             if | (Submersible.progress ent) > 0.7 -> (Animated.transition Animated.play) TurtleAnimation.Diving
+                | otherwise -> (Animated.transition Animated.play) TurtleAnimation.Swimming
+           | ent ^. (to Submersible.sunk) -> (Animated.transition Animated.play) TurtleAnimation.Sunk

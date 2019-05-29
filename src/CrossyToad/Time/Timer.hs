@@ -2,7 +2,6 @@
 {-# LANGUAGE RankNTypes #-}
 
 module CrossyToad.Time.Timer where
-
 import Control.Lens
 import Control.Monad.State.Strict.Extended (State, execState, modify')
 

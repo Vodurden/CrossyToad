@@ -2,7 +2,7 @@
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: b4845a964a87d983e3b381670cb70aa4297c32161d9f03c1cdb07de3506e273e
+-- hash: a3eb66dde5b44097344a5d78e4f767fb8c35d6f2f2fb9ac59fc32647eab7bfeb
 
 name:           crossy-toad
 version:        0.1.0.0
@@ -30,6 +30,7 @@ library
       CrossyToad.Game.Terrain
       CrossyToad.Game.Toad
       CrossyToad.Game.ToadHome
+      CrossyToad.Game.Turtle
       CrossyToad.Game.Vehicle
       CrossyToad.Geometry.AABB
       CrossyToad.Geometry.Offset
@@ -56,6 +57,7 @@ library
       CrossyToad.Physics.Physics
       CrossyToad.Physics.Rendering
       CrossyToad.Physics.Speed
+      CrossyToad.Physics.Submersible
       CrossyToad.Renderer.Animated
       CrossyToad.Renderer.Animation
       CrossyToad.Renderer.AnimationFrame
@@ -65,6 +67,7 @@ library
       CrossyToad.Renderer.Asset.Animation.Toad
       CrossyToad.Renderer.Asset.Animation.ToadHome
       CrossyToad.Renderer.Asset.Animation.Truck
+      CrossyToad.Renderer.Asset.Animation.Turtle
       CrossyToad.Renderer.Asset.Animation.WoodLog
       CrossyToad.Renderer.Asset.AnimationAsset
       CrossyToad.Renderer.Asset.FontAsset
@@ -187,6 +190,7 @@ test-suite spec
       CrossyToad.Input.SDL.MonadInputSpec
       CrossyToad.Physics.JumpMotionSpec
       CrossyToad.Physics.PhysicalSpec
+      CrossyToad.Physics.SubmersibleSpec
       CrossyToad.Renderer.AnimatedSpec
       CrossyToad.Renderer.AnimationSpec
       CrossyToad.Time.TimerSpec
@@ -202,6 +206,7 @@ test-suite spec
       CrossyToad.Game.Terrain
       CrossyToad.Game.Toad
       CrossyToad.Game.ToadHome
+      CrossyToad.Game.Turtle
       CrossyToad.Game.Vehicle
       CrossyToad.Geometry.AABB
       CrossyToad.Geometry.Offset
@@ -228,6 +233,7 @@ test-suite spec
       CrossyToad.Physics.Physics
       CrossyToad.Physics.Rendering
       CrossyToad.Physics.Speed
+      CrossyToad.Physics.Submersible
       CrossyToad.Renderer.Animated
       CrossyToad.Renderer.Animation
       CrossyToad.Renderer.AnimationFrame
@@ -237,6 +243,7 @@ test-suite spec
       CrossyToad.Renderer.Asset.Animation.Toad
       CrossyToad.Renderer.Asset.Animation.ToadHome
       CrossyToad.Renderer.Asset.Animation.Truck
+      CrossyToad.Renderer.Asset.Animation.Turtle
       CrossyToad.Renderer.Asset.Animation.WoodLog
       CrossyToad.Renderer.Asset.AnimationAsset
       CrossyToad.Renderer.Asset.FontAsset

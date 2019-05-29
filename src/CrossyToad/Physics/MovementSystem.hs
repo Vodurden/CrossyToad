@@ -4,6 +4,7 @@
 module CrossyToad.Physics.MovementSystem
   ( tickJumping
   , tickLinear
+  , tickSubmersible
   , moveOnPlatform
   ) where
 
@@ -15,6 +16,8 @@ import           CrossyToad.Geometry.Position (HasPosition(..))
 import qualified CrossyToad.Geometry.Position as Position
 import           CrossyToad.Physics.Physical (HasPhysical(..), HasLayer(..))
 import qualified CrossyToad.Physics.Physical as Physical
+import           CrossyToad.Physics.Submersible (HasSubmersible(..))
+import qualified CrossyToad.Physics.Submersible as Submersible
 import           CrossyToad.Physics.Direction (HasDirection)
 import           CrossyToad.Physics.LinearMotion (HasLinearMotion(..))
 import qualified CrossyToad.Physics.LinearMotion as LinearMotion
@@ -45,6 +48,13 @@ tickLinear ::
 tickLinear seconds =
   (LinearMotion.tick seconds) >>> enforceMapBoundaries
 
+tickSubmersible ::
+  ( HasPhysical ent
+  , HasSubmersible ent
+  ) => Seconds -> ent -> ent
+tickSubmersible seconds =
+  (Submersible.tick seconds) >>> unplatformIfSunk
+
 -- | Move the rider by the motion of the platform if it is standing on the platform
 moveOnPlatform ::
   ( HasPosition riderEnt
@@ -60,6 +70,16 @@ moveOnPlatform delta riderEnt platformEnt
       riderEnt & (position +~ (LinearMotion.motionVectorThisTick delta platformEnt))
                  . (physical . layer .~ Physical.Platform)
   | otherwise = riderEnt
+
+-- | If something is submerged it's not a platform
+unplatformIfSunk ::
+  ( HasPhysical ent
+  , HasSubmersible ent
+  ) => ent -> ent
+unplatformIfSunk ent =
+  ent & physical . layer .~
+    if | Submersible.swimming ent -> Physical.Platform
+       | Submersible.sunk ent -> Physical.Ground
 
 -- | If an entity goes out of bounds we need to handle it.
 -- |

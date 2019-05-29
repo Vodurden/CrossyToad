@@ -28,6 +28,8 @@ import           CrossyToad.Game.ToadHome (ToadHome)
 import qualified CrossyToad.Game.ToadHome as ToadHome
 import           CrossyToad.Game.Vehicle (Car, Truck, WoodLog)
 import qualified CrossyToad.Game.Vehicle as Vehicle
+import           CrossyToad.Game.Turtle (Turtle)
+import qualified CrossyToad.Game.Turtle as Turtle
 import           CrossyToad.Geometry.Position (fromGrid)
 import           CrossyToad.Logger.MonadLogger (MonadLogger(..))
 import qualified CrossyToad.Mortality.MortalSystem as MortalSystem
@@ -67,6 +69,7 @@ initialize = GameState.mk &
     . (gameState.toadHomes .~ toadHomes')
     . (gameState.cars .~ cars')
     . (gameState.trucks .~ trucks')
+    . (gameState.turtles .~ turtles')
     . (gameState.woodLogs .~ woodLogs')
   where
     deathTerrain' :: [Terrain]
@@ -112,13 +115,17 @@ initialize = GameState.mk &
       , (\x -> Vehicle.mkTruck (fromGrid x 7) West (secondsPerTile 0.8)) <$> [10,19]
       ]
 
+    turtles' :: [Turtle]
+    turtles' = concat
+      [ (\x -> Turtle.mk (fromGrid x 5) West (secondsPerTile 0.75)) <$> [1,2,3,5,6,7,9,10,11,13,14,15,17,18,19]
+      ]
+
     woodLogs' :: [WoodLog]
     woodLogs' = concat
       [ (\x -> Vehicle.mkWoodLog (fromGrid x 1) East (secondsPerTile 1)) <$> [1,2,3,6,7,8,11,12,13,16,17,18]
       , (\x -> Vehicle.mkWoodLog (fromGrid x 2) West (secondsPerTile 0.75)) <$> [0,1,4,5,8,9,12,13,16,17]
       , (\x -> Vehicle.mkWoodLog (fromGrid x 3) East (secondsPerTile 0.3)) <$> [0,1,2,3,4,8,9,10,11,12,15,16,17,18,19]
       , (\x -> Vehicle.mkWoodLog (fromGrid x 4) East (secondsPerTile 1)) <$> [0,1,5,6,10,11,15,16]
-      , (\x -> Vehicle.mkWoodLog (fromGrid x 5) West (secondsPerTile 0.75)) <$> [1,2,3,5,6,7,9,10,11,13,14,15,17,18,19]
       ]
 
 -- | Update the GameState and Scene based on the user input
@@ -137,8 +144,11 @@ tick seconds ent' = flip execStateT ent' $ do
   -- Physics
   gameState.toad %= MovementSystem.tickJumping seconds
   gameState %= lensFoldl' (MovementSystem.moveOnPlatform $ seconds) toad woodLogs
+  gameState %= lensFoldl' (MovementSystem.moveOnPlatform $ seconds) toad turtles
   gameState.cars.mapped %= (MovementSystem.tickLinear seconds)
   gameState.trucks.mapped %= (MovementSystem.tickLinear seconds)
+  gameState.turtles.mapped %= (MovementSystem.tickLinear seconds)
+  gameState.turtles.mapped %= (MovementSystem.tickSubmersible seconds)
   gameState.woodLogs.mapped %= (MovementSystem.tickLinear seconds)
 
   -- Victory
@@ -153,6 +163,7 @@ tick seconds ent' = flip execStateT ent' $ do
 
   -- Animation
   gameState.toad %= AnimationSystem.tickToadAnimation seconds
+  gameState.turtles.mapped %= (AnimationSystem.tickTurtleAnimation seconds)
   gameState.toadHomes.mapped %= (AnimationSystem.tickToadHomeAnimation seconds)
 
 render :: (MonadRenderer m, HasGameState ent) => ent -> m ()
@@ -169,6 +180,7 @@ render ent = do
   sequence_ $ MonadRenderer.runRenderCommand <$> concat
     [ Animated.render <$> (ent ^. gameState . cars)
     , Animated.render <$> (ent ^. gameState . trucks)
+    , Animated.render <$> (ent ^. gameState . turtles)
     , Animated.render <$> (ent ^. gameState . woodLogs)
     , Animated.renderNoDirection <$> (ent ^. gameState . toadHomes)
     ]

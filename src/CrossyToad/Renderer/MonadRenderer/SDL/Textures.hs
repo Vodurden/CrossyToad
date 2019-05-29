@@ -16,6 +16,7 @@ data Textures = Textures
   , _toadHome :: !Texture
   , _car :: !Texture
   , _truck :: !Texture
+  , _turtle :: !Texture
   , _woodLog :: !Texture
   , _terrain :: !Texture
   }
@@ -27,6 +28,7 @@ fromImageAsset ImageAsset.Toad = view toad
 fromImageAsset ImageAsset.ToadHome = view toadHome
 fromImageAsset ImageAsset.Car = view car
 fromImageAsset ImageAsset.Truck = view truck
+fromImageAsset ImageAsset.Turtle = view turtle
 fromImageAsset ImageAsset.WoodLog = view woodLog
 fromImageAsset ImageAsset.Terrain = view terrain
 
@@ -36,6 +38,7 @@ loadTextures renderer = do
     toadHome' <- loadImage renderer ImageAsset.ToadHome
     car' <- loadImage renderer ImageAsset.Car
     truck' <- loadImage renderer ImageAsset.Truck
+    turtle' <- loadImage renderer ImageAsset.Turtle
     woodLog' <- loadImage renderer ImageAsset.WoodLog
     terrain' <- loadImage renderer ImageAsset.Terrain
 
@@ -44,6 +47,7 @@ loadTextures renderer = do
       , _toadHome = toadHome'
       , _car = car'
       , _truck = truck'
+      , _turtle = turtle'
       , _woodLog = woodLog'
       , _terrain = terrain'
       }
