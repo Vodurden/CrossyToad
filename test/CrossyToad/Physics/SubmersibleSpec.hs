@@ -38,3 +38,4 @@ spec_Physics_SubmersibleSpec = do
   describe "progress" $ do
     it "should give be 0.0 if we haven't ticked at all" $ do
       let ent' = Ent (Submersible.mk 2 1)
+      (Submersible.progress ent') `shouldBe` 0.0
