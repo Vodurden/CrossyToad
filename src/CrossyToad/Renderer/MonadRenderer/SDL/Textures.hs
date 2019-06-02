@@ -18,6 +18,7 @@ data Textures = Textures
   , _truck :: !Texture
   , _turtle :: !Texture
   , _woodLog :: !Texture
+  , _croc :: !Texture
   , _terrain :: !Texture
   }
 
@@ -30,6 +31,7 @@ fromImageAsset ImageAsset.Car = view car
 fromImageAsset ImageAsset.Truck = view truck
 fromImageAsset ImageAsset.Turtle = view turtle
 fromImageAsset ImageAsset.WoodLog = view woodLog
+fromImageAsset ImageAsset.Croc = view croc
 fromImageAsset ImageAsset.Terrain = view terrain
 
 loadTextures :: SDL.Renderer -> IO Textures
@@ -40,6 +42,7 @@ loadTextures renderer = do
     truck' <- loadImage renderer ImageAsset.Truck
     turtle' <- loadImage renderer ImageAsset.Turtle
     woodLog' <- loadImage renderer ImageAsset.WoodLog
+    croc' <- loadImage renderer ImageAsset.Croc
     terrain' <- loadImage renderer ImageAsset.Terrain
 
     pure $ Textures
@@ -49,6 +52,7 @@ loadTextures renderer = do
       , _truck = truck'
       , _turtle = turtle'
       , _woodLog = woodLog'
+      , _croc = croc'
       , _terrain = terrain'
       }
 
