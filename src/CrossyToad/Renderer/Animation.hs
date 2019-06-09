@@ -1,6 +1,5 @@
 {-# LANGUAGE TemplateHaskell #-}
 {-# LANGUAGE StandaloneDeriving #-}
-{-# OPTIONS_GHC -fno-warn-orphans #-}
 
 module CrossyToad.Renderer.Animation
   ( AnimationState(..)
@@ -22,16 +21,6 @@ import           CrossyToad.Renderer.AnimationFrame (AnimationFrame)
 import           CrossyToad.Time.Seconds
 import           CrossyToad.Time.Timer (HasTimer(..))
 import qualified CrossyToad.Time.Timer as Timer
-
--- TODO: Consider whether these instances are lawful and whether
---       we can/should avoid orphan instances.
---
---       Also consider removing Show entirely in favor of Pretty
-instance Eq (Top :>> [AnimationFrame] :>> AnimationFrame) where
-  (==) a b = a^.focus == b^.focus
-
-instance Show (Top :>> [AnimationFrame] :>> AnimationFrame) where
-  show a = show $ a^.focus
 
 data AnimationState
   = Paused

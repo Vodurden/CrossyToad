@@ -43,6 +43,20 @@ spec_Geometry_AABB = do
       let expected = mkAt (V2 5 5) (V2 10 10)
       offset (V2 5 5) box `shouldBe` expected
 
+  describe "shrink" $ do
+    it "should shrink the AABB by the given values" $ do
+      let box = mk (V2 50 50)
+      let expected = AABB (V2 1 3) (V2 48 46)
+      shrink 1 2 3 4 box `shouldBe` expected
+
+  describe "shrinkParallel" $ do
+    it "should be the same as using shrink" $ do
+      let box = mk (V2 50 50)
+      let shrinkX = 10
+      let shrinkY = 5
+      let expected = shrink shrinkX shrinkX shrinkY shrinkY box
+      shrinkParallel shrinkX shrinkY box `shouldBe` expected
+
   describe "collision" $ do
     it "should return true if the boxes are overlapping" $ do
       let b1 = mk (V2 5 5)

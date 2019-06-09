@@ -55,3 +55,17 @@ collision box1 box2 =
   && (box1^.minPoint._x < box2^.maxPoint._x)
   && (box1^.maxPoint._y > box2^.minPoint._y)
   && (box1^.minPoint._y < box2^.maxPoint._y)
+
+-- | Shrink the box by an even horizontal amount and an
+-- | even vertical amount
+shrinkParallel :: Double -> Double -> AABB -> AABB
+shrinkParallel leftRight topBottom = shrink leftRight leftRight topBottom topBottom
+
+-- | Shrink the box by the given amounts on each axis.
+shrink :: Double -> Double -> Double -> Double -> AABB -> AABB
+shrink left right top bottom box =
+    box & (minPoint %~ (+ minPad))
+        & (maxPoint %~ (+ maxPad))
+  where
+    minPad = (V2 left top)
+    maxPad = negate <$> (V2 right bottom)

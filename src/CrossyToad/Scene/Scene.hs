@@ -7,6 +7,7 @@ module CrossyToad.Scene.Scene
   , HasScene(..)
   , mk
   , mkNoState
+  , mkNoTick
   , handleInput
   , tick
   , render
@@ -48,6 +49,10 @@ mk state' handleInput' tick' render' =
 mkNoState :: (Monad m) => (Intents -> m ()) -> m () -> Scene m
 mkNoState handleInput' render' =
   mk () (flip . const $ handleInput') (const $ pure . id) (const render')
+
+mkNoTick :: (Monad m) => s -> (Intents -> s -> m s) -> (s -> m ()) -> Scene m
+mkNoTick state' handleInput' render' =
+  mk state' handleInput' (const $ pure . id) render'
 
 handleInput :: (Monad m) => Intents -> Scene m -> m (Scene m)
 handleInput intents (Scene sc) = do
