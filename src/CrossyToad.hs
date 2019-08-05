@@ -12,6 +12,8 @@ import           CrossyToad.Renderer.MonadRenderer
 import qualified CrossyToad.Renderer.MonadRenderer.SDL.MonadRenderer as SDLMonadRenderer
 import           CrossyToad.Scene.MonadScene
 import qualified CrossyToad.Scene.MonadScene.IO.MonadScene as IOMonadScene
+import           CrossyToad.Stage.MonadStage
+import qualified CrossyToad.Stage.MonadStage.IO.MonadStage as IOMonadStage
 import           CrossyToad.Time.MonadTask
 import qualified CrossyToad.Time.MonadTask.IO.MonadTask as IOMonadTask
 import           CrossyToad.Time.MonadTime
@@ -32,6 +34,9 @@ instance MonadLogger CrossyToad where
 
 instance MonadRenderer CrossyToad where
   runRenderCommand = SDLMonadRenderer.runRenderCommand
+
+instance MonadStage CrossyToad where
+  stages = IOMonadStage.stages
 
 instance MonadScene CrossyToad where
   handleInputCurrentScene = IOMonadScene.handleInputCurrentScene

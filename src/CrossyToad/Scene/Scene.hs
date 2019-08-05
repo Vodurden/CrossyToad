@@ -5,6 +5,7 @@
 module CrossyToad.Scene.Scene
   ( Scene
   , HasScene(..)
+  , load
   , mk
   , mkNoState
   , mkNoTick
@@ -34,6 +35,11 @@ data Scene' m s = Scene'
 data Scene m = forall s. Scene (Scene' m s)
 
 makeClassy ''Scene
+
+load :: (Monad m) => m s -> (Intents -> s -> m s) -> (Seconds -> s -> m s) -> (s -> m ()) -> m (Scene m)
+load initialize' handleInput' tick' render' = do
+  state' <- initialize'
+  pure $ mk state' handleInput' tick' render'
 
 mk :: s -> (Intents -> s -> m s) -> (Seconds -> s -> m s) -> (s -> m ()) -> Scene m
 mk state' handleInput' tick' render' =

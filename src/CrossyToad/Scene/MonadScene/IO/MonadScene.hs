@@ -15,11 +15,11 @@ import           Control.Monad.Reader (MonadReader)
 import           Control.Monad.IO.Class (MonadIO, liftIO)
 import           Data.IORef (modifyIORef', readIORef, writeIORef)
 import           Data.Maybe
-import           Data.List.Extended (foldl')
+import           Data.Foldable (foldlM)
 
+import           CrossyToad.Input.Intents (Intents)
 import           CrossyToad.Logger.MonadLogger (MonadLogger)
 import           CrossyToad.Renderer.MonadRenderer (MonadRenderer)
-import           CrossyToad.Input.Intents (Intents)
 import           CrossyToad.Scene.MonadScene (MonadScene)
 import           CrossyToad.Scene.MonadScene.IO.Env
 import           CrossyToad.Scene.MonadScene.IO.SceneCommand (SceneCommand)
@@ -28,12 +28,14 @@ import           CrossyToad.Scene.Scene (Scene)
 import qualified CrossyToad.Scene.Scene as Scene
 import           CrossyToad.Scene.SceneId (SceneId)
 import qualified CrossyToad.Scene.SceneMapping as SceneMapping
+import           CrossyToad.Stage.MonadStage (MonadStage)
 import           CrossyToad.Time.Seconds (Seconds)
 
 handleInputCurrentScene :: forall r m.
   ( MonadReader r m
   , HasEnv r m
   , MonadScene m
+  , MonadStage m
   , MonadRenderer m
   , MonadLogger m
   , MonadIO m
@@ -46,6 +48,7 @@ tickCurrentScene :: forall r m.
   ( MonadReader r m
   , HasEnv r m
   , MonadScene m
+  , MonadStage m
   , MonadLogger m
   , MonadRenderer m
   , MonadIO m
@@ -57,6 +60,7 @@ overCurrentScene :: forall r m.
   ( MonadReader r m
   , HasEnv r m
   , MonadScene m
+  , MonadStage m
   , MonadRenderer m
   , MonadLogger m
   , MonadIO m
@@ -76,16 +80,19 @@ overCurrentScene f = do
     -- Apply the scene commands accumulated from the previous step
     sceneCommandsRef' <- view (env.sceneCommandsRef)
     sceneCommands' <- liftIO $ readIORef sceneCommandsRef'
-    let commandedScenes = foldl' applyCommand newScenes sceneCommands'
+    commandedScenes <- foldlM applyCommand newScenes sceneCommands'
 
     liftIO $ writeIORef scenesRef' commandedScenes
     liftIO $ writeIORef sceneCommandsRef' []
 
     pure $ listToMaybe commandedScenes
   where
-    applyCommand :: [Scene m] -> SceneCommand -> [Scene m]
-    applyCommand scenes' (SceneCommand.Push sceneId') = (SceneMapping.fromId sceneId' : scenes')
-    applyCommand scenes' SceneCommand.Pop = drop 1 scenes'
+    applyCommand :: [Scene m] -> SceneCommand -> m [Scene m]
+    applyCommand scenes' (SceneCommand.Push sceneId') = do
+      newScene <- SceneMapping.fromId sceneId'
+      pure $ newScene : scenes'
+
+    applyCommand scenes' SceneCommand.Pop = pure $ drop 1 scenes'
 
 
 renderCurrentScene ::

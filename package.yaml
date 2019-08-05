@@ -41,6 +41,9 @@ dependencies:
   - text
   - zippers
   - monad-coroutine
+  - megaparsec
+  - directory
+  - filepath
 
 library:
   source-dirs: src

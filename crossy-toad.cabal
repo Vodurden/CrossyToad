@@ -2,7 +2,7 @@
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: 9600a8781c00bffa2f4fad6c30a48fbf8a568f9e8f1649d99ef18eedc272fc2a
+-- hash: cef6adebf86f23f09f1e8a21ea0cf2b33b1c9067173513f7f0209f692563cd14
 
 name:           crossy-toad
 version:        0.1.0.0
@@ -55,7 +55,6 @@ library
       CrossyToad.Physics.LinearMotion
       CrossyToad.Physics.MovementSystem
       CrossyToad.Physics.Physical
-      CrossyToad.Physics.Physics
       CrossyToad.Physics.Rendering
       CrossyToad.Physics.Speed
       CrossyToad.Physics.Submersible
@@ -91,6 +90,13 @@ library
       CrossyToad.Scene.Scene
       CrossyToad.Scene.SceneId
       CrossyToad.Scene.SceneMapping
+      CrossyToad.Stage.Entity
+      CrossyToad.Stage.GroundType
+      CrossyToad.Stage.MonadStage
+      CrossyToad.Stage.MonadStage.IO.MonadStage
+      CrossyToad.Stage.Stage
+      CrossyToad.Stage.StageFile
+      CrossyToad.Stage.StageRow
       CrossyToad.Time.MonadTask
       CrossyToad.Time.MonadTask.IO.Env
       CrossyToad.Time.MonadTask.IO.MonadTask
@@ -116,6 +122,8 @@ library
       Data.Map.Strict.Extended
       Data.Maybe.Extended
       SDL.Extended
+      System.Directory.Extended
+      Text.Megaparsec.Extended
       Paths_crossy_toad
   hs-source-dirs:
       src
@@ -124,8 +132,11 @@ library
   build-depends:
       base >=4.9 && <4.12
     , containers
+    , directory
+    , filepath
     , lens
     , linear
+    , megaparsec
     , monad-coroutine
     , mtl
     , sdl2
@@ -148,8 +159,11 @@ executable crossy-toad
       base >=4.9 && <4.12
     , containers
     , crossy-toad
+    , directory
+    , filepath
     , lens
     , linear
+    , megaparsec
     , monad-coroutine
     , mtl
     , sdl2
@@ -172,8 +186,11 @@ executable crossy-toad-prof
       base >=4.9 && <4.12
     , containers
     , crossy-toad
+    , directory
+    , filepath
     , lens
     , linear
+    , megaparsec
     , monad-coroutine
     , mtl
     , sdl2
@@ -190,6 +207,7 @@ test-suite spec
   other-modules:
       CrossyToad.Game.GameSpec
       CrossyToad.Game.IntentSpec
+      CrossyToad.Game.Stage.StageSpec
       CrossyToad.Geometry.AABBSpec
       CrossyToad.Input.IntentsSpec
       CrossyToad.Input.SDL.MonadInputSpec
@@ -236,7 +254,6 @@ test-suite spec
       CrossyToad.Physics.LinearMotion
       CrossyToad.Physics.MovementSystem
       CrossyToad.Physics.Physical
-      CrossyToad.Physics.Physics
       CrossyToad.Physics.Rendering
       CrossyToad.Physics.Speed
       CrossyToad.Physics.Submersible
@@ -272,6 +289,13 @@ test-suite spec
       CrossyToad.Scene.Scene
       CrossyToad.Scene.SceneId
       CrossyToad.Scene.SceneMapping
+      CrossyToad.Stage.Entity
+      CrossyToad.Stage.GroundType
+      CrossyToad.Stage.MonadStage
+      CrossyToad.Stage.MonadStage.IO.MonadStage
+      CrossyToad.Stage.Stage
+      CrossyToad.Stage.StageFile
+      CrossyToad.Stage.StageRow
       CrossyToad.Time.MonadTask
       CrossyToad.Time.MonadTask.IO.Env
       CrossyToad.Time.MonadTask.IO.MonadTask
@@ -298,6 +322,8 @@ test-suite spec
       Data.Maybe.Extended
       Game
       SDL.Extended
+      System.Directory.Extended
+      Text.Megaparsec.Extended
       Paths_crossy_toad
   hs-source-dirs:
       test
@@ -307,10 +333,13 @@ test-suite spec
   build-depends:
       base >=4.9 && <4.12
     , containers
+    , directory
+    , filepath
     , hedgehog
     , hspec
     , lens
     , linear
+    , megaparsec
     , monad-coroutine
     , mtl
     , sdl2

@@ -6,17 +6,19 @@ import           Control.Lens
 import           Linear.V2
 
 import           CrossyToad.Geometry.Position (Position, HasPosition(..))
-import           CrossyToad.Physics.Physical (Physical, HasPhysical(..))
-import qualified CrossyToad.Physics.Physical as Physical
+import           CrossyToad.Mortality.Mortal (Mortal, HasMortal(..))
+import qualified CrossyToad.Mortality.Mortal as Mortal
+import           CrossyToad.Physics.Direction (Direction(..), HasDirection(..))
+import           CrossyToad.Physics.Distance (Distance)
 import           CrossyToad.Physics.JumpMotion (JumpMotion(..), HasJumpMotion(..))
 import qualified CrossyToad.Physics.JumpMotion as JumpMotion
-import           CrossyToad.Physics.Physics
+import           CrossyToad.Physics.Physical (Physical, HasPhysical(..))
+import qualified CrossyToad.Physics.Physical as Physical
+import           CrossyToad.Physics.Speed (Speed)
 import           CrossyToad.Renderer.Animated (Animated(..), HasAnimated(..))
 import qualified CrossyToad.Renderer.Animated as Animated
 import qualified CrossyToad.Renderer.Asset.Animation.Toad as ToadAnimation
 import           CrossyToad.Time.Seconds (Seconds)
-import           CrossyToad.Mortality.Mortal (Mortal, HasMortal(..))
-import qualified CrossyToad.Mortality.Mortal as Mortal
 import           CrossyToad.Victory.Score (Score, HasScore(..))
 import qualified CrossyToad.Victory.Score as Score
 

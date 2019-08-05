@@ -16,11 +16,12 @@ import           Control.Lens
 import           Linear.V2
 
 import           CrossyToad.Geometry.Position (Position, HasPosition(..))
+import           CrossyToad.Physics.Direction (Direction, HasDirection(..))
+import           CrossyToad.Physics.Speed (Speed)
 import           CrossyToad.Physics.LinearMotion (LinearMotion(..), HasLinearMotion(..))
 import qualified CrossyToad.Physics.LinearMotion as LinearMotion
 import           CrossyToad.Physics.Physical (Physical, HasPhysical(..))
 import qualified CrossyToad.Physics.Physical as Physical
-import           CrossyToad.Physics.Physics
 import           CrossyToad.Renderer.Animated (Animated(..), HasAnimated(..))
 import qualified CrossyToad.Renderer.Animated as Animated
 import qualified CrossyToad.Renderer.Asset.Animation.Car as CarAnimation

@@ -1,0 +1,13 @@
+|  H    H    H    H    |Swamp East 0
+|CRC CRC CRC CRC CRC   |River West 0.5
+| TTT TTT DDD TTT TTT  |River East 0.75
+|   LLLL LLLL LLLL LLLL|River East 0.75
+| LL  LL  LL  LL  LL   |River West 0.9
+|TT TT TT TT DD TT TT  |River West 0.8
+|                      |Grass East 0
+|             TR    TR |Road  East 0.5
+| TR      TR           |Road  East 0.5
+|F         F           |Road  East 0.5
+|C   C   C   C   C     |Road  East 0.5
+|  C     C     C    C  |Road  East 0.5
+|                      |Grass East 0

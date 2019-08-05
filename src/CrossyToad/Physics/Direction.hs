@@ -1,10 +1,20 @@
 {-# LANGUAGE TemplateHaskell #-}
 
-module CrossyToad.Physics.Direction where
+module CrossyToad.Physics.Direction
+  ( Direction(..)
+  , HasDirection(..)
+  , AsDirection(..)
+  , unitVector
+  , degrees
+  , horizontal
+  , vertical
+  , parser
+  ) where
 
 import Control.Lens
 import Data.Degrees
 import Linear.V2
+import Text.Megaparsec.Extended
 
 -- | The direction an object is facing
 data Direction = North | East | South | West
@@ -36,3 +46,11 @@ horizontal ent =
 
 vertical :: (HasDirection ent) => ent -> Bool
 vertical = not . horizontal
+
+parser :: Parser Direction
+parser = choice
+  [ North <$ "North"
+  , East <$ "East"
+  , South <$ "South"
+  , West <$ "West"
+  ]

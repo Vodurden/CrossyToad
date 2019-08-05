@@ -2,7 +2,6 @@ module Game where
 
 import           CrossyToad
 import           CrossyToad.Runner (mainLoop)
-
 import qualified CrossyToad.Renderer.MonadRenderer.SDL.Env as SDLMonadRenderer
 import           CrossyToad.Env (Env(..))
 import qualified CrossyToad.Input.MonadInput.SDL.Env as SDLMonadInput
