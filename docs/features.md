@@ -5,7 +5,7 @@
 - [X] Toad Sprite (idle up, jump up, idle left, jump left)
 - [X] Car Sprite
 - [X] Sports Car Sprite
-- [ ] Farm Tractor Sprite
+- [X] Farm Tractor Sprite
 - [X] Truck Sprite
 - [X] Turtle Sprite & Animation (swimming, diving, sunk)
 - [X] Croc Sprite & Animation (swimming, chomping)
@@ -69,7 +69,7 @@
 - [X] Vehicles: Kills toad when colliding
   - [X] Car (1 tile wide)
   - [X] Sports Car (1 tile wide)
-  - [ ] Farm Tractor (1 tile wide)
+  - [X] Farm Tractor (1 tile wide)
   - [X] Truck (2 tiles wide)
   - [ ] Turtle (1 tile wide, platform)
   - [X] Log (1 tile wide, platform)
