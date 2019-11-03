@@ -2,7 +2,7 @@
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: 216dc553203b558e263d0ebec581f42636a2050541266d81ebfe38415ab8d220
+-- hash: 28e5808a77fc155172c123cac52bd81763caba67e68e56f5687c8a0e696c1204
 
 name:           crossy-toad
 version:        0.1.0.0
@@ -26,12 +26,12 @@ library
       CrossyToad
       CrossyToad.Env
       CrossyToad.Game.Croc
+      CrossyToad.Game.DivingTurtle
       CrossyToad.Game.Game
       CrossyToad.Game.GameState
       CrossyToad.Game.Terrain
       CrossyToad.Game.Toad
       CrossyToad.Game.ToadHome
-      CrossyToad.Game.Turtle
       CrossyToad.Game.Vehicle
       CrossyToad.Geometry.AABB
       CrossyToad.Geometry.Offset
@@ -227,12 +227,12 @@ test-suite spec
       CrossyToad
       CrossyToad.Env
       CrossyToad.Game.Croc
+      CrossyToad.Game.DivingTurtle
       CrossyToad.Game.Game
       CrossyToad.Game.GameState
       CrossyToad.Game.Terrain
       CrossyToad.Game.Toad
       CrossyToad.Game.ToadHome
-      CrossyToad.Game.Turtle
       CrossyToad.Game.Vehicle
       CrossyToad.Geometry.AABB
       CrossyToad.Geometry.Offset

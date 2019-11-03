@@ -74,7 +74,7 @@ tick seconds ent' = flip execStateT ent' $ do
   -- Toad Physics
   gameState.toad %= MovementSystem.tickJumping seconds
   gameState %= lensFoldl' (MovementSystem.moveOnPlatform $ seconds) toad woodLogs
-  gameState %= lensFoldl' (MovementSystem.moveOnPlatform $ seconds) toad turtles
+  gameState %= lensFoldl' (MovementSystem.moveOnPlatform $ seconds) toad divingTurtles
   gameState %= lensFoldl' (MovementSystem.moveOnPlatform $ seconds) toad crocHeads
   gameState %= lensFoldl' (MovementSystem.moveOnPlatform $ seconds) toad crocBodies
 
@@ -84,11 +84,11 @@ tick seconds ent' = flip execStateT ent' $ do
   gameState.farmTractors.mapped %= (MovementSystem.tickLinear seconds)
   gameState.trucks.mapped %= (MovementSystem.tickLinear seconds)
   gameState.woodLogs.mapped %= (MovementSystem.tickLinear seconds)
-  gameState.turtles.mapped %= (MovementSystem.tickLinear seconds)
+  gameState.divingTurtles.mapped %= (MovementSystem.tickLinear seconds)
   gameState.crocs.mapped %= (MovementSystem.tickLinear seconds)
 
   -- Submersible Physics
-  gameState.turtles.mapped %= (MovementSystem.tickSubmersible seconds)
+  gameState.divingTurtles.mapped %= (MovementSystem.tickSubmersible seconds)
   gameState.crocHeads.mapped %= (MovementSystem.tickSubmersible seconds)
 
   -- Victory
@@ -105,7 +105,7 @@ tick seconds ent' = flip execStateT ent' $ do
 
   -- Animation
   gameState.toad %= AnimationSystem.tickToadAnimation seconds
-  gameState.turtles.mapped %= (AnimationSystem.tickTurtleAnimation seconds)
+  gameState.divingTurtles.mapped %= (AnimationSystem.tickTurtleAnimation seconds)
   gameState.toadHomes.mapped %= (AnimationSystem.tickToadHomeAnimation seconds)
   gameState.crocHeads.mapped %= (AnimationSystem.tickCrocAnimation seconds)
 
@@ -125,7 +125,7 @@ render ent = do
     , Animated.render <$> (ent ^. gameState . sportsCars)
     , Animated.render <$> (ent ^. gameState . farmTractors)
     , Animated.render <$> (ent ^. gameState . trucks)
-    , Animated.render <$> (ent ^. gameState . turtles)
+    , Animated.render <$> (ent ^. gameState . divingTurtles)
     , Animated.render <$> (ent ^. gameState . woodLogs)
     , Animated.render <$> (ent ^. gameState . crocs)
     , Animated.renderNoDirection <$> (ent ^. gameState . toadHomes)

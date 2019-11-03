@@ -1,8 +1,8 @@
 {-# LANGUAGE TemplateHaskell #-}
 
-module CrossyToad.Game.Turtle
-  ( Turtle(..)
-  , HasTurtle(..)
+module CrossyToad.Game.DivingTurtle
+  ( DivingTurtle(..)
+  , HasDivingTurtle(..)
   , mk
   ) where
 
@@ -22,7 +22,7 @@ import           CrossyToad.Renderer.Animated (Animated(..), HasAnimated(..))
 import qualified CrossyToad.Renderer.Animated as Animated
 import           CrossyToad.Renderer.Asset.Animation.Turtle as TurtleAnimation
 
-data Turtle = Turtle
+data DivingTurtle = DivingTurtle
   { __position :: !Position
   , __direction :: !Direction
   , __linearMotion :: !LinearMotion
@@ -31,17 +31,17 @@ data Turtle = Turtle
   , __animated :: !(Animated TurtleAnimation.Animation)
   } deriving (Eq, Show)
 
-makeClassy ''Turtle
+makeClassy ''DivingTurtle
 
-instance HasPosition Turtle where position = _position
-instance HasDirection Turtle where direction = _direction
-instance HasLinearMotion Turtle where linearMotion = _linearMotion
-instance HasPhysical Turtle where physical = _physical
-instance HasSubmersible Turtle where submersible = _submersible
-instance HasAnimated Turtle TurtleAnimation.Animation where animated = _animated
+instance HasPosition DivingTurtle where position = _position
+instance HasDirection DivingTurtle where direction = _direction
+instance HasLinearMotion DivingTurtle where linearMotion = _linearMotion
+instance HasPhysical DivingTurtle where physical = _physical
+instance HasSubmersible DivingTurtle where submersible = _submersible
+instance HasAnimated DivingTurtle TurtleAnimation.Animation where animated = _animated
 
-mk :: Position -> Direction -> Speed -> Turtle
-mk pos dir speed' = Turtle
+mk :: Position -> Direction -> Speed -> DivingTurtle
+mk pos dir speed' = DivingTurtle
     { __position = pos
     , __direction = dir
     , __linearMotion = LinearMotion.mk speed'
