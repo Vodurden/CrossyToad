@@ -71,7 +71,7 @@
   - [X] Sports Car (1 tile wide)
   - [X] Farm Tractor (1 tile wide)
   - [X] Truck (2 tiles wide)
-  - [ ] Turtle (1 tile wide, platform)
+  - [X] Turtle (1 tile wide, platform)
   - [X] Log (1 tile wide, platform)
 - [X] Diving Turtle: 1 tile wide, acts as a platform when above water, does not collide when below water
 - [X] Crocodile: 1 tile wide head, 2 tile wide body: Body is a platform, head is a platform when closed and death when open
