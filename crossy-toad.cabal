@@ -2,7 +2,7 @@
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: 524c335aaa21cf48fa6257d0914ec5296018edabca198edc11a2df9006b06a40
+-- hash: 216dc553203b558e263d0ebec581f42636a2050541266d81ebfe38415ab8d220
 
 name:           crossy-toad
 version:        0.1.0.0
@@ -64,6 +64,7 @@ library
       CrossyToad.Renderer.AnimationSystem
       CrossyToad.Renderer.Asset.Animation.Car
       CrossyToad.Renderer.Asset.Animation.Croc
+      CrossyToad.Renderer.Asset.Animation.FarmTractor
       CrossyToad.Renderer.Asset.Animation.SportsCar
       CrossyToad.Renderer.Asset.Animation.Terrain
       CrossyToad.Renderer.Asset.Animation.Toad
@@ -264,6 +265,7 @@ test-suite spec
       CrossyToad.Renderer.AnimationSystem
       CrossyToad.Renderer.Asset.Animation.Car
       CrossyToad.Renderer.Asset.Animation.Croc
+      CrossyToad.Renderer.Asset.Animation.FarmTractor
       CrossyToad.Renderer.Asset.Animation.SportsCar
       CrossyToad.Renderer.Asset.Animation.Terrain
       CrossyToad.Renderer.Asset.Animation.Toad

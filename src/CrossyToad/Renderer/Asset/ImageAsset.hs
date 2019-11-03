@@ -10,6 +10,7 @@ data ImageAsset
   | ToadHome
   | Car
   | SportsCar
+  | FarmTractor
   | Truck
   | WoodLog
   | Turtle
@@ -29,6 +30,7 @@ filename Toad = "toad.png"
 filename ToadHome = "toad_home.png"
 filename Car = "car.png"
 filename SportsCar = "sports_car.png"
+filename FarmTractor = "farm_tractor.png"
 filename Truck = "truck.png"
 filename WoodLog = "wood_log.png"
 filename Turtle = "turtle.png"
