@@ -1,30 +1,38 @@
 module CrossyToad.Game.Stage.StageSpec where
 
--- import           Test.Tasty.Hspec
+import           Control.Lens
+import qualified Data.Map.Strict as Map
 
--- spec_Game_Stage_StageSpec :: Spec
--- spec_Game_Stage_StageSpec =
---   describe "load" $ do
---     it "should load stages from valid text" $ do
---       stageText = unlines
---         [ "|   H    H    H    H   |Swamp"
---         , "| TTT TTT DDD TTT TTT  |River East 0.75"
---         , "|   LLLL LLLL LLLL LLLL|River East 0.75"
---         , "| LL  LL  LL  LL  LL   |River West 1"
---         , "|TT TT TT TT DD TT TT  |River West 1"
---         , "|                      |Grass East 0"
---         , "|             TR    TR |Road  East 0.5"
---         , "| TR      TR           |Road  East 0.5"
---         , "|F         F           |Road  East 0.5"
---         , "|C   C   C   C   C     |Road  East 0.5"
---         , "|  C     C     C    C  |Road  East 0.5"
---         , "|                      |Grass East 0"
---         ]
+import           CrossyToad.Stage.Entity
+import           CrossyToad.Stage.Stage (Stage, HasStage(..))
+import qualified CrossyToad.Stage.Stage as Stage
+import           CrossyToad.Stage.StageRow (StageRow(..))
+import           CrossyToad.Stage.StageFile (StageFile(..))
+import qualified CrossyToad.Stage.GroundType as GroundType
+import qualified CrossyToad.Physics.Direction as Direction
+import qualified CrossyToad.Geometry.Position as Position
 
---       stage = Stage.load stageText
+import           Test.Tasty.Hspec
 
---       expectedRows =
---         [ StageRow [Empty, Empty, Empty, ToadHome, Empty, Empty, Empty, ]
---         ]
+spec_Game_Stage_StageSpec :: Spec
+spec_Game_Stage_StageSpec =
+  describe "fromStageFile" $ do
+    it "should load entities in the correct positions" $ do
+      let stage' = stageWithEnts [NoEntity, Car, NoEntity, Croc, Croc]
 
---       stage `shouldBe` Stage { _rows = expectedRows }
+      let expectedEnts = Map.fromList
+            [ (Position.fromGrid 0 0, NoEntity)
+            , (Position.fromGrid 1 0, Car)
+            , (Position.fromGrid 2 0, NoEntity)
+            , (Position.fromGrid 3 0, Croc)
+            , (Position.fromGrid 6 0, Croc)
+            ]
+
+      (view _1) <$> (stage' ^. entities) `shouldBe` expectedEnts
+
+stageWithEnts :: [Entity] -> Stage
+stageWithEnts entities' =
+  let
+    stageRow = StageRow entities' GroundType.Grass Direction.North 0.0
+    stageFile = StageFile [stageRow]
+  in Stage.fromStageFile stageFile

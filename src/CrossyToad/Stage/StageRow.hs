@@ -1,7 +1,7 @@
 {-# LANGUAGE TemplateHaskell #-}
 
 module CrossyToad.Stage.StageRow
-  ( StageRow
+  ( StageRow(..)
   , HasStageRow(..)
   , parser
   ) where

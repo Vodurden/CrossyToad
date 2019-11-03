@@ -77,7 +77,7 @@ loadEntities
   -> Map Position (Entity, Direction, Speed)
 loadEntities yPosition direction' speed' entities' =
   let
-    xGridPositions = drop 1 $ scanl' (\pos ent -> (Entity.width ent) + pos) 0 entities'
+    xGridPositions = scanl' (\pos ent -> (Entity.width ent) + pos) 0 entities'
     gridPositions = zip xGridPositions (repeat yPosition)
     positions = (uncurry Position.fromGrid) <$> gridPositions
     entitiesByPosition = Map.fromList $ zip positions entities'
