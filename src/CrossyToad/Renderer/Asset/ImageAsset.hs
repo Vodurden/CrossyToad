@@ -9,6 +9,7 @@ data ImageAsset
   = Toad
   | ToadHome
   | Car
+  | SportsCar
   | Truck
   | WoodLog
   | Turtle
@@ -27,6 +28,7 @@ filename :: ImageAsset -> FilePath
 filename Toad = "toad.png"
 filename ToadHome = "toad_home.png"
 filename Car = "car.png"
+filename SportsCar = "sports_car.png"
 filename Truck = "truck.png"
 filename WoodLog = "wood_log.png"
 filename Turtle = "turtle.png"

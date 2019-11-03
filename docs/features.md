@@ -4,7 +4,7 @@
 
 - [X] Toad Sprite (idle up, jump up, idle left, jump left)
 - [X] Car Sprite
-- [ ] Sports Car Sprite
+- [X] Sports Car Sprite
 - [ ] Farm Tractor Sprite
 - [X] Truck Sprite
 - [X] Turtle Sprite & Animation (swimming, diving, sunk)
@@ -68,7 +68,7 @@
 - [X] Enemies move linearly left/right. Same speed for all enemies in same row
 - [X] Vehicles: Kills toad when colliding
   - [X] Car (1 tile wide)
-  - [ ] Sports Car (1 tile wide)
+  - [X] Sports Car (1 tile wide)
   - [ ] Farm Tractor (1 tile wide)
   - [X] Truck (2 tiles wide)
   - [ ] Turtle (1 tile wide, platform)
@@ -89,6 +89,7 @@
 - [ ] Lose 1 life if toad collides with an enemy (see enemies for more details)
 - [ ] Lose 1 life if toad collides with water (see terrain for more details)
 - [ ] Lose 1 life if we run out of time
+- [ ] Gain 1 life per 20000 score
 - [X] On losing a life: Respawn at original starting position
 - [ ] On 0 lives: Game over
 - [ ] Unique death animations

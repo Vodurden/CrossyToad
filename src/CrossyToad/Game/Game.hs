@@ -80,6 +80,7 @@ tick seconds ent' = flip execStateT ent' $ do
 
   -- Vehicle Physics
   gameState.cars.mapped %= (MovementSystem.tickLinear seconds)
+  gameState.sportsCars.mapped %= (MovementSystem.tickLinear seconds)
   gameState.trucks.mapped %= (MovementSystem.tickLinear seconds)
   gameState.woodLogs.mapped %= (MovementSystem.tickLinear seconds)
   gameState.turtles.mapped %= (MovementSystem.tickLinear seconds)
@@ -96,6 +97,7 @@ tick seconds ent' = flip execStateT ent' $ do
 
   -- Life & Death
   gameState %= lensFoldl' MortalSystem.mortalCollision toad cars
+  gameState %= lensFoldl' MortalSystem.mortalCollision toad sportsCars
   gameState %= lensFoldl' MortalSystem.mortalCollision toad trucks
   gameState %= lensFoldl' MortalSystem.mortalCollision toad deathTerrain
 
@@ -118,6 +120,7 @@ render ent = do
   -- Vehicles
   sequence_ $ MonadRenderer.runRenderCommand <$> concat
     [ Animated.render <$> (ent ^. gameState . cars)
+    , Animated.render <$> (ent ^. gameState . sportsCars)
     , Animated.render <$> (ent ^. gameState . trucks)
     , Animated.render <$> (ent ^. gameState . turtles)
     , Animated.render <$> (ent ^. gameState . woodLogs)

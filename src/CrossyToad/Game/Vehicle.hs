@@ -5,9 +5,11 @@ module CrossyToad.Game.Vehicle
   ( Vehicle(..)
   , HasVehicle(..)
   , Car
+  , SportsCar
   , Truck
   , WoodLog
   , mkCar
+  , mkSportsCar
   , mkTruck
   , mkWoodLog
   ) where
@@ -25,6 +27,7 @@ import qualified CrossyToad.Physics.Physical as Physical
 import           CrossyToad.Renderer.Animated (Animated(..), HasAnimated(..))
 import qualified CrossyToad.Renderer.Animated as Animated
 import qualified CrossyToad.Renderer.Asset.Animation.Car as CarAnimation
+import qualified CrossyToad.Renderer.Asset.Animation.SportsCar as SportsCarAnimation
 import qualified CrossyToad.Renderer.Asset.Animation.Truck as TruckAnimation
 import qualified CrossyToad.Renderer.Asset.Animation.WoodLog as WoodLogAnimation
 
@@ -37,6 +40,7 @@ data Vehicle key = Vehicle
   } deriving (Eq, Show)
 
 type Car = Vehicle CarAnimation.Animation
+type SportsCar = Vehicle SportsCarAnimation.Animation
 type Truck = Vehicle TruckAnimation.Animation
 type WoodLog = Vehicle WoodLogAnimation.Animation
 
@@ -55,6 +59,15 @@ mkCar pos dir speed' = Vehicle
     , __linearMotion = LinearMotion.mk speed'
     , __physical = Physical.mkAt (V2 1 1) (V2 62 62) Physical.Ground
     , __animated = Animated.mk CarAnimation.DriveLeft CarAnimation.asset
+    }
+
+mkSportsCar :: Position -> Direction -> Speed -> SportsCar
+mkSportsCar pos dir speed' = Vehicle
+    { __position = pos
+    , __direction = dir
+    , __linearMotion = LinearMotion.mk speed'
+    , __physical = Physical.mkAt (V2 1 1) (V2 62 62) Physical.Ground
+    , __animated = Animated.mk SportsCarAnimation.DriveLeft SportsCarAnimation.asset
     }
 
 mkTruck :: Position -> Direction -> Speed -> Truck

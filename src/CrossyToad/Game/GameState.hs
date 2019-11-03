@@ -1,7 +1,4 @@
 {-# LANGUAGE TemplateHaskell #-}
-{-# LANGUAGE ExistentialQuantification #-}
-{-# LANGUAGE StandaloneDeriving #-}
-{-# LANGUAGE RankNTypes #-}
 
 module CrossyToad.Game.GameState
   ( GameState
@@ -27,7 +24,7 @@ import           CrossyToad.Game.ToadHome (ToadHome)
 import qualified CrossyToad.Game.ToadHome as ToadHome
 import           CrossyToad.Game.Turtle (Turtle)
 import qualified CrossyToad.Game.Turtle as Turtle
-import           CrossyToad.Game.Vehicle (Car, Truck, WoodLog)
+import           CrossyToad.Game.Vehicle (Car, SportsCar, Truck, WoodLog)
 import qualified CrossyToad.Game.Vehicle as Vehicle
 import           CrossyToad.Geometry.Position (Position)
 import qualified CrossyToad.Geometry.Position as Position
@@ -45,6 +42,7 @@ data GameState = GameState
   , _safeTerrain :: ![Terrain]
   , _toadHomes :: ![ToadHome]
   , _cars :: ![Car]
+  , _sportsCars :: ![SportsCar]
   , _trucks :: ![Truck]
   , _turtles :: ![Turtle]
   , _crocs :: ![Croc]
@@ -62,6 +60,7 @@ empty = GameState
   , _safeTerrain = []
   , _toadHomes = []
   , _cars = []
+  , _sportsCars = []
   , _trucks = []
   , _turtles = []
   , _crocs = []
@@ -87,7 +86,7 @@ fromStage stage' =
       case entity' of
         Entity.NoEntity -> id
         Entity.Car -> over cars (Vehicle.mkCar pos dir speed' :)
-        Entity.SportsCar -> over cars (Vehicle.mkCar pos dir speed' :)
+        Entity.SportsCar -> over sportsCars (Vehicle.mkSportsCar pos dir speed' :)
         Entity.FarmTractor -> over cars (Vehicle.mkCar pos dir speed' :)
         Entity.Truck -> over trucks (Vehicle.mkTruck pos dir speed' :)
         Entity.Turtle -> over turtles (Turtle.mk pos dir speed' :)
