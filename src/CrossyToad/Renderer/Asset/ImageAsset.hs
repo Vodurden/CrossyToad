@@ -13,6 +13,7 @@ data ImageAsset
   | FarmTractor
   | Truck
   | WoodLog
+  | GrassSnake
   | Turtle
   | Croc
   | Terrain
@@ -33,6 +34,7 @@ filename SportsCar = "sports_car.png"
 filename FarmTractor = "farm_tractor.png"
 filename Truck = "truck.png"
 filename WoodLog = "wood_log.png"
+filename GrassSnake = "grass_snake.png"
 filename Turtle = "turtle.png"
 filename Croc = "croc.png"
 filename Terrain = "terrain.png"

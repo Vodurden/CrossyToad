@@ -4,10 +4,10 @@
 |LLLLL LLLLL LLLLL LLL |River East 0.75
 |  LLL LLL LLL LLL LLL |River West 0.8
 | TTT DDD TTT TTT TTT  |River West 0.8
-|                      |Grass East 1.3
-|         TR        TR |Road  West 0.8
-|         S            |Road  East 0.4
-|    C   C   C   C     |Road  West 0.8
-|F    F    F    F      |Road  East 0.8
-|  C     C     C    C  |Road  West 0.8
+|                      |Grass East 0
+|  TR     TR        TR |Road  West 0.75
+|    S             S   |Road  East 0.35
+|    C   C   C   C   C |Road  West 0.75
+|F    F    F    F      |Road  East 0.75
+|  C     C     C    C  |Road  West 0.75
 |                      |Grass East 0

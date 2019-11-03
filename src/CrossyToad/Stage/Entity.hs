@@ -19,6 +19,7 @@ data Entity
   | Truck
   | Turtle
   | DivingTurtle
+  | GrassSnake
   | Log
   | Croc
   | ToadHome
@@ -33,6 +34,7 @@ parser = choice
   , SportsCar <$ char 'S'
   , FarmTractor <$ char 'F'
   , DivingTurtle <$ char 'D'
+  , GrassSnake <$ char 'G'
   , Log <$ char 'L'
   , ToadHome <$ char 'H'
 
@@ -53,6 +55,7 @@ width FarmTractor = 1
 width Truck = 2
 width Turtle = 1
 width DivingTurtle = 1
+width GrassSnake = 1
 width Log = 1
 width Croc = 3
 width ToadHome = 1

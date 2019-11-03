@@ -10,6 +10,7 @@
 - [X] Turtle Sprite & Animation (swimming, diving, sunk)
 - [X] Croc Sprite & Animation (swimming, chomping)
 - [X] Log Sprite
+- [X] Snake Sprite
 - [X] Toad Home Sprite
 
 ## Visuals (Good)
@@ -22,6 +23,7 @@
 - [ ] Turtle Sprite & Animation (swimming, diving, sunk)
 - [ ] Croc Sprite & Animation (swimming, chomping)
 - [ ] Log Sprite
+- [ ] Snake Sprite
 - [ ] Toad Home Sprite
 - [ ] Background art for Title Screen
 - [ ] Better font for title screen
@@ -73,6 +75,7 @@
   - [X] Truck (2 tiles wide)
   - [X] Turtle (1 tile wide, platform)
   - [X] Log (1 tile wide, platform)
+  - [X] Snake (1 tile wide)
 - [X] Diving Turtle: 1 tile wide, acts as a platform when above water, does not collide when below water
 - [X] Crocodile: 1 tile wide head, 2 tile wide body: Body is a platform, head is a platform when closed and death when open
 - [X] Toad Home: 1 tile wide,
@@ -89,7 +92,7 @@
 - [ ] Lose 1 life if toad collides with an enemy (see enemies for more details)
 - [ ] Lose 1 life if toad collides with water (see terrain for more details)
 - [ ] Lose 1 life if we run out of time
-- [ ] Gain 1 life per 20000 score
+- [ ] Gain 1 life per 10000 score
 - [X] On losing a life: Respawn at original starting position
 - [ ] On 0 lives: Game over
 - [ ] Unique death animations

@@ -24,7 +24,7 @@ import           CrossyToad.Game.ToadHome (ToadHome)
 import qualified CrossyToad.Game.ToadHome as ToadHome
 import           CrossyToad.Game.DivingTurtle (DivingTurtle)
 import qualified CrossyToad.Game.DivingTurtle as DivingTurtle
-import           CrossyToad.Game.Vehicle (Car, SportsCar, FarmTractor, Truck, Turtle, WoodLog)
+import           CrossyToad.Game.Vehicle (Car, SportsCar, FarmTractor, Truck, GrassSnake, Turtle, WoodLog)
 import qualified CrossyToad.Game.Vehicle as Vehicle
 import           CrossyToad.Geometry.Position (Position)
 import qualified CrossyToad.Geometry.Position as Position
@@ -46,6 +46,7 @@ data GameState = GameState
   , _farmTractors :: ![FarmTractor]
   , _trucks :: ![Truck]
   , _turtles :: ![Turtle]
+  , _grassSnakes :: ![GrassSnake]
   , _divingTurtles :: ![DivingTurtle]
   , _crocs :: ![Croc]
   , _woodLogs :: ![WoodLog]
@@ -66,6 +67,7 @@ empty = GameState
   , _farmTractors = []
   , _trucks = []
   , _turtles = []
+  , _grassSnakes = []
   , _divingTurtles = []
   , _crocs = []
   , _woodLogs = []
@@ -95,6 +97,7 @@ fromStage stage' =
         Entity.Truck -> over trucks (Vehicle.mkTruck pos dir speed' :)
         Entity.Turtle -> over turtles (Vehicle.mkTurtle pos dir speed' :)
         Entity.DivingTurtle -> over divingTurtles (DivingTurtle.mk pos dir speed' :)
+        Entity.GrassSnake -> over grassSnakes (Vehicle.mkGrassSnake pos dir speed' :)
         Entity.Log -> over woodLogs (Vehicle.mkWoodLog pos dir speed' :)
         Entity.Croc -> over crocs (Croc.mk pos dir speed' :)
         Entity.ToadHome -> over toadHomes (ToadHome.mk pos :)

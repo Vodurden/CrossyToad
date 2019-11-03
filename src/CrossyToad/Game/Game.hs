@@ -84,6 +84,7 @@ tick seconds ent' = flip execStateT ent' $ do
   gameState.sportsCars.mapped %= (MovementSystem.tickLinear seconds)
   gameState.farmTractors.mapped %= (MovementSystem.tickLinear seconds)
   gameState.trucks.mapped %= (MovementSystem.tickLinear seconds)
+  gameState.grassSnakes.mapped %= (MovementSystem.tickLinear seconds)
   gameState.woodLogs.mapped %= (MovementSystem.tickLinear seconds)
   gameState.turtles.mapped %= (MovementSystem.tickLinear seconds)
   gameState.divingTurtles.mapped %= (MovementSystem.tickLinear seconds)
@@ -102,6 +103,7 @@ tick seconds ent' = flip execStateT ent' $ do
   gameState %= lensFoldl' MortalSystem.mortalCollision toad cars
   gameState %= lensFoldl' MortalSystem.mortalCollision toad sportsCars
   gameState %= lensFoldl' MortalSystem.mortalCollision toad farmTractors
+  gameState %= lensFoldl' MortalSystem.mortalCollision toad grassSnakes
   gameState %= lensFoldl' MortalSystem.mortalCollision toad trucks
   gameState %= lensFoldl' MortalSystem.mortalCollision toad deathTerrain
 
@@ -126,6 +128,7 @@ render ent = do
     [ Animated.render <$> (ent ^. gameState . cars)
     , Animated.render <$> (ent ^. gameState . sportsCars)
     , Animated.render <$> (ent ^. gameState . farmTractors)
+    , Animated.render <$> (ent ^. gameState . grassSnakes)
     , Animated.render <$> (ent ^. gameState . trucks)
     , Animated.render <$> (ent ^. gameState . divingTurtles)
     , Animated.render <$> (ent ^. gameState . turtles)

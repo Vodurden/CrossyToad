@@ -20,6 +20,7 @@ data Textures = Textures
   , _truck :: !Texture
   , _turtle :: !Texture
   , _woodLog :: !Texture
+  , _grassSnake :: !Texture
   , _croc :: !Texture
   , _terrain :: !Texture
   }
@@ -35,6 +36,7 @@ fromImageAsset ImageAsset.FarmTractor = view farmTractor
 fromImageAsset ImageAsset.Truck = view truck
 fromImageAsset ImageAsset.Turtle = view turtle
 fromImageAsset ImageAsset.WoodLog = view woodLog
+fromImageAsset ImageAsset.GrassSnake = view grassSnake
 fromImageAsset ImageAsset.Croc = view croc
 fromImageAsset ImageAsset.Terrain = view terrain
 
@@ -48,6 +50,7 @@ loadTextures renderer = do
     truck' <- loadImage renderer ImageAsset.Truck
     turtle' <- loadImage renderer ImageAsset.Turtle
     woodLog' <- loadImage renderer ImageAsset.WoodLog
+    grassSnake' <- loadImage renderer ImageAsset.GrassSnake
     croc' <- loadImage renderer ImageAsset.Croc
     terrain' <- loadImage renderer ImageAsset.Terrain
 
@@ -60,6 +63,7 @@ loadTextures renderer = do
       , _truck = truck'
       , _turtle = turtle'
       , _woodLog = woodLog'
+      , _grassSnake = grassSnake'
       , _croc = croc'
       , _terrain = terrain'
       }

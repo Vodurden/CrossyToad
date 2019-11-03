@@ -10,12 +10,14 @@ module CrossyToad.Game.Vehicle
   , Truck
   , Turtle
   , WoodLog
+  , GrassSnake
   , mkCar
   , mkSportsCar
   , mkFarmTractor
   , mkTruck
   , mkTurtle
   , mkWoodLog
+  , mkGrassSnake
   ) where
 
 import           Control.Lens
@@ -36,6 +38,7 @@ import qualified CrossyToad.Renderer.Asset.Animation.FarmTractor as FarmTractorA
 import qualified CrossyToad.Renderer.Asset.Animation.Truck as TruckAnimation
 import qualified CrossyToad.Renderer.Asset.Animation.Turtle as TurtleAnimation
 import qualified CrossyToad.Renderer.Asset.Animation.WoodLog as WoodLogAnimation
+import qualified CrossyToad.Renderer.Asset.Animation.GrassSnake as GrassSnakeAnimation
 
 data Vehicle key = Vehicle
   { __position :: !Position
@@ -51,6 +54,7 @@ type FarmTractor = Vehicle FarmTractorAnimation.Animation
 type Truck = Vehicle TruckAnimation.Animation
 type Turtle = Vehicle TurtleAnimation.Animation
 type WoodLog = Vehicle WoodLogAnimation.Animation
+type GrassSnake = Vehicle GrassSnakeAnimation.Animation
 
 makeClassy ''Vehicle
 
@@ -112,4 +116,13 @@ mkWoodLog pos dir speed' = Vehicle
     , __linearMotion = LinearMotion.mk speed'
     , __physical = Physical.mkAt (V2 1 1) (V2 62 62) Physical.Platform
     , __animated = Animated.mk WoodLogAnimation.FloatLeft WoodLogAnimation.asset
+    }
+
+mkGrassSnake :: Position -> Direction -> Speed -> GrassSnake
+mkGrassSnake pos dir speed' = Vehicle
+    { __position = pos
+    , __direction = dir
+    , __linearMotion = LinearMotion.mk speed'
+    , __physical = Physical.mkAt (V2 1 1) (V2 62 62) Physical.Platform
+    , __animated = Animated.mk GrassSnakeAnimation.SlitherLeft GrassSnakeAnimation.asset
     }
