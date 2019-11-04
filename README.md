@@ -11,4 +11,7 @@ A game where you guide a toad across a road. Written in Haskell!
 
 ## Resources
 
-- Title font: http://www.fontspace.com/esteban4058/princess-and-the-frog
+### Fonts
+
+- Princess and the Frog: http://www.fontspace.com/esteban4058/princess-and-the-frog
+- Presss Start: codeman38 (https://www.fontspace.com/codeman38/press-start)

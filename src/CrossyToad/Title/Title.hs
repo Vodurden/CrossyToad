@@ -81,7 +81,7 @@ renderMenu selectedOption options =
     renderMenuItem :: Int -> MenuOption -> m Int
     renderMenuItem offset option = do
       MonadRenderer.drawText
-        FontAsset.Title
+        FontAsset.PressStart
         Nothing
         Nothing
         (Just $ menuItemClip offset)

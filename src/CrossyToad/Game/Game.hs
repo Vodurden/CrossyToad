@@ -165,7 +165,7 @@ render ent = do
 renderScore :: (MonadRenderer m, HasScore ent) => ent -> m ()
 renderScore ent =
     MonadRenderer.drawText
-      FontAsset.Title
+      FontAsset.PressStart
       Nothing
       Nothing
       (Just scoreClip)
@@ -180,7 +180,7 @@ renderScore ent =
 renderLives :: (MonadRenderer m, HasMortal ent) => ent -> m ()
 renderLives ent =
     MonadRenderer.drawText
-      FontAsset.Title
+      FontAsset.PressStart
       Nothing
       Nothing
       (Just livesClip)

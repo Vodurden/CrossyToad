@@ -54,8 +54,9 @@ render state' = do
     MonadRenderer.clearScreen
 
     MonadRenderer.drawText FontAsset.Title Nothing Nothing (Just titleClip) RGBAColour.white title'
-    MonadRenderer.drawText FontAsset.Title Nothing Nothing (Just nameClip) RGBAColour.white name'
-    MonadRenderer.drawText FontAsset.Title Nothing Nothing (Just scoreClip) RGBAColour.white score'
+    MonadRenderer.drawText FontAsset.PressStart Nothing Nothing (Just nameClip) RGBAColour.white name'
+    MonadRenderer.drawText FontAsset.PressStart Nothing Nothing (Just scoreClip) RGBAColour.white score'
+    MonadRenderer.drawText FontAsset.PressStart Nothing Nothing (Just helpClip) RGBAColour.white help'
 
     MonadRenderer.drawScreen
   where
@@ -63,8 +64,10 @@ render state' = do
     title' = "GAME OVER" :: Text
     name' = GameOverState.currentName $ state' ^. gameOverState
     score' = Text.pack $ show $ state' ^. gameOverState . totalScore
+    help' = "[Up/Down/Left/Right]:Edit Name    [Confirm]:Save Score    [Exit]:Quit" :: Text
 
     -- Layout
-    titleClip = Clip.fromGrid 2 2 15 4
-    nameClip = Clip.fromGrid 3 9 5 3
-    scoreClip = Clip.fromGrid 11 9 5 3
+    titleClip = Clip.fromGrid 1 1 18 4
+    nameClip = Clip.fromGrid 3 8 5 3
+    scoreClip = Clip.fromGrid 11 8 5 3
+    helpClip = Clip.fromGrid 0 14 20 1
