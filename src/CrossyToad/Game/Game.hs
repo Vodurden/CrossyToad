@@ -23,6 +23,7 @@ import           CrossyToad.Input.Intent (Intent(..))
 import           CrossyToad.Input.Intents (Intents)
 import qualified CrossyToad.Input.Intents as Intents
 import           CrossyToad.Logger.MonadLogger (MonadLogger(..))
+import           CrossyToad.Mortality.Mortal (HasMortal(..))
 import qualified CrossyToad.Mortality.MortalSystem as MortalSystem
 import qualified CrossyToad.Physics.MovementSystem as MovementSystem
 -- import qualified CrossyToad.Physics.Rendering as PhysicsRendering
@@ -142,6 +143,7 @@ render ent = do
 
   -- Player Stats
   renderScore (ent^.gameState.toad)
+  renderLives (ent^.gameState.toad)
 
   -- Debug Rendering
   -- sequence_ $ MonadRenderer.runRenderCommand <$> concat
@@ -165,3 +167,18 @@ renderScore ent =
     scoreSize = V2 256 64
     scoreClip = Clip.mkAt scorePos scoreSize
     scoreText = Text.pack $ "Score: " ++ (show $ (ent^.score.totalScore))
+
+renderLives :: (MonadRenderer m, HasMortal ent) => ent -> m ()
+renderLives ent =
+    MonadRenderer.drawText
+      FontAsset.Title
+      Nothing
+      Nothing
+      (Just livesClip)
+      RGBAColour.white
+      livesText
+  where
+    livesPos = V2 (6*64) (14*64)
+    livesSize = V2 256 64
+    livesClip = Clip.mkAt livesPos livesSize
+    livesText = Text.pack $ "Lives: " ++ (show $ ent^.lives)
