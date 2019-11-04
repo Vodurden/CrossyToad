@@ -11,12 +11,12 @@ module CrossyToad.GameOver.GameOverState
   , currentName
   ) where
 
-import Control.Lens
-import Control.Zipper.Extended
-import Data.Text (Text)
+import           Control.Lens
+import           Control.Zipper.Extended
+import           Data.Bounded.ASCIIChar (ASCIIChar(..))
+import           Data.Bounded.Extended (succWrap, predWrap)
+import           Data.Text (Text)
 import qualified Data.Text as Text
-import Data.Bounded.Extended (succWrap, predWrap)
-import Data.Bounded.ASCIIChar (ASCIIChar(..))
 
 data GameOverState = GameOverState
   { _name :: Top :>> [ASCIIChar] :>> ASCIIChar

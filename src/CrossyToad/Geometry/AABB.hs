@@ -69,3 +69,10 @@ shrink left right top bottom box =
   where
     minPad = (V2 left top)
     maxPad = negate <$> (V2 right bottom)
+
+-- | Create a clip on the "grid". I.e. the 20x15 space that represents the screen
+fromGrid :: Int -> Int -> Int -> Int -> AABB
+fromGrid x y w h =
+  let pos' = fromIntegral <$> (* 64) <$> (V2 x y)
+      size' = fromIntegral <$> (* 64) <$> (V2 w h)
+  in mkAt pos' size'

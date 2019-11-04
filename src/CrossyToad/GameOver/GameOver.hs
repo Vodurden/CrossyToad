@@ -4,8 +4,8 @@ module CrossyToad.GameOver.GameOver
 
 import           Control.Lens
 import           Data.Foldable (foldlM)
--- import           Data.Text (Text)
-import           Linear.V2
+import           Data.Text (Text)
+import qualified Data.Text as Text
 
 import           CrossyToad.Input.Intent (Intent(..))
 import           CrossyToad.Input.Intents (Intents)
@@ -46,31 +46,25 @@ handleInput intents state' =
     selectionChange :: Direction -> state -> state
     selectionChange North = gameOverState %~ GameOverState.letterUp
     selectionChange South = gameOverState %~ GameOverState.letterDown
-    selectionChange East = gameOverState %~ GameOverState.previousLetter
-    selectionChange West = gameOverState %~ GameOverState.nextLetter
+    selectionChange East = gameOverState %~ GameOverState.nextLetter
+    selectionChange West = gameOverState %~ GameOverState.previousLetter
 
-render :: (MonadRenderer m) => state -> m ()
-render _ = do
-  MonadRenderer.clearScreen
-  renderBanner
-  -- renderName (GameOverState.currentName $ state' ^. gameOverState)
-  MonadRenderer.drawScreen
+render :: (MonadRenderer m, HasGameOverState state) => state -> m ()
+render state' = do
+    MonadRenderer.clearScreen
 
-renderBanner :: (MonadRenderer m) => m ()
-renderBanner =
-    MonadRenderer.drawText
-      FontAsset.Title
-      Nothing
-      Nothing
-      (Just titleClip)
-      RGBAColour.white
-      " GAME OVER "
+    MonadRenderer.drawText FontAsset.Title Nothing Nothing (Just titleClip) RGBAColour.white title'
+    MonadRenderer.drawText FontAsset.Title Nothing Nothing (Just nameClip) RGBAColour.white name'
+    MonadRenderer.drawText FontAsset.Title Nothing Nothing (Just scoreClip) RGBAColour.white score'
+
+    MonadRenderer.drawScreen
   where
-    titleClip = Clip.shrinkParallel shrinkX shrinkY $ Clip.mkAt titlePos titleSize
-    shrinkX = (1280.0 / 10.0)
-    shrinkY = (titleSize ^. _y) / 4.0
-    titlePos = V2 0 0
-    titleSize = V2 1280 (960 / 2.0)
+    -- Text
+    title' = "GAME OVER" :: Text
+    name' = GameOverState.currentName $ state' ^. gameOverState
+    score' = Text.pack $ show $ state' ^. gameOverState . totalScore
 
--- renderName :: (MonadRenderer m) => Text -> m ()
--- renderName = undefined
+    -- Layout
+    titleClip = Clip.fromGrid 2 2 15 4
+    nameClip = Clip.fromGrid 3 9 5 3
+    scoreClip = Clip.fromGrid 11 9 5 3
