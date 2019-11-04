@@ -45,6 +45,7 @@ instance MonadScene CrossyToad where
   getCurrentScene = IOMonadScene.getCurrentScene
   delayPush = IOMonadScene.delayPush
   delayPop = IOMonadScene.delayPop
+  delayClear = IOMonadScene.delayClear
 
 instance MonadTime CrossyToad where
   tickTime = SDLTime.tickTime

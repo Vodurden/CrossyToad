@@ -85,6 +85,7 @@
 - [X] Level Files
 - [ ] Levels 1-5 based on original game
 - [ ] "Loop Around": After finishing all levels, start from level 1 and speed everything up
+- [ ] Wider levels to prevent "pop in" of long entities
 
 ## Death & Game Over
 

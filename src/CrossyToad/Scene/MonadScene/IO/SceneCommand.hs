@@ -5,3 +5,5 @@ import CrossyToad.Scene.SceneId
 data SceneCommand
   = Push SceneId
   | Pop
+  | Clear
+  deriving (Eq, Show)

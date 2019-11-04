@@ -70,8 +70,11 @@ handleInput intents ent' =
     tickIntent PauseOrExit ent = MonadScene.delayPop >> pure ent
     tickIntent ForceExit ent = MonadScene.delayPop >> pure ent
 
-tick :: (MonadLogger m, HasGameState ent) => Seconds -> ent -> m ent
-tick seconds ent' = flip execStateT ent' $ do
+tick :: (MonadScene m, MonadLogger m, HasGameState ent) => Seconds -> ent -> m ent
+tick seconds ent' = tickState seconds ent' >>= tickSceneChange
+
+tickState :: (MonadLogger m, HasGameState ent) => Seconds -> ent -> m ent
+tickState seconds ent' = flip execStateT ent' $ do
   -- Toad Physics
   gameState.toad %= MovementSystem.tickJumping seconds
   gameState %= lensFoldl' (MovementSystem.moveOnPlatform $ seconds) toad woodLogs
@@ -113,6 +116,13 @@ tick seconds ent' = flip execStateT ent' $ do
   gameState.divingTurtles.mapped %= (AnimationSystem.tickTurtleAnimation seconds)
   gameState.toadHomes.mapped %= (AnimationSystem.tickToadHomeAnimation seconds)
   gameState.crocHeads.mapped %= (AnimationSystem.tickCrocAnimation seconds)
+
+-- | Scene change must be done separately from `tickState` as we can't easily combine `StateT` and `MonadScene` due to
+-- | the lack of an easy MonadTrans instance
+tickSceneChange :: (MonadScene m, HasGameState ent) => ent -> m ent
+tickSceneChange ent' = do
+  MortalSystem.checkGameOver (ent' ^. gameState . toad)
+  pure $ ent'
 
 render :: (MonadRenderer m, HasGameState ent) => ent -> m ()
 render ent = do

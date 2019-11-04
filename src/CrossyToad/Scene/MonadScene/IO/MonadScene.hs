@@ -5,12 +5,12 @@ module CrossyToad.Scene.MonadScene.IO.MonadScene
   , renderCurrentScene
   , handleInputCurrentScene
   , getCurrentScene
-  , delayPush
-  , delayPop
+  , delayPush , delayPop
+  , delayClear
   ) where
 
 import           Control.Lens
-import           Control.Monad (void)
+import           Control.Monad (when, void)
 import           Control.Monad.Reader (MonadReader)
 import           Control.Monad.IO.Class (MonadIO, liftIO)
 import           Data.IORef (modifyIORef', readIORef, writeIORef)
@@ -18,7 +18,9 @@ import           Data.Maybe
 import           Data.Foldable (foldlM)
 
 import           CrossyToad.Input.Intents (Intents)
+import qualified CrossyToad.Logger.LogLevel as LogLevel
 import           CrossyToad.Logger.MonadLogger (MonadLogger)
+import qualified CrossyToad.Logger.MonadLogger as MonadLogger
 import           CrossyToad.Renderer.MonadRenderer (MonadRenderer)
 import           CrossyToad.Scene.MonadScene (MonadScene)
 import           CrossyToad.Scene.MonadScene.IO.Env
@@ -80,6 +82,7 @@ overCurrentScene f = do
     -- Apply the scene commands accumulated from the previous step
     sceneCommandsRef' <- view (env.sceneCommandsRef)
     sceneCommands' <- liftIO $ readIORef sceneCommandsRef'
+    when (sceneCommands' /= []) $ MonadLogger.logShow LogLevel.Debug sceneCommands'
     commandedScenes <- foldlM applyCommand newScenes sceneCommands'
 
     liftIO $ writeIORef scenesRef' commandedScenes
@@ -93,7 +96,7 @@ overCurrentScene f = do
       pure $ newScene : scenes'
 
     applyCommand scenes' SceneCommand.Pop = pure $ drop 1 scenes'
-
+    applyCommand _ SceneCommand.Clear = pure $ []
 
 renderCurrentScene ::
   ( MonadReader r m
@@ -113,10 +116,13 @@ getCurrentScene = do
 delayCommand :: (MonadReader r m, HasEnv r m, MonadIO m) => SceneCommand -> m ()
 delayCommand command' = do
   sceneCommandsRef' <- view (env.sceneCommandsRef)
-  liftIO $ modifyIORef' sceneCommandsRef' (command' :)
+  liftIO $ modifyIORef' sceneCommandsRef' (\commands -> commands ++ [command'])
 
 delayPush :: (MonadReader r m, HasEnv r m, MonadIO m) => SceneId -> m ()
 delayPush sceneId' = delayCommand (SceneCommand.Push sceneId')
 
 delayPop :: (MonadReader r m, HasEnv r m, MonadIO m) => m ()
 delayPop = delayCommand (SceneCommand.Pop)
+
+delayClear :: (MonadReader r m, HasEnv r m, MonadIO m) => m ()
+delayClear = delayCommand (SceneCommand.Clear)

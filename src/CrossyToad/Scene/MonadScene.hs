@@ -1,3 +1,6 @@
+{-# LANGUAGE DefaultSignatures #-}
+{-# LANGUAGE TypeFamilies #-}
+
 module CrossyToad.Scene.MonadScene where
 
 import CrossyToad.Scene.Scene
@@ -26,5 +29,5 @@ class Monad m => MonadScene m where
   -- | Prepares to pop the top scene at the end of the current or next tick.
   delayPop :: m ()
 
-delayReplace :: (MonadScene m) => SceneId -> m ()
-delayReplace sceneId' = delayPop >> (delayPush sceneId')
+  -- | Clear all current scenes
+  delayClear :: m ()
