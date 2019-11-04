@@ -4,6 +4,7 @@ module CrossyToad.Renderer.AnimationFrame
   ( AnimationFrame(..)
   , HasAnimationFrame(..)
   , mk
+  , mkScaled
   , mkIndexed
   ) where
 
@@ -24,17 +25,24 @@ import           CrossyToad.Geometry.Size
 -- | to render and how long to render it for.
 data AnimationFrame = AnimationFrame
   { __clip :: Clip
+  , __size :: Size
   , __timer :: Timer
   } deriving (Eq, Show)
 
 makeClassy ''AnimationFrame
 
 instance HasClip AnimationFrame where clip = _clip
+instance HasSize AnimationFrame where size = _size
 instance HasTimer AnimationFrame where timer = _timer
 
 mk :: Position -> Size -> Seconds -> AnimationFrame
-mk pos size' seconds' = AnimationFrame
+mk pos size' seconds' = mkScaled pos size' size' seconds'
+
+-- | Create an AnimationFrame where the clip size and render size differ.
+mkScaled :: Position -> Size -> Size -> Seconds -> AnimationFrame
+mkScaled pos size' targetSize' seconds' = AnimationFrame
   { __clip = Clip.mkAt pos size'
+  , __size = targetSize'
   , __timer = Timer.mk seconds'
   }
 
@@ -42,6 +50,6 @@ mk pos size' seconds' = AnimationFrame
 -- |
 -- | This function assumes that all frames are the same size
 -- | and that they are linearly distributed
-mkIndexed :: Size -> (V2 Int) -> Seconds -> AnimationFrame
-mkIndexed size' index' seconds' =
-  mk ((fromIntegral <$> index') * size') size' seconds'
+mkIndexed :: Size -> Size -> (V2 Int) -> Seconds -> AnimationFrame
+mkIndexed size' targetSize' index' seconds' =
+  mkScaled ((fromIntegral <$> index') * size') size' targetSize' seconds'

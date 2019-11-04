@@ -36,7 +36,7 @@ instance HasDirection Ent where direction = _direction
 instance HasAnimated Ent AnimationKey where animated = _animated
 
 asset :: AnimationAsset AnimationKey
-asset = AnimationAsset ImageAsset.Toad testAnimations (V2 64 64)
+asset = AnimationAsset ImageAsset.Toad testAnimations
 
 testAnimations :: Map AnimationKey [AnimationFrame]
 testAnimations = Map.fromList [(Idle, idleAnim), (Jump, jumpAnim)]

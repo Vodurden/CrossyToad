@@ -110,7 +110,7 @@ fromStage stage' =
         Entity.Turtle -> over turtles (Vehicle.mkTurtle pos dir speed' :)
         Entity.DivingTurtle -> over divingTurtles (DivingTurtle.mk pos dir speed' :)
         Entity.GrassSnake -> over grassSnakes (Vehicle.mkGrassSnake pos dir speed' :)
-        Entity.Log -> over woodLogs (Vehicle.mkWoodLog pos dir speed' :)
+        (Entity.Log width') -> over woodLogs (Vehicle.mkWoodLog pos dir speed' width' :)
         Entity.Croc -> over crocs (Croc.mk pos dir speed' :)
         Entity.ToadHome -> over toadHomes (ToadHome.mk pos :)
 

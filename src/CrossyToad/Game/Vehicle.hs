@@ -109,13 +109,13 @@ mkTurtle pos dir speed' = Vehicle
     , __animated = Animated.mk TurtleAnimation.Swimming TurtleAnimation.asset
     }
 
-mkWoodLog :: Position -> Direction -> Speed -> WoodLog
-mkWoodLog pos dir speed' = Vehicle
+mkWoodLog :: Position -> Direction -> Speed -> Int -> WoodLog
+mkWoodLog pos dir speed' width' = Vehicle
     { __position = pos
     , __direction = dir
     , __linearMotion = LinearMotion.mk speed'
-    , __physical = Physical.mkAt (V2 1 1) (V2 62 62) Physical.Platform
-    , __animated = Animated.mk WoodLogAnimation.FloatLeft WoodLogAnimation.asset
+    , __physical = Physical.mkAt (V2 1 1) (V2 (fromIntegral $ width' * 64 - 2) 62) Physical.Platform
+    , __animated = Animated.mk (WoodLogAnimation.floatLeftFromWidth width') WoodLogAnimation.asset
     }
 
 mkGrassSnake :: Position -> Direction -> Speed -> GrassSnake

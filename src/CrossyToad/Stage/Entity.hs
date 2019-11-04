@@ -20,7 +20,7 @@ data Entity
   | Turtle
   | DivingTurtle
   | GrassSnake
-  | Log
+  | Log Int
   | Croc
   | ToadHome
   deriving (Eq, Show)
@@ -35,7 +35,6 @@ parser = choice
   , FarmTractor <$ char 'F'
   , DivingTurtle <$ char 'D'
   , GrassSnake <$ char 'G'
-  , Log <$ char 'L'
   , ToadHome <$ char 'H'
 
   -- Ambiguous long matches
@@ -45,6 +44,14 @@ parser = choice
   -- Ambigous short matches
   , Car <$ char 'C'
   , Turtle <$ char 'T'
+
+  -- Logs
+  , Log 6 <$ string "LLLLLL"
+  , Log 5 <$ string "LLLLL"
+  , Log 4 <$ string "LLLL"
+  , Log 3 <$ string "LLL"
+  , Log 2 <$ string "LL"
+  , Log 1 <$ char 'L'
   ]
 
 width :: Entity -> Int
@@ -56,6 +63,6 @@ width Truck = 2
 width Turtle = 1
 width DivingTurtle = 1
 width GrassSnake = 1
-width Log = 1
+width (Log width') = width'
 width Croc = 3
 width ToadHome = 1

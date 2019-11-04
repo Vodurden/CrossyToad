@@ -19,7 +19,7 @@ data Animation
   deriving (Eq, Show, Ord)
 
 asset :: AnimationAsset Animation
-asset = AnimationAsset ImageAsset.ToadHome animations (V2 64 64)
+asset = AnimationAsset ImageAsset.ToadHome animations
 
 animations :: Map Animation [AnimationFrame]
 animations = Map.fromList
@@ -38,4 +38,4 @@ filledAnimation =
   ]
 
 mkFrame :: (V2 Int) -> Seconds -> AnimationFrame
-mkFrame = AnimationFrame.mkIndexed (V2 128 128)
+mkFrame = AnimationFrame.mkIndexed (V2 128 128) (V2 64 64)

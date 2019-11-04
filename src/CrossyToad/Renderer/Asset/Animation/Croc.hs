@@ -19,7 +19,7 @@ data Animation
   deriving (Eq, Show, Ord)
 
 asset :: AnimationAsset Animation
-asset = AnimationAsset ImageAsset.Croc animations (V2 192 64)
+asset = AnimationAsset ImageAsset.Croc animations
 
 animations :: Map Animation [AnimationFrame]
 animations = Map.fromList
@@ -28,4 +28,4 @@ animations = Map.fromList
   ]
 
 mkFrame :: (V2 Int) -> Seconds -> AnimationFrame
-mkFrame = AnimationFrame.mkIndexed (V2 192 64)
+mkFrame = AnimationFrame.mkIndexed (V2 192 64) (V2 192 64)
