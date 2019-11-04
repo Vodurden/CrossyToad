@@ -31,3 +31,6 @@ class Monad m => MonadScene m where
 
   -- | Clear all current scenes
   delayClear :: m ()
+
+transition :: (MonadScene m) => SceneId -> m ()
+transition sceneId' = delayClear >> (delayPush sceneId')

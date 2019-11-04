@@ -160,7 +160,6 @@ render ent = do
   --   [ PhysicsRendering.renderPhysical <$> (ent ^. gameState . woodLogs)
   --   ]
 
-
   MonadRenderer.drawScreen
 
 renderScore :: (MonadRenderer m, HasScore ent) => ent -> m ()

@@ -2,7 +2,7 @@
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: 236af537d56adfdc7f7b2177d25f404ed10b8daeaa0eb20f76c64000667ed101
+-- hash: 2a4ce624c8ceb357023222c8fa50098073a160b9038f0e034ac3dddfe266149d
 
 name:           crossy-toad
 version:        0.1.0.0
@@ -34,6 +34,8 @@ library
       CrossyToad.Game.Toad
       CrossyToad.Game.ToadHome
       CrossyToad.Game.Vehicle
+      CrossyToad.GameOver.GameOver
+      CrossyToad.GameOver.GameOverState
       CrossyToad.Geometry.AABB
       CrossyToad.Geometry.Offset
       CrossyToad.Geometry.Position
@@ -120,6 +122,7 @@ library
       CrossyToad.Victory.Scorable
       CrossyToad.Victory.Score
       CrossyToad.Victory.VictorySystem
+      Data.Bounded.ASCIIChar
       Data.Bounded.Extended
       Data.Degrees
       Data.List.Extended
@@ -237,6 +240,8 @@ test-suite spec
       CrossyToad.Game.Toad
       CrossyToad.Game.ToadHome
       CrossyToad.Game.Vehicle
+      CrossyToad.GameOver.GameOver
+      CrossyToad.GameOver.GameOverState
       CrossyToad.Geometry.AABB
       CrossyToad.Geometry.Offset
       CrossyToad.Geometry.Position
@@ -323,6 +328,7 @@ test-suite spec
       CrossyToad.Victory.Scorable
       CrossyToad.Victory.Score
       CrossyToad.Victory.VictorySystem
+      Data.Bounded.ASCIIChar
       Data.Bounded.Extended
       Data.Degrees
       Data.List.Extended

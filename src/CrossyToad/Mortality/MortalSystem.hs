@@ -11,6 +11,7 @@ import qualified CrossyToad.Physics.Physical as Physical
 import           CrossyToad.Scene.MonadScene (MonadScene)
 import qualified CrossyToad.Scene.MonadScene as MonadScene
 import qualified CrossyToad.Scene.SceneId as SceneId
+import           CrossyToad.Victory.Score (HasScore(..))
 
 -- | Kills the victim if it is involved in a collision
 mortalCollision ::
@@ -25,8 +26,8 @@ mortalCollision victim assassin
   | Physical.colliding victim assassin = Mortal.die victim
   | otherwise = victim
 
-checkGameOver :: (MonadScene m, HasMortal player) => player -> m ()
+checkGameOver :: (MonadScene m, HasMortal player, HasScore player) => player -> m ()
 checkGameOver player' = do
   when (player' ^. mortal . lives <= 0) $ do
     MonadScene.delayClear
-    MonadScene.delayPush SceneId.Title
+    MonadScene.delayPush (SceneId.GameOver $ player' ^. score . totalScore)

@@ -1,6 +1,7 @@
 module CrossyToad.Scene.SceneMapping where
 
 import qualified CrossyToad.Game.Game as Game
+import qualified CrossyToad.GameOver.GameOver as GameOver
 import           CrossyToad.Logger.MonadLogger (MonadLogger)
 import           CrossyToad.Renderer.MonadRenderer (MonadRenderer)
 import           CrossyToad.Scene.MonadScene (MonadScene)
@@ -18,3 +19,4 @@ fromId ::
   ) => SceneId -> m (Scene m)
 fromId SceneId.Title = pure Title.scene
 fromId SceneId.Game = Game.scene
+fromId (SceneId.GameOver score) = pure $ GameOver.scene score
