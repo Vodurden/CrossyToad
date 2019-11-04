@@ -17,13 +17,15 @@ import           Linear.V2
 
 import           CrossyToad.Game.Croc (Croc, CrocHead(..), CrocBody(..))
 import qualified CrossyToad.Game.Croc as Croc
+import           CrossyToad.Game.DivingTurtle (DivingTurtle)
+import qualified CrossyToad.Game.DivingTurtle as DivingTurtle
+import           CrossyToad.Game.ScoreZone (ScoreZone)
+import qualified CrossyToad.Game.ScoreZone as ScoreZone
 import           CrossyToad.Game.Terrain (Terrain)
 import qualified CrossyToad.Game.Terrain as Terrain
 import           CrossyToad.Game.Toad as Toad
 import           CrossyToad.Game.ToadHome (ToadHome)
 import qualified CrossyToad.Game.ToadHome as ToadHome
-import           CrossyToad.Game.DivingTurtle (DivingTurtle)
-import qualified CrossyToad.Game.DivingTurtle as DivingTurtle
 import           CrossyToad.Game.Vehicle (Car, SportsCar, FarmTractor, Truck, GrassSnake, Turtle, WoodLog)
 import qualified CrossyToad.Game.Vehicle as Vehicle
 import           CrossyToad.Geometry.Position (Position)
@@ -38,8 +40,12 @@ import           CrossyToad.Stage.Stage (Stage, HasStage(..))
 
 data GameState = GameState
   { __toad :: !Toad
+
+  -- Terrain
   , _deathTerrain :: ![Terrain]
   , _safeTerrain :: ![Terrain]
+
+  -- Visible entities
   , _toadHomes :: ![ToadHome]
   , _cars :: ![Car]
   , _sportsCars :: ![SportsCar]
@@ -50,6 +56,9 @@ data GameState = GameState
   , _divingTurtles :: ![DivingTurtle]
   , _crocs :: ![Croc]
   , _woodLogs :: ![WoodLog]
+
+  -- Invisible zones
+  , _scoreZones :: ![ScoreZone]
   } deriving (Eq, Show)
 
 makeClassy ''GameState
@@ -59,6 +68,7 @@ instance HasToad GameState where toad = _toad
 empty :: GameState
 empty = GameState
   { __toad = Toad.mk (V2 0 0)
+
   , _deathTerrain = []
   , _safeTerrain = []
   , _toadHomes = []
@@ -71,11 +81,13 @@ empty = GameState
   , _divingTurtles = []
   , _crocs = []
   , _woodLogs = []
+
+  , _scoreZones = []
   }
 
 fromStage :: Stage -> GameState
 fromStage stage' =
-   (loadToad stage') >>> (loadEntities stage') >>> (loadTiles stage') $ empty
+   (loadToad stage') >>> (loadEntities stage') >>> (loadTiles stage') >>> (loadScoreZones stage') $ empty
   where
     loadToad :: Stage -> GameState -> GameState
     loadToad stage'' gameState' =
@@ -113,6 +125,15 @@ fromStage stage' =
         GroundType.Road -> over safeTerrain (Terrain.mkRoad pos :)
         GroundType.Swamp -> over deathTerrain (Terrain.mkSwamp pos :)
         GroundType.River -> over deathTerrain (Terrain.mkWater pos :)
+
+    loadScoreZones :: Stage -> GameState -> GameState
+    loadScoreZones stage'' gameState' =
+      let
+        -- We map from 0..(height - 1) because the first row should not have a score position
+        scoreZonePositions = (Position.fromGrid 0) <$> [0..(stage'' ^. height - 1)]
+        scoreZoneSize = fromIntegral <$> V2 (stage'' ^. width * 64) 64
+        scoreZones' = (\pos -> ScoreZone.mk 10 pos scoreZoneSize) <$> scoreZonePositions
+      in gameState' & scoreZones .~ scoreZones'
 
 crocHeads :: Lens' GameState [CrocHead]
 crocHeads = lens getCrocHeads setCrocHeads

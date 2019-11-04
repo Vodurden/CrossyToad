@@ -99,7 +99,7 @@
 
 ## Score
 
-- [/] Score for successful forward jump (10 points)
+- [X] Score for successful forward jump (10 points)
 - [X] Score for making it to a toad home (50 points)
 - [ ] Score for remaining time after making it to a toad home (10 points per second)
 - [ ] Score for finishing a level (1000 points)

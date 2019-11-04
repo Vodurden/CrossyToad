@@ -52,7 +52,7 @@ collectScorable collectorEnt scorableEnt
     | shouldCollect = (entWithScore, collectedScorable)
     | otherwise = (collectorEnt, scorableEnt)
   where
-    shouldCollect = Physical.colliding collectorEnt scorableEnt
+    shouldCollect = Physical.overlapping collectorEnt scorableEnt
                     && scorableEnt ^. scorable.collected == False
 
     entWithScore = collectorEnt & score.totalScore +~ (scorableEnt^.scorable.value)

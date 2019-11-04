@@ -25,7 +25,6 @@ import qualified CrossyToad.Input.Intents as Intents
 import           CrossyToad.Logger.MonadLogger (MonadLogger(..))
 import qualified CrossyToad.Mortality.MortalSystem as MortalSystem
 import qualified CrossyToad.Physics.MovementSystem as MovementSystem
-import qualified CrossyToad.Physics.Rendering as PhysicsRendering
 import qualified CrossyToad.Renderer.Animated as Animated
 import qualified CrossyToad.Renderer.AnimationSystem as AnimationSystem
 import qualified CrossyToad.Renderer.Asset.FontAsset as FontAsset
@@ -95,7 +94,8 @@ tick seconds ent' = flip execStateT ent' $ do
   gameState.crocHeads.mapped %= (MovementSystem.tickSubmersible seconds)
 
   -- Victory
-  gameState.toad %= VictorySystem.jumpScore
+  -- gameState.toad %= VictorySystem.jumpScore
+  gameState %= lensMapAccumL (VictorySystem.collectScorable) toad scoreZones
   gameState %= lensMapAccumL (VictorySystem.collectScorable) toad toadHomes
   gameState %= lensMapAccumL (VictorySystem.goalCollision) toad toadHomes
 
@@ -142,12 +142,6 @@ render ent = do
 
   -- Player Stats
   renderScore (ent^.gameState.toad)
-
-  -- Debug Rendering
-  sequence_ $ MonadRenderer.runRenderCommand <$> concat
-    [ PhysicsRendering.renderPhysical <$> (ent ^. gameState . crocHeads)
-    , PhysicsRendering.renderPhysical <$> (ent ^. gameState . crocBodies)
-    ]
 
   MonadRenderer.drawScreen
 
