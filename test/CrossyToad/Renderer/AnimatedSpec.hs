@@ -8,6 +8,8 @@ import qualified Data.Map.Strict as Map
 import           Linear.V2
 
 import           Test.Tasty.Hspec
+import           CrossyToad.Renderer.Stub.StubRendererT
+import           CrossyToad.Renderer.Stub.RenderCommand
 
 import           CrossyToad.Geometry.Position
 import           CrossyToad.Physics.Direction
@@ -78,10 +80,10 @@ spec_Renderer_AnimatedSpec = do
   describe "render" $ do
     it "should render the active animation" $ do
       let ent' = mkEnt & animated . currentAnimationKey .~ Idle
-      let drawCommand = render ent'
+      [drawCommand] <- runStubRendererT $ render ent'
       (drawCommand ^? _Draw . _3 . _Just) `shouldBe` (Just $ idleFrame1 ^. clip)
 
     it "should clip the sprite by the size of the active animation frame" $ do
       let ent' = mkEnt & animated . currentAnimationKey .~ Idle
-      let drawCommand = render ent'
+      [drawCommand] <- runStubRendererT $ render ent'
       (drawCommand ^? _Draw . _3 . _Just) `shouldBe` (Just $ idleFrame1 ^. clip)

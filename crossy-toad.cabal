@@ -2,7 +2,7 @@
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: 2decd42f1f580fd3fb5dd929555ef78e56e2c1a8e0ac563f94052ef98dfcb0ef
+-- hash: 16194431e1ac0b5880763935118295e9cd3f8253cf8224c3958d64f259c7c814
 
 name:           crossy-toad
 version:        0.1.0.0
@@ -218,6 +218,8 @@ test-suite spec
       CrossyToad.Physics.SubmersibleSpec
       CrossyToad.Renderer.AnimatedSpec
       CrossyToad.Renderer.AnimationSpec
+      CrossyToad.Renderer.Stub.RenderCommand
+      CrossyToad.Renderer.Stub.StubRendererT
       CrossyToad.Time.TimerSpec
       CrossyToad.Title.TitleSpec
       Control.Lens.Extended
