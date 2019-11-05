@@ -98,6 +98,9 @@ drawText asset' degrees textureClip screenClip colour message = do
   texture' <- Texture.fromSDL sdlTexture'
   drawTexture texture' textureClip screenClip degrees Nothing
 
+  SDL.destroyTexture sdlTexture'
+  SDL.freeSurface surface
+
 drawTexture ::
   ( MonadReader r m
   , HasEnv r
