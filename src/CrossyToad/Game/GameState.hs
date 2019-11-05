@@ -12,7 +12,7 @@ module CrossyToad.Game.GameState
 import           Control.Arrow ((>>>))
 import           Control.Lens
 import           Data.Foldable (foldl')
-import qualified Data.Map as Map
+import qualified Data.Map.Strict as Map
 import           Linear.V2
 
 import           CrossyToad.Game.Croc (Croc, CrocHead(..), CrocBody(..))

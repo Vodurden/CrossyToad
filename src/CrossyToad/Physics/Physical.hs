@@ -25,8 +25,8 @@ import           CrossyToad.Geometry.Size (Size)
 -- | In CrossyToad this means it takes up a cube measured in pixels with
 -- | an Axis-Aligned Bounding Box provided it's width
 data Physical = Physical
-  { __aabb :: AABB
-  , __layer :: Layer
+  { __aabb :: !AABB
+  , __layer :: !Layer
   } deriving (Eq, Show)
 
 -- | Represents the vertical position of this physical entity.

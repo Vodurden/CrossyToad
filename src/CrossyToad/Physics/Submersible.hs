@@ -15,11 +15,11 @@ import Control.Lens
 import CrossyToad.Time.Seconds (Seconds)
 
 data Submersible = Submersible
-  { _swimTime :: Seconds -- ^ The amount of time this entity should swim before sinking
-  , _sinkTime :: Seconds -- ^ The amount of time this entity should stay submerged before swimming
+  { _swimTime :: !Seconds -- ^ The amount of time this entity should swim before sinking
+  , _sinkTime :: !Seconds -- ^ The amount of time this entity should stay submerged before swimming
 
-  , _stateTime :: Seconds -- ^ The amount of time this entity has been in it's current state
-  , _swimState :: SwimState
+  , _stateTime :: !Seconds -- ^ The amount of time this entity has been in it's current state
+  , _swimState :: !SwimState
   } deriving (Eq, Show)
 
 data SwimState = Swimming | Sinking

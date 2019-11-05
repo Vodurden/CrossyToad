@@ -23,7 +23,7 @@ data Timed a = Timed
   -- | _2: The value to change to
   -- |
   -- | We assume this list is sorted by _1
-  , _events :: [Event a]
+  , _events :: ![Event a]
 
   -- | The value _right now_
   , _value :: !a

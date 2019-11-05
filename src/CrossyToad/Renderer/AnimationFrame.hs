@@ -24,9 +24,9 @@ import           CrossyToad.Geometry.Size
 -- | Essentially this is what part of the spritesheet
 -- | to render and how long to render it for.
 data AnimationFrame = AnimationFrame
-  { __clip :: Clip
-  , __size :: Size
-  , __timer :: Timer
+  { __clip :: !Clip
+  , __size :: !Size
+  , __timer :: !Timer
   } deriving (Eq, Show)
 
 makeClassy ''AnimationFrame

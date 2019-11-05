@@ -8,7 +8,7 @@ module Control.Lens.Extended
   ) where
 
 import Control.Lens
-import Control.Monad.State (MonadState)
+import Control.Monad.State.Strict (MonadState)
 import Data.Foldable (foldl')
 import Data.Traversable (mapAccumL)
 

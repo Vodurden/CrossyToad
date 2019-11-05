@@ -38,11 +38,11 @@ import qualified CrossyToad.Time.Timed as Timed
 import           CrossyToad.Time.Seconds
 
 data JumpMotion = JumpMotion
-  { __speed :: Speed                   -- ^ How fast we can move
-  , _distance :: Distance              -- ^ How far we move in a single jump
-  , _cooldown :: Seconds               -- ^ How long to cooldown for after a jump
+  { __speed :: !Speed                   -- ^ How fast we can move
+  , _distance :: !Distance              -- ^ How far we move in a single jump
+  , _cooldown :: !Seconds               -- ^ How long to cooldown for after a jump
 
-  , _state :: Timed JumpMotionState    -- ^ What we are current doing
+  , _state :: !(Timed JumpMotionState)    -- ^ What we are current doing
   } deriving (Eq, Show)
 
 data JumpMotionState

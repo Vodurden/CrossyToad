@@ -21,15 +21,15 @@ import qualified CrossyToad.Time.Seconds as Seconds
 import           CrossyToad.Input.Intents (Intents)
 
 data Scene' m s = Scene'
-  { _state :: s
+  { _state :: !s
 
-  , _handleInput :: Intents -> s -> m s
+  , _handleInput :: !(Intents -> s -> m s)
 
-  , _tickInterval :: Seconds
-  , _tickAccumulator :: Seconds
-  , _tick :: Seconds -> s -> m s
+  , _tickInterval :: !Seconds
+  , _tickAccumulator :: !Seconds
+  , _tick :: !(Seconds -> s -> m s)
 
-  , _render :: s -> m ()
+  , _render :: !(s -> m ())
   }
 
 data Scene m = forall s. Scene (Scene' m s)

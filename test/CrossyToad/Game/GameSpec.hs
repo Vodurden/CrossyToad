@@ -2,7 +2,7 @@
 
 module CrossyToad.Game.GameSpec where
 
--- import           Control.Monad.State (State, execState)
+-- import           Control.Monad.State.Strict (State, execState)
 -- import           Control.Lens
 
 -- import           Test.Tasty.Hspec

@@ -11,7 +11,7 @@ module CrossyToad.Input.MonadInput
   ( MonadInput(..)
   ) where
 
-import Control.Monad.State (StateT)
+import Control.Monad.State.Strict (StateT)
 import Control.Monad.Reader (ReaderT)
 import Control.Monad.Trans (MonadTrans, lift)
 
