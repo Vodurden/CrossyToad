@@ -2,7 +2,7 @@
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: 2fa55f53c01ea63d205c5a2056179c9edd87a0b618315d94d8240bf0a3aecdcc
+-- hash: 2decd42f1f580fd3fb5dd929555ef78e56e2c1a8e0ac563f94052ef98dfcb0ef
 
 name:           crossy-toad
 version:        0.1.0.0
@@ -102,10 +102,6 @@ library
       CrossyToad.Stage.Stage
       CrossyToad.Stage.StageFile
       CrossyToad.Stage.StageRow
-      CrossyToad.Time.MonadTask
-      CrossyToad.Time.MonadTask.IO.Env
-      CrossyToad.Time.MonadTask.IO.MonadTask
-      CrossyToad.Time.MonadTask.IO.TaskState
       CrossyToad.Time.MonadTime
       CrossyToad.Time.MonadTime.SDL.Env
       CrossyToad.Time.MonadTime.SDL.MonadTime
@@ -307,10 +303,6 @@ test-suite spec
       CrossyToad.Stage.Stage
       CrossyToad.Stage.StageFile
       CrossyToad.Stage.StageRow
-      CrossyToad.Time.MonadTask
-      CrossyToad.Time.MonadTask.IO.Env
-      CrossyToad.Time.MonadTask.IO.MonadTask
-      CrossyToad.Time.MonadTask.IO.TaskState
       CrossyToad.Time.MonadTime
       CrossyToad.Time.MonadTime.SDL.Env
       CrossyToad.Time.MonadTime.SDL.MonadTime

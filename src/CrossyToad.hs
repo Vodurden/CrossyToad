@@ -14,8 +14,6 @@ import           CrossyToad.Scene.MonadScene
 import qualified CrossyToad.Scene.MonadScene.IO.MonadScene as IOMonadScene
 import           CrossyToad.Stage.MonadStage
 import qualified CrossyToad.Stage.MonadStage.IO.MonadStage as IOMonadStage
-import           CrossyToad.Time.MonadTask
-import qualified CrossyToad.Time.MonadTask.IO.MonadTask as IOMonadTask
 import           CrossyToad.Time.MonadTime
 import           CrossyToad.Time.MonadTime.SDL.MonadTime as SDLTime
 
@@ -55,7 +53,3 @@ instance MonadScene CrossyToad where
 instance MonadTime CrossyToad where
   tickTime = SDLTime.tickTime
   deltaTime = SDLTime.deltaTime
-
-instance MonadTask CrossyToad where
-  pumpTasks = IOMonadTask.pumpTasks
-  forkTask = IOMonadTask.forkTask
