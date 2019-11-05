@@ -33,7 +33,12 @@ instance MonadLogger CrossyToad where
   logRaw = IOMonadLogger.logRawStdout
 
 instance MonadRenderer CrossyToad where
-  runRenderCommand = SDLMonadRenderer.runRenderCommand
+  clearScreen = SDLMonadRenderer.clearScreen
+  drawScreen = SDLMonadRenderer.drawScreen
+  draw = SDLMonadRenderer.draw
+  drawAt = SDLMonadRenderer.drawAt
+  drawRect = SDLMonadRenderer.drawRect
+  drawText = SDLMonadRenderer.drawText
 
 instance MonadStage CrossyToad where
   stages = IOMonadStage.stages

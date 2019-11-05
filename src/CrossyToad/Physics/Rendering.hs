@@ -8,11 +8,13 @@ import           CrossyToad.Geometry.AABB (HasAABB(..))
 import           CrossyToad.Geometry.Position (HasPosition(..))
 import           CrossyToad.Physics.Physical (HasPhysical(..))
 import qualified CrossyToad.Renderer.Clip as Clip
-import           CrossyToad.Renderer.RenderCommand (RenderCommand(..))
+import           CrossyToad.Renderer.MonadRenderer (MonadRenderer)
+import qualified CrossyToad.Renderer.MonadRenderer as MonadRenderer
 
 renderPhysical ::
-  ( HasPosition ent
+  ( MonadRenderer m
+  , HasPosition ent
   , HasPhysical ent
-  ) => ent -> RenderCommand
+  ) => ent -> m ()
 renderPhysical ent =
-  DrawRect $ Clip.offset (ent^.position) (ent^.physical.aabb)
+  MonadRenderer.drawRect $ Clip.offset (ent^.position) (ent^.physical.aabb)

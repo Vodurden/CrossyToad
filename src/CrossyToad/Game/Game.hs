@@ -129,13 +129,13 @@ render ent = do
   MonadRenderer.clearScreen
 
   -- Background
-  sequence_ $ MonadRenderer.runRenderCommand <$> concat
+  sequence_ $ concat
     [ Animated.renderNoDirection <$> (ent ^. gameState . deathTerrain)
     , Animated.renderNoDirection <$> (ent ^. gameState . safeTerrain)
     ]
 
   -- Vehicles
-  sequence_ $ MonadRenderer.runRenderCommand <$> concat
+  sequence_ $ concat
     [ Animated.render <$> (ent ^. gameState . cars)
     , Animated.render <$> (ent ^. gameState . sportsCars)
     , Animated.render <$> (ent ^. gameState . farmTractors)
@@ -149,7 +149,7 @@ render ent = do
     ]
 
   -- Player
-  MonadRenderer.runRenderCommand (Animated.render $ ent^.gameState.toad)
+  Animated.render $ ent^.gameState.toad
 
   -- Player Stats
   renderScore (ent^.gameState.toad)

@@ -18,7 +18,6 @@ import qualified CrossyToad.Renderer.AnimationFrame as AnimationFrame
 import           CrossyToad.Renderer.Asset.AnimationAsset (AnimationAsset(..))
 import qualified CrossyToad.Renderer.Asset.ImageAsset as ImageAsset
 import           CrossyToad.Renderer.Clip (HasClip(..))
-import           CrossyToad.Renderer.RenderCommand
 
 data AnimationKey = Idle | Jump
   deriving (Eq, Show, Ord)

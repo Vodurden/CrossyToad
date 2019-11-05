@@ -1,5 +1,10 @@
 module CrossyToad.Renderer.MonadRenderer.SDL.MonadRenderer
-  ( runRenderCommand
+  ( clearScreen
+  , drawScreen
+  , draw
+  , drawRect
+  , drawAt
+  , drawText
   ) where
 
 import           Control.Lens
@@ -18,7 +23,6 @@ import           CrossyToad.Renderer.Asset.ImageAsset
 import           CrossyToad.Renderer.Clip (Clip)
 import qualified CrossyToad.Renderer.Clip as Clip
 import           CrossyToad.Renderer.RGBAColour
-import           CrossyToad.Renderer.RenderCommand
 import           CrossyToad.Renderer.MonadRenderer.SDL.Env
 import           CrossyToad.Renderer.MonadRenderer.SDL.Fonts (HasFonts(..))
 import qualified CrossyToad.Renderer.MonadRenderer.SDL.Fonts as Fonts
@@ -28,18 +32,6 @@ import           CrossyToad.Renderer.MonadRenderer.SDL.Textures (HasTextures(..)
 import qualified CrossyToad.Renderer.MonadRenderer.SDL.Textures as Textures
 import           CrossyToad.Geometry.Position
 import           CrossyToad.Geometry.Size
-
-runRenderCommand :: (MonadReader r m, HasEnv r, MonadIO m)
-                 => RenderCommand
-                 -> m ()
-runRenderCommand ClearScreen = clearScreen
-runRenderCommand DrawScreen = drawScreen
-runRenderCommand (Draw asset tClip sClip degrees flip') =
-  draw asset tClip sClip degrees flip'
-runRenderCommand (DrawRect clip) = drawRect clip
-runRenderCommand (DrawAt asset pos) = drawAt asset pos
-runRenderCommand (DrawText asset degrees tClip sClip colour text) =
-  drawText asset degrees tClip sClip colour text
 
 clearScreen :: (MonadReader r m, HasEnv r, MonadIO m) => m ()
 clearScreen = view renderer >>= SDL.clear

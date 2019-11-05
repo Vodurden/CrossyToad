@@ -23,13 +23,14 @@ import           Linear.V2
 import           CrossyToad.Geometry.Position (Position, HasPosition(..))
 import           CrossyToad.Geometry.Size (HasSize(..))
 import           CrossyToad.Physics.Direction (Direction(..), HasDirection(..))
+import           CrossyToad.Renderer.MonadRenderer (MonadRenderer)
+import qualified CrossyToad.Renderer.MonadRenderer as MonadRenderer
 import           CrossyToad.Renderer.Animation (Animation, currentFrame)
 import qualified CrossyToad.Renderer.Animation as Animation
 import           CrossyToad.Renderer.Asset.AnimationAsset (AnimationAsset, HasAnimationAsset(frames))
 import           CrossyToad.Renderer.Asset.ImageAsset (ImageAsset, HasImageAsset(..))
 import           CrossyToad.Renderer.Clip (HasClip(..))
 import qualified CrossyToad.Renderer.Clip as Clip
-import           CrossyToad.Renderer.RenderCommand (RenderCommand(..))
 import           CrossyToad.Time.Seconds
 
 -- | An entity with this component can be rendered. This includes
@@ -96,28 +97,26 @@ tick delta ent =
   ent & animated.currentAnimation %~ (Animation.tick delta)
 
 render ::
-  ( Ord key
+  ( MonadRenderer m
+  , Ord key
   , HasPosition ent
   , HasDirection ent
   , HasAnimated ent key
-  ) => ent -> RenderCommand
+  ) => ent -> m ()
 render ent = render' (ent^.position) (Just $ ent^.direction) (ent^.animated)
 
 renderNoDirection ::
-  ( Ord key
+  ( MonadRenderer m
+  , Ord key
   , HasPosition ent
   , HasAnimated ent key
-  ) => ent -> RenderCommand
+  ) => ent -> m ()
 renderNoDirection ent = render' (ent^.position) Nothing (ent^.animated)
 
-render' :: (Ord key) => Position -> Maybe Direction -> Animated key -> RenderCommand
+render' :: (MonadRenderer m, Ord key) => Position -> Maybe Direction -> Animated key -> m ()
 render' pos maybeDir animated' =
   let frame = animated' ^. currentAnimation . currentFrame
       screenClip = Clip.mkAt pos (frame ^. size)
       flipX = maybeDir == (Just East)
       flipY = maybeDir == (Just South)
-  in Draw (animated' ^. imageAsset)
-          (Just $ frame ^. clip)
-          (Just screenClip)
-          Nothing
-          (Just $ V2 flipX flipY)
+  in MonadRenderer.draw (animated' ^. imageAsset) (Just $ frame ^. clip) (Just screenClip) Nothing (Just $ V2 flipX flipY)
