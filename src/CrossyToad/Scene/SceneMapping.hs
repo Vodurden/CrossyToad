@@ -9,6 +9,7 @@ import           CrossyToad.Scene.Scene (Scene)
 import           CrossyToad.Scene.SceneId (SceneId)
 import qualified CrossyToad.Scene.SceneId as SceneId
 import           CrossyToad.Stage.MonadStage (MonadStage)
+import           CrossyToad.Victory.MonadHighScore (MonadHighScore)
 import qualified CrossyToad.Title.Title as Title
 
 fromId ::
@@ -16,6 +17,7 @@ fromId ::
   , MonadScene m
   , MonadLogger m
   , MonadStage m
+  , MonadHighScore m
   ) => SceneId -> m (Scene m)
 fromId SceneId.Title = pure Title.scene
 fromId SceneId.Game = Game.scene

@@ -7,6 +7,8 @@ import           Data.Foldable (foldlM)
 import           Data.Text (Text)
 import qualified Data.Text as Text
 
+import           CrossyToad.GameOver.GameOverState (HasGameOverState(..))
+import qualified CrossyToad.GameOver.GameOverState as GameOverState
 import           CrossyToad.Input.Intent (Intent(..))
 import           CrossyToad.Input.Intents (Intents)
 import qualified CrossyToad.Input.Intents as Intents
@@ -21,13 +23,13 @@ import qualified CrossyToad.Scene.MonadScene as MonadScene
 import           CrossyToad.Scene.Scene (Scene)
 import qualified CrossyToad.Scene.Scene as Scene
 import qualified CrossyToad.Scene.SceneId as SceneId
-import           CrossyToad.GameOver.GameOverState (HasGameOverState(..))
-import qualified CrossyToad.GameOver.GameOverState as GameOverState
+import           CrossyToad.Victory.MonadHighScore (MonadHighScore)
+import qualified CrossyToad.Victory.MonadHighScore as MonadHighScore
 
-scene :: (MonadScene m, MonadRenderer m) => Int -> Scene m
+scene :: (MonadScene m, MonadHighScore m, MonadRenderer m) => Int -> Scene m
 scene totalScore' = Scene.mkNoTick (GameOverState.mk totalScore') handleInput render
 
-handleInput :: forall m state. (MonadScene m, HasGameOverState state) => Intents -> state -> m state
+handleInput :: forall m state. (MonadScene m, MonadHighScore m, HasGameOverState state) => Intents -> state -> m state
 handleInput intents state' =
     foldlM (flip applyIntent) state' (Intents.once intents)
   where
@@ -38,7 +40,9 @@ handleInput intents state' =
     applyIntent _ state = pure state
 
     saveScore :: m ()
-    saveScore = MonadScene.transition SceneId.Title
+    saveScore = do
+      MonadHighScore.saveScore (GameOverState.toHighScore $ state' ^. gameOverState)
+      MonadScene.transition SceneId.Title
 
     exitWithoutSaving :: m ()
     exitWithoutSaving = MonadScene.transition SceneId.Title

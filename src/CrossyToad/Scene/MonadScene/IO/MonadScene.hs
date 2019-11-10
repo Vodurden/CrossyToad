@@ -32,6 +32,7 @@ import           CrossyToad.Scene.SceneId (SceneId)
 import qualified CrossyToad.Scene.SceneMapping as SceneMapping
 import           CrossyToad.Stage.MonadStage (MonadStage)
 import           CrossyToad.Time.Seconds (Seconds)
+import           CrossyToad.Victory.MonadHighScore (MonadHighScore)
 
 handleInputCurrentScene :: forall r m.
   ( MonadReader r m
@@ -40,6 +41,7 @@ handleInputCurrentScene :: forall r m.
   , MonadStage m
   , MonadRenderer m
   , MonadLogger m
+  , MonadHighScore m
   , MonadIO m
   ) => Intents -> m (Maybe (Scene m))
 handleInputCurrentScene intents =
@@ -53,6 +55,7 @@ tickCurrentScene :: forall r m.
   , MonadStage m
   , MonadLogger m
   , MonadRenderer m
+  , MonadHighScore m
   , MonadIO m
   ) => Seconds -> m (Maybe (Scene m))
 tickCurrentScene seconds =
@@ -65,6 +68,7 @@ overCurrentScene :: forall r m.
   , MonadStage m
   , MonadRenderer m
   , MonadLogger m
+  , MonadHighScore m
   , MonadIO m
   ) => (Scene m -> m (Scene m)) -> m (Maybe (Scene m))
 overCurrentScene f = do

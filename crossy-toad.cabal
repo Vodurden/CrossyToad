@@ -2,7 +2,7 @@
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: 16194431e1ac0b5880763935118295e9cd3f8253cf8224c3958d64f259c7c814
+-- hash: 6e47d74709d036972cb3942e577e762ebf5863b762b2a0641705a9f126f65329
 
 name:           crossy-toad
 version:        0.1.0.0
@@ -114,6 +114,10 @@ library
       CrossyToad.Title.Title
       CrossyToad.Title.TitleState
       CrossyToad.Victory.Goal
+      CrossyToad.Victory.HighScore
+      CrossyToad.Victory.HighScores
+      CrossyToad.Victory.MonadHighScore
+      CrossyToad.Victory.MonadHighScore.IO.MonadHighScore
       CrossyToad.Victory.Scorable
       CrossyToad.Victory.Score
       CrossyToad.Victory.VictorySystem
@@ -317,6 +321,10 @@ test-suite spec
       CrossyToad.Title.Title
       CrossyToad.Title.TitleState
       CrossyToad.Victory.Goal
+      CrossyToad.Victory.HighScore
+      CrossyToad.Victory.HighScores
+      CrossyToad.Victory.MonadHighScore
+      CrossyToad.Victory.MonadHighScore.IO.MonadHighScore
       CrossyToad.Victory.Scorable
       CrossyToad.Victory.Score
       CrossyToad.Victory.VictorySystem

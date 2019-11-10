@@ -1,7 +1,7 @@
 module CrossyToad where
 
-import           Control.Monad.Reader (MonadReader, ReaderT, runReaderT)
 import           Control.Monad.IO.Class (MonadIO)
+import           Control.Monad.Reader (MonadReader, ReaderT, runReaderT)
 
 import           CrossyToad.Env (Env(..))
 import           CrossyToad.Input.MonadInput
@@ -16,6 +16,8 @@ import           CrossyToad.Stage.MonadStage
 import qualified CrossyToad.Stage.MonadStage.IO.MonadStage as IOMonadStage
 import           CrossyToad.Time.MonadTime
 import           CrossyToad.Time.MonadTime.SDL.MonadTime as SDLTime
+import           CrossyToad.Victory.MonadHighScore
+import qualified CrossyToad.Victory.MonadHighScore.IO.MonadHighScore as IOMonadHighScore
 
 newtype CrossyToad a = CrossyToad (ReaderT (Env CrossyToad) IO a)
   deriving (Functor, Applicative, Monad, MonadReader (Env CrossyToad), MonadIO)
@@ -40,6 +42,10 @@ instance MonadRenderer CrossyToad where
 
 instance MonadStage CrossyToad where
   stages = IOMonadStage.stages
+
+instance MonadHighScore CrossyToad where
+  highScores = IOMonadHighScore.highScores
+  saveScore = IOMonadHighScore.saveScore
 
 instance MonadScene CrossyToad where
   handleInputCurrentScene = IOMonadScene.handleInputCurrentScene
