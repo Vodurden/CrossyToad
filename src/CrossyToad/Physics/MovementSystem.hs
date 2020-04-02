@@ -80,6 +80,7 @@ unplatformIfSunk ent =
   ent & physical . layer .~
     if | Submersible.swimming ent -> Physical.Platform
        | Submersible.sunk ent -> Physical.Ground
+       | otherwise -> (ent ^. physical . layer)
 
 -- | If an entity goes out of bounds we need to handle it.
 -- |

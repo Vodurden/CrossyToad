@@ -1,7 +1,19 @@
-{ compiler ? "ghc844" }:
-
 let
-  pkgs = import ./nix/nixpkgs.nix {};
-  crossyToad = import ./default.nix { inherit compiler; };
+  sources = import ./nix/sources.nix;
+  haskellNix = import sources.haskell-nix {};
+  pkgs = import haskellNix.sources.nixpkgs-1909 {};
+  hsPackages = import ./default.nix;
 in
-  if pkgs.lib.inNixShell then crossyToad.env else crossyToad
+hsPackages.shellFor {
+  withHoogle = true;
+
+  buildInputs = with pkgs; [
+    cabal-install
+    flamegraph
+    imagemagick7
+    haskellPackages.ghc-prof-flamegraph
+    haskellPackages.profiteur
+  ];
+
+  exactDeps = true;
+}

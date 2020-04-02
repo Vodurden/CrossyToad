@@ -18,7 +18,7 @@ import qualified Data.Set as Set
 import           Data.Text (Text)
 import qualified Data.Text as Text
 import           Text.Megaparsec.Char (space1)
-import           Text.Megaparsec.Extended (Parser, sepEndBy, runParser, parseErrorPretty)
+import           Text.Megaparsec.Extended (Parser, sepEndBy, runParser, errorBundlePretty)
 
 import           CrossyToad.Victory.HighScore (HighScore)
 import qualified CrossyToad.Victory.HighScore as HighScore
@@ -39,7 +39,7 @@ addScore :: HighScore -> HighScores -> HighScores
 addScore score' = scores %~ (Set.insert score')
 
 load :: String -> Text -> Either String HighScores
-load fileName text = first parseErrorPretty $ runParser parser fileName text
+load fileName text = first errorBundlePretty $ runParser parser fileName text
 
 save :: HighScores -> Text
 save file = Text.intercalate "\n" $ HighScore.save <$> toList file

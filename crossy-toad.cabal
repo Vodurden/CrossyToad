@@ -1,8 +1,10 @@
--- This file has been generated from package.yaml by hpack version 0.28.2.
+cabal-version: 1.12
+
+-- This file has been generated from package.yaml by hpack version 0.32.0.
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: 6e47d74709d036972cb3942e577e762ebf5863b762b2a0641705a9f126f65329
+-- hash: e307c3568b003063246a5a25dd7f4f5bb59de5827140f03c1c2b2eac01be8075
 
 name:           crossy-toad
 version:        0.1.0.0
@@ -11,9 +13,9 @@ description:    See README
 category:       Game
 author:         Jake Woods
 maintainer:     jake@jakewoods.net
+license:        BSD3
 license-file:   LICENSE
 build-type:     Simple
-cabal-version:  >= 1.10
 
 library
   exposed-modules:
@@ -136,7 +138,7 @@ library
   default-extensions: FlexibleContexts GeneralizedNewtypeDeriving OverloadedStrings NamedFieldPuns MultiParamTypeClasses DuplicateRecordFields TypeSynonymInstances FlexibleInstances ScopedTypeVariables TypeOperators MultiWayIf
   ghc-options: -Wall -Werror -Wcompat -Wincomplete-record-updates -Wincomplete-uni-patterns -Wredundant-constraints -O2 -fprof-auto-exported
   build-depends:
-      base >=4.9 && <4.12
+      base >=4.9 && <4.14
     , containers
     , directory
     , filepath
@@ -162,7 +164,7 @@ executable crossy-toad
   default-extensions: FlexibleContexts GeneralizedNewtypeDeriving OverloadedStrings NamedFieldPuns MultiParamTypeClasses DuplicateRecordFields TypeSynonymInstances FlexibleInstances ScopedTypeVariables TypeOperators MultiWayIf
   ghc-options: -Wall -Werror -Wcompat -Wincomplete-record-updates -Wincomplete-uni-patterns -Wredundant-constraints -O2
   build-depends:
-      base >=4.9 && <4.12
+      base >=4.9 && <4.14
     , containers
     , crossy-toad
     , directory
@@ -189,7 +191,7 @@ executable crossy-toad-prof
   default-extensions: FlexibleContexts GeneralizedNewtypeDeriving OverloadedStrings NamedFieldPuns MultiParamTypeClasses DuplicateRecordFields TypeSynonymInstances FlexibleInstances ScopedTypeVariables TypeOperators MultiWayIf
   ghc-options: -Wall -Werror -Wcompat -Wincomplete-record-updates -Wincomplete-uni-patterns -Wredundant-constraints -O2 -rtsopts -threaded -fprof-auto-top "-with-rtsopts=-N -p -s -h -i0.1"
   build-depends:
-      base >=4.9 && <4.12
+      base >=4.9 && <4.14
     , containers
     , crossy-toad
     , directory
@@ -345,7 +347,7 @@ test-suite spec
   default-extensions: FlexibleContexts GeneralizedNewtypeDeriving OverloadedStrings NamedFieldPuns MultiParamTypeClasses DuplicateRecordFields TypeSynonymInstances FlexibleInstances ScopedTypeVariables TypeOperators MultiWayIf
   ghc-options: -Wall -Werror -Wcompat -Wincomplete-record-updates -Wincomplete-uni-patterns -Wredundant-constraints -O2
   build-depends:
-      base >=4.9 && <4.12
+      base >=4.9 && <4.14
     , containers
     , directory
     , filepath

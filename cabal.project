@@ -1,5 +1,3 @@
 packages: crossy-toad.cabal
 
-library-profiling: True
-profiling: True
-tests: True
+write-ghc-environment-files: never

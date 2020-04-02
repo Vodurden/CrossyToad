@@ -29,7 +29,7 @@ default-extensions:
   - MultiWayIf
 
 dependencies:
-  - base >=4.9 && <4.12
+  - base >=4.9 && <4.14
   - sdl2
   - sdl2-ttf
   - sdl2-image

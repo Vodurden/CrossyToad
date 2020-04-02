@@ -1,6 +1,5 @@
 module Data.Bounded.ASCIIChar
   ( ASCIIChar(..)
-  , unASCIIChar
   ) where
 
 newtype ASCIIChar = ASCIIChar { unASCIIChar :: Char }

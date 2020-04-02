@@ -65,7 +65,7 @@ data StageFile = StageFile
 makeClassy ''StageFile
 
 load :: String -> Text -> Either String StageFile
-load fileName text = first parseErrorPretty $ runParser parser fileName text
+load fileName text = first errorBundlePretty $ runParser parser fileName text
 
 parser :: Parser StageFile
 parser = do

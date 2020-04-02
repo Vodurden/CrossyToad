@@ -67,6 +67,7 @@ tickTurtleAnimation seconds =
              if | (Submersible.progress ent) > 0.7 -> (Animated.transition Animated.play) TurtleAnimation.Diving
                 | otherwise -> (Animated.transition Animated.play) TurtleAnimation.Swimming
            | ent ^. (to Submersible.sunk) -> (Animated.transition Animated.play) TurtleAnimation.Sunk
+           | otherwise -> id
 
 tickCrocAnimation ::
   ( HasSubmersible ent
@@ -81,3 +82,4 @@ tickCrocAnimation seconds =
              (Animated.transition Animated.play) CrocAnimation.Swimming
            | ent ^. (to Submersible.sunk) ->
              (Animated.transition Animated.play) CrocAnimation.Chomping
+           | otherwise -> id
